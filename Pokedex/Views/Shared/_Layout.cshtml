@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Pokédex</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </environment>
+</head>
+<body>
+    <header>
+        <div class="brand__container">
+            <h1>Pokédex</h1>
+        </div>
+        <div class="navigation__container">
+            <ul class="navigation__list">
+                <li class="navigation__list-item">
+                    <a asp-area="" asp-controller="MyPokedex" asp-action="Index">My Pokédex</a>
+                </li>
+                <li class="navigation__list-item">
+                    <a asp-area="" asp-controller="NationalDex" asp-action="Index">NationalDéx</a>
+                </li>
+                <li class="navigation__list-item">
+                    <a asp-area="" asp-controller="Search" asp-action="Index">Search</a>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="content__container">
+        @RenderBody()
+    </div>
+
+    <footer>
+        <p>&copy; 2019 - Pokédex&trade;</p>
+    </footer>
+
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+        </script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
