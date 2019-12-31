@@ -21,4 +21,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="WeightInPounds" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="e236001f-4b54-408a-bdad-c31979f0e8cf" ChangeDateTime="12/30/2019 21:03:37">
+    <Property Name="ElementName" Value="[dbo].[tlkpNationalDex].[Image]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[tlkpNationalDex]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ImageURL" />
+  </Operation>
 </Operations>

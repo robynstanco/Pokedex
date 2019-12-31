@@ -11,7 +11,7 @@
     [HiddenAbilityId] INT NULL, 
     [HeightInInches] INT NULL, 
     [WeightInPounds] INT NULL, 
-    [Image] VARBINARY(MAX) NULL, 
+    [ImageURL] VARCHAR(MAX) NULL, 
     CONSTRAINT [FK_tlkpNationalDex_tlkpCategory] FOREIGN KEY ([CategoryId]) REFERENCES [tlkpCategory]([Id]),
 	CONSTRAINT [FK_tlkpNationalDex_tlkpType1] FOREIGN KEY ([TypeOneId]) REFERENCES [tlkpType]([Id]),
 	CONSTRAINT [FK_tlkpNationalDex_tlkpType2] FOREIGN KEY ([TypeTwoId]) REFERENCES [tlkpType]([Id]),
