@@ -9,6 +9,15 @@ namespace Pokedex.Repository.Repositories
 {
     public class PokedexRepository : IPokedexRepository
     {
+        //todo abstract out const reused in sln
+        private const string DBContext = nameof(DBContext);
+        private const string From = "from";
+        private const string InformationalMessageWithCount = Retrieved + " {0} " + Pokemon + " " + From + " " + DBContext + ".";
+        private const string InformationalMessageWithId = "{0} {1} {2} " + DBContext + " with Id: {3}";
+        private const string InformationalMessageWithSearchCriteria = Retrieved + "{0} " + Pokemon + " " + From + " " + DBContext + " matching search string: {1}";
+        private const string Pokemon = nameof(Pokemon);
+        private const string Retrieved = nameof(Retrieved);
+        
         private POKEDEXDBContext _context;
         private ILogger _logger;
         public PokedexRepository(POKEDEXDBContext context, ILogger<PokedexRepository> logger)
@@ -22,7 +31,7 @@ namespace Pokedex.Repository.Repositories
             _context.Add(pokemon);
             _context.SaveChanges();
             
-            _logger.LogInformation("Added Pokemon to DBContext with Id: " + pokemon.Id);
+            _logger.LogInformation(string.Format(InformationalMessageWithId, "Added", Pokemon, "to", pokemon.Id));
         }
 
         public void DeletePokemonById(int pokemonId)
@@ -30,7 +39,7 @@ namespace Pokedex.Repository.Repositories
             _context.Remove(GetMyPokemonById(pokemonId));
             _context.SaveChanges();
 
-            _logger.LogInformation("Deleted Pokemon from DBContext with Id: " + pokemonId);
+            _logger.LogInformation(string.Format(InformationalMessageWithId, "Deleted", Pokemon, From, pokemonId));
         }
 
         public void EditPokemon(tblMyPokedex pokemon)
@@ -38,14 +47,14 @@ namespace Pokedex.Repository.Repositories
             _context.Update(pokemon);
             _context.SaveChanges();
 
-            _logger.LogInformation("Updated Pokemon in DBContext with Id: " + pokemon.Id);
+            _logger.LogInformation(string.Format(InformationalMessageWithId, "Updated", Pokemon, "in", pokemon.Id));
         }
 
         public tlkpAbility GetAbilityById(int abilityId)
         {
             tlkpAbility ability = _context.tlkpAbility.FirstOrDefault(a => a.Id == abilityId);
 
-            _logger.LogInformation("Retrieved Ability from DBContext with Id: " + abilityId);
+            _logger.LogInformation(string.Format(InformationalMessageWithId, Retrieved, "Ability", From, abilityId));
 
             return ability;
         }
@@ -53,8 +62,8 @@ namespace Pokedex.Repository.Repositories
         public IEnumerable<tlkpAbility> GetAllAbilities()
         {
             IEnumerable<tlkpAbility> abilities = _context.tlkpAbility;
-
-            _logger.LogInformation("Retrieved " + abilities.ToList().Count + " Abilities from DBContext.");
+            
+            _logger.LogInformation(string.Format(InformationalMessageWithCount, abilities.ToList().Count, "Abilities"));
 
             return abilities;
         }
@@ -63,7 +72,7 @@ namespace Pokedex.Repository.Repositories
         {
             IEnumerable<tlkpCategory> categories = _context.tlkpCategory;
 
-            _logger.LogInformation("Retrieved " + categories.ToList().Count + " Categories from DBContext.");
+            _logger.LogInformation(string.Format(InformationalMessageWithCount, categories.ToList().Count, "Categories"));
 
             return categories;
         }
@@ -72,7 +81,7 @@ namespace Pokedex.Repository.Repositories
         {
             IEnumerable<tlkpPokeball> pokeballs = _context.tlkpPokeball;
 
-            _logger.LogInformation("Retrieved " + pokeballs.ToList().Count + " Pokeballs from DBContext.");
+            _logger.LogInformation(string.Format(InformationalMessageWithCount, pokeballs.ToList().Count, "Pokeballs"));
 
             return pokeballs;
         }
@@ -81,7 +90,7 @@ namespace Pokedex.Repository.Repositories
         {
             IEnumerable<tlkpType> types = _context.tlkpType;
 
-            _logger.LogInformation("Retrieved " + types.ToList().Count + " Types from DBContext.");
+            _logger.LogInformation(string.Format(InformationalMessageWithCount, types.ToList().Count, "Types"));
 
             return types;
         }
@@ -90,7 +99,7 @@ namespace Pokedex.Repository.Repositories
         {
             tlkpCategory category = _context.tlkpCategory.FirstOrDefault(c => c.Id == categoryId);
 
-            _logger.LogInformation("Retrieved Category from DBContext with Id: " + categoryId);
+            _logger.LogInformation(string.Format(InformationalMessageWithId, Retrieved, "Category", From, categoryId));
 
             return category;
         }
@@ -99,7 +108,7 @@ namespace Pokedex.Repository.Repositories
         {
             IEnumerable<tblMyPokedex> myPokedex = _context.tblMyPokedex;
 
-            _logger.LogInformation("Retrieved " + myPokedex.ToList().Count + " Pokemon from DBContext.");
+            _logger.LogInformation(string.Format(InformationalMessageWithCount, myPokedex.ToList().Count, Pokemon));
 
             return myPokedex;
         }
@@ -108,7 +117,7 @@ namespace Pokedex.Repository.Repositories
         {
             tblMyPokedex myPokemon = _context.tblMyPokedex.FirstOrDefault(p => p.Id == pokemonId);
 
-            _logger.LogInformation("Retrieved Pokemon from DBContext with Id: " + pokemonId);
+            _logger.LogInformation(string.Format(InformationalMessageWithId, Retrieved, Pokemon, From, pokemonId));
 
             return myPokemon;
         }
@@ -117,7 +126,7 @@ namespace Pokedex.Repository.Repositories
         {
             IEnumerable<tlkpNationalDex> nationalDex = _context.tlkpNationalDex;
 
-            _logger.LogInformation("Retrieved " + nationalDex.ToList().Count + " Pokemon from DBContext.");
+            _logger.LogInformation(string.Format(InformationalMessageWithCount, nationalDex.ToList().Count, Pokemon));
 
             return nationalDex;
         }
@@ -126,7 +135,7 @@ namespace Pokedex.Repository.Repositories
         {
             tlkpNationalDex nationalDexPokemon = _context.tlkpNationalDex.FirstOrDefault(p => p.Id == pokemonId);
 
-            _logger.LogInformation("Retrieved Pokemon from DBContext with Id: " + pokemonId);
+            _logger.LogInformation(string.Format(InformationalMessageWithId, Retrieved, Pokemon, From, pokemonId));
 
             return nationalDexPokemon;
         }
@@ -135,7 +144,7 @@ namespace Pokedex.Repository.Repositories
         {
             tlkpPokeball pokeball = _context.tlkpPokeball.FirstOrDefault(p => p.Id == pokeballId);
 
-            _logger.LogInformation("Retrieved Pokeball from DBContext with Id: " + pokeballId);
+            _logger.LogInformation(string.Format(InformationalMessageWithId, Retrieved, "Pokeball", From, pokeballId));
 
             return pokeball;
         }
@@ -144,7 +153,7 @@ namespace Pokedex.Repository.Repositories
         {
             tlkpType type = _context.tlkpType.FirstOrDefault(t => t.Id == typeId);
 
-            _logger.LogInformation("Retrieved Type from DBContext with Id: " + typeId);
+            _logger.LogInformation(string.Format(InformationalMessageWithId, Retrieved, "Type", From, typeId));
 
             return type;
         }
@@ -171,7 +180,7 @@ namespace Pokedex.Repository.Repositories
                 nationalDexSearchResults = nationalDexSearchResults.Where(p => p.TypeOneId == selectedTypeId.Value || p.TypeTwoId == selectedTypeId.Value);
             }
 
-            _logger.LogInformation("Retrieved " + nationalDexSearchResults.ToList().Count + " Pokemon from DBContext matching Seach criteria.");
+            _logger.LogInformation(string.Format(InformationalMessageWithSearchCriteria, nationalDexSearchResults.ToList().Count, searchString));
 
             return nationalDexSearchResults;
         }
@@ -198,7 +207,7 @@ namespace Pokedex.Repository.Repositories
                 myPokedexSearchResults = myPokedexSearchResults.Where(p => p.Pokemon.TypeOneId == selectedTypeId.Value || p.Pokemon.TypeTwoId == selectedTypeId.Value);
             }
 
-            _logger.LogInformation("Retrieved " + myPokedexSearchResults.ToList().Count + " Pokemon from DBContext matching Seach criteria.");
+            _logger.LogInformation(string.Format(InformationalMessageWithSearchCriteria, myPokedexSearchResults.ToList().Count, searchString));
 
             return myPokedexSearchResults;
         }
