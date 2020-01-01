@@ -34,12 +34,16 @@ namespace Pokedex.Repository.Repositories
             _logger.LogInformation(string.Format(InformationalMessageWithId, "Added", Pokemon, "to", pokemon.Id));
         }
 
-        public void DeletePokemonById(int pokemonId)
+        public tblMyPokedex DeletePokemonById(int pokemonId)
         {
-            _context.Remove(GetMyPokemonById(pokemonId));
+            tblMyPokedex toDelete = GetMyPokemonById(pokemonId);
+
+            _context.Remove(toDelete);
             _context.SaveChanges();
 
             _logger.LogInformation(string.Format(InformationalMessageWithId, "Deleted", Pokemon, From, pokemonId));
+
+            return toDelete;
         }
 
         public void EditPokemon(tblMyPokedex pokemon)
@@ -59,38 +63,38 @@ namespace Pokedex.Repository.Repositories
             return ability;
         }
 
-        public IEnumerable<tlkpAbility> GetAllAbilities()
+        public List<tlkpAbility> GetAllAbilities()
         {
-            IEnumerable<tlkpAbility> abilities = _context.tlkpAbility;
+            List<tlkpAbility> abilities = _context.tlkpAbility.ToList();
             
-            _logger.LogInformation(string.Format(InformationalMessageWithCount, abilities.ToList().Count, "Abilities"));
+            _logger.LogInformation(string.Format(InformationalMessageWithCount, abilities.Count, "Abilities"));
 
             return abilities;
         }
 
-        public IEnumerable<tlkpCategory> GetAllCategories()
+        public List<tlkpCategory> GetAllCategories()
         {
-            IEnumerable<tlkpCategory> categories = _context.tlkpCategory;
+            List<tlkpCategory> categories = _context.tlkpCategory.ToList();
 
-            _logger.LogInformation(string.Format(InformationalMessageWithCount, categories.ToList().Count, "Categories"));
+            _logger.LogInformation(string.Format(InformationalMessageWithCount, categories.Count, "Categories"));
 
             return categories;
         }
 
-        public IEnumerable<tlkpPokeball> GetAllPokeballs()
+        public List<tlkpPokeball> GetAllPokeballs()
         {
-            IEnumerable<tlkpPokeball> pokeballs = _context.tlkpPokeball;
+            List<tlkpPokeball> pokeballs = _context.tlkpPokeball.ToList();
 
-            _logger.LogInformation(string.Format(InformationalMessageWithCount, pokeballs.ToList().Count, "Pokeballs"));
+            _logger.LogInformation(string.Format(InformationalMessageWithCount, pokeballs.Count, "Pokeballs"));
 
             return pokeballs;
         }
 
-        public IEnumerable<tlkpType> GetAllTypes()
+        public List<tlkpType> GetAllTypes()
         {
-            IEnumerable<tlkpType> types = _context.tlkpType;
+            List<tlkpType> types = _context.tlkpType.ToList();
 
-            _logger.LogInformation(string.Format(InformationalMessageWithCount, types.ToList().Count, "Types"));
+            _logger.LogInformation(string.Format(InformationalMessageWithCount, types.Count, "Types"));
 
             return types;
         }
@@ -104,11 +108,11 @@ namespace Pokedex.Repository.Repositories
             return category;
         }
 
-        public IEnumerable<tblMyPokedex> GetMyPokedex()
+        public List<tblMyPokedex> GetMyPokedex()
         {
-            IEnumerable<tblMyPokedex> myPokedex = _context.tblMyPokedex;
+            List<tblMyPokedex> myPokedex = _context.tblMyPokedex.ToList();
 
-            _logger.LogInformation(string.Format(InformationalMessageWithCount, myPokedex.ToList().Count, Pokemon));
+            _logger.LogInformation(string.Format(InformationalMessageWithCount, myPokedex.Count, Pokemon));
 
             return myPokedex;
         }
@@ -122,11 +126,11 @@ namespace Pokedex.Repository.Repositories
             return myPokemon;
         }
 
-        public IEnumerable<tlkpNationalDex> GetNationalDex()
+        public List<tlkpNationalDex> GetNationalDex()
         {
-            IEnumerable<tlkpNationalDex> nationalDex = _context.tlkpNationalDex;
+            List<tlkpNationalDex> nationalDex = _context.tlkpNationalDex.ToList();
 
-            _logger.LogInformation(string.Format(InformationalMessageWithCount, nationalDex.ToList().Count, Pokemon));
+            _logger.LogInformation(string.Format(InformationalMessageWithCount, nationalDex.Count, Pokemon));
 
             return nationalDex;
         }
@@ -158,26 +162,33 @@ namespace Pokedex.Repository.Repositories
             return type;
         }
 
-        public IEnumerable<tlkpNationalDex> Search(string searchString, int? selectedAbilityId, int? selectedCategoryId, int? selectedTypeId)
+        public List<tlkpNationalDex> Search(string searchString, int? selectedAbilityId, int? selectedCategoryId, int? selectedTypeId)
         {
-            IEnumerable<tlkpNationalDex> nationalDexSearchResults = GetNationalDex()
+            List<tlkpNationalDex> nationalDexSearchResults = GetNationalDex()
                 .Where(p => p.Name.Contains(searchString, StringComparison.CurrentCultureIgnoreCase)
                 || (p.JapaneseName != null && p.JapaneseName.Contains(searchString, StringComparison.CurrentCultureIgnoreCase))
-                || (p.Description != null && p.Description.Contains(searchString, StringComparison.CurrentCultureIgnoreCase)));
+                || (p.Description != null && p.Description.Contains(searchString, StringComparison.CurrentCultureIgnoreCase)))
+                .ToList();
 
             if (selectedAbilityId.HasValue)
             {
-                nationalDexSearchResults = nationalDexSearchResults.Where(p => p.AbilityId == selectedAbilityId.Value || p.HiddenAbilityId == selectedAbilityId);
+                nationalDexSearchResults = nationalDexSearchResults
+                    .Where(p => p.AbilityId == selectedAbilityId.Value || p.HiddenAbilityId == selectedAbilityId)
+                    .ToList();
             }
 
             if (selectedCategoryId.HasValue)
             {
-                nationalDexSearchResults = nationalDexSearchResults.Where(p => p.CategoryId == selectedCategoryId.Value);
+                nationalDexSearchResults = nationalDexSearchResults
+                    .Where(p => p.CategoryId == selectedCategoryId.Value)
+                    .ToList();
             }
 
             if (selectedTypeId.HasValue)
             {
-                nationalDexSearchResults = nationalDexSearchResults.Where(p => p.TypeOneId == selectedTypeId.Value || p.TypeTwoId == selectedTypeId.Value);
+                nationalDexSearchResults = nationalDexSearchResults
+                    .Where(p => p.TypeOneId == selectedTypeId.Value || p.TypeTwoId == selectedTypeId.Value)
+                    .ToList();
             }
 
             _logger.LogInformation(string.Format(InformationalMessageWithSearchCriteria, nationalDexSearchResults.ToList().Count, searchString));
@@ -185,26 +196,33 @@ namespace Pokedex.Repository.Repositories
             return nationalDexSearchResults;
         }
 
-        public IEnumerable<tblMyPokedex> Search(string searchString, int? selectedAbilityId, int? selectedCategoryId, int? selectedTypeId, int? selectedPokeballId)
+        public List<tblMyPokedex> Search(string searchString, int? selectedAbilityId, int? selectedCategoryId, int? selectedTypeId, int? selectedPokeballId)
         {
-            IEnumerable<tblMyPokedex> myPokedexSearchResults = GetMyPokedex()
+            List<tblMyPokedex> myPokedexSearchResults = GetMyPokedex()
                 .Where(p => p.Pokemon.Name.Contains(searchString, StringComparison.CurrentCultureIgnoreCase)
                 || (p.Pokemon.JapaneseName != null && p.Pokemon.JapaneseName.Contains(searchString, StringComparison.CurrentCultureIgnoreCase))
-                || (p.Pokemon.Description != null && p.Pokemon.Description.Contains(searchString, StringComparison.CurrentCultureIgnoreCase)));
+                || (p.Pokemon.Description != null && p.Pokemon.Description.Contains(searchString, StringComparison.CurrentCultureIgnoreCase)))
+                .ToList();
 
             if (selectedAbilityId.HasValue)
             {
-                myPokedexSearchResults = myPokedexSearchResults.Where(p => p.Pokemon.AbilityId == selectedAbilityId.Value || p.Pokemon.HiddenAbilityId == selectedAbilityId);
+                myPokedexSearchResults = myPokedexSearchResults
+                    .Where(p => p.Pokemon.AbilityId == selectedAbilityId.Value || p.Pokemon.HiddenAbilityId == selectedAbilityId)
+                    .ToList();
             }
 
             if (selectedCategoryId.HasValue)
             {
-                myPokedexSearchResults = myPokedexSearchResults.Where(p => p.Pokemon.CategoryId == selectedCategoryId.Value);
+                myPokedexSearchResults = myPokedexSearchResults
+                    .Where(p => p.Pokemon.CategoryId == selectedCategoryId.Value)
+                    .ToList();
             }
 
             if (selectedTypeId.HasValue)
             {
-                myPokedexSearchResults = myPokedexSearchResults.Where(p => p.Pokemon.TypeOneId == selectedTypeId.Value || p.Pokemon.TypeTwoId == selectedTypeId.Value);
+                myPokedexSearchResults = myPokedexSearchResults
+                    .Where(p => p.Pokemon.TypeOneId == selectedTypeId.Value || p.Pokemon.TypeTwoId == selectedTypeId.Value)
+                    .ToList();
             }
 
             _logger.LogInformation(string.Format(InformationalMessageWithSearchCriteria, myPokedexSearchResults.ToList().Count, searchString));

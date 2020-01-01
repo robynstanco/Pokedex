@@ -5,12 +5,12 @@ namespace Pokedex.Repository.Interfaces
 {
     public interface IPokedexRepository
     {
-        IEnumerable<tlkpAbility> GetAllAbilities();
-        IEnumerable<tlkpCategory> GetAllCategories();
-        IEnumerable<tlkpPokeball> GetAllPokeballs();
-        IEnumerable<tlkpType> GetAllTypes();
-        IEnumerable<tblMyPokedex> GetMyPokedex();
-        IEnumerable<tlkpNationalDex> GetNationalDex();
+        List<tlkpAbility> GetAllAbilities();
+        List<tlkpCategory> GetAllCategories();
+        List<tlkpPokeball> GetAllPokeballs();
+        List<tlkpType> GetAllTypes();
+        List<tblMyPokedex> GetMyPokedex();
+        List<tlkpNationalDex> GetNationalDex();
 
         tlkpAbility GetAbilityById(int abilityId);
         tlkpCategory GetCategoryById(int categoryId);
@@ -21,9 +21,10 @@ namespace Pokedex.Repository.Interfaces
         
         void AddPokemon(tblMyPokedex pokemon);
         void EditPokemon(tblMyPokedex pokemon);
-        void DeletePokemonById(int pokemonId);
 
-        IEnumerable<tlkpNationalDex> Search(string searchString, int? selectedAbilityId, int? selectedCategoryId, int? selectedTypeId);
-        IEnumerable<tblMyPokedex> Search(string searchString, int? selectedAbilityId, int? selectedCategoryId, int? selectedTypeId, int? selectedPokeballId);
+        tblMyPokedex DeletePokemonById(int pokemonId);
+
+        List<tlkpNationalDex> Search(string searchString, int? selectedAbilityId, int? selectedCategoryId, int? selectedTypeId);
+        List<tblMyPokedex> Search(string searchString, int? selectedAbilityId, int? selectedCategoryId, int? selectedTypeId, int? selectedPokeballId);
     }
 }
