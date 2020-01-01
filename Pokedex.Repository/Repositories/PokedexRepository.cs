@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Pokedex.Data.Models;
+using Pokedex.Logging.Interfaces;
 using Pokedex.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -12,15 +13,15 @@ namespace Pokedex.Repository.Repositories
         //todo abstract out const reused in sln
         private const string DBContext = nameof(DBContext);
         private const string From = "from";
-        private const string InformationalMessageWithCount = Retrieved + " {0} " + Pokemon + " " + From + " " + DBContext + ".";
+        private const string InformationalMessageWithCount = Retrieved + " {0} {1} " + From + " " + DBContext + ".";
         private const string InformationalMessageWithId = "{0} {1} {2} " + DBContext + " with Id: {3}";
         private const string InformationalMessageWithSearchCriteria = Retrieved + "{0} " + Pokemon + " " + From + " " + DBContext + " matching search string: {1}";
         private const string Pokemon = nameof(Pokemon);
         private const string Retrieved = nameof(Retrieved);
         
         private POKEDEXDBContext _context;
-        private ILogger _logger;
-        public PokedexRepository(POKEDEXDBContext context, ILogger<PokedexRepository> logger)
+        private ILoggerAdapter<PokedexRepository> _logger;
+        public PokedexRepository(POKEDEXDBContext context, ILoggerAdapter<PokedexRepository> logger)
         {
             _context = context;
             _logger = logger;
@@ -34,16 +35,12 @@ namespace Pokedex.Repository.Repositories
             _logger.LogInformation(string.Format(InformationalMessageWithId, "Added", Pokemon, "to", pokemon.Id));
         }
 
-        public tblMyPokedex DeletePokemonById(int pokemonId)
+        public void DeletePokemonById(int pokemonId)
         {
-            tblMyPokedex toDelete = GetMyPokemonById(pokemonId);
-
-            _context.Remove(toDelete);
+            _context.Remove(GetMyPokemonById(pokemonId));
             _context.SaveChanges();
 
             _logger.LogInformation(string.Format(InformationalMessageWithId, "Deleted", Pokemon, From, pokemonId));
-
-            return toDelete;
         }
 
         public void EditPokemon(tblMyPokedex pokemon)

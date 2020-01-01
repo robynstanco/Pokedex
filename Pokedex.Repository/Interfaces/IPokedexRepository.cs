@@ -21,8 +21,7 @@ namespace Pokedex.Repository.Interfaces
         
         void AddPokemon(tblMyPokedex pokemon);
         void EditPokemon(tblMyPokedex pokemon);
-
-        tblMyPokedex DeletePokemonById(int pokemonId);
+        void DeletePokemonById(int pokemonId);
 
         List<tlkpNationalDex> Search(string searchString, int? selectedAbilityId, int? selectedCategoryId, int? selectedTypeId);
         List<tblMyPokedex> Search(string searchString, int? selectedAbilityId, int? selectedCategoryId, int? selectedTypeId, int? selectedPokeballId);

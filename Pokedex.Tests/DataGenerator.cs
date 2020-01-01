@@ -78,5 +78,21 @@ namespace Pokedex.Tests
 
             return pokeballs;
         }
+
+        public static List<tlkpType> GenerateTypes(int num)
+        {
+            List<tlkpType> types = new List<tlkpType>();
+
+            for (int i = 0; i < num; i++)
+            {
+                types.Add(new tlkpType()
+                {
+                    Id = i,
+                    Name = nameof(tlkpType.Name) + i
+                });
+            }
+
+            return types;
+        }
     }
 }

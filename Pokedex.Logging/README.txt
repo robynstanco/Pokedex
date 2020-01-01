@@ -1,0 +1,1 @@
+﻿Logger Adapter allows us to better unit test the logging in the app. See https://ardalis.com/testing-logging-in-aspnet-core for details.
