@@ -13,6 +13,7 @@
   <ItemGroup>
     <Folder Include="Interfaces\" />
     <Folder Include="Logic\" />
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
   <ItemGroup>
