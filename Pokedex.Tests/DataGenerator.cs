@@ -8,7 +8,7 @@ namespace Pokedex.Tests
     {
         private const string URL = "http://{0}.com";
 
-        public static List<tblMyPokedex> GeneratePokemon(int num)
+        public static List<tblMyPokedex> GenerateMyPokemon(int num)
         {
             List<tblMyPokedex> pokemon = new List<tblMyPokedex>();
 
@@ -23,6 +23,10 @@ namespace Pokedex.Tests
                     Nickname = nameof(tblMyPokedex.Nickname) + i,
                     PokeballId = i,
                     PokemonId = i,
+                    Pokemon = new tlkpNationalDex()
+                    {
+                        Name = nameof(tlkpNationalDex.Name)
+                    },
                     Sex = i % 2 == 0
                 });
             }
@@ -60,6 +64,33 @@ namespace Pokedex.Tests
             }
 
             return categories;
+        }
+
+        public static List<tlkpNationalDex> GenerateNationalDexPokemon(int num)
+        {
+            List<tlkpNationalDex> pokemon = new List<tlkpNationalDex>();
+
+            for (int i = 0; i < num; i++)
+            {
+                pokemon.Add(new tlkpNationalDex()
+                {
+                    AbilityId = i,
+                    CategoryId = i,
+                    Description = "Desc" + i,
+                    HeightInInches = i + 1,
+                    HiddenAbilityId = i + 1,
+                    Id = i,
+                    ImageURL = string.Format(URL, i),
+                    JapaneseName = "JapaneseName" + i,
+                    Name = nameof(tlkpNationalDex.Name) + i,
+                    TypeOneId = i,
+                    TypeTwoId = i + 1,
+                    WeightInPounds = i + 1
+                    
+                });
+            }
+
+            return pokemon;
         }
 
         public static List<tlkpPokeball> GeneratePokeballs(int num)

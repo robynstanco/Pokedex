@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Internal;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Pokedex.Data.Models;
@@ -23,15 +21,17 @@ namespace Pokedex.Tests.Fixtures
         private Mock<DbSet<tblMyPokedex>> _myPokedexMockSet;
         private Mock<DbSet<tlkpAbility>> _abilitiesMockSet;
         private Mock<DbSet<tlkpCategory>> _categoriesMockSet;
+        private Mock<DbSet<tlkpNationalDex>> _nationalDexMockSet;
         private Mock<DbSet<tlkpPokeball>> _pokeballsMockSet;
         private Mock<DbSet<tlkpType>> _typesMockSet;
 
         [TestInitialize]
         public void Initialize()
         {
-            _myPokedexMockSet = InitializeMockSet(DataGenerator.GeneratePokemon(5).AsQueryable());
+            _myPokedexMockSet = InitializeMockSet(DataGenerator.GenerateMyPokemon(5).AsQueryable());
             _abilitiesMockSet = InitializeMockSet(DataGenerator.GenerateAbilities(5).AsQueryable());
             _categoriesMockSet = InitializeMockSet(DataGenerator.GenerateCategories(5).AsQueryable());
+            _nationalDexMockSet = InitializeMockSet(DataGenerator.GenerateNationalDexPokemon(5).AsQueryable());
             _pokeballsMockSet = InitializeMockSet(DataGenerator.GeneratePokeballs(5).AsQueryable());
             _typesMockSet = InitializeMockSet(DataGenerator.GenerateTypes(5).AsQueryable());
 
@@ -39,6 +39,7 @@ namespace Pokedex.Tests.Fixtures
             _pokedexDBContextMock.Setup(dbcm => dbcm.tblMyPokedex).Returns(_myPokedexMockSet.Object);
             _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpAbility).Returns(_abilitiesMockSet.Object);
             _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpCategory).Returns(_categoriesMockSet.Object);
+            _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpNationalDex).Returns(_nationalDexMockSet.Object);
             _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpPokeball).Returns(_pokeballsMockSet.Object);
             _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpType).Returns(_typesMockSet.Object);
 
@@ -68,7 +69,7 @@ namespace Pokedex.Tests.Fixtures
         [TestMethod]
         public void AddPokemonIsSuccessfulAndLogsInformation()
         {
-            tblMyPokedex generatedPokemon = DataGenerator.GeneratePokemon(1)[0];
+            tblMyPokedex generatedPokemon = DataGenerator.GenerateMyPokemon(1)[0];
 
             _pokedexRepository.AddPokemon(generatedPokemon);
 
@@ -94,7 +95,7 @@ namespace Pokedex.Tests.Fixtures
         [TestMethod]
         public void EditPokemonIsSuccessfulAndLogsInformation()
         {
-            tblMyPokedex generatedPokemon = DataGenerator.GeneratePokemon(1)[0];
+            tblMyPokedex generatedPokemon = DataGenerator.GenerateMyPokemon(1)[0];
 
             _pokedexRepository.EditPokemon(generatedPokemon);
 
@@ -223,6 +224,122 @@ namespace Pokedex.Tests.Fixtures
             _pokedexDBContextMock.Verify(m => m.tblMyPokedex, Times.Once);
 
             _loggerMock.Verify(lm => lm.LogInformation("Retrieved Pokemon from DBContext with Id: 3"), Times.Once);
+        }
+
+        [TestMethod]
+        public void GetNationalDexIsSuccessfulAndLogsInformation()
+        {
+            List<tlkpNationalDex> nationalDex = _pokedexRepository.GetNationalDex();
+
+            Assert.AreEqual(5, nationalDex.Count);
+            Assert.AreEqual(0, nationalDex[0].AbilityId);
+            Assert.AreEqual(0, nationalDex[0].CategoryId);
+            Assert.AreEqual("Desc0", nationalDex[0].Description);
+            Assert.AreEqual(1, nationalDex[0].HeightInInches);
+            Assert.AreEqual(1, nationalDex[0].HiddenAbilityId);
+            Assert.AreEqual(0, nationalDex[0].Id);
+            Assert.AreEqual("http://0.com", nationalDex[0].ImageURL);
+            Assert.AreEqual("JapaneseName0", nationalDex[0].JapaneseName);
+            Assert.AreEqual("Name0", nationalDex[0].Name);
+            Assert.AreEqual(0, nationalDex[0].TypeOneId);
+            Assert.AreEqual(1, nationalDex[0].TypeTwoId);
+            Assert.AreEqual(1, nationalDex[0].WeightInPounds);
+
+            _pokedexDBContextMock.Verify(m => m.tlkpNationalDex, Times.Once);
+
+            _loggerMock.Verify(lm => lm.LogInformation("Retrieved 5 Pokemon from DBContext."), Times.Once);
+        }
+
+        [TestMethod]
+        public void GetNationalDexPokemonByIdIsSuccessfulAndLogsInformation()
+        {
+            tlkpNationalDex pokemon = _pokedexRepository.GetNationalDexPokemonById(4);
+
+            Assert.AreEqual(4, pokemon.AbilityId);
+            Assert.AreEqual(4, pokemon.CategoryId);
+            Assert.AreEqual("Desc4", pokemon.Description);
+            Assert.AreEqual(5, pokemon.HeightInInches);
+            Assert.AreEqual(5, pokemon.HiddenAbilityId);
+            Assert.AreEqual(4, pokemon.Id);
+            Assert.AreEqual("http://4.com", pokemon.ImageURL);
+            Assert.AreEqual("JapaneseName4", pokemon.JapaneseName);
+            Assert.AreEqual("Name4", pokemon.Name);
+            Assert.AreEqual(4, pokemon.TypeOneId);
+            Assert.AreEqual(5, pokemon.TypeTwoId);
+            Assert.AreEqual(5, pokemon.WeightInPounds);
+
+            _pokedexDBContextMock.Verify(m => m.tlkpNationalDex, Times.Once);
+
+            _loggerMock.Verify(lm => lm.LogInformation("Retrieved Pokemon from DBContext with Id: 4"), Times.Once);
+        }
+
+        [TestMethod]
+        public void GetPokeballByIdIsSuccessfulAndLogsInformation()
+        {
+            tlkpPokeball pokeball = _pokedexRepository.GetPokeballById(1);
+            
+            Assert.AreEqual(1, pokeball.Id);
+            Assert.AreEqual("http://1.com", pokeball.ImageURL);
+            Assert.AreEqual("Name1", pokeball.Name);
+
+            _pokedexDBContextMock.Verify(m => m.tlkpPokeball, Times.Once);
+
+            _loggerMock.Verify(lm => lm.LogInformation("Retrieved Pokeball from DBContext with Id: 1"), Times.Once);
+        }
+
+        [TestMethod]
+        public void GetTypeByIdIsSuccessfulAndLogsInformation()
+        {
+            tlkpType type = _pokedexRepository.GetTypeById(1);
+
+            Assert.AreEqual(1, type.Id);
+            Assert.AreEqual("Name1", type.Name);
+
+            _pokedexDBContextMock.Verify(m => m.tlkpType, Times.Once);
+
+            _loggerMock.Verify(lm => lm.LogInformation("Retrieved Type from DBContext with Id: 1"), Times.Once);
+        }
+
+        [TestMethod]
+        public void SearchNationalDexIsSuccessfulAndLogsInformation()
+        {
+            List<tlkpNationalDex> searchResults = _pokedexRepository.Search("Name3", 3, 3, 3);
+
+            Assert.AreEqual(1, searchResults.Count);
+            Assert.AreEqual(3, searchResults[0].AbilityId);
+            Assert.AreEqual(3, searchResults[0].CategoryId);
+            Assert.AreEqual("Desc3", searchResults[0].Description);
+            Assert.AreEqual(4, searchResults[0].HeightInInches);
+            Assert.AreEqual(4, searchResults[0].HiddenAbilityId);
+            Assert.AreEqual(3, searchResults[0].Id);
+            Assert.AreEqual("http://3.com", searchResults[0].ImageURL);
+            Assert.AreEqual("JapaneseName3", searchResults[0].JapaneseName);
+            Assert.AreEqual("Name3", searchResults[0].Name);
+            Assert.AreEqual(3, searchResults[0].TypeOneId);
+            Assert.AreEqual(4, searchResults[0].TypeTwoId);
+            Assert.AreEqual(4, searchResults[0].WeightInPounds);
+
+            _pokedexDBContextMock.Verify(m => m.tlkpNationalDex, Times.Once);
+
+            _loggerMock.Verify(lm => lm.LogInformation("Retrieved 5 Pokemon from DBContext."), Times.Once);
+            _loggerMock.Verify(lm => lm.LogInformation("Retrieved 1 Pokemon from DBContext matching search string: Name3"), Times.Once);
+        }
+
+        [TestMethod]
+        public void SearchPokedexIsSuccessfulAndLogsInformation()
+        {
+            List<tblMyPokedex> searchResults = _pokedexRepository.Search("Nickname3", null, null, null, null);
+
+            Assert.AreEqual(DateTime.Today, searchResults[0].Date);
+            Assert.AreEqual(4, searchResults[0].Level);
+            Assert.AreEqual("3 Main Street", searchResults[0].Location);
+            Assert.AreEqual("Nickname3", searchResults[0].Nickname);
+            Assert.AreEqual(3, searchResults[0].PokeballId);
+            Assert.AreEqual(3, searchResults[0].Id);
+            Assert.IsFalse(searchResults[0].Sex.Value); //ie, Sex == bit 0 in SQL.
+
+            _loggerMock.Verify(lm => lm.LogInformation("Retrieved 5 Pokemon from DBContext."), Times.Once);
+            _loggerMock.Verify(lm => lm.LogInformation("Retrieved 1 Pokemon from DBContext matching search string: Nickname3"), Times.Once);
         }
     }
 }
