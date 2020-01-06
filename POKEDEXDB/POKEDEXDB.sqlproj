@@ -68,8 +68,19 @@
     <Build Include="Lookups\tlkpAbility.sql" />
     <Build Include="Lookups\tlkpPokeball.sql" />
     <Build Include="Tables\tblMyPokedex.sql" />
+    <None Include="Scripts\PopulateTlkpCategory.sql" />
+    <None Include="Scripts\PopulateTlkpType.sql" />
+    <None Include="Scripts\PopulateTlkpPokeball.sql" />
+    <None Include="Scripts\PopulateTlkpNationalDex.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="POKEDEXDB.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Scripts\PopulateTlkpAbility.sql" />
+    <None Include="POKEDEXDB.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Scripts\Script.PostDeployment1.sql" />
   </ItemGroup>
 </Project>

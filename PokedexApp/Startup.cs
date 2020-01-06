@@ -1,11 +1,16 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Pokedex.Data.Models;
 using Pokedex.Logging.Adapters;
 using Pokedex.Logging.Interfaces;
+using Pokedex.Repository.Interfaces;
+using Pokedex.Repository.Repositories;
+using PokedexApp.Interfaces;
+using PokedexApp.Logic;
 
 namespace PokedexApp
 {
@@ -22,7 +27,13 @@ namespace PokedexApp
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            services.AddDbContext<POKEDEXDBContext>(op => op.UseSqlServer(
+                Configuration.GetConnectionString("POKEDEXDB_CONNECTION_STRING")));
+
             services.AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
+
+            services.AddScoped<IPokedexAppLogic, PokedexAppLogic>();
+            services.AddScoped<IPokedexRepository, PokedexRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

@@ -1,4 +1,5 @@
 ﻿using Pokedex.Data.Models;
+using Pokedex.Common;
 using Pokedex.Logging.Interfaces;
 using Pokedex.Repository.Interfaces;
 using System;
@@ -9,14 +10,11 @@ namespace Pokedex.Repository.Repositories
 {
     public class PokedexRepository : IPokedexRepository
     {
-        //todo abstract out const reused in sln
         private const string DBContext = nameof(DBContext);
-        private const string From = "from";
-        private const string InformationalMessageWithCount = Retrieved + " {0} {1} " + From + " " + DBContext + ".";
+        private const string InformationalMessageWithCount = Constants.Retrieved + " {0} {1} " + Constants.From + " " + DBContext + ".";
         private const string InformationalMessageWithId = "{0} {1} {2} " + DBContext + " with Id: {3}";
-        private const string InformationalMessageWithSearchCriteria = Retrieved + " {0} " + Pokemon + " " + From + " " + DBContext + " matching search string: {1}";
-        private const string Pokemon = nameof(Pokemon);
-        private const string Retrieved = nameof(Retrieved);
+        private const string InformationalMessageWithSearchCriteria = Constants.Retrieved + " {0} " + Constants.Pokemon + " " 
+            + Constants.From + " " + DBContext + " matching search string: {1}";
         
         private POKEDEXDBContext _context;
         private ILoggerAdapter<PokedexRepository> _logger;
@@ -31,15 +29,15 @@ namespace Pokedex.Repository.Repositories
             _context.Add(pokemon);
             _context.SaveChanges();
             
-            _logger.LogInformation(string.Format(InformationalMessageWithId, "Added", Pokemon, "to", pokemon.Id));
+            _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Added, Constants.Pokemon, Constants.To, pokemon.Id));
         }
 
-        public void DeletePokemonById(int pokemonId)
+        public void DeletePokemonById(int myPokemonId)
         {
-            _context.Remove(GetMyPokemonById(pokemonId));
+            _context.Remove(GetMyPokemonById(myPokemonId));
             _context.SaveChanges();
 
-            _logger.LogInformation(string.Format(InformationalMessageWithId, "Deleted", Pokemon, From, pokemonId));
+            _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Deleted, Constants.Pokemon, Constants.From, myPokemonId));
         }
 
         public void EditPokemon(tblMyPokedex pokemon)
@@ -47,14 +45,14 @@ namespace Pokedex.Repository.Repositories
             _context.Update(pokemon);
             _context.SaveChanges();
 
-            _logger.LogInformation(string.Format(InformationalMessageWithId, "Updated", Pokemon, "in", pokemon.Id));
+            _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Updated, Constants.Pokemon, Constants.In, pokemon.Id));
         }
 
         public tlkpAbility GetAbilityById(int abilityId)
         {
             tlkpAbility ability = _context.tlkpAbility.FirstOrDefault(a => a.Id == abilityId);
 
-            _logger.LogInformation(string.Format(InformationalMessageWithId, Retrieved, "Ability", From, abilityId));
+            _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Retrieved, Constants.Ability, Constants.From, abilityId));
 
             return ability;
         }
@@ -63,7 +61,7 @@ namespace Pokedex.Repository.Repositories
         {
             List<tlkpAbility> abilities = _context.tlkpAbility.OrderBy(a => a.Id).ToList();
             
-            _logger.LogInformation(string.Format(InformationalMessageWithCount, abilities.Count, "Abilities"));
+            _logger.LogInformation(string.Format(InformationalMessageWithCount, abilities.Count, Constants.Abilities));
 
             return abilities;
         }
@@ -72,7 +70,7 @@ namespace Pokedex.Repository.Repositories
         {
             List<tlkpCategory> categories = _context.tlkpCategory.OrderBy(c => c.Id).ToList();
 
-            _logger.LogInformation(string.Format(InformationalMessageWithCount, categories.Count, "Categories"));
+            _logger.LogInformation(string.Format(InformationalMessageWithCount, categories.Count, Constants.Categories));
 
             return categories;
         }
@@ -81,7 +79,7 @@ namespace Pokedex.Repository.Repositories
         {
             List<tlkpPokeball> pokeballs = _context.tlkpPokeball.OrderBy(p => p.Id).ToList();
 
-            _logger.LogInformation(string.Format(InformationalMessageWithCount, pokeballs.Count, "Pokeballs"));
+            _logger.LogInformation(string.Format(InformationalMessageWithCount, pokeballs.Count, Constants.Pokeballs));
 
             return pokeballs;
         }
@@ -90,7 +88,7 @@ namespace Pokedex.Repository.Repositories
         {
             List<tlkpType> types = _context.tlkpType.OrderBy(t => t.Id).ToList();
 
-            _logger.LogInformation(string.Format(InformationalMessageWithCount, types.Count, "Types"));
+            _logger.LogInformation(string.Format(InformationalMessageWithCount, types.Count, Constants.Types));
 
             return types;
         }
@@ -99,7 +97,7 @@ namespace Pokedex.Repository.Repositories
         {
             tlkpCategory category = _context.tlkpCategory.FirstOrDefault(c => c.Id == categoryId);
 
-            _logger.LogInformation(string.Format(InformationalMessageWithId, Retrieved, "Category", From, categoryId));
+            _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Retrieved, Constants.Category, Constants.From, categoryId));
 
             return category;
         }
@@ -108,16 +106,16 @@ namespace Pokedex.Repository.Repositories
         {
             List<tblMyPokedex> myPokedex = _context.tblMyPokedex.OrderBy(p => p.PokemonId).ToList();
 
-            _logger.LogInformation(string.Format(InformationalMessageWithCount, myPokedex.Count, Pokemon));
+            _logger.LogInformation(string.Format(InformationalMessageWithCount, myPokedex.Count, Constants.Pokemon));
 
             return myPokedex;
         }
 
-        public tblMyPokedex GetMyPokemonById(int pokemonId)
+        public tblMyPokedex GetMyPokemonById(int myPokemonId)
         {
-            tblMyPokedex myPokemon = _context.tblMyPokedex.FirstOrDefault(p => p.Id == pokemonId);
+            tblMyPokedex myPokemon = _context.tblMyPokedex.FirstOrDefault(p => p.Id == myPokemonId);
 
-            _logger.LogInformation(string.Format(InformationalMessageWithId, Retrieved, Pokemon, From, pokemonId));
+            _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Retrieved, Constants.Pokemon, Constants.From, myPokemonId));
 
             return myPokemon;
         }
@@ -126,7 +124,7 @@ namespace Pokedex.Repository.Repositories
         {
             List<tlkpNationalDex> nationalDex = _context.tlkpNationalDex.OrderBy(p => p.Id).ToList();
 
-            _logger.LogInformation(string.Format(InformationalMessageWithCount, nationalDex.Count, Pokemon));
+            _logger.LogInformation(string.Format(InformationalMessageWithCount, nationalDex.Count, Constants.Pokemon));
 
             return nationalDex;
         }
@@ -135,7 +133,7 @@ namespace Pokedex.Repository.Repositories
         {
             tlkpNationalDex nationalDexPokemon = _context.tlkpNationalDex.FirstOrDefault(p => p.Id == pokemonId);
 
-            _logger.LogInformation(string.Format(InformationalMessageWithId, Retrieved, Pokemon, From, pokemonId));
+            _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Retrieved, Constants.Pokemon, Constants.From, pokemonId));
 
             return nationalDexPokemon;
         }
@@ -144,7 +142,7 @@ namespace Pokedex.Repository.Repositories
         {
             tlkpPokeball pokeball = _context.tlkpPokeball.FirstOrDefault(p => p.Id == pokeballId);
 
-            _logger.LogInformation(string.Format(InformationalMessageWithId, Retrieved, "Pokeball", From, pokeballId));
+            _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Retrieved, Constants.Pokeball, Constants.From, pokeballId));
 
             return pokeball;
         }
@@ -153,7 +151,7 @@ namespace Pokedex.Repository.Repositories
         {
             tlkpType type = _context.tlkpType.FirstOrDefault(t => t.Id == typeId);
 
-            _logger.LogInformation(string.Format(InformationalMessageWithId, Retrieved, "Type", From, typeId));
+            _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Retrieved, Constants.Type, Constants.From, typeId));
 
             return type;
         }
@@ -219,6 +217,13 @@ namespace Pokedex.Repository.Repositories
             {
                 myPokedexSearchResults = myPokedexSearchResults
                     .Where(p => p.Pokemon.TypeOneId == selectedTypeId.Value || p.Pokemon.TypeTwoId == selectedTypeId.Value)
+                    .ToList();
+            }
+
+            if (selectedPokeballId.HasValue)
+            {
+                myPokedexSearchResults = myPokedexSearchResults
+                    .Where(p => p.PokeballId == selectedPokeballId.Value)
                     .ToList();
             }
 

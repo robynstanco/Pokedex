@@ -1,9 +1,13 @@
-﻿<!DOCTYPE html>
+﻿@using Pokedex.Common;
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - PokedexApp</title>
+    <title>@Constants.Pokedex App - @ViewData["Title"]</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Kanit:300,400&display=swap" rel="stylesheet">
 
     <environment include="Development">
         <link rel="stylesheet" href="~/css/site.css" />
@@ -13,34 +17,30 @@
     </environment>
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">PokedexApp</a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                </ul>
-            </div>
+    <header class="navigation__container">
+        <div class="navigation__list">
+            <a class="navigation__list-item" asp-area="" asp-controller="Pokedex" asp-action="Index">
+                <img src="~/images/pokedex.png" />
+            </a>
+            <a class="navigation__list-item" asp-area="" asp-controller="PokemonForm" asp-action="Index">
+                <img src="~/images/addPokemonIcon.png" />
+            </a>
+            <a class="navigation__list-item" asp-area="" asp-controller="NationalDex" asp-action="Index">
+                <img src="~/images/nationaldexicon.png" />
+            </a>
+            <a  class="navigation__list-item"asp-area="" asp-controller="Search" asp-action="Index">
+                <img src="~/images/magnifying-glass.png" />
+            </a>
         </div>
-    </nav>
+    </header>
 
-    <div class="container body-content">
+    <div class="content__container">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2019 - PokedexApp</p>
-        </footer>
     </div>
+    
+    <footer>
+        <p>&copy; 2019 - @Constants.Pokedex - Robyn Stanco. Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a>, <a href="https://www.flaticon.com/authors/those-icons" title="Those Icons">Those Icons</a>, and <a href="https://www.flaticon.com/authors/vectors-market" title="Vectors Market">Vectors Market</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></p>
+    </footer>
 
     <environment include="Development">
         <script src="~/js/site.js" asp-append-version="true"></script>

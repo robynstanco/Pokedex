@@ -1,0 +1,16 @@
+﻿@using Pokedex.Common;
+
+@model List<PokemonViewModel>
+
+@{
+    ViewData["Title"] = Constants.NationalDex;
+}
+
+<div class="pokemon__container">
+    @foreach (var pokemon in Model)
+    {
+        <a class="pokemon__item hover-shadow" asp-controller="NationalDex" asp-action="Detail" asp-route-id="@pokemon.Id">
+            <h1>@pokemon.Name</h1>
+        </a>
+    }
+</div>

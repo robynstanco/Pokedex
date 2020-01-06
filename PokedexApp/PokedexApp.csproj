@@ -17,10 +17,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Pokedex.Data\Pokedex.Data.csproj" />
     <ProjectReference Include="..\Pokedex.Logging\Pokedex.Logging.csproj" />
+    <ProjectReference Include="..\Pokedex.Repository\Pokedex.Repository.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Views\NationalDex\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Pokedex\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

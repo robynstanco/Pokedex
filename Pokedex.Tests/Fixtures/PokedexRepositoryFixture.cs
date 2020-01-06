@@ -69,20 +69,20 @@ namespace Pokedex.Tests.Fixtures
         }
 
         [TestMethod]
-        public void AddPokemonIsSuccessfulAndLogsInformation()
+        public void AddPokémonIsSuccessfulAndLogsInformation()
         {
-            tblMyPokedex generatedPokemon = DataGenerator.GenerateMyPokemon(1)[0];
+            tblMyPokedex generatedPokémon = DataGenerator.GenerateMyPokemon(1)[0];
 
-            _pokedexRepository.AddPokemon(generatedPokemon);
+            _pokedexRepository.AddPokemon(generatedPokémon);
 
-            _pokedexDBContextMock.Verify(m => m.Add(generatedPokemon), Times.Once);
+            _pokedexDBContextMock.Verify(m => m.Add(generatedPokémon), Times.Once);
             _pokedexDBContextMock.Verify(m => m.SaveChanges(), Times.Once);
 
-            _loggerMock.Verify(lm => lm.LogInformation("Added Pokemon to DBContext with Id: 0"), Times.Once);
+            _loggerMock.Verify(lm => lm.LogInformation("Added Pokémon to DBContext with Id: 0"), Times.Once);
         }
 
         [TestMethod]
-        public void DeletePokemonByIdIsSuccessfulAndLogsInformation()
+        public void DeletePokémonByIdIsSuccessfulAndLogsInformation()
         {
             _pokedexRepository.DeletePokemonById(1);
         
@@ -90,21 +90,21 @@ namespace Pokedex.Tests.Fixtures
             _pokedexDBContextMock.Verify(m => m.Remove(It.IsAny<tblMyPokedex>()), Times.Once);
             _pokedexDBContextMock.Verify(m => m.SaveChanges(), Times.Once);
 
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved Pokemon from DBContext with Id: 1"), Times.Once);
-            _loggerMock.Verify(lm => lm.LogInformation("Deleted Pokemon from DBContext with Id: 1"), Times.Once);
+            _loggerMock.Verify(lm => lm.LogInformation("Retrieved Pokémon from DBContext with Id: 1"), Times.Once);
+            _loggerMock.Verify(lm => lm.LogInformation("Deleted Pokémon from DBContext with Id: 1"), Times.Once);
         }
 
         [TestMethod]
-        public void EditPokemonIsSuccessfulAndLogsInformation()
+        public void EditPokémonIsSuccessfulAndLogsInformation()
         {
-            tblMyPokedex generatedPokemon = DataGenerator.GenerateMyPokemon(1)[0];
+            tblMyPokedex generatedPokémon = DataGenerator.GenerateMyPokemon(1)[0];
 
-            _pokedexRepository.EditPokemon(generatedPokemon);
+            _pokedexRepository.EditPokemon(generatedPokémon);
 
-            _pokedexDBContextMock.Verify(m => m.Update(generatedPokemon), Times.Once);
+            _pokedexDBContextMock.Verify(m => m.Update(generatedPokémon), Times.Once);
             _pokedexDBContextMock.Verify(m => m.SaveChanges(), Times.Once);
 
-            _loggerMock.Verify(lm => lm.LogInformation("Updated Pokemon in DBContext with Id: 0"), Times.Once);
+            _loggerMock.Verify(lm => lm.LogInformation("Updated Pokémon in DBContext with Id: 0"), Times.Once);
         }
 
         [TestMethod]
@@ -160,7 +160,7 @@ namespace Pokedex.Tests.Fixtures
 
             _pokedexDBContextMock.Verify(m => m.tlkpPokeball, Times.Once);
 
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved 5 Pokeballs from DBContext."), Times.Once);
+            _loggerMock.Verify(lm => lm.LogInformation("Retrieved 5 Pokéballs from DBContext."), Times.Once);
         }
 
         [TestMethod]
@@ -207,25 +207,25 @@ namespace Pokedex.Tests.Fixtures
 
             _pokedexDBContextMock.Verify(m => m.tblMyPokedex, Times.Once);
 
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved 5 Pokemon from DBContext."), Times.Once);
+            _loggerMock.Verify(lm => lm.LogInformation("Retrieved 5 Pokémon from DBContext."), Times.Once);
         }
 
         [TestMethod]
-        public void GetMyPokemonByIdIsSuccessfulAndLogsInformation()
+        public void GetMyPokémonByIdIsSuccessfulAndLogsInformation()
         {
-            tblMyPokedex pokemon = _pokedexRepository.GetMyPokemonById(3);
+            tblMyPokedex Pokémon = _pokedexRepository.GetMyPokemonById(3);
 
-            Assert.AreEqual(DateTime.Today, pokemon.Date);
-            Assert.AreEqual(4, pokemon.Level);
-            Assert.AreEqual("3 Main Street", pokemon.Location);
-            Assert.AreEqual("Nickname3", pokemon.Nickname);
-            Assert.AreEqual(3, pokemon.PokeballId);
-            Assert.AreEqual(3, pokemon.PokemonId);
-            Assert.IsFalse(pokemon.Sex.Value); //ie, Sex == bit 0 in SQL.
+            Assert.AreEqual(DateTime.Today, Pokémon.Date);
+            Assert.AreEqual(4, Pokémon.Level);
+            Assert.AreEqual("3 Main Street", Pokémon.Location);
+            Assert.AreEqual("Nickname3", Pokémon.Nickname);
+            Assert.AreEqual(3, Pokémon.PokeballId);
+            Assert.AreEqual(3, Pokémon.PokemonId);
+            Assert.IsFalse(Pokémon.Sex.Value); //ie, Sex == bit 0 in SQL.
 
             _pokedexDBContextMock.Verify(m => m.tblMyPokedex, Times.Once);
 
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved Pokemon from DBContext with Id: 3"), Times.Once);
+            _loggerMock.Verify(lm => lm.LogInformation("Retrieved Pokémon from DBContext with Id: 3"), Times.Once);
         }
 
         [TestMethod]
@@ -249,30 +249,30 @@ namespace Pokedex.Tests.Fixtures
 
             _pokedexDBContextMock.Verify(m => m.tlkpNationalDex, Times.Once);
 
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved 5 Pokemon from DBContext."), Times.Once);
+            _loggerMock.Verify(lm => lm.LogInformation("Retrieved 5 Pokémon from DBContext."), Times.Once);
         }
 
         [TestMethod]
-        public void GetNationalDexPokemonByIdIsSuccessfulAndLogsInformation()
+        public void GetNationalDexPokémonByIdIsSuccessfulAndLogsInformation()
         {
-            tlkpNationalDex pokemon = _pokedexRepository.GetNationalDexPokemonById(4);
+            tlkpNationalDex Pokémon = _pokedexRepository.GetNationalDexPokemonById(4);
 
-            Assert.AreEqual(4, pokemon.AbilityId);
-            Assert.AreEqual(4, pokemon.CategoryId);
-            Assert.AreEqual("Desc4", pokemon.Description);
-            Assert.AreEqual(5, pokemon.HeightInInches);
-            Assert.AreEqual(5, pokemon.HiddenAbilityId);
-            Assert.AreEqual(4, pokemon.Id);
-            Assert.AreEqual("http://4.com", pokemon.ImageURL);
-            Assert.AreEqual("JapaneseName4", pokemon.JapaneseName);
-            Assert.AreEqual("Name4", pokemon.Name);
-            Assert.AreEqual(4, pokemon.TypeOneId);
-            Assert.AreEqual(5, pokemon.TypeTwoId);
-            Assert.AreEqual(5, pokemon.WeightInPounds);
+            Assert.AreEqual(4, Pokémon.AbilityId);
+            Assert.AreEqual(4, Pokémon.CategoryId);
+            Assert.AreEqual("Desc4", Pokémon.Description);
+            Assert.AreEqual(5, Pokémon.HeightInInches);
+            Assert.AreEqual(5, Pokémon.HiddenAbilityId);
+            Assert.AreEqual(4, Pokémon.Id);
+            Assert.AreEqual("http://4.com", Pokémon.ImageURL);
+            Assert.AreEqual("JapaneseName4", Pokémon.JapaneseName);
+            Assert.AreEqual("Name4", Pokémon.Name);
+            Assert.AreEqual(4, Pokémon.TypeOneId);
+            Assert.AreEqual(5, Pokémon.TypeTwoId);
+            Assert.AreEqual(5, Pokémon.WeightInPounds);
 
             _pokedexDBContextMock.Verify(m => m.tlkpNationalDex, Times.Once);
 
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved Pokemon from DBContext with Id: 4"), Times.Once);
+            _loggerMock.Verify(lm => lm.LogInformation("Retrieved Pokémon from DBContext with Id: 4"), Times.Once);
         }
 
         [TestMethod]
@@ -286,7 +286,7 @@ namespace Pokedex.Tests.Fixtures
 
             _pokedexDBContextMock.Verify(m => m.tlkpPokeball, Times.Once);
 
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved Pokeball from DBContext with Id: 1"), Times.Once);
+            _loggerMock.Verify(lm => lm.LogInformation("Retrieved Pokéball from DBContext with Id: 1"), Times.Once);
         }
 
         [TestMethod]
@@ -323,8 +323,8 @@ namespace Pokedex.Tests.Fixtures
 
             _pokedexDBContextMock.Verify(m => m.tlkpNationalDex, Times.Once);
 
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved 5 Pokemon from DBContext."), Times.Once);
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved 1 Pokemon from DBContext matching search string: Name3"), Times.Once);
+            _loggerMock.Verify(lm => lm.LogInformation("Retrieved 5 Pokémon from DBContext."), Times.Once);
+            _loggerMock.Verify(lm => lm.LogInformation("Retrieved 1 Pokémon from DBContext matching search string: Name3"), Times.Once);
         }
 
         [TestMethod]
@@ -340,8 +340,8 @@ namespace Pokedex.Tests.Fixtures
             Assert.AreEqual(3, searchResults[0].Id);
             Assert.IsFalse(searchResults[0].Sex.Value); //ie, Sex == bit 0 in SQL.
 
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved 5 Pokemon from DBContext."), Times.Once);
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved 1 Pokemon from DBContext matching search string: Nickname3"), Times.Once);
+            _loggerMock.Verify(lm => lm.LogInformation("Retrieved 5 Pokémon from DBContext."), Times.Once);
+            _loggerMock.Verify(lm => lm.LogInformation("Retrieved 1 Pokémon from DBContext matching search string: Nickname3"), Times.Once);
         }
     }
 }

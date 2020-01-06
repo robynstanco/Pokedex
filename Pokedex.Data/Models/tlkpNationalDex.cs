@@ -19,8 +19,8 @@ namespace Pokedex.Data.Models
         public int? TypeTwoId { get; set; }
         public int? AbilityId { get; set; }
         public int? HiddenAbilityId { get; set; }
-        public int? HeightInInches { get; set; }
-        public int? WeightInPounds { get; set; }
+        public int HeightInInches { get; set; }
+        public int WeightInPounds { get; set; }
         public string ImageURL { get; set; }
 
         public tlkpAbility Ability { get; set; }

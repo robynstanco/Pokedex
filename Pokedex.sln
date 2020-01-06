@@ -18,7 +18,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pokedex.Tests", "Pokedex.Te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pokedex.Repository", "Pokedex.Repository\Pokedex.Repository.csproj", "{7093C458-21AC-4D82-A0C6-E3B6D6312142}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pokedex.Logging", "Pokedex.Logging\Pokedex.Logging.csproj", "{1DEBB5F5-EC7A-4645-9C6F-0590AD6E062A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pokedex.Logging", "Pokedex.Logging\Pokedex.Logging.csproj", "{1DEBB5F5-EC7A-4645-9C6F-0590AD6E062A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pokedex.Common", "Pokedex.Helpers\Pokedex.Common.csproj", "{E00B2F35-3699-4C00-9B6B-B8EB87BEC3E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,6 +58,10 @@ Global
 		{1DEBB5F5-EC7A-4645-9C6F-0590AD6E062A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DEBB5F5-EC7A-4645-9C6F-0590AD6E062A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DEBB5F5-EC7A-4645-9C6F-0590AD6E062A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E00B2F35-3699-4C00-9B6B-B8EB87BEC3E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E00B2F35-3699-4C00-9B6B-B8EB87BEC3E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E00B2F35-3699-4C00-9B6B-B8EB87BEC3E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E00B2F35-3699-4C00-9B6B-B8EB87BEC3E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
