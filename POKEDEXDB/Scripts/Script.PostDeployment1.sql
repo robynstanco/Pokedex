@@ -10,6 +10,8 @@ Post-Deployment Script Template
 --------------------------------------------------------------------------------------
 */
 
+DELETE FROM [dbo].tlkpNationalDex;
+
 :r .\PopulateTlkpAbility.sql
 :r .\PopulateTlkpCategory.sql
 :r .\PopulateTlkpPokeball.sql

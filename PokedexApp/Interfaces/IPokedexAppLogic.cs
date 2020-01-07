@@ -5,7 +5,7 @@ namespace PokedexApp.Interfaces
 {
     public interface IPokedexAppLogic
     {
-        List<PokemonViewModel> GetMyPokedex();
-        List<PokemonViewModel> GetNationalDex();
+        List<PokemonListingViewModel> GetNationalDex();
+        PokemonDetailViewModel GetNationalDexPokemonById(int id);
     }
 }

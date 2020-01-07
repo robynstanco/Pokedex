@@ -28,6 +28,18 @@ namespace PokedexApp.Controllers
                 return Error(ex);
             }
         }
+
+        public IActionResult Detail(int id)
+        {
+            try
+            {
+                return View(_pokedexAppLogic.GetNationalDexPokemonById(id));
+            }
+            catch (Exception ex)
+            {
+                return Error(ex);
+            }
+        }
         
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error(Exception ex)

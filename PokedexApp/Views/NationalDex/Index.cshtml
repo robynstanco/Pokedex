@@ -1,6 +1,6 @@
 ﻿@using Pokedex.Common;
 
-@model List<PokemonViewModel>
+@model List<PokemonListingViewModel>
 
 @{
     ViewData["Title"] = Constants.NationalDex;
@@ -9,7 +9,7 @@
 <div class="pokemon__container">
     @foreach (var pokemon in Model)
     {
-        <a class="pokemon__item hover-shadow" asp-controller="NationalDex" asp-action="Detail" asp-route-id="@pokemon.Id">
+        <a class="pokemon__item hover-shadow" asp-controller="NationalDex" asp-action="Detail" asp-route-id="@pokemon.NationalDexPokemonId">
             <h1>@pokemon.Name</h1>
         </a>
     }
