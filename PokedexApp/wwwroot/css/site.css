@@ -30,7 +30,7 @@ header {
     justify-content: space-between;
 }
 
-.navigation__list-item {
+.navigation__item {
     padding: 1em;
     flex-basis: 23%;
 
@@ -38,11 +38,11 @@ header {
     justify-content:center;
 }
 
-    .navigation__list-item img {
+    .navigation__item img {
         height: 30px;
     }
 
-    .navigation__list-item:hover {
+    .navigation__item:hover {
         cursor: pointer;
         background-color: #5c6a80;
     }
@@ -52,6 +52,11 @@ header {
     margin-top: 62px;
     padding: 1em;
     display: flex;
+}
+
+.error__container{
+    flex-basis:100%;
+    display:block;
 }
 
 .pokemon__container {

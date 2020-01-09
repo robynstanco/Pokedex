@@ -10,11 +10,10 @@ namespace Pokedex.Repository.Repositories
 {
     public class PokedexRepository : IPokedexRepository
     {
-        private const string DBContext = nameof(DBContext);
-        private const string InformationalMessageWithCount = Constants.Retrieved + " {0} {1} " + Constants.From + " " + DBContext + ".";
-        private const string InformationalMessageWithId = "{0} {1} {2} " + DBContext + " with Id: {3}";
+        private const string InformationalMessageWithCount = Constants.Retrieved + " {0} {1} " + Constants.From + " " + Constants.DBContext + ".";
+        private const string InformationalMessageWithId = "{0} {1} {2} " + Constants.DBContext + " with Id: {3}";
         private const string InformationalMessageWithSearchCriteria = Constants.Retrieved + " {0} " + Constants.Pokemon + " " 
-            + Constants.From + " " + DBContext + " matching search string: {1}";
+            + Constants.From + " " + Constants.DBContext + " matching search string: {1}";
         
         private POKEDEXDBContext _context;
         private ILoggerAdapter<PokedexRepository> _logger;

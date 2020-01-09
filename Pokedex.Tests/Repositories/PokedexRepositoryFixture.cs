@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Pokedex.Tests.Fixtures
+namespace Pokedex.Tests.Repositories
 {
     [TestClass]
     public class PokedexRepositoryFixture
@@ -24,8 +24,6 @@ namespace Pokedex.Tests.Fixtures
         private Mock<DbSet<tlkpNationalDex>> _nationalDexMockSet;
         private Mock<DbSet<tlkpPokeball>> _pokeballsMockSet;
         private Mock<DbSet<tlkpType>> _typesMockSet;
-
-        private const string ExceptionShouldBeThrown = "An exception should be thrown.";
 
         [TestInitialize]
         public void Initialize()

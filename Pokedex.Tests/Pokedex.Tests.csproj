@@ -15,6 +15,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Pokedex.Repository\Pokedex.Repository.csproj" />
+    <ProjectReference Include="..\PokedexApp\PokedexApp.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>

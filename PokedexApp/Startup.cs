@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Pokedex.Common;
 using Pokedex.Data.Models;
 using Pokedex.Logging.Adapters;
 using Pokedex.Logging.Interfaces;
@@ -16,24 +18,34 @@ namespace PokedexApp
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public IConfiguration Configuration { get; set; }
+        public ILogger Logger { get; set; }
+        public Startup(IConfiguration configuration, ILogger<Startup> logger)
         {
             Configuration = configuration;
+            Logger = logger;
         }
 
-        public IConfiguration Configuration { get; }
+        private string POKEDEXDBConnectionString
+        {
+            get
+            {
+                return Configuration.GetConnectionString("POKEDEXDB_CONNECTION_STRING");
+            }
+        }
 
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            Logger.LogInformation(Constants.Added + " MVC.");
 
-            services.AddDbContext<POKEDEXDBContext>(op => op.UseSqlServer(
-                Configuration.GetConnectionString("POKEDEXDB_CONNECTION_STRING")));
-
+            services.AddDbContext<POKEDEXDBContext>(op => op.UseSqlServer(POKEDEXDBConnectionString));
+            Logger.LogInformation(Constants.Added + " " + Constants.Pokemon + Constants.DBContext + ".");
+            
             services.AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
-
             services.AddScoped<IPokedexAppLogic, PokedexAppLogic>();
             services.AddScoped<IPokedexRepository, PokedexRepository>();
+            Logger.LogInformation(Constants.Added + " Dependency Injection for custom logging, logic, and repository.");
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -44,7 +56,7 @@ namespace PokedexApp
             }
             else
             {
-                app.UseExceptionHandler("/Pokedex/Error");
+                app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
 

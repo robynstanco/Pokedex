@@ -15,11 +15,11 @@ namespace PokedexApp.Models
         public string JapaneseName { get; set; }
         public int? Level { get; set; }
         public string Location { get; set; }
-        public int MyPokemonId { get; set; }
+        public int? MyPokemonId { get; set; }
         public string Name { get; set; }
-        public int NationalDexPokemonId { get; set; }
+        public int? NationalDexPokemonId { get; set; }
         public string Nickname { get; set; }
-        public string Pokeball { get; set; }
+        public string PokeballImageURL { get; set; }
         public bool? Sex { get; set; }
         public string TypeOne { get; set; }
         public string TypeTwo { get; set; }

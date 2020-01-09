@@ -2,11 +2,17 @@
 
 @model ErrorViewModel
 @{
-    ViewData["Title"] = Constants.Error;
+    ViewData["Title"] = Constants.Error + "!";
 }
 
-<div class="error_container">
+<div class="error__container">
     <h1>@Constants.Error!</h1>
     <h2>An error occurred while processing your request:</h2>
     <div>@Model.Message</div>
+    @if (Model.ShowRequestId)
+    {
+        <div>
+            <code>@Model.RequestId</code>
+        </div>
+    }
 </div>

@@ -11,6 +11,7 @@
         public const string Added = nameof(Added);
         public const string Categories = nameof(Categories);
         public const string Category = nameof(Category);
+        public const string DBContext = nameof(DBContext);
         public const string Deleted = nameof(Deleted);
         public const string Error = nameof(Error);
         public const string From = "from";

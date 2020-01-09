@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Pokedex.Tests.Fixtures
+namespace Pokedex.Tests.Logic
 {
     class PokedexAPILogicFixture
     {

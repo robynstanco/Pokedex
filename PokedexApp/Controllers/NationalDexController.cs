@@ -4,6 +4,7 @@ using Pokedex.Logging.Interfaces;
 using PokedexApp.Interfaces;
 using PokedexApp.Models;
 using System;
+using System.Diagnostics;
 
 namespace PokedexApp.Controllers
 {
@@ -46,7 +47,7 @@ namespace PokedexApp.Controllers
         {
             _logger.LogError(ex, ex.Message);
 
-            return View(Constants.Error, new ErrorViewModel() { Message = ex.Message });
+            return View(Constants.Error, new ErrorViewModel() { Message = ex.Message, RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

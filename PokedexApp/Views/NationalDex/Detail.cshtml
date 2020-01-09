@@ -1,0 +1,13 @@
+﻿@using Pokedex.Common;
+
+@model PokemonDetailViewModel
+
+@{
+    ViewData["Title"] = Constants.NationalDex + " - " + Model.Name;
+}
+
+<div class="pokemon__container">
+    <div class="pokemon__item pokemon__item--large hover-shadow">
+        <h1>@Model.Name</h1>
+    </div>
+</div>
