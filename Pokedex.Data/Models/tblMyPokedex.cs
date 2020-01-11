@@ -5,7 +5,7 @@ namespace Pokedex.Data.Models
 {
     public partial class tblMyPokedex
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public int PokemonId { get; set; }
         public string Nickname { get; set; }
         public int? Level { get; set; }

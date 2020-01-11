@@ -5,6 +5,7 @@ using Pokedex.Logging.Interfaces;
 using Pokedex.Repository.Interfaces;
 using PokedexApp.Logic;
 using PokedexApp.Models;
+using System;
 using System.Collections.Generic;
 
 namespace Pokedex.Tests.Logic
@@ -28,14 +29,62 @@ namespace Pokedex.Tests.Logic
             _pokedexRepositoryMock.Setup(prm => prm.GetAbilityById(0)).Returns(abilities[0]);
             _pokedexRepositoryMock.Setup(prm => prm.GetAbilityById(1)).Returns(abilities[1]); //Hidden Ability
             _pokedexRepositoryMock.Setup(prm => prm.GetCategoryById(0)).Returns(DataGenerator.GenerateCategories(1)[0]);
+            _pokedexRepositoryMock.Setup(prm => prm.GetMyPokedex()).Returns(DataGenerator.GenerateMyPokemon(1));
+            _pokedexRepositoryMock.Setup(prm => prm.GetMyPokemonById(DataGenerator.DefaultGuid)).Returns(DataGenerator.GenerateMyPokemon(1)[0]);
             _pokedexRepositoryMock.Setup(prm => prm.GetNationalDex()).Returns(DataGenerator.GenerateNationalDexPokemon(5));
             _pokedexRepositoryMock.Setup(prm => prm.GetNationalDexPokemonById(0)).Returns(DataGenerator.GenerateNationalDexPokemon(1)[0]);
+            _pokedexRepositoryMock.Setup(prm => prm.GetPokeballById(0)).Returns(DataGenerator.GeneratePokeballs(1)[0]);
             _pokedexRepositoryMock.Setup(prm => prm.GetTypeById(0)).Returns(types[0]);
             _pokedexRepositoryMock.Setup(prm => prm.GetTypeById(1)).Returns(types[1]); //Type Two
 
             _loggerMock = new Mock<ILoggerAdapter<PokedexAppLogic>>();
 
             _pokedexAppLogic = new PokedexAppLogic(_pokedexRepositoryMock.Object, _loggerMock.Object);
+        }
+
+        [TestMethod]
+        public void GetMyPokedexIsSuccessfulAndLogsInformation()
+        {
+            List<PokemonListingViewModel> pokemonListingViewModels = _pokedexAppLogic.GetMyPokedex();
+
+            Assert.AreEqual(1, pokemonListingViewModels.Count);
+            Assert.AreEqual("http://0.com", pokemonListingViewModels[0].ImageURL);
+            Assert.AreEqual(DataGenerator.DefaultGuid, pokemonListingViewModels[0].MyPokemonId);
+            Assert.AreEqual("Name0", pokemonListingViewModels[0].Name);
+            Assert.AreEqual("Nickname0", pokemonListingViewModels[0].Nickname);
+            Assert.AreEqual(0, pokemonListingViewModels[0].NationalDexPokemonId);
+            
+            _pokedexRepositoryMock.Verify(prm => prm.GetMyPokedex(), Times.Once);
+            _loggerMock.Verify(lm => lm.LogInformation("Mapping 1 Pokémon View Models."));
+        }
+
+        [TestMethod]
+        public void GetMyPokemonByIdIsSuccessfulAndLogsInformation()
+        {
+            PokemonDetailViewModel pokemonDetailViewModel = _pokedexAppLogic.GetMyPokemonById(DataGenerator.DefaultGuid);
+
+            Assert.AreEqual("Name0", pokemonDetailViewModel.Ability);
+            Assert.AreEqual("Name0", pokemonDetailViewModel.Category);
+            Assert.AreEqual(DateTime.Today, pokemonDetailViewModel.Date);
+            Assert.AreEqual("Desc0", pokemonDetailViewModel.Description);
+            Assert.AreEqual(1, pokemonDetailViewModel.HeightInInches);
+            Assert.AreEqual("Name1", pokemonDetailViewModel.HiddenAbility);
+            Assert.AreEqual("http://0.com", pokemonDetailViewModel.ImageURL);
+            Assert.AreEqual("JapaneseName0", pokemonDetailViewModel.JapaneseName);
+            Assert.AreEqual(1, pokemonDetailViewModel.Level);
+            Assert.AreEqual("0 Main Street", pokemonDetailViewModel.Location);
+            Assert.AreEqual(DataGenerator.DefaultGuid, pokemonDetailViewModel.MyPokemonId);
+            Assert.AreEqual("Name0", pokemonDetailViewModel.Name);
+            Assert.AreEqual(0, pokemonDetailViewModel.NationalDexPokemonId);
+            Assert.AreEqual("Nickname0", pokemonDetailViewModel.Nickname);
+            Assert.AreEqual("http://0.com", pokemonDetailViewModel.PokeballImageURL);
+            Assert.AreEqual(true, pokemonDetailViewModel.Sex);
+            Assert.AreEqual("Name0", pokemonDetailViewModel.TypeOne);
+            Assert.AreEqual("Name1", pokemonDetailViewModel.TypeTwo);
+            Assert.AreEqual(1, pokemonDetailViewModel.WeightInPounds);
+
+            _pokedexRepositoryMock.Verify(prm => prm.GetNationalDexPokemonById(0), Times.Once);
+            _loggerMock.Verify(lm => lm.LogInformation("Mapping 1 Pokémon View Models."));
         }
 
         [TestMethod]

@@ -31,7 +31,7 @@ namespace Pokedex.Repository.Repositories
             _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Added, Constants.Pokemon, Constants.To, pokemon.Id));
         }
 
-        public void DeletePokemonById(int myPokemonId)
+        public void DeletePokemonById(Guid myPokemonId)
         {
             _context.Remove(GetMyPokemonById(myPokemonId));
             _context.SaveChanges();
@@ -110,7 +110,7 @@ namespace Pokedex.Repository.Repositories
             return myPokedex;
         }
 
-        public tblMyPokedex GetMyPokemonById(int myPokemonId)
+        public tblMyPokedex GetMyPokemonById(Guid myPokemonId)
         {
             tblMyPokedex myPokemon = _context.tblMyPokedex.FirstOrDefault(p => p.Id == myPokemonId);
 

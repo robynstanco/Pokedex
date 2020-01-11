@@ -6,6 +6,8 @@ namespace Pokedex.Tests
 {
     public class DataGenerator
     {
+        public static Guid DefaultGuid = Guid.Empty;
+
         private const string URL = "http://{0}.com";
 
         public static List<tblMyPokedex> GenerateMyPokemon(int num)
@@ -17,16 +19,13 @@ namespace Pokedex.Tests
                 pokemon.Add(new tblMyPokedex()
                 {
                     Date = DateTime.Today,
-                    Id = i,
+                    Id = DefaultGuid,
                     Level = i + 1,
                     Location = i + " Main Street",
                     Nickname = nameof(tblMyPokedex.Nickname) + i,
                     PokeballId = i,
                     PokemonId = i,
-                    Pokemon = new tlkpNationalDex()
-                    {
-                        Name = nameof(tlkpNationalDex.Name)
-                    },
+                    Pokemon = GenerateNationalDexPokemon(i + 1)[i],
                     Sex = i % 2 == 0
                 });
             }
@@ -85,8 +84,7 @@ namespace Pokedex.Tests
                     Name = nameof(tlkpNationalDex.Name) + i,
                     TypeOneId = i,
                     TypeTwoId = i + 1,
-                    WeightInPounds = i + 1
-                    
+                    WeightInPounds = i + 1,
                 });
             }
 

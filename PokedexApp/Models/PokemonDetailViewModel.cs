@@ -15,7 +15,7 @@ namespace PokedexApp.Models
         public string JapaneseName { get; set; }
         public int? Level { get; set; }
         public string Location { get; set; }
-        public int? MyPokemonId { get; set; }
+        public Guid? MyPokemonId { get; set; }
         public string Name { get; set; }
         public int? NationalDexPokemonId { get; set; }
         public string Nickname { get; set; }

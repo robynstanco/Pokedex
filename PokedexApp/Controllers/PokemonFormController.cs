@@ -1,17 +1,20 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Pokedex.Common;
 using Pokedex.Logging.Interfaces;
 using PokedexApp.Interfaces;
 using PokedexApp.Models;
-using System;
 
 namespace PokedexApp.Controllers
 {
-    public class NationalDexController : Controller
+    public class PokemonFormController : Controller
     {
         private IPokedexAppLogic _pokedexAppLogic;
-        private ILoggerAdapter<NationalDexController> _logger;
-        public NationalDexController(IPokedexAppLogic pokedexAppLogic, ILoggerAdapter<NationalDexController> logger)
+        private ILoggerAdapter<PokemonFormController> _logger;
+        public PokemonFormController(IPokedexAppLogic pokedexAppLogic, ILoggerAdapter<PokemonFormController> logger)
         {
             _pokedexAppLogic = pokedexAppLogic;
             _logger = logger;
@@ -21,7 +24,7 @@ namespace PokedexApp.Controllers
         {
             try
             {
-                return View(_pokedexAppLogic.GetNationalDex());
+                return View(_pokedexAppLogic.GetNewPokemonForm());
             }
             catch (Exception ex)
             {
@@ -29,18 +32,30 @@ namespace PokedexApp.Controllers
             }
         }
 
-        public IActionResult Detail(int id)
+        [HttpPost]
+        public IActionResult Index(PokemonFormViewModel pokemonFormViewModel)
         {
             try
             {
-                return View(_pokedexAppLogic.GetNationalDexPokemonById(id));
+                if (ModelState.IsValid)
+                {
+                    _pokedexAppLogic.AddPokemon(pokemonFormViewModel);
+
+                    return View(Constants.Success, new SuccessViewModel() { ActionName = "save" });
+                }
+                else
+                {
+                    _logger.LogInformation(Constants.InvalidRequest);
+
+                    return Index();
+                }
             }
             catch (Exception ex)
             {
                 return Error(ex);
             }
         }
-        
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error(Exception ex)
         {

@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[tblMyPokedex]
 (
-	[Id] INT NOT NULL PRIMARY KEY, 
+	[Id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
     [PokemonId] INT NOT NULL, 
     [Nickname] VARCHAR(MAX) NULL, 
     [Level] INT NULL, 

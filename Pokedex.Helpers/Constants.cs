@@ -16,6 +16,7 @@
         public const string Error = nameof(Error);
         public const string From = "from";
         public const string In = "in";
+        public const string InvalidRequest = "Invalid Request";
         public const string Mapping = nameof(Mapping);
         public const string NationalDex = nameof(NationalDex);
         public const string NotApplicable = "N/A";
@@ -24,6 +25,7 @@
         public const string Pokedex = "Pokédex";
         public const string Pokemon = "Pokémon";
         public const string Retrieved = nameof(Retrieved);
+        public const string Success = nameof(Success);
         public const string To = "to";
         public const string Type = nameof(Type);
         public const string Types = nameof(Types);
