@@ -1,0 +1,35 @@
+﻿@import "_variables.less";
+@import "_mixins.less";
+
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 62px;
+    background-color: @standardDarkPalette;
+}
+
+.navigation__list {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+}
+
+.navigation__item {
+    padding: @standardSpace;
+    flex-basis: 23%;
+    display: flex;
+    justify-content: center;
+
+    &:hover {
+        cursor: pointer;
+        background-color: @standardMainPaletteTransparent;
+    }
+}
+
+.navigation__item img {
+    height: 30px;
+}

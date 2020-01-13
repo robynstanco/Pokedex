@@ -4,13 +4,15 @@
 
 @{
     ViewData["Title"] = Constants.NationalDex;
+
 }
 
 <div class="pokemon__container">
     @foreach (var pokemon in Model)
     {
-        <a class="pokemon__item hover-shadow" asp-controller="NationalDex" asp-action="Detail" asp-route-id="@pokemon.NationalDexPokemonId">
-            <h1>@pokemon.Name</h1>
+        <a class="pokemon__item" asp-controller="NationalDex" asp-action="Detail" asp-route-id="@pokemon.NationalDexPokemonId">
+            <h2 class="pokemon__item-title">@pokemon.NationalDexPokemonId. @pokemon.Name</h2>
+            <img class="pokemon__item-img" src="@pokemon.ImageSource"/>
         </a>
     }
 </div>

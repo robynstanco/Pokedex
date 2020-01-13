@@ -1,0 +1,148 @@
+﻿@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+/* Internet Explorer */
+@-ms-keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+/* Opera < 12.1 */
+@-o-keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+body {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  color: #4C4F54;
+  font-family: 'Kanit', sans-serif;
+  font-weight: 300;
+  background-color: #D4D4D4;
+  display: flex;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 300;
+  margin: 0;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+.content__container {
+  width: 100%;
+  margin-top: 62px;
+  padding: 1rem;
+  display: flex;
+}
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 62px;
+  background-color: #989EA6;
+}
+.navigation__list {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+}
+.navigation__item {
+  padding: 1rem;
+  flex-basis: 23%;
+  display: flex;
+  justify-content: center;
+}
+.navigation__item:hover {
+  cursor: pointer;
+  background-color: rgba(92, 106, 128, 0.5);
+}
+.navigation__item img {
+  height: 30px;
+}
+.error__container {
+  flex-basis: 100%;
+  display: block;
+}
+.pokemon__container {
+  flex-basis: 100%;
+  display: flex;
+  align-content: center;
+  justify-content: space-around;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+.pokemon__item {
+  flex-basis: 27%;
+  padding: 1rem;
+  margin: 1rem;
+  background-color: #E4E4E4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  -webkit-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.pokemon__item:hover {
+  cursor: pointer;
+  -webkit-transform: translate(0, -5px);
+  transform: translate(0, -5px);
+  -webkit-transition-delay: 0s !important;
+  transition-delay: 0s !important;
+}
+.pokemon__item:hover {
+  box-shadow: 0px 0px 8px 0px #989EA6;
+}
+.pokemon__item-img {
+  width: 75px;
+}
+footer {
+  width: 100%;
+  height: 4em;
+  position: fixed;
+  bottom: 0;
+  background-color: #989EA6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -1,0 +1,35 @@
+﻿@import "_mixins.less";
+@import "_variables.less";
+
+.error__container {
+    flex-basis: 100%;
+    display: block;
+}
+
+.pokemon__container {
+    flex-basis: 100%;
+    display: flex;
+    align-content: center;
+    justify-content: space-around;
+    align-items: stretch;
+    flex-wrap: wrap;
+}
+
+.pokemon__item {
+    flex-basis: 27%;
+    padding: @standardSpace;
+    margin: @standardSpace;
+    background-color: @standardExtraLightPalette;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .hover-shadow();
+
+    &:hover {
+        .box-shadow();
+    }
+}
+
+.pokemon__item-img{
+    width: 75px;
+}

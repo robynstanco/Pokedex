@@ -4,13 +4,14 @@
 
 @{
     ViewData["Title"] = Constants.Pokedex;
+    
 }
 
 <div class="pokemon__container">
     @foreach (var pokemon in Model)
     {
-        <a class="pokemon__item hover-shadow" asp-controller="Pokedex" asp-action="Detail" asp-route-id="@pokemon.MyPokemonId">
-            <h1>@pokemon.Name</h1>
+        <a class="pokemon__item" asp-controller="Pokedex" asp-action="Detail" asp-route-id="@pokemon.MyPokemonId">
+            tbd
         </a>
     }
 </div>
