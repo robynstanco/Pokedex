@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Pokedex.Logging.Interfaces;
 using PokedexApp.Controllers;
@@ -11,7 +10,7 @@ using System.Collections.Generic;
 namespace Pokedex.Tests.Controllers
 {
     [TestClass]
-    public class NationalDexMVCControllerFixture
+    public class NationalDexMVControllerFixture
     {
         private NationalDexController _nationalDexController;
 

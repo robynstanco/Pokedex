@@ -51,6 +51,8 @@ namespace PokedexApp.Logic
 
         public PokemonFormViewModel GetNewPokemonForm()
         {
+            _logger.LogInformation(Constants.Mapping + " Select List Items.");
+
             return new PokemonFormViewModel()
             {
                 NationalDexOptions = GetNationalDexSelectListItems(),
@@ -93,6 +95,7 @@ namespace PokedexApp.Logic
 
         private tblMyPokedex MapFormViewModelToMyPokemon(PokemonFormViewModel pokemonFormViewModel)
         {
+            //todo 
             return new tblMyPokedex()
             {
                 Date = pokemonFormViewModel.Date

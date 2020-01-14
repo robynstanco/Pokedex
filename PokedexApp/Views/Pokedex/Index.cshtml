@@ -10,7 +10,7 @@
 <div class="pokemon__container">
     @foreach (var pokemon in Model)
     {
-        <a class="pokemon__item" asp-controller="Pokedex" asp-action="Detail" asp-route-id="@pokemon.MyPokemonId">
+        <a class="pokemon__item pokemon__item--hover" asp-controller="Pokedex" asp-action="Detail" asp-route-id="@pokemon.MyPokemonId">
             tbd
         </a>
     }

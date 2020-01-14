@@ -11,7 +11,7 @@ using System.Text;
 namespace Pokedex.Tests.Controllers
 {
     [TestClass]
-    public class PokedexMVCControllerFixture
+    public class PokedexMVControllerFixture
     {
         private PokedexController _pokedexController;
 

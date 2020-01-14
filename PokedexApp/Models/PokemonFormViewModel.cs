@@ -10,6 +10,14 @@ namespace PokedexApp.Models
         [Required]
         public DateTime Date { get; set; }
 
+        public string DatePlaceholder
+        {
+            get
+            {
+                return "MM/DD/YYYY";
+            }
+        }
+
         [Required]
         public int Level { get; set; }
 

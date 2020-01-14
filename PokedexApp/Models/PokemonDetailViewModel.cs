@@ -1,5 +1,4 @@
-﻿using PokedexApp.Models.Misc;
-using System;
+﻿using System;
 
 namespace PokedexApp.Models
 {

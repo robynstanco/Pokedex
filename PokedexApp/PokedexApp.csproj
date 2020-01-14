@@ -43,6 +43,9 @@
     <Content Update="Views\Pokedex\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\PokemonForm\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Shared\Success.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

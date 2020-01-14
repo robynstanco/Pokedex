@@ -1,0 +1,74 @@
+﻿@using Pokedex.Common;
+
+@model PokemonFormViewModel
+
+@{
+    ViewData["Title"] = "Add a " + Constants.Pokemon + " to your " + Constants.Pokedex + "!";
+}
+
+<div class="form__container">
+    @using (Html.BeginForm("Index", "PokemonForm"))
+    {
+        <div asp-validation-summary="All"></div>
+        <article class="flex-two">
+            <div class="input__container">
+                <div class="input__label">
+                    Nickname:
+                </div>
+                <div class="input__field">
+                    @Html.TextBoxFor(m => m.Nickname)
+                </div>
+            </div>
+            <div class="input__container">
+                <div class="input__label">
+                    *@Constants.Pokemon Caught:
+                </div>
+                <div class="input__field">
+                    @Html.DropDownListFor(m => m.SelectedNationalDexPokemonId, Model.NationalDexOptions)
+                </div>
+            </div>
+            <div class="input__container">
+                <div class="input__label">
+                    @Constants.Pokeball Used:
+                </div>
+                <div class="input__field">
+                    @Html.DropDownListFor(m => m.SelectedPokeballId, Model.PokeballOptions)
+                </div>
+            </div>
+            <div class="input__container">
+                <div class="input__label">
+                    Capture Date:
+                </div>
+                <div class="input__field">
+                    @Html.TextBoxFor(m => m.Date, new { placeholder = Model.DatePlaceholder, @type = "date" })
+                </div>
+            </div>
+            <div class="input__container">
+                <div class="input__label">
+                    Location Caught:
+                </div>
+                <div class="input__field">
+                    @Html.TextAreaFor(m => m.Location)
+                </div>
+            </div>
+            <div class="input__container">
+                <div class="input__label">
+                    Level:
+                </div>
+                <div class="input__field">
+                    @Html.TextBoxFor(m => m.Level, new { @type = "number" })
+                </div>
+            </div>
+            <div class="input__container">
+                <div class="input__label">
+                    Sex:
+                </div>
+                <div class="input__field">
+                    @Html.DropDownListFor(m => m.SelectedSexId, Model.SexOptions)
+                </div>
+            </div>
+        </article>
+
+        <input type="submit" value="Add to @Constants.Pokedex" />
+    }
+</div>
