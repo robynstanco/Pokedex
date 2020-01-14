@@ -12,7 +12,7 @@
     {
         <a class="pokemon__item pokemon__item--hover" asp-controller="NationalDex" asp-action="Detail" asp-route-id="@pokemon.NationalDexPokemonId">
             <h2 class="pokemon__item-title">@pokemon.NationalDexPokemonId. @pokemon.Name</h2>
-            <img class="pokemon__item-img" src="@pokemon.ImageSource"/>
+            <img class="pokemon__item-img" src="@pokemon.ImageURL"/>
         </a>
     }
 </div>
