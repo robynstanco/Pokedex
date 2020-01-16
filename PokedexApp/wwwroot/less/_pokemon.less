@@ -1,10 +1,5 @@
-﻿@import "_mixins.less";
-@import "_variables.less";
-
-.error__container {
-    flex-basis: 100%;
-    display: block;
-}
+﻿@import "_variables.less";
+@import "_mixins.less";
 
 .pokemon__container {
     flex-basis: 100%;
@@ -33,6 +28,24 @@
     }
 }
 
-.pokemon__item-img{
+.pokemon__item-img {
     width: 75px;
+}
+
+@media(max-width:@mediumBreakpoint){
+    .pokemon__item{
+        flex-basis:40%;
+    }
+
+    .pokemon__item-img {
+        width: 50px;
+    }
+}
+
+@media(max-width:@mediumSmallBreakpoint) {
+    .pokemon__item {
+        flex-basis: 100%;
+        margin-left: 0;
+        margin-right: 0;
+    }
 }

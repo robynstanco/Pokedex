@@ -6,11 +6,13 @@
     ViewData["Title"] = "Add a " + Constants.Pokemon + " to your " + Constants.Pokedex + "!";
 }
 
+<h1 class="form__header">@ViewData["Title"]</h1>
+
 <div class="form__container">
     @using (Html.BeginForm("Index", "PokemonForm"))
     {
         <div asp-validation-summary="All"></div>
-        <article class="flex-two">
+        <article>
             <div class="input__container">
                 <div class="input__label">
                     Nickname:
@@ -29,7 +31,7 @@
             </div>
             <div class="input__container">
                 <div class="input__label">
-                    @Constants.Pokeball Used:
+                    *@Constants.Pokeball Used:
                 </div>
                 <div class="input__field">
                     @Html.DropDownListFor(m => m.SelectedPokeballId, Model.PokeballOptions)
@@ -37,10 +39,10 @@
             </div>
             <div class="input__container">
                 <div class="input__label">
-                    Capture Date:
+                    *Capture Date:
                 </div>
                 <div class="input__field">
-                    @Html.TextBoxFor(m => m.Date, new { placeholder = Model.DatePlaceholder, @type = "date" })
+                    @Html.TextBoxFor(m => m.Date, new { placeholder = Model.DatePlaceholder })
                 </div>
             </div>
             <div class="input__container">
@@ -53,7 +55,7 @@
             </div>
             <div class="input__container">
                 <div class="input__label">
-                    Level:
+                    *Level:
                 </div>
                 <div class="input__field">
                     @Html.TextBoxFor(m => m.Level, new { @type = "number" })
@@ -61,7 +63,7 @@
             </div>
             <div class="input__container">
                 <div class="input__label">
-                    Sex:
+                    *Sex:
                 </div>
                 <div class="input__field">
                     @Html.DropDownListFor(m => m.SelectedSexId, Model.SexOptions)

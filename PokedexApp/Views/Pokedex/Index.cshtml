@@ -3,9 +3,11 @@
 @model List<PokemonListingViewModel>
 
 @{
-    ViewData["Title"] = Constants.Pokedex;
+    ViewData["Title"] = "My " + Constants.Pokedex;
     
 }
+
+<h1>@ViewData["Title"]</h1>
 
 <div class="pokemon__container">
     @foreach (var pokemon in Model)
@@ -13,5 +15,10 @@
         <a class="pokemon__item pokemon__item--hover" asp-controller="Pokedex" asp-action="Detail" asp-route-id="@pokemon.MyPokemonId">
             tbd
         </a>
+    }
+
+    @if(Model.Count == 0)
+    {
+        <h2>You have no @Constants.Pokemon in your @Constants.Pokedex!</h2>
     }
 </div>

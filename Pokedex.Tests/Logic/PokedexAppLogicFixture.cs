@@ -48,7 +48,10 @@ namespace Pokedex.Tests.Logic
         [TestMethod]
         public void AddPokemonIsSuccessfulAndLogsInformation()
         {
-            Assert.Fail("todo");
+            _pokedexAppLogic.AddPokemon(new PokemonFormViewModel());
+
+            _pokedexRepositoryMock.Verify(prm => prm.AddPokemon(It.IsAny<tblMyPokedex>()), Times.Once);
+            _loggerMock.Verify(lm => lm.LogInformation("Mapping Pokémon View Models"), Times.Once);
         }
 
         [TestMethod]
@@ -158,7 +161,7 @@ namespace Pokedex.Tests.Logic
             Assert.AreEqual(5, pokeballOptions.Count);
             Assert.AreEqual("Name0", pokeballOptions[0].Text);
             Assert.AreEqual("0", pokeballOptions[0].Value);
-            Assert.AreEqual(3, sexOptions.Count);
+            Assert.AreEqual(2, sexOptions.Count);
             Assert.AreEqual("Female", sexOptions[0].Text);
             Assert.AreEqual("0", sexOptions[0].Value);
 

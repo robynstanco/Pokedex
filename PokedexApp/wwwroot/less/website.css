@@ -61,6 +61,7 @@ h5,
 h6 {
   font-weight: 300;
   margin: 0;
+  margin-bottom: 0.5rem;
 }
 a {
   text-decoration: none;
@@ -69,8 +70,93 @@ a {
 .content__container {
   width: 100%;
   margin-top: 62px;
+  margin-bottom: 32px;
   padding: 1rem;
   display: flex;
+  flex-wrap: wrap;
+}
+.error__container {
+  flex-basis: 100%;
+  display: block;
+}
+.form__container {
+  flex-basis: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #E4E4E4;
+  padding: 1rem;
+}
+.validation-summary-errors ul {
+  text-align: right;
+  list-style-type: none;
+  padding-left: 0;
+  color: red;
+}
+form {
+  flex-basis: 100%;
+}
+article {
+  margin-bottom: 0.5rem;
+}
+.input__container {
+  display: flex;
+  align-items: center;
+}
+.input__field,
+.input__label {
+  padding: 0.5rem;
+}
+.input__label {
+  text-align: right;
+}
+.input__label,
+.input__field {
+  flex-basis: 50%;
+}
+input,
+select,
+textarea {
+  font-family: 'Kanit', sans-serif;
+  font-weight: 300;
+  font-size: 1rem;
+  color: #4C4F54;
+  width: 100%;
+  height: 28px;
+  background-color: #D4D4D4;
+  border: none;
+  padding: 0.25rem;
+}
+input[type=submit] {
+  width: auto;
+  color: #4C4F54;
+  padding: 0.5rem;
+  height: 40px;
+  float: right;
+}
+input[type=submit]:hover {
+  cursor: pointer;
+}
+textarea {
+  resize: none;
+  height: 100px;
+}
+select {
+  height: 36px;
+}
+@media (max-width: 600px) {
+  .input__container {
+    display: block;
+    width: 100%;
+  }
+  .input__label,
+  .input__field,
+  .validation-summary-errors ul {
+    text-align: left;
+    padding-left: 0;
+  }
+  .input__label {
+    padding-bottom: 0;
+  }
 }
 header {
   position: fixed;
@@ -99,10 +185,6 @@ header {
 }
 .navigation__item img {
   height: 30px;
-}
-.error__container {
-  flex-basis: 100%;
-  display: block;
 }
 .pokemon__container {
   flex-basis: 100%;
@@ -138,9 +220,25 @@ header {
 .pokemon__item-img {
   width: 75px;
 }
+@media (max-width: 1050px) {
+  .pokemon__item {
+    flex-basis: 40%;
+  }
+  .pokemon__item-img {
+    width: 50px;
+  }
+}
+@media (max-width: 750px) {
+  .pokemon__item {
+    flex-basis: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
 footer {
+  font-size: 0.5rem;
   width: 100%;
-  height: 4em;
+  height: 32px;
   position: fixed;
   bottom: 0;
   background-color: #989EA6;

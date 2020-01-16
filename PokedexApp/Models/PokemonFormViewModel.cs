@@ -7,8 +7,12 @@ namespace PokedexApp.Models
 {
     public class PokemonFormViewModel
     {
+        private const string DateFormat = "{0:MM/dd/yyyy}";
+
         [Required]
-        public DateTime Date { get; set; }
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = DateFormat)]
+        public DateTime? Date { get; set; }
 
         public string DatePlaceholder
         {
@@ -30,6 +34,7 @@ namespace PokedexApp.Models
         public string Nickname { get; set; }
 
         public IEnumerable<SelectListItem> PokeballOptions { get; set; }
+        [Required]
         public int SelectedPokeballId { get; set; }
 
         public IEnumerable<SelectListItem> SexOptions { get; set; }

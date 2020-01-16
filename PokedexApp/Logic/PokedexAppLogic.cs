@@ -90,15 +90,23 @@ namespace PokedexApp.Logic
         private List<SelectListItem> GetPokemonSexSelectListItems()
         {
             return new List<SelectListItem>() { new SelectListItem() { Text = "Female", Value = "0" },
-                new SelectListItem() { Text = "Male", Value = "1" }, new SelectListItem() { Text = "Other", Value = "2" } };
+                new SelectListItem() { Text = "Male", Value = "1" } };
         }
 
         private tblMyPokedex MapFormViewModelToMyPokemon(PokemonFormViewModel pokemonFormViewModel)
         {
-            //todo 
+            _logger.LogInformation(Constants.Mapping + " " + Constants.Pokemon + " " + ViewModels);
+
             return new tblMyPokedex()
             {
-                Date = pokemonFormViewModel.Date
+                Date = pokemonFormViewModel.Date,
+                Id = Guid.NewGuid(),
+                Level = pokemonFormViewModel.Level,
+                Location = pokemonFormViewModel.Location,
+                Nickname = pokemonFormViewModel.Nickname,
+                PokeballId = pokemonFormViewModel.SelectedPokeballId,
+                PokemonId = pokemonFormViewModel.SelectedNationalDexPokemonId,
+                Sex = pokemonFormViewModel.SelectedSexId == 0 ? false : true
             };
         }
 
