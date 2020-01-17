@@ -9,6 +9,7 @@
         public const string Abilities = nameof(Abilities);
         public const string Ability = nameof(Ability);
         public const string Added = nameof(Added);
+        public const string Bulbapedia = nameof(Bulbapedia);
         public const string Categories = nameof(Categories);
         public const string Category = nameof(Category);
         public const string DBContext = nameof(DBContext);

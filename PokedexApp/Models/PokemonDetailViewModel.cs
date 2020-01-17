@@ -17,6 +17,7 @@ namespace PokedexApp.Models
         public Guid? MyPokemonId { get; set; }
         public string Name { get; set; }
         public int? NationalDexPokemonId { get; set; }
+        public int? NationalDexSize { get; set; }
         public string Nickname { get; set; }
         public string PokeballImageURL { get; set; }
         public bool? Sex { get; set; }

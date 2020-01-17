@@ -4,10 +4,74 @@
 
 @{
     ViewData["Title"] = Constants.NationalDex + " - " + Model.Name;
+
+    int previousId = Model.NationalDexPokemonId.Value - 1;
+    int nextId = Model.NationalDexPokemonId.Value + 1;
 }
 
 <div class="pokemon__container">
     <div class="pokemon__item pokemon__item--large">
-        <h1>@Model.Name</h1>
+        <img class="pokemon__item-img" src="@Model.ImageURL" />
+
+        <h1>
+            @Model.NationalDexPokemonId. @Model.Name
+        </h1>
+
+        <div class="pill__container">
+            <div class="pill__item @Model.TypeOne">
+                @Model.TypeOne
+            </div>
+
+            @if (!string.IsNullOrWhiteSpace(Model.TypeTwo))
+            {
+                <div class="pill__item @Model.TypeTwo">
+                    @Model.TypeTwo
+                </div>
+            }
+
+            <div class="pill__item @Model.Ability">
+                @Model.Ability
+            </div>
+
+            @if (!string.IsNullOrWhiteSpace(Model.HiddenAbility))
+            {
+                <div class="pill__item @Model.HiddenAbility">
+                    @Model.HiddenAbility
+                </div>
+            }
+        </div>
+
+        <h3>
+            Japanese Name: <em>@Model.JapaneseName</em>
+        </h3>
+
+        <h4>
+            <em>@Model.Category @Constants.Pokemon</em>
+        </h4>
+
+        <div class="pokemon__item-stat">
+            <img src="~/images/kettlebell.png" /> <span>@Model.WeightInPounds lbs.</span>
+            <img src="~/images/ruler.png" /> <span>@Model.HeightInInches in.</span>
+        </div>
+
+        <h3 class="pokemon__item-description">
+            <em>@Model.Description</em>
+        </h3>
+    </div>
+
+    <div class="pokemon__navigation">
+        @if (Model.NationalDexPokemonId != 1)
+        {
+            <a asp-controller="NationalDex" asp-action="Detail" asp-route-id="@previousId">
+                PREVIOUS
+            </a>
+        }
+
+        @if (Model.NationalDexPokemonId != Model.NationalDexSize)
+        {
+            <a asp-controller="NationalDex" asp-action="Detail" asp-route-id="@nextId">
+                NEXT
+            </a>
+        }
     </div>
 </div>

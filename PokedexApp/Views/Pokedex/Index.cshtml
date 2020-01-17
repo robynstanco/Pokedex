@@ -13,7 +13,17 @@
     @foreach (var pokemon in Model)
     {
         <a class="pokemon__item pokemon__item--hover" asp-controller="Pokedex" asp-action="Detail" asp-route-id="@pokemon.MyPokemonId">
-            tbd
+            <div class="pokemon__title-container">
+                <h2>
+                    @pokemon.NationalDexPokemonId. @pokemon.Name
+                </h2>
+
+                @if (!string.IsNullOrWhiteSpace(pokemon.Nickname))
+                {
+                    <h3>(@pokemon.Nickname)</h3>
+                }
+            </div>
+            <img class="pokemon__item-img" src="@pokemon.ImageURL"/>
         </a>
     }
 

@@ -1,4 +1,4 @@
 ﻿INSERT INTO [dbo].[tlkpNationalDex] VALUES
-	(1, 'Bulbasaur', 'Fushigidane', 'Description', 1, 1, 2, 1, 2, 28, 15, 'https://cdn.bulbagarden.net/upload/2/21/001Bulbasaur.png'),
+	(1, 'Bulbasaur', 'Fushigidane', 'Bulbasaur is a small, quadruped Pokémon that has blue-green skin with darker patches. It has red eyes with white pupils, pointed, ear-like structures on top of its head, and a short, blunt snout with a wide mouth. A pair of small, pointed teeth are visible in the upper jaw when its mouth is open. Each of its thick legs ends with three sharp claws. On its back is a green plant bulb, which is grown from a seed planted there at birth. The bulb provides it with energy through photosynthesis as well as from the nutrient-rich seeds contained within.', 1, 1, 2, 1, 2, 28, 15, 'https://cdn.bulbagarden.net/upload/2/21/001Bulbasaur.png'),
 	(2, 'Ivysaur', 'Fushigisou', 'Description', 1, 1, 2, 1, 2, 39, 29, 'https://cdn.bulbagarden.net/upload/7/73/002Ivysaur.png'),
 	(3, 'Venusaur', 'Fushigibana', 'Description', 1, 1, 2, 1, 2, 79, 221, 'https://cdn.bulbagarden.net/upload/a/ae/003Venusaur.png')

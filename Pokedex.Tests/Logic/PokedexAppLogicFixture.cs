@@ -94,6 +94,7 @@ namespace Pokedex.Tests.Logic
             Assert.AreEqual("Name0", pokemonDetailViewModel.TypeOne);
             Assert.AreEqual("Name1", pokemonDetailViewModel.TypeTwo);
             Assert.AreEqual(1, pokemonDetailViewModel.WeightInPounds);
+            Assert.AreEqual(5, pokemonDetailViewModel.NationalDexSize);
 
             _pokedexRepositoryMock.Verify(prm => prm.GetNationalDexPokemonById(0), Times.Once);
             _loggerMock.Verify(lm => lm.LogInformation("Mapping 1 Pokémon View Models."), Times.Once);
@@ -133,6 +134,7 @@ namespace Pokedex.Tests.Logic
             Assert.AreEqual("Name0", pokemonDetailViewModel.TypeOne);
             Assert.AreEqual("Name1", pokemonDetailViewModel.TypeTwo);
             Assert.AreEqual(1, pokemonDetailViewModel.WeightInPounds);
+            Assert.AreEqual(5, pokemonDetailViewModel.NationalDexSize);
 
             Assert.IsNull(pokemonDetailViewModel.Date);
             Assert.IsNull(pokemonDetailViewModel.Level);

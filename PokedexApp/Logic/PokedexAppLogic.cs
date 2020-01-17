@@ -154,6 +154,7 @@ namespace PokedexApp.Logic
                 MyPokemonId = pokemon.Id,
                 Name = nationalDexLookup.Name,
                 NationalDexPokemonId = nationalDexLookup.Id,
+                NationalDexSize = _pokedexRepository.GetNationalDex().Count,
                 Nickname = pokemon.Nickname,
                 PokeballImageURL = pokemon.PokeballId.HasValue ? _pokedexRepository.GetPokeballById(pokemon.PokeballId.Value).ImageURL : Constants.NotApplicable,
                 Sex = pokemon.Sex,
@@ -190,6 +191,7 @@ namespace PokedexApp.Logic
                 ImageURL = pokemon.ImageURL,
                 JapaneseName = pokemon.JapaneseName,
                 Name = pokemon.Name,
+                NationalDexSize = _pokedexRepository.GetNationalDex().Count,
                 TypeOne = pokemon.TypeOneId.HasValue ? _pokedexRepository.GetTypeById(pokemon.TypeOneId.Value).Name : Constants.NotApplicable,
                 TypeTwo = pokemon.TypeTwoId.HasValue ? _pokedexRepository.GetTypeById(pokemon.TypeTwoId.Value).Name : Constants.NotApplicable,
                 WeightInPounds = pokemon.WeightInPounds
