@@ -1,0 +1,101 @@
+﻿@using Pokedex.Common;
+
+@model SearchViewModel
+
+@{
+    ViewData["Title"] = "Search for " + Constants.Pokemon + "!";
+}
+
+<h1 class="form__header">@ViewData["Title"]</h1>
+
+<div class="form__container">
+    @using (Html.BeginForm("Index", "Search"))
+    {
+        <div asp-validation-summary="All"></div>
+        <article>
+            <div class="input__container">
+                <div class="input__label">
+                    Search:
+                </div>
+                <div class="input__field">
+                    @Html.TextBoxFor(m => m.SearchString, new { placeholder = "Enter a Name, Japanese Name, Nickname, or Description..." })
+                </div>
+            </div>
+        </article>
+        <article>
+            <div class="input__container">
+                <div class="input__label">
+                    @Constants.Ability:
+                </div>
+                <div class="input__field">
+                    @Html.DropDownListFor(m => m.SelectedAbilityId, Model.AbilityOptions)
+                </div>
+            </div>
+            <div class="input__container">
+                <div class="input__label">
+                    @Constants.Category:
+                </div>
+                <div class="input__field">
+                    @Html.DropDownListFor(m => m.SelectedCategoryId, Model.CategoryOptions)
+                </div>
+            </div>
+            <div class="input__container">
+                <div class="input__label">
+                    @Constants.Pokeball:
+                </div>
+                <div class="input__field">
+                    @Html.DropDownListFor(m => m.SelectedPokeballId, Model.PokeballOptions)
+                </div>
+            </div>
+            <div class="input__container">
+                <div class="input__label">
+                    @Constants.Type:
+                </div>
+                <div class="input__field">
+                    @Html.DropDownListFor(m => m.SelectedTypeId, Model.TypeOptions)
+                </div>
+            </div>
+        </article>
+
+        <input type="submit" value="SEARCH" />
+    }
+</div>
+
+@if (Model.FilteredPokemon != null)
+{
+    <div class="pokemon__container">
+        @if (Model.FilteredPokemon.ToList().Count == 0)
+        {
+            <h1>There were no results matching your search query.</h1>
+        }
+        else
+        {
+            foreach (PokemonListingViewModel pokemon in Model.FilteredPokemon)
+            {
+                @if (pokemon.MyPokemonId.HasValue)
+                {
+                    <a class="pokemon__item pokemon__item--hover" asp-controller="Pokedex" asp-action="@Constants.Detail" asp-route-id="@pokemon.MyPokemonId">
+                        <div class="pokemon__title-container">
+                            <h2>
+                                @pokemon.NationalDexPokemonId. @pokemon.Name
+                            </h2>
+
+                            @if (!string.IsNullOrWhiteSpace(pokemon.Nickname))
+                            {
+                                <h3>@Constants.Nickname: @pokemon.Nickname</h3>
+                            }
+                        </div>
+                        <img class="pokemon__item-img" src="@pokemon.ImageURL"/>
+                    </a>
+                }
+                else
+                {
+                    <a class="pokemon__item pokemon__item--hover" asp-controller="@Constants.NationalDex" asp-action="@Constants.Detail" asp-route-id="@pokemon.NationalDexPokemonId">
+                        <h2 class="pokemon__item-title">@pokemon.NationalDexPokemonId. @pokemon.Name</h2>
+                        <img class="pokemon__item-img" src="@pokemon.ImageURL"/>
+                    </a>
+                }
+            }
+        }
+    </div>
+}

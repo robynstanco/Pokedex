@@ -13,5 +13,7 @@ namespace PokedexApp.Interfaces
         List<PokemonListingViewModel> GetNationalDex();
         PokemonDetailViewModel GetNationalDexPokemonById(int id);
         PokemonFormViewModel GetNewPokemonForm();
+        SearchViewModel GetSearchForm();
+        SearchViewModel Search(SearchViewModel searchViewModel);
     }
 }

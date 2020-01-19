@@ -4,14 +4,15 @@ using Pokedex.Logging.Interfaces;
 using PokedexApp.Interfaces;
 using PokedexApp.Models;
 using System;
+using System.Collections.Generic;
 
 namespace PokedexApp.Controllers
 {
-    public class PokedexController : Controller
+    public class SearchController : Controller
     {
         private IPokedexAppLogic _pokedexAppLogic;
-        private ILoggerAdapter<PokedexController> _logger;
-        public PokedexController(IPokedexAppLogic pokedexAppLogic, ILoggerAdapter<PokedexController> logger)
+        private ILoggerAdapter<SearchController> _logger;
+        public SearchController(IPokedexAppLogic pokedexAppLogic, ILoggerAdapter<SearchController> logger)
         {
             _pokedexAppLogic = pokedexAppLogic;
             _logger = logger;
@@ -21,19 +22,7 @@ namespace PokedexApp.Controllers
         {
             try
             {
-                return View(_pokedexAppLogic.GetMyPokedex());
-            }
-            catch(Exception ex)
-            {
-                return Error(ex);
-            }
-        }
-
-        public IActionResult Detail(Guid id)
-        {
-            try
-            {
-                return View(_pokedexAppLogic.GetMyPokemonById(id));
+                return View(_pokedexAppLogic.GetSearchForm());
             }
             catch (Exception ex)
             {
@@ -41,13 +30,21 @@ namespace PokedexApp.Controllers
             }
         }
 
-        public IActionResult Delete(Guid id)
+        [HttpPost]
+        public IActionResult Index(SearchViewModel searchViewModel)
         {
             try
             {
-                _pokedexAppLogic.DeletePokemonById(id);
+                if (ModelState.IsValid)
+                {
+                    return View(_pokedexAppLogic.Search(searchViewModel));
+                }
+                else
+                {
+                    _logger.LogInformation(Constants.InvalidRequest);
 
-                return View(Constants.Success, new SuccessViewModel() { ActionName = "release" });
+                    return Index();
+                }
             }
             catch (Exception ex)
             {

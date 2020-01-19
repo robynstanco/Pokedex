@@ -157,11 +157,15 @@ namespace Pokedex.Repository.Repositories
 
         public List<tlkpNationalDex> Search(string searchString, int? selectedAbilityId, int? selectedCategoryId, int? selectedTypeId)
         {
-            List<tlkpNationalDex> nationalDexSearchResults = GetNationalDex()
-                .Where(p => p.Name.Contains(searchString, StringComparison.CurrentCultureIgnoreCase)
-                || (p.JapaneseName != null && p.JapaneseName.Contains(searchString, StringComparison.CurrentCultureIgnoreCase))
-                || (p.Description != null && p.Description.Contains(searchString, StringComparison.CurrentCultureIgnoreCase)))
-                .ToList();
+            List<tlkpNationalDex> nationalDexSearchResults = GetNationalDex();
+
+            if (!string.IsNullOrWhiteSpace(searchString))
+            {
+                nationalDexSearchResults = nationalDexSearchResults.Where(p => p.Name.Contains(searchString, StringComparison.CurrentCultureIgnoreCase)
+                    || (p.JapaneseName != null && p.JapaneseName.Contains(searchString, StringComparison.CurrentCultureIgnoreCase))
+                    || (p.Description != null && p.Description.Contains(searchString, StringComparison.CurrentCultureIgnoreCase)))
+                    .ToList();
+            }
 
             if (selectedAbilityId.HasValue)
             {
@@ -191,12 +195,17 @@ namespace Pokedex.Repository.Repositories
 
         public List<tblMyPokedex> Search(string searchString, int? selectedAbilityId, int? selectedCategoryId, int? selectedTypeId, int? selectedPokeballId)
         {
-            List<tblMyPokedex> myPokedexSearchResults = GetMyPokedex()
-                .Where(p => p.Pokemon.Name.Contains(searchString, StringComparison.CurrentCultureIgnoreCase)
-                || (p.Pokemon.JapaneseName != null && p.Pokemon.JapaneseName.Contains(searchString, StringComparison.CurrentCultureIgnoreCase))
-                || (p.Pokemon.Description != null && p.Pokemon.Description.Contains(searchString, StringComparison.CurrentCultureIgnoreCase))
-                || (p.Nickname != null && p.Nickname.Contains(searchString, StringComparison.CurrentCultureIgnoreCase)))
-                .ToList();
+            List<tblMyPokedex> myPokedexSearchResults = GetMyPokedex();
+
+            if (!string.IsNullOrWhiteSpace(searchString))
+            {
+                myPokedexSearchResults = myPokedexSearchResults
+                    .Where(p => p.Pokemon.Name.Contains(searchString, StringComparison.CurrentCultureIgnoreCase)
+                    || (p.Pokemon.JapaneseName != null && p.Pokemon.JapaneseName.Contains(searchString, StringComparison.CurrentCultureIgnoreCase))
+                    || (p.Pokemon.Description != null && p.Pokemon.Description.Contains(searchString, StringComparison.CurrentCultureIgnoreCase))
+                    || (p.Nickname != null && p.Nickname.Contains(searchString, StringComparison.CurrentCultureIgnoreCase)))
+                    .ToList();
+            }
 
             if (selectedAbilityId.HasValue)
             {

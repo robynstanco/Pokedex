@@ -15,6 +15,8 @@ namespace PokedexApp.Logic
     {
         private const string InformationalMessageMappingWithCount = Constants.Mapping + " {0} {1} {2}.";
         private const string ViewModels = "View Models";
+        private const string SelectListItems = " Select List Items.";
+        private const string None = "--None--";
 
         IPokedexRepository _pokedexRepository;
         ILoggerAdapter<PokedexAppLogic> _logger;
@@ -68,36 +70,98 @@ namespace PokedexApp.Logic
             };
         }
 
-        private List<SelectListItem> GetNationalDexSelectListItems()
+        public SearchViewModel GetSearchForm()
         {
-            List<SelectListItem> nationalDexSelectListItems = new List<SelectListItem>();
+            _logger.LogInformation(Constants.Mapping + SelectListItems);
 
-            nationalDexSelectListItems.AddRange(_pokedexRepository.GetNationalDex().Select(p => new SelectListItem
+            return new SearchViewModel()
+            {
+                AbilityOptions = GetAbilitySelectListItems(),
+                CategoryOptions = GetCategorySelectListItems(),
+                PokeballOptions = GetPokeballSelectListItems(),
+                TypeOptions = GetTypeSelectListItems()
+            };
+        }
+
+        public SearchViewModel Search(SearchViewModel searchViewModel)
+        {
+            SearchViewModel finalSearchViewModel = GetSearchForm();
+
+            int? selectedAbilityId = searchViewModel.SelectedAbilityId;
+            int? selectedCategoryId = searchViewModel.SelectedCategoryId;
+            int? selectedPokeballId = searchViewModel.SelectedPokeballId;
+            int? selectedTypeId = searchViewModel.SelectedTypeId;
+
+            finalSearchViewModel.SelectedAbilityId = selectedAbilityId;
+            finalSearchViewModel.SelectedCategoryId = selectedCategoryId;
+            finalSearchViewModel.SelectedPokeballId = selectedPokeballId;
+            finalSearchViewModel.SelectedTypeId = selectedTypeId;
+
+            finalSearchViewModel.FilteredPokemon = new List<PokemonListingViewModel>();
+
+            finalSearchViewModel.FilteredPokemon.AddRange(MapNationalDexLookupsToListingViewModels(
+                _pokedexRepository.Search(searchViewModel.SearchString, selectedAbilityId, selectedCategoryId, selectedTypeId)));
+
+            finalSearchViewModel.FilteredPokemon.AddRange(MapPokedexToListingViewModels(
+                _pokedexRepository.Search(searchViewModel.SearchString, selectedAbilityId, selectedCategoryId, selectedTypeId, selectedPokeballId)));
+            
+            return finalSearchViewModel;
+        }
+
+        private List<SelectListItem> GetAbilitySelectListItems()
+        {
+            return _pokedexRepository.GetAllAbilities().Select(p => new SelectListItem
             {
                 Text = p.Name,
                 Value = p.Id.ToString()
-            }));
+            }).Prepend(GetBlankSelectListItem()).ToList();
+        }
 
-            return nationalDexSelectListItems;
+        private static SelectListItem GetBlankSelectListItem()
+        {
+            return new SelectListItem() { Text = None, Value = "" };
+        }
+
+        private List<SelectListItem> GetCategorySelectListItems()
+        {
+            return _pokedexRepository.GetAllCategories().Select(p => new SelectListItem
+            {
+                Text = p.Name,
+                Value = p.Id.ToString()
+            }).Prepend(GetBlankSelectListItem()).ToList();
+        }
+
+        private List<SelectListItem> GetNationalDexSelectListItems()
+        {
+            return _pokedexRepository.GetNationalDex().Select(p => new SelectListItem
+            {
+                Text = p.Name,
+                Value = p.Id.ToString()
+            }).Prepend(GetBlankSelectListItem()).ToList();
         }
 
         private List<SelectListItem> GetPokeballSelectListItems()
         {
-            List<SelectListItem> pokeballSelectListItems = new List<SelectListItem>();
-
-            pokeballSelectListItems.AddRange(_pokedexRepository.GetAllPokeballs().Select(p => new SelectListItem
+            return _pokedexRepository.GetAllPokeballs().Select(p => new SelectListItem
             {
                 Text = p.Name,
                 Value = p.Id.ToString()
-            }));
-
-            return pokeballSelectListItems;
+            }).Prepend(GetBlankSelectListItem()).ToList();
         }
 
         private List<SelectListItem> GetPokemonSexSelectListItems()
         {
             return new List<SelectListItem>() { new SelectListItem() { Text = "Female", Value = "0" },
                 new SelectListItem() { Text = "Male", Value = "1" } };
+        }
+
+        private List<SelectListItem> GetTypeSelectListItems()
+        {
+            return _pokedexRepository.GetAllTypes().Select(p => new SelectListItem
+            {
+                Text = p.Name,
+                Value = p.Id.ToString()
+            }).Prepend(GetBlankSelectListItem()).ToList();
         }
 
         private tblMyPokedex MapFormViewModelToMyPokemon(PokemonFormViewModel pokemonFormViewModel)
