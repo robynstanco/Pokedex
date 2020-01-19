@@ -1,8 +1,7 @@
 ﻿@import "_variables.less";
 
 .form__container {
-    flex-basis:100%;
-
+    flex-basis: 100%;
     display: flex;
     flex-wrap: wrap;
     background-color: @standardExtraLightPalette;
@@ -16,8 +15,8 @@
     color: red;
 }
 
-form{
-    flex-basis:100%;
+form {
+    flex-basis: 100%;
 }
 
 article {
@@ -28,6 +27,7 @@ article {
     display: flex;
     align-items: center;
 }
+
 .input__field, .input__label {
     padding: @halfStandardSpace;
 }
@@ -73,18 +73,18 @@ select {
     height: 36px;
 }
 
-@media(max-width: @smallBreakpoint){
-    .input__container{
-        display:block;
+@media(max-width: @smallBreakpoint) {
+    .input__container {
+        display: block;
         width: 100%;
     }
 
-    .input__label, .input__field, .validation-summary-errors ul{
+    .input__label, .input__field, .validation-summary-errors ul {
         text-align: left;
-        padding-left:0;
+        padding-left: 0;
     }
 
-    .input__label{
+    .input__label {
         padding-bottom: 0;
     }
 }

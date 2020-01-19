@@ -7,6 +7,7 @@ namespace PokedexApp.Interfaces
     public interface IPokedexAppLogic
     {
         void AddPokemon(PokemonFormViewModel pokemonFormViewModel);
+        void DeletePokemonById(Guid id);
         List<PokemonListingViewModel> GetMyPokedex();
         PokemonDetailViewModel GetMyPokemonById(Guid id);
         List<PokemonListingViewModel> GetNationalDex();

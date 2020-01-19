@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Pokedex.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -7,11 +8,9 @@ namespace PokedexApp.Models
 {
     public class PokemonFormViewModel
     {
-        private const string DateFormat = "{0:MM/dd/yyyy}";
-
         [Required]
         [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = DateFormat)]
+        [DisplayFormat(DataFormatString = Constants.DateFormat)]
         public DateTime? Date { get; set; }
 
         public string DatePlaceholder

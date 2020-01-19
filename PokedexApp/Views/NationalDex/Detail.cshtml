@@ -62,14 +62,14 @@
     <div class="pokemon__navigation">
         @if (Model.NationalDexPokemonId != 1)
         {
-            <a asp-controller="NationalDex" asp-action="Detail" asp-route-id="@previousId">
+            <a asp-controller="@Constants.NationalDex" asp-action="@Constants.Detail" asp-route-id="@previousId">
                 PREVIOUS
             </a>
         }
 
         @if (Model.NationalDexPokemonId != Model.NationalDexSize)
         {
-            <a asp-controller="NationalDex" asp-action="Detail" asp-route-id="@nextId">
+            <a asp-controller="@Constants.NationalDex" asp-action="@Constants.Detail" asp-route-id="@nextId">
                 NEXT
             </a>
         }

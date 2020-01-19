@@ -15,7 +15,7 @@
         <article>
             <div class="input__container">
                 <div class="input__label">
-                    Nickname:
+                    @Constants.Nickname:
                 </div>
                 <div class="input__field">
                     @Html.TextBoxFor(m => m.Nickname)
@@ -39,7 +39,7 @@
             </div>
             <div class="input__container">
                 <div class="input__label">
-                    *Capture Date:
+                    *@Constants.CaptureDate:
                 </div>
                 <div class="input__field">
                     @Html.TextBoxFor(m => m.Date, new { placeholder = Model.DatePlaceholder })
@@ -47,7 +47,7 @@
             </div>
             <div class="input__container">
                 <div class="input__label">
-                    Location Caught:
+                    @Constants.LocationCaught:
                 </div>
                 <div class="input__field">
                     @Html.TextAreaFor(m => m.Location)
@@ -55,7 +55,7 @@
             </div>
             <div class="input__container">
                 <div class="input__label">
-                    *Level:
+                    *@Constants.Level:
                 </div>
                 <div class="input__field">
                     @Html.TextBoxFor(m => m.Level, new { @type = "number" })
@@ -63,7 +63,7 @@
             </div>
             <div class="input__container">
                 <div class="input__label">
-                    *Sex:
+                    *@Constants.Sex:
                 </div>
                 <div class="input__field">
                     @Html.DropDownListFor(m => m.SelectedSexId, Model.SexOptions)

@@ -29,6 +29,13 @@ namespace PokedexApp.Logic
             _pokedexRepository.AddPokemon(MapFormViewModelToMyPokemon(pokemonFormViewModel));
         }
 
+        public void DeletePokemonById(Guid id)
+        {
+            _pokedexRepository.DeletePokemonById(id);
+
+            _logger.LogInformation(Constants.Deleted + " " + Constants.Pokemon + ": " + id);
+        }
+
         public List<PokemonListingViewModel> GetMyPokedex()
         {
             return MapPokedexToListingViewModels(_pokedexRepository.GetMyPokedex());

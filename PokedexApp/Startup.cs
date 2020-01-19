@@ -56,7 +56,7 @@ namespace PokedexApp
             }
             else
             {
-                app.UseExceptionHandler("/Error");
+                app.UseExceptionHandler("/" + Constants.Error);
                 app.UseHsts();
             }
 

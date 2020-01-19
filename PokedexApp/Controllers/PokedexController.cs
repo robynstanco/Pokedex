@@ -41,6 +41,20 @@ namespace PokedexApp.Controllers
             }
         }
 
+        public IActionResult Delete(Guid id)
+        {
+            try
+            {
+                _pokedexAppLogic.DeletePokemonById(id);
+
+                return View(Constants.Success, new SuccessViewModel() { ActionName = "delete" });
+            }
+            catch (Exception ex)
+            {
+                return Error(ex);
+            }
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error(Exception ex)
         {

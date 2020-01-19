@@ -8,6 +8,45 @@
 
 <div class="pokemon__container">
     <div class="pokemon__item pokemon__item--large">
-        <h1>@Model.Name</h1>
+        <img class="pokemon__item-img" src="@Model.ImageURL" />
+
+        <h1>
+            @Model.NationalDexPokemonId. @Model.Name
+
+            <img class="pokemon__item-img--small" src="@Model.PokeballImageURL" />
+
+            @if (!Model.Sex.Value) // 0 == false == female
+            {
+                <img class="pokemon__item-img--small" src="~/images/woman.png" />
+            }
+
+            @if (Model.Sex.Value) // 1 == true == male
+            {
+                <img class="pokemon__item-img--small" src="~/images/male.png" />
+            }
+        </h1>
+
+        @if (!string.IsNullOrWhiteSpace(Model.Nickname))
+        {
+            <h2>@Constants.Nickname: <em>@Model.Nickname</em></h2>
+        }
+
+        <h2>@Constants.Level: <em>@Model.Level</em></h2>
+
+        <h2>@Constants.CaptureDate: <em>@Html.DisplayFor(m => m.Date)</em></h2>
+
+        @if (!string.IsNullOrWhiteSpace(Model.Location))
+        {
+            <h2>@Constants.LocationCaught: <em>@Model.Location</em></h2>
+        }
+    </div>
+
+    <div class="pokemon__navigation">
+        <a asp-controller="Pokedex" asp-action="Delete" asp-route-id="@Model.MyPokemonId">
+            RELEASE
+        </a>
+        <a asp-controller="@Constants.NationalDex" asp-action="@Constants.Detail" asp-route-id="@Model.NationalDexPokemonId">
+            NATIONAL DEX DETAILS
+        </a>
     </div>
 </div>

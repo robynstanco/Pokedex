@@ -6,7 +6,6 @@ using PokedexApp.Interfaces;
 using PokedexApp.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Pokedex.Tests.Controllers
 {
@@ -41,11 +40,17 @@ namespace Pokedex.Tests.Controllers
         [TestMethod]
         public void DetailActionIsSuccessfullAndCallsLogic()
         {
-            Guid id = Guid.NewGuid();
+            _pokedexController.Detail(DataGenerator.DefaultGuid);
 
-            _pokedexController.Detail(id);
+            _pokedexAppLogicMock.Verify(plm => plm.GetMyPokemonById(DataGenerator.DefaultGuid), Times.Once);
+        }
 
-            _pokedexAppLogicMock.Verify(plm => plm.GetMyPokemonById(id), Times.Once);
+        [TestMethod]
+        public void DeleteActionIsSuccessfulAndCallsLogic()
+        {
+            _pokedexController.Delete(DataGenerator.DefaultGuid);
+
+            _pokedexAppLogicMock.Verify(plm => plm.DeletePokemonById(DataGenerator.DefaultGuid), Times.Once);
         }
 
         [TestMethod]

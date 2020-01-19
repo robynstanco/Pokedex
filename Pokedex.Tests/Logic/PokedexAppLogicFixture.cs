@@ -55,6 +55,15 @@ namespace Pokedex.Tests.Logic
         }
 
         [TestMethod]
+        public void DeletePokemonByIdIsSuccessfulAndLogsInformation()
+        {
+            _pokedexAppLogic.DeletePokemonById(DataGenerator.DefaultGuid);
+
+            _pokedexRepositoryMock.Verify(prm => prm.DeletePokemonById(DataGenerator.DefaultGuid), Times.Once);
+            _loggerMock.Verify(lm => lm.LogInformation("Deleted Pokémon: " + DataGenerator.DefaultGuid), Times.Once);
+        }
+
+        [TestMethod]
         public void GetMyPokedexIsSuccessfulAndLogsInformation()
         {
             List<PokemonListingViewModel> pokemonListingViewModels = _pokedexAppLogic.GetMyPokedex();
