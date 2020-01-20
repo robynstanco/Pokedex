@@ -161,6 +161,9 @@ select {
   align-items: stretch;
   flex-wrap: wrap;
 }
+.pokemon__container h1 {
+  margin-top: 0.5rem;
+}
 .pokemon__item {
   flex-basis: 27%;
   padding: 1rem;

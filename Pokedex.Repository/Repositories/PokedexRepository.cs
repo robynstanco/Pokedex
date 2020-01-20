@@ -58,7 +58,7 @@ namespace Pokedex.Repository.Repositories
 
         public List<tlkpAbility> GetAllAbilities()
         {
-            List<tlkpAbility> abilities = _context.tlkpAbility.OrderBy(a => a.Id).ToList();
+            List<tlkpAbility> abilities = _context.tlkpAbility.OrderBy(a => a.Name).ToList();
             
             _logger.LogInformation(string.Format(InformationalMessageWithCount, abilities.Count, Constants.Abilities));
 
@@ -67,7 +67,7 @@ namespace Pokedex.Repository.Repositories
 
         public List<tlkpCategory> GetAllCategories()
         {
-            List<tlkpCategory> categories = _context.tlkpCategory.OrderBy(c => c.Id).ToList();
+            List<tlkpCategory> categories = _context.tlkpCategory.OrderBy(c => c.Name).ToList();
 
             _logger.LogInformation(string.Format(InformationalMessageWithCount, categories.Count, Constants.Categories));
 
@@ -76,7 +76,7 @@ namespace Pokedex.Repository.Repositories
 
         public List<tlkpPokeball> GetAllPokeballs()
         {
-            List<tlkpPokeball> pokeballs = _context.tlkpPokeball.OrderBy(p => p.Id).ToList();
+            List<tlkpPokeball> pokeballs = _context.tlkpPokeball.OrderBy(p => p.Name).ToList();
 
             _logger.LogInformation(string.Format(InformationalMessageWithCount, pokeballs.Count, Constants.Pokeballs));
 
@@ -85,7 +85,7 @@ namespace Pokedex.Repository.Repositories
 
         public List<tlkpType> GetAllTypes()
         {
-            List<tlkpType> types = _context.tlkpType.OrderBy(t => t.Id).ToList();
+            List<tlkpType> types = _context.tlkpType.OrderBy(t => t.Name).ToList();
 
             _logger.LogInformation(string.Format(InformationalMessageWithCount, types.Count, Constants.Types));
 
