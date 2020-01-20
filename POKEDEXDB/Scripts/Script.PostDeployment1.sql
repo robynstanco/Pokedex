@@ -1,4 +1,4 @@
-﻿/*DELETE FROM [dbo].tblMyPokedex;*/
+﻿DELETE FROM [dbo].tblMyPokedex;
 DELETE FROM [dbo].tlkpNationalDex;
 
 :r .\PopulateTlkpAbility.sql

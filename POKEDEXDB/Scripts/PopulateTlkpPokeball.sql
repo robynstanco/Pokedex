@@ -1,4 +1,30 @@
 ﻿DELETE FROM [dbo].[tlkpPokeball]
 
 INSERT INTO [dbo].[tlkpPokeball] VALUES
-	(1, 'Poké Ball','https://cdn.bulbagarden.net/upload/7/79/Dream_Pok%C3%A9_Ball_Sprite.png');
+	(1, 'Poké Ball','https://cdn.bulbagarden.net/upload/7/79/Dream_Pok%C3%A9_Ball_Sprite.png'),
+	(2, 'Great Ball', 'https://cdn.bulbagarden.net/upload/b/bf/Dream_Great_Ball_Sprite.png'),
+	(3, 'Ultra Ball', 'https://cdn.bulbagarden.net/upload/a/a8/Dream_Ultra_Ball_Sprite.png'),
+	(4, 'Master Ball', 'https://cdn.bulbagarden.net/upload/9/95/Dream_Master_Ball_Sprite.png'),
+	(5, 'Safari Ball', 'https://cdn.bulbagarden.net/upload/1/15/Dream_Safari_Ball_Sprite.png'),
+	(6, 'Fast Ball', 'https://cdn.bulbagarden.net/upload/4/44/Dream_Fast_Ball_Sprite.png'),
+	(7, 'Level Ball', 'https://cdn.bulbagarden.net/upload/1/19/Dream_Level_Ball_Sprite.png'),
+	(8, 'Lure Ball', 'https://cdn.bulbagarden.net/upload/b/bd/Dream_Lure_Ball_Sprite.png'),
+	(9, 'Heavy Ball', 'https://cdn.bulbagarden.net/upload/b/bb/Dream_Heavy_Ball_Sprite.png'),
+	(10, 'Love Ball', 'https://cdn.bulbagarden.net/upload/9/94/Dream_Love_Ball_Sprite.png'),
+	(11, 'Friend Ball', 'https://cdn.bulbagarden.net/upload/7/7a/Dream_Friend_Ball_Sprite.png'),
+	(12, 'Moon Ball', 'https://cdn.bulbagarden.net/upload/2/22/Dream_Moon_Ball_Sprite.png'),
+	(13, 'Sport Ball', 'https://cdn.bulbagarden.net/upload/d/df/Dream_Sport_Ball_Sprite.png'),
+	(14, 'Net Ball', 'https://cdn.bulbagarden.net/upload/a/a0/Dream_Net_Ball_Sprite.png'),
+	(15, 'Nest Ball', 'https://cdn.bulbagarden.net/upload/8/8c/Dream_Nest_Ball_Sprite.png'),
+	(16, 'Repeat Ball', 'https://cdn.bulbagarden.net/upload/d/df/Dream_Repeat_Ball_Sprite.png'),
+	(17, 'Timer Ball', 'https://cdn.bulbagarden.net/upload/f/f0/Dream_Timer_Ball_Sprite.png'),
+	(18, 'Luxury Ball', 'https://cdn.bulbagarden.net/upload/7/7e/Dream_Luxury_Ball_Sprite.png'),
+	(19, 'Premier Ball', 'https://cdn.bulbagarden.net/upload/6/64/Dream_Premier_Ball_Sprite.png'),
+	(20, 'Dive Ball', 'https://cdn.bulbagarden.net/upload/9/9a/Dream_Dive_Ball_Sprite.png'),
+	(21, 'Dusk Ball', 'https://cdn.bulbagarden.net/upload/5/59/Dream_Dusk_Ball_Sprite.png'),
+	(22, 'Heal Ball', 'https://cdn.bulbagarden.net/upload/0/0e/Dream_Heal_Ball_Sprite.png'),
+	(23, 'Quick Ball', 'https://cdn.bulbagarden.net/upload/9/90/Dream_Quick_Ball_Sprite.png'),
+	(24, 'Cherish Ball', 'https://cdn.bulbagarden.net/upload/f/f6/Dream_Cherish_Ball_Sprite.png'),
+	(25, 'Park Ball', 'https://cdn.bulbagarden.net/upload/0/09/Dream_Park_Ball_Sprite.png'),
+	(26, 'Dream Ball', 'https://cdn.bulbagarden.net/upload/2/27/Dream_Dream_Ball_Sprite.png'),
+	(27, 'Beast Ball', 'https://cdn.bulbagarden.net/upload/6/65/Dream_Beast_Ball_Sprite.png');

@@ -13,18 +13,19 @@
         <h1>
             @Model.NationalDexPokemonId. @Model.Name
 
-            <img class="pokemon__item-img--small" src="@Model.PokeballImageURL" />
-
-            @if (!Model.Sex.Value) // 0 == false == female
-            {
-                <img class="pokemon__item-img--small" src="~/images/woman.png" />
-            }
-
-            @if (Model.Sex.Value) // 1 == true == male
-            {
-                <img class="pokemon__item-img--small" src="~/images/male.png" />
-            }
         </h1>
+
+        <img class="pokemon__item-img--small" src="@Model.PokeballImageURL" />
+
+        @if (!Model.Sex.Value) // 0 == false == female
+        {
+            <img class="pokemon__item-img--small" src="~/images/woman.png" />
+        }
+
+        @if (Model.Sex.Value) // 1 == true == male
+        {
+            <img class="pokemon__item-img--small" src="~/images/male.png" />
+        }
 
         @if (!string.IsNullOrWhiteSpace(Model.Nickname))
         {
