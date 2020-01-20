@@ -277,6 +277,12 @@ select {
 .Poison {
   background-color: #C183C1;
 }
+.Fire {
+  background-color: #EE785F;
+}
+.Flying {
+  background-color: #C6B7F5;
+}
 footer {
   font-size: 0.5rem;
   width: 100%;

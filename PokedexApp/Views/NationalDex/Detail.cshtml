@@ -22,7 +22,7 @@
                 @Model.TypeOne
             </div>
 
-            @if (!string.IsNullOrWhiteSpace(Model.TypeTwo))
+            @if (!string.IsNullOrWhiteSpace(Model.TypeTwo) && !Model.TypeTwo.Equals(Constants.NotApplicable))
             {
                 <div class="pill__item @Model.TypeTwo">
                     @Model.TypeTwo
@@ -33,7 +33,7 @@
                 @Model.Ability
             </div>
 
-            @if (!string.IsNullOrWhiteSpace(Model.HiddenAbility))
+            @if (!string.IsNullOrWhiteSpace(Model.HiddenAbility) && !Model.HiddenAbility.Equals(Constants.NotApplicable))
             {
                 <div class="pill__item @Model.HiddenAbility">
                     @Model.HiddenAbility
@@ -50,7 +50,7 @@
         </h4>
 
         <div class="pokemon__item-stat">
-            <img src="~/images/kettlebell.png" /> <span>@Model.WeightInPounds lbs.</span>
+            <img src="~/images/kettlebell.png" /> <span>~@Model.WeightInPounds lbs.</span>
             <img src="~/images/ruler.png" /> <span>@Model.HeightInInches in.</span>
         </div>
 
