@@ -23,6 +23,7 @@ namespace Pokedex.Tests
                     Level = i + 1,
                     Location = i + " Main Street",
                     Nickname = nameof(tblMyPokedex.Nickname) + i,
+                    Pokeball = GeneratePokeballs(i+1)[i],
                     PokeballId = i,
                     PokemonId = i,
                     Pokemon = GenerateNationalDexPokemon(i + 1)[i],
@@ -73,16 +74,21 @@ namespace Pokedex.Tests
             {
                 pokemon.Add(new tlkpNationalDex()
                 {
+                    Ability = GenerateAbilities(i+1)[i],
                     AbilityId = i,
+                    Category = GenerateCategories(i+1)[i],
                     CategoryId = i,
                     Description = "Desc" + i,
                     HeightInInches = i + 1,
+                    HiddenAbility = GenerateAbilities(i+2)[i+1],
                     HiddenAbilityId = i + 1,
                     Id = i,
                     ImageURL = string.Format(URL, i),
                     JapaneseName = "JapaneseName" + i,
                     Name = nameof(tlkpNationalDex.Name) + i,
+                    TypeOne = GenerateTypes(i+1)[i],
                     TypeOneId = i,
+                    TypeTwo = GenerateTypes(i+2)[i+1],
                     TypeTwoId = i + 1,
                     WeightInPounds = i + 1,
                 });

@@ -38,6 +38,11 @@ namespace PokedexApp.Logic
             _logger.LogInformation(Constants.Deleted + " " + Constants.Pokemon + ": " + id);
         }
 
+        public void EditPokemon(PokemonDetailViewModel pokemonDetailViewModel)
+        {
+            _pokedexRepository.EditPokemon(MapDetailViewModelToMyPokemon(pokemonDetailViewModel));
+        }
+
         public List<PokemonListingViewModel> GetMyPokedex()
         {
             return MapPokedexToListingViewModels(_pokedexRepository.GetMyPokedex());
@@ -151,8 +156,8 @@ namespace PokedexApp.Logic
 
         private List<SelectListItem> GetPokemonSexSelectListItems()
         {
-            return new List<SelectListItem>() { new SelectListItem() { Text = "Female", Value = "0" },
-                new SelectListItem() { Text = "Male", Value = "1" } };
+            return new List<SelectListItem>() { new SelectListItem() { Text = Constants.Female, Value = "0" },
+                new SelectListItem() { Text = Constants.Male, Value = "1" } };
         }
 
         private List<SelectListItem> GetTypeSelectListItems()
@@ -162,6 +167,29 @@ namespace PokedexApp.Logic
                 Text = p.Name,
                 Value = p.Id.ToString()
             }).Prepend(GetBlankSelectListItem()).ToList();
+        }
+
+        private tblMyPokedex MapDetailViewModelToMyPokemon(PokemonDetailViewModel pokemonDetailViewModel)
+        {
+            _logger.LogInformation(Constants.Mapping + " " + Constants.Pokemon + " " + ViewModels);
+
+            tlkpNationalDex nationalDexLookup = _pokedexRepository.GetNationalDexPokemonById(pokemonDetailViewModel.NationalDexPokemonId.Value);
+
+            tblMyPokedex beforeUpdates = _pokedexRepository.GetMyPokemonById(pokemonDetailViewModel.MyPokemonId.Value);
+
+            return new tblMyPokedex()
+            {
+                Date = pokemonDetailViewModel.Date,
+                Id = pokemonDetailViewModel.MyPokemonId.Value,
+                Level = pokemonDetailViewModel.Level,
+                Location = pokemonDetailViewModel.Location,
+                Nickname = pokemonDetailViewModel.Nickname,
+                PokeballId = beforeUpdates.PokeballId,
+                Pokeball = beforeUpdates.Pokeball,
+                Pokemon = nationalDexLookup,
+                PokemonId = nationalDexLookup.Id,
+                Sex = pokemonDetailViewModel.Sex
+            };
         }
 
         private tblMyPokedex MapFormViewModelToMyPokemon(PokemonFormViewModel pokemonFormViewModel)
@@ -185,53 +213,41 @@ namespace PokedexApp.Logic
         {
             _logger.LogInformation(string.Format(InformationalMessageMappingWithCount, pokedex.Count, Constants.Pokemon, ViewModels));
 
-            List<PokemonListingViewModel> pokemonListingViewModels = new List<PokemonListingViewModel>();
-
-            foreach (tblMyPokedex pokemon in pokedex)
+            return pokedex.Select(p => new PokemonListingViewModel
             {
-                tlkpNationalDex nationalDexLookup = _pokedexRepository.GetNationalDexPokemonById(pokemon.PokemonId);
-
-                pokemonListingViewModels.Add(new PokemonListingViewModel
-                {
-                    ImageURL = nationalDexLookup.ImageURL,
-                    MyPokemonId = pokemon.Id,
-                    Name = nationalDexLookup.Name,
-                    Nickname = pokemon.Nickname,
-                    NationalDexPokemonId = nationalDexLookup.Id,
-                });
-            }
-
-            return pokemonListingViewModels;
+                ImageURL = p.Pokemon.ImageURL,
+                MyPokemonId = p.Id,
+                Name = p.Pokemon.Name,
+                Nickname = p.Nickname,
+                NationalDexPokemonId = p.Pokemon.Id,
+            }).ToList();
         }
 
-        private PokemonDetailViewModel MapMyPokemonToDetailViewModel(tblMyPokedex pokemon)
+        private PokemonDetailViewModel MapMyPokemonToDetailViewModel(tblMyPokedex myPokemon)
         {
             _logger.LogInformation(string.Format(InformationalMessageMappingWithCount, 1, Constants.Pokemon, ViewModels));
-
-            tlkpNationalDex nationalDexLookup = _pokedexRepository.GetNationalDexPokemonById(pokemon.PokemonId);
-
+            
             return new PokemonDetailViewModel
             {
-                Ability = nationalDexLookup.AbilityId.HasValue ? _pokedexRepository.GetAbilityById(nationalDexLookup.AbilityId.Value).Name : Constants.NotApplicable,
-                Category = nationalDexLookup.CategoryId.HasValue ? _pokedexRepository.GetCategoryById(nationalDexLookup.CategoryId.Value).Name : Constants.NotApplicable,
-                Date = pokemon.Date,
-                Description = nationalDexLookup.Description,
-                HeightInInches = nationalDexLookup.HeightInInches,
-                HiddenAbility = nationalDexLookup.HiddenAbilityId.HasValue ? _pokedexRepository.GetAbilityById(nationalDexLookup.HiddenAbilityId.Value).Name : Constants.NotApplicable,
-                ImageURL = nationalDexLookup.ImageURL,
-                JapaneseName = nationalDexLookup.JapaneseName,
-                Level = pokemon.Level,
-                Location = pokemon.Location,
-                MyPokemonId = pokemon.Id,
-                Name = nationalDexLookup.Name,
-                NationalDexPokemonId = nationalDexLookup.Id,
-                NationalDexSize = _pokedexRepository.GetNationalDex().Count,
-                Nickname = pokemon.Nickname,
-                PokeballImageURL = pokemon.PokeballId.HasValue ? _pokedexRepository.GetPokeballById(pokemon.PokeballId.Value).ImageURL : Constants.NotApplicable,
-                Sex = pokemon.Sex,
-                TypeOne = nationalDexLookup.TypeOneId.HasValue ? _pokedexRepository.GetTypeById(nationalDexLookup.TypeOneId.Value).Name : Constants.NotApplicable,
-                TypeTwo = nationalDexLookup.TypeTwoId.HasValue ? _pokedexRepository.GetTypeById(nationalDexLookup.TypeTwoId.Value).Name : Constants.NotApplicable,
-                WeightInPounds = nationalDexLookup.WeightInPounds
+                Ability = myPokemon.Pokemon.Ability.Name,
+                Category = myPokemon.Pokemon.Category.Name,
+                Date = myPokemon.Date,
+                Description = myPokemon.Pokemon.Description,
+                HeightInInches = myPokemon.Pokemon.HeightInInches,
+                HiddenAbility = myPokemon.Pokemon.HiddenAbilityId.HasValue ? myPokemon.Pokemon.HiddenAbility.Name : Constants.NotApplicable,
+                ImageURL = myPokemon.Pokemon.ImageURL,
+                JapaneseName = myPokemon.Pokemon.JapaneseName,
+                Level = myPokemon.Level,
+                Location = myPokemon.Location,
+                MyPokemonId = myPokemon.Id,
+                Name = myPokemon.Pokemon.Name,
+                NationalDexPokemonId = myPokemon.Pokemon.Id,
+                Nickname = myPokemon.Nickname,
+                PokeballImageURL = myPokemon.Pokeball.ImageURL,
+                Sex = myPokemon.Sex,
+                TypeOne = myPokemon.Pokemon.TypeOne.Name,
+                TypeTwo = myPokemon.Pokemon.TypeTwoId.HasValue ? myPokemon.Pokemon.TypeTwo.Name : Constants.NotApplicable,
+                WeightInPounds = myPokemon.Pokemon.WeightInPounds
             };
         }
 
@@ -253,18 +269,17 @@ namespace PokedexApp.Logic
 
             return new PokemonDetailViewModel
             {
-                Ability = pokemon.AbilityId.HasValue ? _pokedexRepository.GetAbilityById(pokemon.AbilityId.Value).Name : Constants.NotApplicable,
-                Category = pokemon.CategoryId.HasValue ? _pokedexRepository.GetCategoryById(pokemon.CategoryId.Value).Name : Constants.NotApplicable,
+                Ability = pokemon.Ability.Name,
+                Category = pokemon.Category.Name,
                 Description = pokemon.Description,
                 HeightInInches = pokemon.HeightInInches,
-                HiddenAbility = pokemon.HiddenAbilityId.HasValue ? _pokedexRepository.GetAbilityById(pokemon.HiddenAbilityId.Value).Name : Constants.NotApplicable,
+                HiddenAbility = pokemon.HiddenAbilityId.HasValue ? pokemon.HiddenAbility.Name : Constants.NotApplicable,
                 NationalDexPokemonId = pokemon.Id,
                 ImageURL = pokemon.ImageURL,
                 JapaneseName = pokemon.JapaneseName,
                 Name = pokemon.Name,
-                NationalDexSize = _pokedexRepository.GetNationalDex().Count,
-                TypeOne = pokemon.TypeOneId.HasValue ? _pokedexRepository.GetTypeById(pokemon.TypeOneId.Value).Name : Constants.NotApplicable,
-                TypeTwo = pokemon.TypeTwoId.HasValue ? _pokedexRepository.GetTypeById(pokemon.TypeTwoId.Value).Name : Constants.NotApplicable,
+                TypeOne = pokemon.TypeOne.Name,
+                TypeTwo = pokemon.TypeTwoId.HasValue ? pokemon.TypeTwo.Name : Constants.NotApplicable,
                 WeightInPounds = pokemon.WeightInPounds
             };
         }

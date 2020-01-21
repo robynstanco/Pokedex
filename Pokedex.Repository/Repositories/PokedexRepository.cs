@@ -1,5 +1,5 @@
-﻿using Pokedex.Data.Models;
-using Pokedex.Common;
+﻿using Pokedex.Common;
+using Pokedex.Data.Models;
 using Pokedex.Logging.Interfaces;
 using Pokedex.Repository.Interfaces;
 using System;
@@ -105,6 +105,9 @@ namespace Pokedex.Repository.Repositories
         {
             List<tblMyPokedex> myPokedex = _context.tblMyPokedex.OrderBy(p => p.PokemonId).ToList();
 
+            myPokedex.ForEach(p => p.Pokemon = GetNationalDexPokemonById(p.PokemonId));
+            myPokedex.ForEach(p => p.Pokeball = GetPokeballById(p.PokeballId.Value));
+
             _logger.LogInformation(string.Format(InformationalMessageWithCount, myPokedex.Count, Constants.Pokemon));
 
             return myPokedex;
@@ -113,6 +116,9 @@ namespace Pokedex.Repository.Repositories
         public tblMyPokedex GetMyPokemonById(Guid myPokemonId)
         {
             tblMyPokedex myPokemon = _context.tblMyPokedex.FirstOrDefault(p => p.Id == myPokemonId);
+
+            myPokemon.Pokemon = GetNationalDexPokemonById(myPokemon.PokemonId);
+            myPokemon.Pokeball = GetPokeballById(myPokemon.PokeballId.Value);
 
             _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Retrieved, Constants.Pokemon, Constants.From, myPokemonId));
 
@@ -131,6 +137,21 @@ namespace Pokedex.Repository.Repositories
         public tlkpNationalDex GetNationalDexPokemonById(int pokemonId)
         {
             tlkpNationalDex nationalDexPokemon = _context.tlkpNationalDex.FirstOrDefault(p => p.Id == pokemonId);
+
+            nationalDexPokemon.Ability = GetAbilityById(nationalDexPokemon.AbilityId.Value);
+            nationalDexPokemon.Category = GetCategoryById(nationalDexPokemon.CategoryId.Value);
+
+            if (nationalDexPokemon.HiddenAbilityId.HasValue)
+            {
+                nationalDexPokemon.HiddenAbility = GetAbilityById(nationalDexPokemon.HiddenAbilityId.Value);
+            }
+
+            nationalDexPokemon.TypeOne = GetTypeById(nationalDexPokemon.TypeOneId.Value);
+
+            if (nationalDexPokemon.TypeTwoId.HasValue)
+            {
+                nationalDexPokemon.TypeTwo = GetTypeById(nationalDexPokemon.TypeTwoId.Value);
+            }
 
             _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Retrieved, Constants.Pokemon, Constants.From, pokemonId));
 

@@ -34,8 +34,6 @@ namespace PokedexApp.Models
 
         public int? NationalDexPokemonId { get; set; }
 
-        public int? NationalDexSize { get; set; }
-
         public string Nickname { get; set; }
 
         public string PokeballImageURL { get; set; }

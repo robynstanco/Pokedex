@@ -8,6 +8,7 @@ namespace PokedexApp.Interfaces
     {
         void AddPokemon(PokemonFormViewModel pokemonFormViewModel);
         void DeletePokemonById(Guid id);
+        void EditPokemon(PokemonDetailViewModel pokemonDetailViewModel);
         List<PokemonListingViewModel> GetMyPokedex();
         PokemonDetailViewModel GetMyPokemonById(Guid id);
         List<PokemonListingViewModel> GetNationalDex();

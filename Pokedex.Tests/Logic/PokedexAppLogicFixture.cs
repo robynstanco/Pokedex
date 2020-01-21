@@ -18,13 +18,14 @@ namespace Pokedex.Tests.Logic
         private PokedexAppLogic _pokedexAppLogic;
 
         private Mock<IPokedexRepository> _pokedexRepositoryMock;
-
         private Mock<ILoggerAdapter<PokedexAppLogic>> _loggerMock;
 
         [TestInitialize]
         public void Initialize()
         {
+            List<tblMyPokedex> pokedex = DataGenerator.GenerateMyPokemon(1);
             List<tlkpAbility> abilities = DataGenerator.GenerateAbilities(5);
+            List<tlkpNationalDex> nationalDex = DataGenerator.GenerateNationalDexPokemon(5);
             List<tlkpType> types = DataGenerator.GenerateTypes(5);
 
             _pokedexRepositoryMock = new Mock<IPokedexRepository>();
@@ -35,13 +36,15 @@ namespace Pokedex.Tests.Logic
             _pokedexRepositoryMock.Setup(prm => prm.GetAllPokeballs()).Returns(DataGenerator.GeneratePokeballs(5));
             _pokedexRepositoryMock.Setup(prm => prm.GetAllTypes()).Returns(types);
             _pokedexRepositoryMock.Setup(prm => prm.GetCategoryById(0)).Returns(DataGenerator.GenerateCategories(1)[0]);
-            _pokedexRepositoryMock.Setup(prm => prm.GetMyPokedex()).Returns(DataGenerator.GenerateMyPokemon(1));
-            _pokedexRepositoryMock.Setup(prm => prm.GetMyPokemonById(DataGenerator.DefaultGuid)).Returns(DataGenerator.GenerateMyPokemon(1)[0]);
-            _pokedexRepositoryMock.Setup(prm => prm.GetNationalDex()).Returns(DataGenerator.GenerateNationalDexPokemon(5));
-            _pokedexRepositoryMock.Setup(prm => prm.GetNationalDexPokemonById(0)).Returns(DataGenerator.GenerateNationalDexPokemon(1)[0]);
+            _pokedexRepositoryMock.Setup(prm => prm.GetMyPokedex()).Returns(pokedex);
+            _pokedexRepositoryMock.Setup(prm => prm.GetMyPokemonById(DataGenerator.DefaultGuid)).Returns(pokedex[0]);
+            _pokedexRepositoryMock.Setup(prm => prm.GetNationalDex()).Returns(nationalDex);
+            _pokedexRepositoryMock.Setup(prm => prm.GetNationalDexPokemonById(0)).Returns(nationalDex[0]);
             _pokedexRepositoryMock.Setup(prm => prm.GetPokeballById(0)).Returns(DataGenerator.GeneratePokeballs(1)[0]);
             _pokedexRepositoryMock.Setup(prm => prm.GetTypeById(0)).Returns(types[0]);
             _pokedexRepositoryMock.Setup(prm => prm.GetTypeById(1)).Returns(types[1]); //Type Two
+            _pokedexRepositoryMock.Setup(prm => prm.Search(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>())).Returns(nationalDex);
+            _pokedexRepositoryMock.Setup(prm => prm.Search(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>())).Returns(pokedex);
 
             _loggerMock = new Mock<ILoggerAdapter<PokedexAppLogic>>();
 
@@ -106,9 +109,8 @@ namespace Pokedex.Tests.Logic
             Assert.AreEqual("Name0", pokemonDetailViewModel.TypeOne);
             Assert.AreEqual("Name1", pokemonDetailViewModel.TypeTwo);
             Assert.AreEqual(1, pokemonDetailViewModel.WeightInPounds);
-            Assert.AreEqual(5, pokemonDetailViewModel.NationalDexSize);
 
-            _pokedexRepositoryMock.Verify(prm => prm.GetNationalDexPokemonById(0), Times.Once);
+            _pokedexRepositoryMock.Verify(prm => prm.GetMyPokemonById(DataGenerator.DefaultGuid), Times.Once);
             _loggerMock.Verify(lm => lm.LogInformation("Mapping 1 Pokémon View Models."), Times.Once);
         }
 
@@ -146,7 +148,6 @@ namespace Pokedex.Tests.Logic
             Assert.AreEqual("Name0", pokemonDetailViewModel.TypeOne);
             Assert.AreEqual("Name1", pokemonDetailViewModel.TypeTwo);
             Assert.AreEqual(1, pokemonDetailViewModel.WeightInPounds);
-            Assert.AreEqual(5, pokemonDetailViewModel.NationalDexSize);
 
             Assert.IsNull(pokemonDetailViewModel.Date);
             Assert.IsNull(pokemonDetailViewModel.Level);
@@ -188,14 +189,21 @@ namespace Pokedex.Tests.Logic
         public void GetSearchFormIsSuccessfulAndLogsInformation()
         {
             SearchViewModel searchViewModel = _pokedexAppLogic.GetSearchForm();
-            
-            //todo
+
+            List<SelectListItem> abilityOptions = searchViewModel.AbilityOptions.ToList();
+            List<SelectListItem> categoryOptions = searchViewModel.CategoryOptions.ToList();
             List<SelectListItem> pokeballOptions = searchViewModel.PokeballOptions.ToList();
+            List<SelectListItem> typeOptions = searchViewModel.TypeOptions.ToList();
             
-            //todo
             Assert.AreEqual(6, pokeballOptions.Count);
+            Assert.AreEqual("Name0", abilityOptions[1].Text);
+            Assert.AreEqual("0", abilityOptions[1].Value);
+            Assert.AreEqual("Name0", categoryOptions[1].Text);
+            Assert.AreEqual("0", categoryOptions[1].Value);
             Assert.AreEqual("Name0", pokeballOptions[1].Text);
             Assert.AreEqual("0", pokeballOptions[1].Value);
+            Assert.AreEqual("Name0", typeOptions[1].Text);
+            Assert.AreEqual("0", typeOptions[1].Value);
 
             _pokedexRepositoryMock.Verify(prm => prm.GetAllAbilities(), Times.Once);
             _pokedexRepositoryMock.Verify(prm => prm.GetAllCategories(), Times.Once);
@@ -205,9 +213,19 @@ namespace Pokedex.Tests.Logic
         }
 
         [TestMethod]
-        public void SearchIsSuccessfulAndLogsInformation()
+        public void SearchCallsRepository()
         {
-            //todo
+            SearchViewModel searchResultsViewModel = _pokedexAppLogic.Search(new SearchViewModel
+            {
+                SearchString = "Name0",
+                SelectedAbilityId = 0,
+                SelectedCategoryId = 0,
+                SelectedPokeballId = 0,
+                SelectedTypeId = 0
+            });
+
+            _pokedexRepositoryMock.Verify(prm => prm.Search("Name0", 0, 0, 0), Times.Once);
+            _pokedexRepositoryMock.Verify(prm => prm.Search("Name0", 0, 0, 0, 0), Times.Once);
         }
     }
 }

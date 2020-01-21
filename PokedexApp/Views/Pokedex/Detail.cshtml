@@ -43,6 +43,9 @@
     </div>
 
     <div class="pokemon__navigation">
+        <a asp-controller="Pokedex" asp-action="Edit" asp-route-id="@Model.MyPokemonId">
+            EDIT
+        </a>
         <a asp-controller="Pokedex" asp-action="Delete" asp-route-id="@Model.MyPokemonId">
             RELEASE
         </a>

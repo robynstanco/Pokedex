@@ -38,7 +38,7 @@ namespace PokedexApp.Controllers
                 {
                     _pokedexAppLogic.AddPokemon(pokemonFormViewModel);
 
-                    return View(Constants.Success, new SuccessViewModel() { ActionName = "save" });
+                    return View(Constants.Success, new SuccessViewModel() { ActionName = "addition" });
                 }
                 else
                 {

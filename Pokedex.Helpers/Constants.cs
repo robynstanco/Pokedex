@@ -5,7 +5,6 @@
     /// </summary>
     public class Constants
     {
-
         public const string Abilities = nameof(Abilities);
         public const string Ability = nameof(Ability);
         public const string Added = nameof(Added);
@@ -18,11 +17,13 @@
         public const string Deleted = nameof(Deleted);
         public const string Detail = nameof(Detail);
         public const string Error = nameof(Error);
+        public const string Female = nameof(Female);
         public const string From = "from";
         public const string In = "in";
         public const string InvalidRequest = "Invalid Request";
         public const string Level = nameof(Level);
         public const string LocationCaught = "Location Caught";
+        public const string Male = nameof(Male);
         public const string Mapping = nameof(Mapping);
         public const string NationalDex = nameof(NationalDex);
         public const string Nickname = nameof(Nickname);

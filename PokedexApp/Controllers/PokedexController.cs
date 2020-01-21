@@ -41,6 +41,32 @@ namespace PokedexApp.Controllers
             }
         }
 
+        public IActionResult Edit(Guid id)
+        {
+            try
+            {
+                return View(_pokedexAppLogic.GetMyPokemonById(id));
+            }
+            catch(Exception ex)
+            {
+                return Error(ex);
+            }
+        }
+
+        public IActionResult Edit(PokemonDetailViewModel pokemonDetailViewModel)
+        {
+            try
+            {
+                _pokedexAppLogic.EditPokemon(pokemonDetailViewModel);
+
+                return RedirectToAction("Detail", pokemonDetailViewModel.MyPokemonId);
+            }
+            catch (Exception ex)
+            {
+                return Error(ex);
+            }
+        }
+
         public IActionResult Delete(Guid id)
         {
             try
