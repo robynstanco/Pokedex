@@ -26,13 +26,13 @@
                 </div>
             }
 
-            <div class="pill__item @Model.Ability">
+            <div class="pill__item pill__item--dark">
                 @Model.Ability
             </div>
 
             @if (!string.IsNullOrWhiteSpace(Model.HiddenAbility) && !Model.HiddenAbility.Equals(Constants.NotApplicable))
             {
-                <div class="pill__item @Model.HiddenAbility">
+                <div class="pill__item pill__item--dark">
                     @Model.HiddenAbility
                 </div>
             }
