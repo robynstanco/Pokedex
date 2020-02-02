@@ -70,6 +70,19 @@ namespace Pokedex.Tests.Logic
         }
 
         [TestMethod]
+        public void EditPokemonIsSuccessfulAndLogsInformation()
+        {
+            _pokedexAppLogic.EditPokemon(new PokemonDetailViewModel()
+            {
+                MyPokemonId = DataGenerator.DefaultGuid,
+                NationalDexPokemonId = 0
+            });
+
+            _pokedexRepositoryMock.Verify(prm => prm.EditPokemon(It.Is<tblMyPokedex>(p => p.Id == DataGenerator.DefaultGuid && p.PokemonId == 0)), Times.Once);
+            _loggerMock.Verify(lm => lm.LogInformation("Updated Pokémon: " + DataGenerator.DefaultGuid), Times.Once);
+        }
+
+        [TestMethod]
         public void GetMyPokedexIsSuccessfulAndLogsInformation()
         {
             List<PokemonListingViewModel> pokemonListingViewModels = _pokedexAppLogic.GetMyPokedex();
@@ -170,12 +183,12 @@ namespace Pokedex.Tests.Logic
             List<SelectListItem> pokeballOptions = pokemonFormViewModel.PokeballOptions.ToList();
             List<SelectListItem> sexOptions = pokemonFormViewModel.SexOptions.ToList();
 
-            Assert.AreEqual(6, nationalDexOptions.Count);
-            Assert.AreEqual("Name0", nationalDexOptions[1].Text);
-            Assert.AreEqual("0", nationalDexOptions[1].Value);
-            Assert.AreEqual(6, pokeballOptions.Count);
-            Assert.AreEqual("Name0", pokeballOptions[1].Text);
-            Assert.AreEqual("0", pokeballOptions[1].Value);
+            Assert.AreEqual(5, nationalDexOptions.Count);
+            Assert.AreEqual("Name0", nationalDexOptions[0].Text);
+            Assert.AreEqual("0", nationalDexOptions[0].Value);
+            Assert.AreEqual(5, pokeballOptions.Count);
+            Assert.AreEqual("Name0", pokeballOptions[0].Text);
+            Assert.AreEqual("0", pokeballOptions[0].Value);
             Assert.AreEqual(2, sexOptions.Count);
             Assert.AreEqual("Female", sexOptions[0].Text);
             Assert.AreEqual("0", sexOptions[0].Value);

@@ -22,6 +22,8 @@ namespace PokedexApp.Models
 
         public string ImageURL { get; set; }
 
+        public bool IsEditMode { get; set; }
+
         public string JapaneseName { get; set; }
 
         public int? Level { get; set; }

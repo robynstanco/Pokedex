@@ -76,6 +76,21 @@ select {
     height: 36px;
 }
 
+.pokemon__container {
+    .input__label {
+        text-align: left;
+        padding-left: 0;
+    }
+
+    .input__label, .input__field {
+        flex-basis: auto;
+    }
+
+    input[type=submit]{
+        float: none;
+    }
+}
+
 @media(max-width: @smallBreakpoint) {
     .input__container {
         display: block;

@@ -109,6 +109,17 @@ textarea {
 select {
   height: 36px;
 }
+.pokemon__container .input__label {
+  text-align: left;
+  padding-left: 0;
+}
+.pokemon__container .input__label,
+.pokemon__container .input__field {
+  flex-basis: auto;
+}
+.pokemon__container input[type=submit] {
+  float: none;
+}
 @media (max-width: 600px) {
   .input__container {
     display: block;

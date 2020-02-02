@@ -41,6 +41,8 @@ namespace PokedexApp.Logic
         public void EditPokemon(PokemonDetailViewModel pokemonDetailViewModel)
         {
             _pokedexRepository.EditPokemon(MapDetailViewModelToMyPokemon(pokemonDetailViewModel));
+
+            _logger.LogInformation(Constants.Updated + " " + Constants.Pokemon + ": " + pokemonDetailViewModel.MyPokemonId);
         }
 
         public List<PokemonListingViewModel> GetMyPokedex()
@@ -65,12 +67,12 @@ namespace PokedexApp.Logic
 
         public PokemonFormViewModel GetNewPokemonForm()
         {
-            _logger.LogInformation(Constants.Mapping + " Select List Items.");
+            _logger.LogInformation(Constants.Mapping + SelectListItems);
 
             return new PokemonFormViewModel()
             {
                 NationalDexOptions = GetNationalDexSelectListItems(),
-                PokeballOptions = GetPokeballSelectListItems(),
+                PokeballOptions = GetPokeballSelectListItems().Where(p => !string.IsNullOrWhiteSpace(p.Value)),
                 SexOptions = GetPokemonSexSelectListItems()
             };
         }
@@ -142,7 +144,7 @@ namespace PokedexApp.Logic
             {
                 Text = p.Name,
                 Value = p.Id.ToString()
-            }).Prepend(GetBlankSelectListItem()).ToList();
+            }).ToList();
         }
 
         private List<SelectListItem> GetPokeballSelectListItems()

@@ -1,8 +1,5 @@
 ﻿namespace Pokedex.Common
 {
-    /// <summary>
-    /// These are common vocabularly used accross multiple projects.
-    /// </summary>
     public class Constants
     {
         public const string Abilities = nameof(Abilities);

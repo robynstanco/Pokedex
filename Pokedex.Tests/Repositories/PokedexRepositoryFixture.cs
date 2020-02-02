@@ -99,8 +99,9 @@ namespace Pokedex.Tests.Repositories
 
             _pokedexRepository.EditPokemon(generatedPokemon);
 
-            _pokedexDBContextMock.Verify(m => m.Update(generatedPokemon), Times.Once);
-            _pokedexDBContextMock.Verify(m => m.SaveChanges(), Times.Once);
+            _pokedexDBContextMock.Verify(m => m.Remove(It.IsAny<tblMyPokedex>()), Times.Once);
+            _pokedexDBContextMock.Verify(m => m.Add(generatedPokemon), Times.Once);
+            _pokedexDBContextMock.Verify(m => m.SaveChanges(), Times.Exactly(2));
 
             _loggerMock.Verify(lm => lm.LogInformation("Updated Pokémon in DBContext with Id: " + DataGenerator.DefaultGuid), Times.Once);
         }

@@ -41,8 +41,8 @@ namespace Pokedex.Repository.Repositories
 
         public void EditPokemon(tblMyPokedex pokemon)
         {
-            _context.Update(pokemon);
-            _context.SaveChanges();
+            DeletePokemonById(pokemon.Id);
+            AddPokemon(pokemon);
 
             _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Updated, Constants.Pokemon, Constants.In, pokemon.Id));
         }

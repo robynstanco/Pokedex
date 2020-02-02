@@ -12,33 +12,67 @@
 
         <h1>
             @Model.NationalDexPokemonId. @Model.Name
-
         </h1>
 
         <img class="pokemon__item-img--small" src="@Model.PokeballImageURL" />
 
-        @if (!Model.Sex.Value) // 0 == false == female
+        @if (!Model.Sex.Value)
         {
             <img class="pokemon__item-img--small" src="~/images/woman.png" />
         }
 
-        @if (Model.Sex.Value) // 1 == true == male
+        @if (Model.Sex.Value)
         {
             <img class="pokemon__item-img--small" src="~/images/male.png" />
         }
 
-        @if (!string.IsNullOrWhiteSpace(Model.Nickname))
+        @if (!Model.IsEditMode)
         {
-            <h2>@Constants.Nickname: <em>@Model.Nickname</em></h2>
+            @if (!string.IsNullOrWhiteSpace(Model.Nickname))
+            {
+                <h2>@Constants.Nickname: <em>@Model.Nickname</em></h2>
+            }
+
+            <h2>@Constants.Level: <em>@Model.Level</em></h2>
+
+            <h2>@Constants.CaptureDate: <em>@Html.DisplayFor(m => m.Date)</em></h2>
+
+            @if (!string.IsNullOrWhiteSpace(Model.Location))
+            {
+                <h2>@Constants.LocationCaught: <em>@Model.Location</em></h2>
+            }
         }
-
-        <h2>@Constants.Level: <em>@Model.Level</em></h2>
-
-        <h2>@Constants.CaptureDate: <em>@Html.DisplayFor(m => m.Date)</em></h2>
-
-        @if (!string.IsNullOrWhiteSpace(Model.Location))
+        else
         {
-            <h2>@Constants.LocationCaught: <em>@Model.Location</em></h2>
+            @using (Html.BeginForm("Edit", "Pokedex"))
+            {
+                @Html.HiddenFor(m => m.Date);
+                @Html.HiddenFor(m => m.Location);
+                @Html.HiddenFor(m => m.MyPokemonId);
+                @Html.HiddenFor(m => m.NationalDexPokemonId);
+                @Html.HiddenFor(m => m.Sex);
+                <div asp-validation-summary="All"></div>
+                <article>
+                    <div class="input__container">
+                        <h2 class="input__label">
+                            @Constants.Nickname:
+                        </h2>
+                        <div class="input__field">
+                            @Html.EditorFor(m => m.Nickname)
+                        </div>
+                    </div>
+                    <div class="input__container">
+                        <h2 class="input__label">
+                            @Constants.Level:
+                        </h2>
+                        <div class="input__field">
+                            @Html.EditorFor(m => m.Level)
+                        </div>
+                    </div>
+                </article>
+
+                <input type="submit" value="UPDATE MY @Constants.Pokemon.ToUpper()" />
+            }
         }
     </div>
 

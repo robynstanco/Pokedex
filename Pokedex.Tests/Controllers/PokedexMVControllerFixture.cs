@@ -38,7 +38,7 @@ namespace Pokedex.Tests.Controllers
         }
 
         [TestMethod]
-        public void DetailActionIsSuccessfullAndCallsLogic()
+        public void DetailActionIsSuccessfulAndCallsLogic()
         {
             _pokedexController.Detail(DataGenerator.DefaultGuid);
 
@@ -51,6 +51,19 @@ namespace Pokedex.Tests.Controllers
             _pokedexController.Delete(DataGenerator.DefaultGuid);
 
             _pokedexAppLogicMock.Verify(plm => plm.DeletePokemonById(DataGenerator.DefaultGuid), Times.Once);
+        }
+
+        
+        [TestMethod]
+        public void EditIsSuccessfulAndCallsLogic()
+        {
+            _pokedexController.Edit(DataGenerator.DefaultGuid);
+
+            _pokedexAppLogicMock.Verify(plm => plm.GetMyPokemonById(DataGenerator.DefaultGuid), Times.Once);
+
+            _pokedexController.Edit(new PokemonDetailViewModel());
+
+            _pokedexAppLogicMock.Verify(plm => plm.EditPokemon(It.IsAny<PokemonDetailViewModel>()), Times.Once);
         }
 
         [TestMethod]

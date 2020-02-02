@@ -58,7 +58,7 @@
                     *@Constants.Level:
                 </div>
                 <div class="input__field">
-                    @Html.TextBoxFor(m => m.Level, new { @type = "number" })
+                    @Html.TextBoxFor(m => m.Level, new { @type = "number", @min = "1"})
                 </div>
             </div>
             <div class="input__container">

@@ -45,7 +45,10 @@ namespace PokedexApp.Controllers
         {
             try
             {
-                return View(_pokedexAppLogic.GetMyPokemonById(id));
+                PokemonDetailViewModel pokemonDetailViewModel = _pokedexAppLogic.GetMyPokemonById(id);
+                pokemonDetailViewModel.IsEditMode = true;
+
+                return View("Detail", pokemonDetailViewModel);
             }
             catch(Exception ex)
             {
@@ -53,13 +56,14 @@ namespace PokedexApp.Controllers
             }
         }
 
+        [HttpPost]
         public IActionResult Edit(PokemonDetailViewModel pokemonDetailViewModel)
         {
             try
             {
                 _pokedexAppLogic.EditPokemon(pokemonDetailViewModel);
 
-                return RedirectToAction("Detail", pokemonDetailViewModel.MyPokemonId);
+                return View(Constants.Success, new SuccessViewModel() { ActionName = "edit" });
             }
             catch (Exception ex)
             {
