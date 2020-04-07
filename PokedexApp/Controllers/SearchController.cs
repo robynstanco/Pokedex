@@ -22,7 +22,9 @@ namespace PokedexApp.Controllers
         {
             try
             {
-                return View(_pokedexAppLogic.GetSearchForm());
+                SearchViewModel searchViewModel = _pokedexAppLogic.GetSearchForm();
+
+                return View(searchViewModel);
             }
             catch (Exception ex)
             {
@@ -37,7 +39,9 @@ namespace PokedexApp.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    return View(_pokedexAppLogic.Search(searchViewModel));
+                    SearchViewModel results = _pokedexAppLogic.Search(searchViewModel);
+
+                    return View(results);
                 }
                 else
                 {

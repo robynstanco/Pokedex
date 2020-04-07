@@ -4,6 +4,7 @@ using Pokedex.Logging.Interfaces;
 using PokedexApp.Interfaces;
 using PokedexApp.Models;
 using System;
+using System.Collections.Generic;
 
 namespace PokedexApp.Controllers
 {
@@ -21,7 +22,9 @@ namespace PokedexApp.Controllers
         {
             try
             {
-                return View(_pokedexAppLogic.GetNationalDex());
+                List<PokemonListingViewModel> nationalDex = _pokedexAppLogic.GetNationalDex();
+
+                return View(nationalDex);
             }
             catch (Exception ex)
             {
@@ -33,7 +36,9 @@ namespace PokedexApp.Controllers
         {
             try
             {
-                return View(_pokedexAppLogic.GetNationalDexPokemonById(id));
+                PokemonDetailViewModel nationalDexPokemon = _pokedexAppLogic.GetNationalDexPokemonById(id);
+
+                return View(nationalDexPokemon);
             }
             catch (Exception ex)
             {

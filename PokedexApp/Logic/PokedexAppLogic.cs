@@ -28,7 +28,9 @@ namespace PokedexApp.Logic
 
         public void AddPokemon(PokemonFormViewModel pokemonFormViewModel)
         {
-            _pokedexRepository.AddPokemon(MapFormViewModelToMyPokemon(pokemonFormViewModel));
+            tblMyPokedex pokemon = MapFormViewModelToMyPokemon(pokemonFormViewModel);
+
+            _pokedexRepository.AddPokemon(pokemon);
         }
 
         public void DeletePokemonById(Guid id)
@@ -40,40 +42,67 @@ namespace PokedexApp.Logic
 
         public void EditPokemon(PokemonDetailViewModel pokemonDetailViewModel)
         {
-            _pokedexRepository.EditPokemon(MapDetailViewModelToMyPokemon(pokemonDetailViewModel));
+            tblMyPokedex pokemon = MapDetailViewModelToMyPokemon(pokemonDetailViewModel);
+
+            _pokedexRepository.EditPokemon(pokemon);
 
             _logger.LogInformation(Constants.Updated + " " + Constants.Pokemon + ": " + pokemonDetailViewModel.MyPokemonId);
         }
 
         public List<PokemonListingViewModel> GetMyPokedex()
         {
-            return MapPokedexToListingViewModels(_pokedexRepository.GetMyPokedex());
+            List<tblMyPokedex> pokedex = _pokedexRepository.GetMyPokedex();
+
+            List<PokemonListingViewModel> pokemonViewModels = MapPokedexToListingViewModels(pokedex);
+
+            return pokemonViewModels;
         }
 
         public PokemonDetailViewModel GetMyPokemonById(Guid id)
         {
-            return MapMyPokemonToDetailViewModel(_pokedexRepository.GetMyPokemonById(id));
+            tblMyPokedex myPokemon = _pokedexRepository.GetMyPokemonById(id);
+
+            PokemonDetailViewModel pokemonDetailViewModel = MapMyPokemonToDetailViewModel(myPokemon);
+
+            return pokemonDetailViewModel;
         }
 
         public List<PokemonListingViewModel> GetNationalDex()
         {
-            return MapNationalDexLookupsToListingViewModels(_pokedexRepository.GetNationalDex());
+            List<tlkpNationalDex> nationalDex = _pokedexRepository.GetNationalDex();
+
+            List<PokemonListingViewModel> pokemonListingViewModel = MapNationalDexLookupsToListingViewModels(nationalDex);
+
+            return pokemonListingViewModel;
         }
 
         public PokemonDetailViewModel GetNationalDexPokemonById(int id)
         {
-            return MapNationalDexLookupToDetailViewModel(_pokedexRepository.GetNationalDexPokemonById(id));
+            tlkpNationalDex pokemon = _pokedexRepository.GetNationalDexPokemonById(id);
+
+            PokemonDetailViewModel pokemonDetailViewModel = MapNationalDexLookupToDetailViewModel(pokemon);
+
+            return pokemonDetailViewModel;
         }
 
         public PokemonFormViewModel GetNewPokemonForm()
         {
             _logger.LogInformation(Constants.Mapping + SelectListItems);
 
+            List<SelectListItem> nationalDexOptions = GetNationalDexSelectListItems();
+
+            SelectListItem blankOption = GetBlankSelectListItem();
+
+            List<SelectListItem> pokeballOptions = GetPokeballSelectListItems(blankOption)
+                .Where(p => !string.IsNullOrWhiteSpace(p.Value)).ToList();
+
+            List<SelectListItem> sexOptions = GetPokemonSexSelectListItems();
+
             return new PokemonFormViewModel()
             {
-                NationalDexOptions = GetNationalDexSelectListItems(),
-                PokeballOptions = GetPokeballSelectListItems().Where(p => !string.IsNullOrWhiteSpace(p.Value)),
-                SexOptions = GetPokemonSexSelectListItems()
+                NationalDexOptions = nationalDexOptions,
+                PokeballOptions = pokeballOptions,
+                SexOptions = sexOptions
             };
         }
 
@@ -81,12 +110,22 @@ namespace PokedexApp.Logic
         {
             _logger.LogInformation(Constants.Mapping + SelectListItems);
 
+            SelectListItem blankOption = GetBlankSelectListItem();
+
+            List<SelectListItem> abilityOptions = GetAbilitySelectListItems(blankOption);
+
+            List<SelectListItem> categoryOptions = GetCategorySelectListItems(blankOption);
+
+            List<SelectListItem> pokeballOptions = GetPokeballSelectListItems(blankOption);
+
+            List<SelectListItem> typeOptions = GetTypeSelectListItems(blankOption);
+
             return new SearchViewModel()
             {
-                AbilityOptions = GetAbilitySelectListItems(),
-                CategoryOptions = GetCategorySelectListItems(),
-                PokeballOptions = GetPokeballSelectListItems(),
-                TypeOptions = GetTypeSelectListItems()
+                AbilityOptions = abilityOptions,
+                CategoryOptions = categoryOptions,
+                PokeballOptions = pokeballOptions,
+                TypeOptions = typeOptions
             };
         }
 
@@ -106,22 +145,26 @@ namespace PokedexApp.Logic
 
             finalSearchViewModel.FilteredPokemon = new List<PokemonListingViewModel>();
 
-            finalSearchViewModel.FilteredPokemon.AddRange(MapNationalDexLookupsToListingViewModels(
-                _pokedexRepository.Search(searchViewModel.SearchString, selectedAbilityId, selectedCategoryId, selectedTypeId)));
+            List<tlkpNationalDex> nationalDex = _pokedexRepository.Search(searchViewModel.SearchString, selectedAbilityId, selectedCategoryId, selectedTypeId);
+            List<PokemonListingViewModel> pokemonListingViewModels = MapNationalDexLookupsToListingViewModels(nationalDex);
+            finalSearchViewModel.FilteredPokemon.AddRange(pokemonListingViewModels);
 
-            finalSearchViewModel.FilteredPokemon.AddRange(MapPokedexToListingViewModels(
-                _pokedexRepository.Search(searchViewModel.SearchString, selectedAbilityId, selectedCategoryId, selectedTypeId, selectedPokeballId)));
+            List<tblMyPokedex> pokedex = _pokedexRepository.Search(searchViewModel.SearchString, selectedAbilityId, selectedCategoryId, selectedTypeId, selectedPokeballId);
+            pokemonListingViewModels = MapPokedexToListingViewModels(pokedex);
+            finalSearchViewModel.FilteredPokemon.AddRange(pokemonListingViewModels);
             
             return finalSearchViewModel;
         }
 
-        private List<SelectListItem> GetAbilitySelectListItems()
+        private List<SelectListItem> GetAbilitySelectListItems(SelectListItem prependOption)
         {
-            return _pokedexRepository.GetAllAbilities().Select(p => new SelectListItem
+            List<tlkpAbility> abilities = _pokedexRepository.GetAllAbilities();
+
+            return abilities.Select(p => new SelectListItem
             {
                 Text = p.Name,
                 Value = p.Id.ToString()
-            }).Prepend(GetBlankSelectListItem()).ToList();
+            }).Prepend(prependOption).ToList();
         }
 
         private static SelectListItem GetBlankSelectListItem()
@@ -129,31 +172,37 @@ namespace PokedexApp.Logic
             return new SelectListItem() { Text = None, Value = "" };
         }
 
-        private List<SelectListItem> GetCategorySelectListItems()
+        private List<SelectListItem> GetCategorySelectListItems(SelectListItem prependOption)
         {
-            return _pokedexRepository.GetAllCategories().Select(p => new SelectListItem
+            List<tlkpCategory> categories = _pokedexRepository.GetAllCategories();
+
+            return categories.Select(p => new SelectListItem
             {
                 Text = p.Name,
                 Value = p.Id.ToString()
-            }).Prepend(GetBlankSelectListItem()).ToList();
+            }).Prepend(prependOption).ToList();
         }
 
         private List<SelectListItem> GetNationalDexSelectListItems()
         {
-            return _pokedexRepository.GetNationalDex().Select(p => new SelectListItem
+            List<tlkpNationalDex> nationalDex = _pokedexRepository.GetNationalDex();
+
+            return nationalDex.Select(p => new SelectListItem
             {
                 Text = p.Name,
                 Value = p.Id.ToString()
             }).ToList();
         }
 
-        private List<SelectListItem> GetPokeballSelectListItems()
+        private List<SelectListItem> GetPokeballSelectListItems(SelectListItem prependOption)
         {
-            return _pokedexRepository.GetAllPokeballs().Select(p => new SelectListItem
+            List<tlkpPokeball> pokeballs = _pokedexRepository.GetAllPokeballs();
+
+            return pokeballs.Select(p => new SelectListItem
             {
                 Text = p.Name,
                 Value = p.Id.ToString()
-            }).Prepend(GetBlankSelectListItem()).ToList();
+            }).Prepend(prependOption).ToList();
         }
 
         private List<SelectListItem> GetPokemonSexSelectListItems()
@@ -162,13 +211,13 @@ namespace PokedexApp.Logic
                 new SelectListItem() { Text = Constants.Male, Value = "1" } };
         }
 
-        private List<SelectListItem> GetTypeSelectListItems()
+        private List<SelectListItem> GetTypeSelectListItems(SelectListItem prependOption)
         {
             return _pokedexRepository.GetAllTypes().Select(p => new SelectListItem
             {
                 Text = p.Name,
                 Value = p.Id.ToString()
-            }).Prepend(GetBlankSelectListItem()).ToList();
+            }).Prepend(prependOption).ToList();
         }
 
         private tblMyPokedex MapDetailViewModelToMyPokemon(PokemonDetailViewModel pokemonDetailViewModel)

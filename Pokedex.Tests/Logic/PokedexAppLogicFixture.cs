@@ -24,23 +24,26 @@ namespace Pokedex.Tests.Logic
         public void Initialize()
         {
             List<tblMyPokedex> pokedex = DataGenerator.GenerateMyPokemon(1);
+
             List<tlkpAbility> abilities = DataGenerator.GenerateAbilities(5);
+            List<tlkpCategory> categories = DataGenerator.GenerateCategories(5);
             List<tlkpNationalDex> nationalDex = DataGenerator.GenerateNationalDexPokemon(5);
+            List<tlkpPokeball> pokeballs = DataGenerator.GeneratePokeballs(5);
             List<tlkpType> types = DataGenerator.GenerateTypes(5);
 
             _pokedexRepositoryMock = new Mock<IPokedexRepository>();
             _pokedexRepositoryMock.Setup(prm => prm.GetAbilityById(0)).Returns(abilities[0]);
             _pokedexRepositoryMock.Setup(prm => prm.GetAbilityById(1)).Returns(abilities[1]); //Hidden Ability
             _pokedexRepositoryMock.Setup(prm => prm.GetAllAbilities()).Returns(abilities);
-            _pokedexRepositoryMock.Setup(prm => prm.GetAllCategories()).Returns(DataGenerator.GenerateCategories(5));
-            _pokedexRepositoryMock.Setup(prm => prm.GetAllPokeballs()).Returns(DataGenerator.GeneratePokeballs(5));
+            _pokedexRepositoryMock.Setup(prm => prm.GetAllCategories()).Returns(categories);
+            _pokedexRepositoryMock.Setup(prm => prm.GetAllPokeballs()).Returns(pokeballs);
             _pokedexRepositoryMock.Setup(prm => prm.GetAllTypes()).Returns(types);
-            _pokedexRepositoryMock.Setup(prm => prm.GetCategoryById(0)).Returns(DataGenerator.GenerateCategories(1)[0]);
+            _pokedexRepositoryMock.Setup(prm => prm.GetCategoryById(0)).Returns(categories[0]);
             _pokedexRepositoryMock.Setup(prm => prm.GetMyPokedex()).Returns(pokedex);
             _pokedexRepositoryMock.Setup(prm => prm.GetMyPokemonById(DataGenerator.DefaultGuid)).Returns(pokedex[0]);
             _pokedexRepositoryMock.Setup(prm => prm.GetNationalDex()).Returns(nationalDex);
             _pokedexRepositoryMock.Setup(prm => prm.GetNationalDexPokemonById(0)).Returns(nationalDex[0]);
-            _pokedexRepositoryMock.Setup(prm => prm.GetPokeballById(0)).Returns(DataGenerator.GeneratePokeballs(1)[0]);
+            _pokedexRepositoryMock.Setup(prm => prm.GetPokeballById(0)).Returns(pokeballs[0]);
             _pokedexRepositoryMock.Setup(prm => prm.GetTypeById(0)).Returns(types[0]);
             _pokedexRepositoryMock.Setup(prm => prm.GetTypeById(1)).Returns(types[1]); //Type Two
             _pokedexRepositoryMock.Setup(prm => prm.Search(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>())).Returns(nationalDex);

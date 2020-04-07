@@ -33,7 +33,8 @@ namespace Pokedex.Repository.Repositories
 
         public void DeletePokemonById(Guid myPokemonId)
         {
-            _context.Remove(GetMyPokemonById(myPokemonId));
+            tblMyPokedex myPokemon = GetMyPokemonById(myPokemonId);
+            _context.Remove(myPokemon);
             _context.SaveChanges();
 
             _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Deleted, Constants.Pokemon, Constants.From, myPokemonId));

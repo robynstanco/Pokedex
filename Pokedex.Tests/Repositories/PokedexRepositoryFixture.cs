@@ -28,12 +28,21 @@ namespace Pokedex.Tests.Repositories
         [TestInitialize]
         public void Initialize()
         {
-            _myPokedexMockSet = InitializeMockSet(DataGenerator.GenerateMyPokemon(5).AsQueryable());
-            _abilitiesMockSet = InitializeMockSet(DataGenerator.GenerateAbilities(6).AsQueryable());
-            _categoriesMockSet = InitializeMockSet(DataGenerator.GenerateCategories(5).AsQueryable());
-            _nationalDexMockSet = InitializeMockSet(DataGenerator.GenerateNationalDexPokemon(5).AsQueryable());
-            _pokeballsMockSet = InitializeMockSet(DataGenerator.GeneratePokeballs(5).AsQueryable());
-            _typesMockSet = InitializeMockSet(DataGenerator.GenerateTypes(6).AsQueryable());
+            IQueryable<tblMyPokedex> myPokedex = DataGenerator.GenerateMyPokemon(5).AsQueryable();
+
+            IQueryable<tlkpAbility> abilities = DataGenerator.GenerateAbilities(6).AsQueryable();
+            IQueryable<tlkpCategory> categories = DataGenerator.GenerateCategories(5).AsQueryable();
+            IQueryable<tlkpNationalDex> nationalDex = DataGenerator.GenerateNationalDexPokemon(5).AsQueryable();
+            IQueryable<tlkpPokeball> pokeballs = DataGenerator.GeneratePokeballs(5).AsQueryable();
+            IQueryable<tlkpType> types = DataGenerator.GenerateTypes(6).AsQueryable();
+
+            _myPokedexMockSet = InitializeMockSet(myPokedex);
+
+            _abilitiesMockSet = InitializeMockSet(abilities);
+            _categoriesMockSet = InitializeMockSet(categories);
+            _nationalDexMockSet = InitializeMockSet(nationalDex);
+            _pokeballsMockSet = InitializeMockSet(pokeballs);
+            _typesMockSet = InitializeMockSet(types);
 
             _pokedexDBContextMock = new Mock<POKEDEXDBContext>();
             _pokedexDBContextMock.Setup(dbcm => dbcm.tblMyPokedex).Returns(_myPokedexMockSet.Object);

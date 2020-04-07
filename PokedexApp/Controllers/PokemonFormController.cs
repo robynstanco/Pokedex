@@ -21,7 +21,9 @@ namespace PokedexApp.Controllers
         {
             try
             {
-                return View(_pokedexAppLogic.GetNewPokemonForm());
+                PokemonFormViewModel pokemonFormViewModel = _pokedexAppLogic.GetNewPokemonForm();
+
+                return View(pokemonFormViewModel);
             }
             catch (Exception ex)
             {
