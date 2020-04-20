@@ -1,14 +1,15 @@
 ﻿using PokedexApp.Models;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PokedexApp.Interfaces
 {
     public interface IPokedexAppLogic
     {
-        void AddPokemon(PokemonFormViewModel pokemonFormViewModel);
+        Task<PokemonFormViewModel> AddPokemon(PokemonFormViewModel pokemonFormViewModel);
         void DeletePokemonById(Guid id);
-        void EditPokemon(PokemonDetailViewModel pokemonDetailViewModel);
+        Task<PokemonDetailViewModel> EditPokemon(PokemonDetailViewModel pokemonDetailViewModel);
         List<PokemonListingViewModel> GetMyPokedex();
         PokemonDetailViewModel GetMyPokemonById(Guid id);
         List<PokemonListingViewModel> GetNationalDex();

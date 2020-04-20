@@ -8,6 +8,7 @@ using PokedexApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace PokedexApp.Logic
 {
@@ -26,11 +27,13 @@ namespace PokedexApp.Logic
             _logger = logger;
         }
 
-        public void AddPokemon(PokemonFormViewModel pokemonFormViewModel)
+        public async Task<PokemonFormViewModel> AddPokemon(PokemonFormViewModel pokemonFormViewModel)
         {
             tblMyPokedex pokemon = MapFormViewModelToMyPokemon(pokemonFormViewModel);
 
-            _pokedexRepository.AddPokemon(pokemon);
+            await _pokedexRepository.AddPokemon(pokemon);
+
+            return pokemonFormViewModel;
         }
 
         public void DeletePokemonById(Guid id)
@@ -40,13 +43,15 @@ namespace PokedexApp.Logic
             _logger.LogInformation(Constants.Deleted + " " + Constants.Pokemon + ": " + id);
         }
 
-        public void EditPokemon(PokemonDetailViewModel pokemonDetailViewModel)
+        public async Task<PokemonDetailViewModel> EditPokemon(PokemonDetailViewModel pokemonDetailViewModel)
         {
             tblMyPokedex pokemon = MapDetailViewModelToMyPokemon(pokemonDetailViewModel);
 
-            _pokedexRepository.EditPokemon(pokemon);
+            await _pokedexRepository.EditPokemon(pokemon);
 
             _logger.LogInformation(Constants.Updated + " " + Constants.Pokemon + ": " + pokemonDetailViewModel.MyPokemonId);
+
+            return pokemonDetailViewModel;
         }
 
         public List<PokemonListingViewModel> GetMyPokedex()

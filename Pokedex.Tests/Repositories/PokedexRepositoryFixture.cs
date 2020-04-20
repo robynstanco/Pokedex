@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Pokedex.Data;
@@ -8,6 +9,8 @@ using Pokedex.Repository.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Pokedex.Tests.Repositories
 {
@@ -77,13 +80,13 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
-        public void AddPokemonIsSuccessfulAndLogsInformation()
+        public async Task AddPokemonIsSuccessfulAndLogsInformation()
         {
             tblMyPokedex generatedPokemon = DataGenerator.GenerateMyPokemon(1)[0];
 
-            _pokedexRepository.AddPokemon(generatedPokemon);
+            await _pokedexRepository.AddPokemon(generatedPokemon);
 
-            _pokedexDBContextMock.Verify(m => m.Add(generatedPokemon), Times.Once);
+            _pokedexDBContextMock.Verify(m => m.AddAsync(generatedPokemon, It.IsAny<CancellationToken>()), Times.Once);
             _pokedexDBContextMock.Verify(m => m.SaveChanges(), Times.Once);
 
             _loggerMock.Verify(lm => lm.LogInformation("Added Pokémon to DBContext with Id: " + DataGenerator.DefaultGuid), Times.Once);
@@ -103,14 +106,14 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
-        public void EditPokemonIsSuccessfulAndLogsInformation()
+        public async Task EditPokemonIsSuccessfulAndLogsInformation()
         {
             tblMyPokedex generatedPokemon = DataGenerator.GenerateMyPokemon(1)[0];
 
-            _pokedexRepository.EditPokemon(generatedPokemon);
+            await _pokedexRepository.EditPokemon(generatedPokemon);
 
             _pokedexDBContextMock.Verify(m => m.Remove(It.IsAny<tblMyPokedex>()), Times.Once);
-            _pokedexDBContextMock.Verify(m => m.Add(generatedPokemon), Times.Once);
+            _pokedexDBContextMock.Verify(m => m.AddAsync(generatedPokemon, It.IsAny<CancellationToken>()), Times.Once);
             _pokedexDBContextMock.Verify(m => m.SaveChanges(), Times.Exactly(2));
 
             _loggerMock.Verify(lm => lm.LogInformation("Updated Pokémon in DBContext with Id: " + DataGenerator.DefaultGuid), Times.Once);

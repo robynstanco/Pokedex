@@ -4,6 +4,7 @@ using Pokedex.Logging.Interfaces;
 using PokedexApp.Interfaces;
 using PokedexApp.Models;
 using System;
+using System.Threading.Tasks;
 
 namespace PokedexApp.Controllers
 {
@@ -32,13 +33,13 @@ namespace PokedexApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(PokemonFormViewModel pokemonFormViewModel)
+        public async Task<IActionResult> Index(PokemonFormViewModel pokemonFormViewModel)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _pokedexAppLogic.AddPokemon(pokemonFormViewModel);
+                    await _pokedexAppLogic.AddPokemon(pokemonFormViewModel);
 
                     return View(Constants.Success, new SuccessViewModel() { ActionName = "addition" });
                 }

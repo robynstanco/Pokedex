@@ -6,6 +6,7 @@ using Pokedex.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Pokedex.Repository.Repositories
 {
@@ -24,12 +25,15 @@ namespace Pokedex.Repository.Repositories
             _logger = logger;
         }
 
-        public void AddPokemon(tblMyPokedex pokemon)
+        public async Task<tblMyPokedex> AddPokemon(tblMyPokedex pokemon)
         {
-            _context.Add(pokemon);
+            await _context.AddAsync(pokemon);
+
             _context.SaveChanges();
             
             _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Added, Constants.Pokemon, Constants.To, pokemon.Id));
+
+            return pokemon;
         }
 
         public void DeletePokemonById(Guid myPokemonId)
@@ -41,12 +45,15 @@ namespace Pokedex.Repository.Repositories
             _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Deleted, Constants.Pokemon, Constants.From, myPokemonId));
         }
 
-        public void EditPokemon(tblMyPokedex pokemon)
+        public async Task<tblMyPokedex> EditPokemon(tblMyPokedex pokemon)
         {
             DeletePokemonById(pokemon.Id);
-            AddPokemon(pokemon);
+            
+            await AddPokemon(pokemon);
 
             _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Updated, Constants.Pokemon, Constants.In, pokemon.Id));
+
+            return pokemon;
         }
 
         public tlkpAbility GetAbilityById(int abilityId)

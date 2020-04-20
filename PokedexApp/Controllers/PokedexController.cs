@@ -5,6 +5,7 @@ using PokedexApp.Interfaces;
 using PokedexApp.Models;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PokedexApp.Controllers
 {
@@ -61,11 +62,11 @@ namespace PokedexApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(PokemonDetailViewModel pokemonDetailViewModel)
+        public async Task<IActionResult> Edit(PokemonDetailViewModel pokemonDetailViewModel)
         {
             try
             {
-                _pokedexAppLogic.EditPokemon(pokemonDetailViewModel);
+                await _pokedexAppLogic.EditPokemon(pokemonDetailViewModel);
 
                 return View(Constants.Success, new SuccessViewModel() { ActionName = "edit" });
             }
