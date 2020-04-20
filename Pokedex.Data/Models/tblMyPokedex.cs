@@ -14,7 +14,7 @@ namespace Pokedex.Data.Models
         public string Location { get; set; }
         public int? PokeballId { get; set; }
 
-        public tlkpPokeball Pokeball { get; set; }
-        public tlkpNationalDex Pokemon { get; set; }
+        public virtual tlkpPokeball Pokeball { get; set; }
+        public virtual tlkpNationalDex Pokemon { get; set; }
     }
 }

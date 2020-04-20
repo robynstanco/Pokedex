@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Pokedex.Data;
 using Pokedex.Data.Models;
 using Pokedex.Logging.Interfaces;
 using Pokedex.Repository.Repositories;

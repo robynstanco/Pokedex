@@ -14,7 +14,7 @@ namespace Pokedex.Data.Models
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public ICollection<tlkpNationalDex> tlkpNationalDexAbility { get; set; }
-        public ICollection<tlkpNationalDex> tlkpNationalDexHiddenAbility { get; set; }
+        public virtual ICollection<tlkpNationalDex> tlkpNationalDexAbility { get; set; }
+        public virtual ICollection<tlkpNationalDex> tlkpNationalDexHiddenAbility { get; set; }
     }
 }

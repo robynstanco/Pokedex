@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.705
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29926.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "POKEDEXDB", "POKEDEXDB\POKEDEXDB.sqlproj", "{F37DFB26-9C3A-4DDC-98BE-F1A562AEA739}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pokedex.Data", "Pokedex.Data\Pokedex.Data.csproj", "{B0174860-036D-4F70-9DE5-387B5746BA65}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PokedexAPI", "PokedexAPI\PokedexAPI.csproj", "{D6AC9BD0-66F5-4FDF-9F71-D16EB479235A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PokedexApp", "PokedexApp\PokedexApp.csproj", "{5D06AE54-5560-4896-8749-402C07E37300}"
 EndProject
@@ -20,7 +18,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pokedex.Repository", "Poked
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pokedex.Logging", "Pokedex.Logging\Pokedex.Logging.csproj", "{1DEBB5F5-EC7A-4645-9C6F-0590AD6E062A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pokedex.Common", "Pokedex.Helpers\Pokedex.Common.csproj", "{E00B2F35-3699-4C00-9B6B-B8EB87BEC3E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pokedex.Common", "Pokedex.Helpers\Pokedex.Common.csproj", "{E00B2F35-3699-4C00-9B6B-B8EB87BEC3E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,10 +36,6 @@ Global
 		{B0174860-036D-4F70-9DE5-387B5746BA65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0174860-036D-4F70-9DE5-387B5746BA65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0174860-036D-4F70-9DE5-387B5746BA65}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D6AC9BD0-66F5-4FDF-9F71-D16EB479235A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D6AC9BD0-66F5-4FDF-9F71-D16EB479235A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D6AC9BD0-66F5-4FDF-9F71-D16EB479235A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D6AC9BD0-66F5-4FDF-9F71-D16EB479235A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5D06AE54-5560-4896-8749-402C07E37300}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5D06AE54-5560-4896-8749-402C07E37300}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D06AE54-5560-4896-8749-402C07E37300}.Release|Any CPU.ActiveCfg = Release|Any CPU

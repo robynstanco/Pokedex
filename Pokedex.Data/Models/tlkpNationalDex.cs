@@ -23,11 +23,11 @@ namespace Pokedex.Data.Models
         public int WeightInPounds { get; set; }
         public string ImageURL { get; set; }
 
-        public tlkpAbility Ability { get; set; }
-        public tlkpCategory Category { get; set; }
-        public tlkpAbility HiddenAbility { get; set; }
-        public tlkpType TypeOne { get; set; }
-        public tlkpType TypeTwo { get; set; }
-        public ICollection<tblMyPokedex> tblMyPokedex { get; set; }
+        public virtual tlkpAbility Ability { get; set; }
+        public virtual tlkpCategory Category { get; set; }
+        public virtual tlkpAbility HiddenAbility { get; set; }
+        public virtual tlkpType TypeOne { get; set; }
+        public virtual tlkpType TypeTwo { get; set; }
+        public virtual ICollection<tblMyPokedex> tblMyPokedex { get; set; }
     }
 }

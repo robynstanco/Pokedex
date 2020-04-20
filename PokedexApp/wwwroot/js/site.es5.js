@@ -1,4 +1,6 @@
-﻿$(document).ready(function () {
+﻿"use strict";
+
+$(document).ready(function () {
     //Selectors
     var pokemonDetailImageSelector = ".pokemon__item--large .pokemon__item-img";
 
@@ -7,3 +9,4 @@
         $(pokemonDetailImageSelector).effect("shake");
     });
 });
+

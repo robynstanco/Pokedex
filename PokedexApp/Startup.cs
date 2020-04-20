@@ -4,9 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Pokedex.Common;
-using Pokedex.Data.Models;
+using Pokedex.Data;
 using Pokedex.Logging.Adapters;
 using Pokedex.Logging.Interfaces;
 using Pokedex.Repository.Interfaces;
@@ -36,19 +37,19 @@ namespace PokedexApp
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddControllersWithViews();
             Logger.LogInformation(Constants.Added + " MVC.");
 
             services.AddDbContext<POKEDEXDBContext>(op => op.UseSqlServer(POKEDEXDBConnectionString));
             Logger.LogInformation(Constants.Added + " " + Constants.Pokemon + Constants.DBContext + ".");
-            
+
             services.AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
             services.AddScoped<IPokedexAppLogic, PokedexAppLogic>();
             services.AddScoped<IPokedexRepository, PokedexRepository>();
             Logger.LogInformation(Constants.Added + " Dependency Injection for custom logging, logic, and repository.");
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -59,15 +60,18 @@ namespace PokedexApp
                 app.UseExceptionHandler("/" + Constants.Error);
                 app.UseHsts();
             }
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            app.UseMvc(routes =>
+            app.UseRouting();
+
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "default",
-                    template: "{controller=Pokedex}/{action=Index}");
+                    pattern: "{controller=Pokedex}/{action=Index}");
             });
         }
     }

@@ -13,6 +13,6 @@ namespace Pokedex.Data.Models
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public ICollection<tlkpNationalDex> tlkpNationalDex { get; set; }
+        public virtual ICollection<tlkpNationalDex> tlkpNationalDex { get; set; }
     }
 }

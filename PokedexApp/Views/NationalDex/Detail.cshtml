@@ -15,24 +15,24 @@
         </h1>
 
         <div class="pill__container">
-            <div class="pill__item @Model.TypeOne">
+            <div class="pill__item pill__item--hover @Model.TypeOne">
                 @Model.TypeOne
             </div>
 
             @if (!string.IsNullOrWhiteSpace(Model.TypeTwo) && !Model.TypeTwo.Equals(Constants.NotApplicable))
             {
-                <div class="pill__item @Model.TypeTwo">
+                <div class="pill__item pill__item--hover @Model.TypeTwo">
                     @Model.TypeTwo
                 </div>
             }
 
-            <div class="pill__item pill__item--dark">
+            <div class="pill__item pill__item--dark pill__item--hover">
                 @Model.Ability
             </div>
 
             @if (!string.IsNullOrWhiteSpace(Model.HiddenAbility) && !Model.HiddenAbility.Equals(Constants.NotApplicable))
             {
-                <div class="pill__item pill__item--dark">
+                <div class="pill__item pill__item--dark pill__item--hover">
                     @Model.HiddenAbility
                 </div>
             }

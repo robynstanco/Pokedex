@@ -14,6 +14,6 @@ namespace Pokedex.Data.Models
         public string Name { get; set; }
         public string ImageURL { get; set; }
 
-        public ICollection<tblMyPokedex> tblMyPokedex { get; set; }
+        public virtual ICollection<tblMyPokedex> tblMyPokedex { get; set; }
     }
 }

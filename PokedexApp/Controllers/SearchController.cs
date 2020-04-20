@@ -4,7 +4,6 @@ using Pokedex.Logging.Interfaces;
 using PokedexApp.Interfaces;
 using PokedexApp.Models;
 using System;
-using System.Collections.Generic;
 
 namespace PokedexApp.Controllers
 {

@@ -13,7 +13,15 @@
     .box-shadow--small();
 }
 
-.pill__item--dark{
+.pill__item--hover {
+    .hover-shadow();
+
+    &:hover {
+        cursor: default;
+    }
+}
+
+.pill__item--dark {
     background-color: @standardDarkPalette;
 }
 

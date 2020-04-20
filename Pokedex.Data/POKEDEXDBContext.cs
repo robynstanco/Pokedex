@@ -1,8 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Pokedex.Data.Models;
 
-namespace Pokedex.Data.Models
+namespace Pokedex.Data
 {
     public partial class POKEDEXDBContext : DbContext
     {
@@ -132,6 +133,10 @@ namespace Pokedex.Data.Models
                     .IsRequired()
                     .IsUnicode(false);
             });
+
+            OnModelCreatingPartial(modelBuilder);
         }
+
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }
