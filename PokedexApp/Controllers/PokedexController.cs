@@ -19,11 +19,11 @@ namespace PokedexApp.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             try
             {
-                List<PokemonListingViewModel> myPokemon = _pokedexAppLogic.GetMyPokedex();
+                List<PokemonListingViewModel> myPokemon = await _pokedexAppLogic.GetMyPokedex();
                 return View(myPokemon);
             }
             catch(Exception ex)
@@ -32,11 +32,11 @@ namespace PokedexApp.Controllers
             }
         }
 
-        public IActionResult Detail(Guid id)
+        public async Task<IActionResult> Detail(Guid id)
         {
             try
             {
-                PokemonDetailViewModel myPokemon = _pokedexAppLogic.GetMyPokemonById(id);
+                PokemonDetailViewModel myPokemon = await _pokedexAppLogic.GetMyPokemonById(id);
 
                 return View(myPokemon);
             }
@@ -46,11 +46,11 @@ namespace PokedexApp.Controllers
             }
         }
 
-        public IActionResult Edit(Guid id)
+        public async Task<IActionResult> Edit(Guid id)
         {
             try
             {
-                PokemonDetailViewModel pokemonDetailViewModel = _pokedexAppLogic.GetMyPokemonById(id);
+                PokemonDetailViewModel pokemonDetailViewModel = await _pokedexAppLogic.GetMyPokemonById(id);
                 pokemonDetailViewModel.IsEditMode = true;
 
                 return View("Detail", pokemonDetailViewModel);

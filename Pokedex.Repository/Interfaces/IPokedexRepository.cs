@@ -11,21 +11,21 @@ namespace Pokedex.Repository.Interfaces
         List<tlkpCategory> GetAllCategories();
         List<tlkpPokeball> GetAllPokeballs();
         List<tlkpType> GetAllTypes();
-        List<tblMyPokedex> GetMyPokedex();
+        Task<List<tblMyPokedex>> GetMyPokedex();
         List<tlkpNationalDex> GetNationalDex();
 
-        tlkpAbility GetAbilityById(int abilityId);
+        Task<tlkpAbility> GetAbilityById(int abilityId);
         tlkpCategory GetCategoryById(int categoryId);
-        tblMyPokedex GetMyPokemonById(Guid pokemonId);
-        tlkpNationalDex GetNationalDexPokemonById(int pokemonId);
+        Task<tblMyPokedex> GetMyPokemonById(Guid pokemonId);
+        Task<tlkpNationalDex> GetNationalDexPokemonById(int pokemonId);
         tlkpPokeball GetPokeballById(int pokeballId);
         tlkpType GetTypeById(int typeId);
         
         Task<tblMyPokedex> AddPokemon(tblMyPokedex pokemon);
         Task<tblMyPokedex> EditPokemon(tblMyPokedex pokemon);
-        void DeletePokemonById(Guid pokemonId);
+        Task<tblMyPokedex> DeletePokemonById(Guid pokemonId);
 
         List<tlkpNationalDex> Search(string searchString, int? selectedAbilityId, int? selectedCategoryId, int? selectedTypeId);
-        List<tblMyPokedex> Search(string searchString, int? selectedAbilityId, int? selectedCategoryId, int? selectedTypeId, int? selectedPokeballId);
+        Task<List<tblMyPokedex>> Search(string searchString, int? selectedAbilityId, int? selectedCategoryId, int? selectedTypeId, int? selectedPokeballId);
     }
 }

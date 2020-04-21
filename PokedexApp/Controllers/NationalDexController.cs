@@ -5,6 +5,7 @@ using PokedexApp.Interfaces;
 using PokedexApp.Models;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PokedexApp.Controllers
 {
@@ -32,11 +33,11 @@ namespace PokedexApp.Controllers
             }
         }
 
-        public IActionResult Detail(int id)
+        public async Task<IActionResult> Detail(int id)
         {
             try
             {
-                PokemonDetailViewModel nationalDexPokemon = _pokedexAppLogic.GetNationalDexPokemonById(id);
+                PokemonDetailViewModel nationalDexPokemon = await _pokedexAppLogic.GetNationalDexPokemonById(id);
 
                 return View(nationalDexPokemon);
             }

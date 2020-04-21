@@ -6,6 +6,7 @@ using PokedexApp.Interfaces;
 using PokedexApp.Models;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Pokedex.Tests.Controllers
 {
@@ -21,8 +22,8 @@ namespace Pokedex.Tests.Controllers
         public void Initialize()
         {
             _pokedexAppLogicMock = new Mock<IPokedexAppLogic>();
-            _pokedexAppLogicMock.Setup(plm => plm.GetMyPokedex()).Returns(It.IsAny<List<PokemonListingViewModel>>());
-            _pokedexAppLogicMock.Setup(plm => plm.GetMyPokemonById(It.IsAny<Guid>())).Returns(It.IsAny<PokemonDetailViewModel>());
+            _pokedexAppLogicMock.Setup(plm => plm.GetMyPokedex()).ReturnsAsync(It.IsAny<List<PokemonListingViewModel>>());
+            _pokedexAppLogicMock.Setup(plm => plm.GetMyPokemonById(It.IsAny<Guid>())).ReturnsAsync(It.IsAny<PokemonDetailViewModel>());
 
             _loggerMock = new Mock<ILoggerAdapter<PokedexController>>();
 
@@ -30,17 +31,17 @@ namespace Pokedex.Tests.Controllers
         }
 
         [TestMethod]
-        public void IndexActionIsSuccessfulAndCallsLogic()
+        public async Task IndexActionIsSuccessfulAndCallsLogic()
         {
-            _pokedexController.Index();
+            await _pokedexController.Index();
 
             _pokedexAppLogicMock.Verify(plm => plm.GetMyPokedex(), Times.Once);
         }
 
         [TestMethod]
-        public void DetailActionIsSuccessfulAndCallsLogic()
+        public async Task DetailActionIsSuccessfulAndCallsLogic()
         {
-            _pokedexController.Detail(DataGenerator.DefaultGuid);
+            await _pokedexController.Detail(DataGenerator.DefaultGuid);
 
             _pokedexAppLogicMock.Verify(plm => plm.GetMyPokemonById(DataGenerator.DefaultGuid), Times.Once);
         }
@@ -55,13 +56,13 @@ namespace Pokedex.Tests.Controllers
 
         
         [TestMethod]
-        public void EditIsSuccessfulAndCallsLogic()
+        public async Task EditIsSuccessfulAndCallsLogic()
         {
-            _pokedexController.Edit(DataGenerator.DefaultGuid);
+            await _pokedexController.Edit(DataGenerator.DefaultGuid);
 
             _pokedexAppLogicMock.Verify(plm => plm.GetMyPokemonById(DataGenerator.DefaultGuid), Times.Once);
 
-            _pokedexController.Edit(new PokemonDetailViewModel());
+            await _pokedexController.Edit(new PokemonDetailViewModel());
 
             _pokedexAppLogicMock.Verify(plm => plm.EditPokemon(It.IsAny<PokemonDetailViewModel>()), Times.Once);
         }

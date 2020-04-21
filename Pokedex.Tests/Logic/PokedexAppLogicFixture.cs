@@ -9,6 +9,7 @@ using PokedexApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Pokedex.Tests.Logic
 {
@@ -32,22 +33,22 @@ namespace Pokedex.Tests.Logic
             List<tlkpType> types = DataGenerator.GenerateTypes(5);
 
             _pokedexRepositoryMock = new Mock<IPokedexRepository>();
-            _pokedexRepositoryMock.Setup(prm => prm.GetAbilityById(0)).Returns(abilities[0]);
-            _pokedexRepositoryMock.Setup(prm => prm.GetAbilityById(1)).Returns(abilities[1]); //Hidden Ability
+            _pokedexRepositoryMock.Setup(prm => prm.GetAbilityById(0)).ReturnsAsync(abilities[0]);
+            _pokedexRepositoryMock.Setup(prm => prm.GetAbilityById(1)).ReturnsAsync(abilities[1]); //Hidden Ability
             _pokedexRepositoryMock.Setup(prm => prm.GetAllAbilities()).Returns(abilities);
             _pokedexRepositoryMock.Setup(prm => prm.GetAllCategories()).Returns(categories);
             _pokedexRepositoryMock.Setup(prm => prm.GetAllPokeballs()).Returns(pokeballs);
             _pokedexRepositoryMock.Setup(prm => prm.GetAllTypes()).Returns(types);
             _pokedexRepositoryMock.Setup(prm => prm.GetCategoryById(0)).Returns(categories[0]);
-            _pokedexRepositoryMock.Setup(prm => prm.GetMyPokedex()).Returns(pokedex);
-            _pokedexRepositoryMock.Setup(prm => prm.GetMyPokemonById(DataGenerator.DefaultGuid)).Returns(pokedex[0]);
+            _pokedexRepositoryMock.Setup(prm => prm.GetMyPokedex()).ReturnsAsync(pokedex);
+            _pokedexRepositoryMock.Setup(prm => prm.GetMyPokemonById(DataGenerator.DefaultGuid)).ReturnsAsync(pokedex[0]);
             _pokedexRepositoryMock.Setup(prm => prm.GetNationalDex()).Returns(nationalDex);
-            _pokedexRepositoryMock.Setup(prm => prm.GetNationalDexPokemonById(0)).Returns(nationalDex[0]);
+            _pokedexRepositoryMock.Setup(prm => prm.GetNationalDexPokemonById(0)).ReturnsAsync(nationalDex[0]);
             _pokedexRepositoryMock.Setup(prm => prm.GetPokeballById(0)).Returns(pokeballs[0]);
             _pokedexRepositoryMock.Setup(prm => prm.GetTypeById(0)).Returns(types[0]);
             _pokedexRepositoryMock.Setup(prm => prm.GetTypeById(1)).Returns(types[1]); //Type Two
             _pokedexRepositoryMock.Setup(prm => prm.Search(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>())).Returns(nationalDex);
-            _pokedexRepositoryMock.Setup(prm => prm.Search(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>())).Returns(pokedex);
+            _pokedexRepositoryMock.Setup(prm => prm.Search(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(pokedex);
 
             _loggerMock = new Mock<ILoggerAdapter<PokedexAppLogic>>();
 
@@ -55,11 +56,12 @@ namespace Pokedex.Tests.Logic
         }
 
         [TestMethod]
-        public void AddPokemonIsSuccessfulAndLogsInformation()
+        public async Task AddPokemonIsSuccessfulAndLogsInformation()
         {
-            _pokedexAppLogic.AddPokemon(new PokemonFormViewModel());
+            await _pokedexAppLogic.AddPokemon(new PokemonFormViewModel());
 
             _pokedexRepositoryMock.Verify(prm => prm.AddPokemon(It.IsAny<tblMyPokedex>()), Times.Once);
+
             _loggerMock.Verify(lm => lm.LogInformation("Mapping Pokémon View Models"), Times.Once);
         }
 
@@ -73,22 +75,23 @@ namespace Pokedex.Tests.Logic
         }
 
         [TestMethod]
-        public void EditPokemonIsSuccessfulAndLogsInformation()
+        public async Task EditPokemonIsSuccessfulAndLogsInformation()
         {
-            _pokedexAppLogic.EditPokemon(new PokemonDetailViewModel()
+            await _pokedexAppLogic.EditPokemon(new PokemonDetailViewModel()
             {
                 MyPokemonId = DataGenerator.DefaultGuid,
                 NationalDexPokemonId = 0
             });
 
             _pokedexRepositoryMock.Verify(prm => prm.EditPokemon(It.Is<tblMyPokedex>(p => p.Id == DataGenerator.DefaultGuid && p.PokemonId == 0)), Times.Once);
+            
             _loggerMock.Verify(lm => lm.LogInformation("Updated Pokémon: " + DataGenerator.DefaultGuid), Times.Once);
         }
 
         [TestMethod]
-        public void GetMyPokedexIsSuccessfulAndLogsInformation()
+        public async Task GetMyPokedexIsSuccessfulAndLogsInformation()
         {
-            List<PokemonListingViewModel> pokemonListingViewModels = _pokedexAppLogic.GetMyPokedex();
+            List<PokemonListingViewModel> pokemonListingViewModels = await _pokedexAppLogic.GetMyPokedex();
 
             Assert.AreEqual(1, pokemonListingViewModels.Count);
             Assert.AreEqual("http://0.com", pokemonListingViewModels[0].ImageURL);
@@ -98,13 +101,14 @@ namespace Pokedex.Tests.Logic
             Assert.AreEqual(0, pokemonListingViewModels[0].NationalDexPokemonId);
             
             _pokedexRepositoryMock.Verify(prm => prm.GetMyPokedex(), Times.Once);
+
             _loggerMock.Verify(lm => lm.LogInformation("Mapping 1 Pokémon View Models."), Times.Once);
         }
 
         [TestMethod]
-        public void GetMyPokemonByIdIsSuccessfulAndLogsInformation()
+        public async Task GetMyPokemonByIdIsSuccessfulAndLogsInformation()
         {
-            PokemonDetailViewModel pokemonDetailViewModel = _pokedexAppLogic.GetMyPokemonById(DataGenerator.DefaultGuid);
+            PokemonDetailViewModel pokemonDetailViewModel = await _pokedexAppLogic.GetMyPokemonById(DataGenerator.DefaultGuid);
 
             Assert.AreEqual("Name0", pokemonDetailViewModel.Ability);
             Assert.AreEqual("Name0", pokemonDetailViewModel.Category);
@@ -127,6 +131,7 @@ namespace Pokedex.Tests.Logic
             Assert.AreEqual(1, pokemonDetailViewModel.WeightInPounds);
 
             _pokedexRepositoryMock.Verify(prm => prm.GetMyPokemonById(DataGenerator.DefaultGuid), Times.Once);
+
             _loggerMock.Verify(lm => lm.LogInformation("Mapping 1 Pokémon View Models."), Times.Once);
         }
 
@@ -148,9 +153,9 @@ namespace Pokedex.Tests.Logic
         }
 
         [TestMethod]
-        public void GetNationalDexPokemonByIdIsSuccessfulAndLogsInformation()
+        public async Task GetNationalDexPokemonByIdIsSuccessfulAndLogsInformation()
         {
-            PokemonDetailViewModel pokemonDetailViewModel = _pokedexAppLogic.GetNationalDexPokemonById(0);
+            PokemonDetailViewModel pokemonDetailViewModel = await _pokedexAppLogic.GetNationalDexPokemonById(0);
 
             Assert.AreEqual("Name0", pokemonDetailViewModel.Ability);
             Assert.AreEqual("Name0", pokemonDetailViewModel.Category);
@@ -229,9 +234,9 @@ namespace Pokedex.Tests.Logic
         }
 
         [TestMethod]
-        public void SearchCallsRepository()
+        public async Task SearchCallsRepository()
         {
-            SearchViewModel searchResultsViewModel = _pokedexAppLogic.Search(new SearchViewModel
+            SearchViewModel searchResultsViewModel = await _pokedexAppLogic.Search(new SearchViewModel
             {
                 SearchString = "Name0",
                 SelectedAbilityId = 0,

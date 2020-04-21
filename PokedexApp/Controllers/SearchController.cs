@@ -4,6 +4,7 @@ using Pokedex.Logging.Interfaces;
 using PokedexApp.Interfaces;
 using PokedexApp.Models;
 using System;
+using System.Threading.Tasks;
 
 namespace PokedexApp.Controllers
 {
@@ -32,13 +33,13 @@ namespace PokedexApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(SearchViewModel searchViewModel)
+        public async Task<IActionResult> Index(SearchViewModel searchViewModel)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    SearchViewModel results = _pokedexAppLogic.Search(searchViewModel);
+                    SearchViewModel results = await _pokedexAppLogic.Search(searchViewModel);
 
                     return View(results);
                 }

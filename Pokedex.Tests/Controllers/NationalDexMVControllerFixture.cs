@@ -6,6 +6,7 @@ using PokedexApp.Interfaces;
 using PokedexApp.Models;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Pokedex.Tests.Controllers
 {
@@ -22,7 +23,7 @@ namespace Pokedex.Tests.Controllers
         {
             _pokedexAppLogicMock = new Mock<IPokedexAppLogic>();
             _pokedexAppLogicMock.Setup(plm => plm.GetNationalDex()).Returns(It.IsAny<List<PokemonListingViewModel>>());
-            _pokedexAppLogicMock.Setup(plm => plm.GetNationalDexPokemonById(It.IsAny<int>())).Returns(It.IsAny<PokemonDetailViewModel>());
+            _pokedexAppLogicMock.Setup(plm => plm.GetNationalDexPokemonById(It.IsAny<int>())).ReturnsAsync(It.IsAny<PokemonDetailViewModel>());
 
             _loggerMock = new Mock<ILoggerAdapter<NationalDexController>>();
 
@@ -38,9 +39,9 @@ namespace Pokedex.Tests.Controllers
         }
 
         [TestMethod]
-        public void DetailActionIsSuccessfullAndCallsLogic()
+        public async Task DetailActionIsSuccessfullAndCallsLogic()
         {
-            _nationalDexController.Detail(0);
+            await _nationalDexController.Detail(0);
 
             _pokedexAppLogicMock.Verify(plm => plm.GetNationalDexPokemonById(0), Times.Once);
         }

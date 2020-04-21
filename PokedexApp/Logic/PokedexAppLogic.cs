@@ -45,7 +45,7 @@ namespace PokedexApp.Logic
 
         public async Task<PokemonDetailViewModel> EditPokemon(PokemonDetailViewModel pokemonDetailViewModel)
         {
-            tblMyPokedex pokemon = MapDetailViewModelToMyPokemon(pokemonDetailViewModel);
+            tblMyPokedex pokemon = await MapDetailViewModelToMyPokemon(pokemonDetailViewModel);
 
             await _pokedexRepository.EditPokemon(pokemon);
 
@@ -54,18 +54,18 @@ namespace PokedexApp.Logic
             return pokemonDetailViewModel;
         }
 
-        public List<PokemonListingViewModel> GetMyPokedex()
+        public async Task<List<PokemonListingViewModel>> GetMyPokedex()
         {
-            List<tblMyPokedex> pokedex = _pokedexRepository.GetMyPokedex();
+            List<tblMyPokedex> pokedex = await _pokedexRepository.GetMyPokedex();
 
             List<PokemonListingViewModel> pokemonViewModels = MapPokedexToListingViewModels(pokedex);
 
             return pokemonViewModels;
         }
 
-        public PokemonDetailViewModel GetMyPokemonById(Guid id)
+        public async Task<PokemonDetailViewModel> GetMyPokemonById(Guid id)
         {
-            tblMyPokedex myPokemon = _pokedexRepository.GetMyPokemonById(id);
+            tblMyPokedex myPokemon = await _pokedexRepository.GetMyPokemonById(id);
 
             PokemonDetailViewModel pokemonDetailViewModel = MapMyPokemonToDetailViewModel(myPokemon);
 
@@ -81,9 +81,9 @@ namespace PokedexApp.Logic
             return pokemonListingViewModel;
         }
 
-        public PokemonDetailViewModel GetNationalDexPokemonById(int id)
+        public async Task<PokemonDetailViewModel> GetNationalDexPokemonById(int id)
         {
-            tlkpNationalDex pokemon = _pokedexRepository.GetNationalDexPokemonById(id);
+            tlkpNationalDex pokemon = await _pokedexRepository.GetNationalDexPokemonById(id);
 
             PokemonDetailViewModel pokemonDetailViewModel = MapNationalDexLookupToDetailViewModel(pokemon);
 
@@ -134,7 +134,7 @@ namespace PokedexApp.Logic
             };
         }
 
-        public SearchViewModel Search(SearchViewModel searchViewModel)
+        public async Task<SearchViewModel> Search(SearchViewModel searchViewModel)
         {
             SearchViewModel finalSearchViewModel = GetSearchForm();
 
@@ -154,7 +154,7 @@ namespace PokedexApp.Logic
             List<PokemonListingViewModel> pokemonListingViewModels = MapNationalDexLookupsToListingViewModels(nationalDex);
             finalSearchViewModel.FilteredPokemon.AddRange(pokemonListingViewModels);
 
-            List<tblMyPokedex> pokedex = _pokedexRepository.Search(searchViewModel.SearchString, selectedAbilityId, selectedCategoryId, selectedTypeId, selectedPokeballId);
+            List<tblMyPokedex> pokedex = await _pokedexRepository.Search(searchViewModel.SearchString, selectedAbilityId, selectedCategoryId, selectedTypeId, selectedPokeballId);
             pokemonListingViewModels = MapPokedexToListingViewModels(pokedex);
             finalSearchViewModel.FilteredPokemon.AddRange(pokemonListingViewModels);
             
@@ -225,13 +225,13 @@ namespace PokedexApp.Logic
             }).Prepend(prependOption).ToList();
         }
 
-        private tblMyPokedex MapDetailViewModelToMyPokemon(PokemonDetailViewModel pokemonDetailViewModel)
+        private async Task<tblMyPokedex> MapDetailViewModelToMyPokemon(PokemonDetailViewModel pokemonDetailViewModel)
         {
             _logger.LogInformation(Constants.Mapping + " " + Constants.Pokemon + " " + ViewModels);
 
-            tlkpNationalDex nationalDexLookup = _pokedexRepository.GetNationalDexPokemonById(pokemonDetailViewModel.NationalDexPokemonId.Value);
+            tlkpNationalDex nationalDexLookup = await _pokedexRepository.GetNationalDexPokemonById(pokemonDetailViewModel.NationalDexPokemonId.Value);
 
-            tblMyPokedex beforeUpdates = _pokedexRepository.GetMyPokemonById(pokemonDetailViewModel.MyPokemonId.Value);
+            tblMyPokedex beforeUpdates = await _pokedexRepository.GetMyPokemonById(pokemonDetailViewModel.MyPokemonId.Value);
 
             return new tblMyPokedex()
             {

@@ -10,12 +10,12 @@ namespace PokedexApp.Interfaces
         Task<PokemonFormViewModel> AddPokemon(PokemonFormViewModel pokemonFormViewModel);
         void DeletePokemonById(Guid id);
         Task<PokemonDetailViewModel> EditPokemon(PokemonDetailViewModel pokemonDetailViewModel);
-        List<PokemonListingViewModel> GetMyPokedex();
-        PokemonDetailViewModel GetMyPokemonById(Guid id);
+        Task<List<PokemonListingViewModel>> GetMyPokedex();
+        Task<PokemonDetailViewModel> GetMyPokemonById(Guid id);
         List<PokemonListingViewModel> GetNationalDex();
-        PokemonDetailViewModel GetNationalDexPokemonById(int id);
+        Task<PokemonDetailViewModel> GetNationalDexPokemonById(int id);
         PokemonFormViewModel GetNewPokemonForm();
         SearchViewModel GetSearchForm();
-        SearchViewModel Search(SearchViewModel searchViewModel);
+        Task<SearchViewModel> Search(SearchViewModel searchViewModel);
     }
 }
