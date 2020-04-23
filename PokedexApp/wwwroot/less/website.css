@@ -176,7 +176,7 @@ select {
   margin-top: 0.5rem;
 }
 .pokemon__item {
-  flex-basis: 27%;
+  flex-basis: 18%;
   padding: 1rem;
   margin: 1rem;
   background-color: #E4E4E4;
@@ -199,7 +199,7 @@ select {
   box-shadow: 0px 0px 8px 0px #989EA6;
 }
 .pokemon__item-img {
-  width: 75px;
+  width: 40px;
   opacity: 0.8;
 }
 .pokemon__navigation {

@@ -47,9 +47,9 @@ namespace Pokedex.Tests.Controllers
         }
 
         [TestMethod]
-        public void DeleteActionIsSuccessfulAndCallsLogic()
+        public async Task DeleteActionIsSuccessfulAndCallsLogic()
         {
-            _pokedexController.Delete(DataGenerator.DefaultGuid);
+            await _pokedexController.Delete(DataGenerator.DefaultGuid);
 
             _pokedexAppLogicMock.Verify(plm => plm.DeletePokemonById(DataGenerator.DefaultGuid), Times.Once);
         }

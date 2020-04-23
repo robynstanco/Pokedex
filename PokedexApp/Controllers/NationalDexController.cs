@@ -19,11 +19,11 @@ namespace PokedexApp.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             try
             {
-                List<PokemonListingViewModel> nationalDex = _pokedexAppLogic.GetNationalDex();
+                List<PokemonListingViewModel> nationalDex = await _pokedexAppLogic.GetNationalDex();
 
                 return View(nationalDex);
             }

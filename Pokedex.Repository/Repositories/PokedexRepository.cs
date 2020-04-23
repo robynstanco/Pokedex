@@ -70,45 +70,49 @@ namespace Pokedex.Repository.Repositories
             return ability;
         }
 
-        public List<tlkpAbility> GetAllAbilities()
+        public async Task<List<tlkpAbility>> GetAllAbilities()
         {
-            List<tlkpAbility> abilities = _context.tlkpAbility.OrderBy(a => a.Name).ToList();
+            List<tlkpAbility> abilities = await _context.tlkpAbility.ToListAsync(); 
+            abilities = abilities.OrderBy(a => a.Name).ToList();
             
             _logger.LogInformation(string.Format(InformationalMessageWithCount, abilities.Count, Constants.Abilities));
 
             return abilities;
         }
 
-        public List<tlkpCategory> GetAllCategories()
+        public async Task<List<tlkpCategory>> GetAllCategories()
         {
-            List<tlkpCategory> categories = _context.tlkpCategory.OrderBy(c => c.Name).ToList();
+            List<tlkpCategory> categories = await _context.tlkpCategory.ToListAsync(); 
+            categories = categories.OrderBy(c => c.Name).ToList();
 
             _logger.LogInformation(string.Format(InformationalMessageWithCount, categories.Count, Constants.Categories));
 
             return categories;
         }
 
-        public List<tlkpPokeball> GetAllPokeballs()
+        public async Task<List<tlkpPokeball>> GetAllPokeballs()
         {
-            List<tlkpPokeball> pokeballs = _context.tlkpPokeball.OrderBy(p => p.Name).ToList();
+            List<tlkpPokeball> pokeballs = await _context.tlkpPokeball.ToListAsync(); 
+            pokeballs = pokeballs.OrderBy(p => p.Name).ToList();
 
             _logger.LogInformation(string.Format(InformationalMessageWithCount, pokeballs.Count, Constants.Pokeballs));
 
             return pokeballs;
         }
 
-        public List<tlkpType> GetAllTypes()
+        public async Task<List<tlkpType>> GetAllTypes()
         {
-            List<tlkpType> types = _context.tlkpType.OrderBy(t => t.Name).ToList();
+            List<tlkpType> types = await _context.tlkpType.ToListAsync(); 
+            types = types.OrderBy(t => t.Name).ToList();
 
             _logger.LogInformation(string.Format(InformationalMessageWithCount, types.Count, Constants.Types));
 
             return types;
         }
 
-        public tlkpCategory GetCategoryById(int categoryId)
+        public async Task<tlkpCategory> GetCategoryById(int categoryId)
         {
-            tlkpCategory category = _context.tlkpCategory.FirstOrDefault(c => c.Id == categoryId);
+            tlkpCategory category = await _context.tlkpCategory.FindAsync(categoryId);
 
             _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Retrieved, Constants.Category, Constants.From, categoryId));
 
@@ -117,13 +121,14 @@ namespace Pokedex.Repository.Repositories
 
         public async Task<List<tblMyPokedex>> GetMyPokedex()
         {
-            List<tblMyPokedex> myPokedex = _context.tblMyPokedex.OrderBy(p => p.PokeballId).ToList();
+            List<tblMyPokedex> myPokedex = await _context.tblMyPokedex.ToListAsync(); 
+            myPokedex = myPokedex.OrderBy(p => p.PokemonId).ToList();
 
             foreach (tblMyPokedex pokemon in myPokedex)
             {
                 pokemon.Pokemon = await GetNationalDexPokemonById(pokemon.PokemonId);
 
-                pokemon.Pokeball = GetPokeballById(pokemon.PokeballId.Value);
+                pokemon.Pokeball = await GetPokeballById(pokemon.PokeballId.Value);
             }
 
             _logger.LogInformation(string.Format(InformationalMessageWithCount, myPokedex.Count, Constants.Pokemon));
@@ -137,16 +142,17 @@ namespace Pokedex.Repository.Repositories
 
             myPokemon.Pokemon = await GetNationalDexPokemonById(myPokemon.PokemonId);
 
-            myPokemon.Pokeball = GetPokeballById(myPokemon.PokeballId.Value);
+            myPokemon.Pokeball = await GetPokeballById(myPokemon.PokeballId.Value);
 
             _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Retrieved, Constants.Pokemon, Constants.From, myPokemonId));
 
             return myPokemon;
         }
 
-        public List<tlkpNationalDex> GetNationalDex()
+        public async Task<List<tlkpNationalDex>> GetNationalDex()
         {
-            List<tlkpNationalDex> nationalDex = _context.tlkpNationalDex.OrderBy(p => p.Id).ToList();
+            List<tlkpNationalDex> nationalDex = await _context.tlkpNationalDex.ToListAsync(); 
+            nationalDex.OrderBy(p => p.Id);
 
             _logger.LogInformation(string.Format(InformationalMessageWithCount, nationalDex.Count, Constants.Pokemon));
 
@@ -158,18 +164,18 @@ namespace Pokedex.Repository.Repositories
             tlkpNationalDex nationalDexPokemon = await _context.tlkpNationalDex.FindAsync(pokemonId);
 
             nationalDexPokemon.Ability = await GetAbilityById(nationalDexPokemon.AbilityId.Value);
-            nationalDexPokemon.Category = GetCategoryById(nationalDexPokemon.CategoryId.Value);
+            nationalDexPokemon.Category = await GetCategoryById(nationalDexPokemon.CategoryId.Value);
 
             if (nationalDexPokemon.HiddenAbilityId.HasValue)
             {
                 nationalDexPokemon.HiddenAbility = await GetAbilityById(nationalDexPokemon.HiddenAbilityId.Value);
             }
 
-            nationalDexPokemon.TypeOne = GetTypeById(nationalDexPokemon.TypeOneId.Value);
+            nationalDexPokemon.TypeOne = await GetTypeById(nationalDexPokemon.TypeOneId.Value);
 
             if (nationalDexPokemon.TypeTwoId.HasValue)
             {
-                nationalDexPokemon.TypeTwo = GetTypeById(nationalDexPokemon.TypeTwoId.Value);
+                nationalDexPokemon.TypeTwo = await GetTypeById(nationalDexPokemon.TypeTwoId.Value);
             }
 
             _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Retrieved, Constants.Pokemon, Constants.From, pokemonId));
@@ -177,27 +183,27 @@ namespace Pokedex.Repository.Repositories
             return nationalDexPokemon;
         }
 
-        public tlkpPokeball GetPokeballById(int pokeballId)
+        public async Task<tlkpPokeball> GetPokeballById(int pokeballId)
         {
-            tlkpPokeball pokeball = _context.tlkpPokeball.FirstOrDefault(p => p.Id == pokeballId);
+            tlkpPokeball pokeball = await _context.tlkpPokeball.FindAsync(pokeballId);
 
             _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Retrieved, Constants.Pokeball, Constants.From, pokeballId));
 
             return pokeball;
         }
 
-        public tlkpType GetTypeById(int typeId)
+        public async Task<tlkpType> GetTypeById(int typeId)
         {
-            tlkpType type = _context.tlkpType.FirstOrDefault(t => t.Id == typeId);
+            tlkpType type = await _context.tlkpType.FindAsync(typeId);
 
             _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Retrieved, Constants.Type, Constants.From, typeId));
 
             return type;
         }
 
-        public List<tlkpNationalDex> Search(string searchString, int? selectedAbilityId, int? selectedCategoryId, int? selectedTypeId)
+        public async Task<List<tlkpNationalDex>> Search(string searchString, int? selectedAbilityId, int? selectedCategoryId, int? selectedTypeId)
         {
-            List<tlkpNationalDex> nationalDexSearchResults = GetNationalDex();
+            List<tlkpNationalDex> nationalDexSearchResults = await GetNationalDex();
 
             if (!string.IsNullOrWhiteSpace(searchString))
             {

@@ -76,11 +76,11 @@ namespace PokedexApp.Controllers
             }
         }
 
-        public IActionResult Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             try
             {
-                _pokedexAppLogic.DeletePokemonById(id);
+                await _pokedexAppLogic.DeletePokemonById(id);
 
                 return View(Constants.Success, new SuccessViewModel() { ActionName = "release" });
             }

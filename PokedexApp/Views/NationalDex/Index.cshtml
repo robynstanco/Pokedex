@@ -13,7 +13,7 @@
     @foreach (var pokemon in Model)
     {
         <a class="pokemon__item pokemon__item--hover" asp-controller="@Constants.NationalDex" asp-action="@Constants.Detail" asp-route-id="@pokemon.NationalDexPokemonId">
-            <h2 class="pokemon__item-title">@pokemon.NationalDexPokemonId. @pokemon.Name</h2>
+            <h3 class="pokemon__item-title">@pokemon.NationalDexPokemonId. @pokemon.Name</h3>
             <img class="pokemon__item-img" src="@pokemon.ImageURL"/>
         </a>
     }

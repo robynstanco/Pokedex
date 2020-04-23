@@ -1,10 +1,12 @@
-﻿[
+[
   {
     "outputFile": "wwwroot/less/website.css",
-    "inputFile": "wwwroot/less/website.less"
+    "inputFile": "wwwroot/less/website.less",
+    "sourceMap": false
   },
   {
     "outputFile": "wwwroot/js/site.es5.js",
-    "inputFile": "wwwroot/js/site.js"
+    "inputFile": "wwwroot/js/site.js",
+    "sourceMap": false
   }
 ]

@@ -22,7 +22,7 @@ namespace Pokedex.Tests.Controllers
         public void Initialize()
         {
             _pokedexAppLogicMock = new Mock<IPokedexAppLogic>();
-            _pokedexAppLogicMock.Setup(plm => plm.GetNationalDex()).Returns(It.IsAny<List<PokemonListingViewModel>>());
+            _pokedexAppLogicMock.Setup(plm => plm.GetNationalDex()).ReturnsAsync(It.IsAny<List<PokemonListingViewModel>>());
             _pokedexAppLogicMock.Setup(plm => plm.GetNationalDexPokemonById(It.IsAny<int>())).ReturnsAsync(It.IsAny<PokemonDetailViewModel>());
 
             _loggerMock = new Mock<ILoggerAdapter<NationalDexController>>();
@@ -31,9 +31,9 @@ namespace Pokedex.Tests.Controllers
         }
 
         [TestMethod]
-        public void IndexActionIsSuccessfulAndCallsLogic()
+        public async Task IndexActionIsSuccessfulAndCallsLogic()
         {
-            _nationalDexController.Index();
+            await _nationalDexController.Index();
 
             _pokedexAppLogicMock.Verify(plm => plm.GetNationalDex(), Times.Once);
         }

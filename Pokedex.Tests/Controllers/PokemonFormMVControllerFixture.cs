@@ -5,6 +5,7 @@ using PokedexApp.Controllers;
 using PokedexApp.Interfaces;
 using PokedexApp.Models;
 using System;
+using System.Threading.Tasks;
 
 namespace Pokedex.Tests.Controllers
 {
@@ -20,7 +21,7 @@ namespace Pokedex.Tests.Controllers
         public void Initialize()
         {
             _pokedexAppLogicMock = new Mock<IPokedexAppLogic>();
-            _pokedexAppLogicMock.Setup(plm => plm.GetNewPokemonForm()).Returns(It.IsAny<PokemonFormViewModel>());
+            _pokedexAppLogicMock.Setup(plm => plm.GetNewPokemonForm()).ReturnsAsync(It.IsAny<PokemonFormViewModel>());
 
             _loggerMock = new Mock<ILoggerAdapter<PokemonFormController>>();
 
@@ -28,17 +29,17 @@ namespace Pokedex.Tests.Controllers
         }
 
         [TestMethod]
-        public void IndexActionIsSuccessfulAndCallsLogic()
+        public async Task IndexActionIsSuccessfulAndCallsLogic()
         {
-            _pokemonFormController.Index();
+            await _pokemonFormController.Index();
 
             _pokedexAppLogicMock.Verify(plm => plm.GetNewPokemonForm(), Times.Once);
         }
 
         [TestMethod]
-        public void IndexWithVMActionIsSuccessfulAndCallsLogic()
+        public async Task IndexWithVMActionIsSuccessfulAndCallsLogic()
         {
-            _pokemonFormController.Index(new PokemonFormViewModel());
+            await _pokemonFormController.Index(new PokemonFormViewModel());
 
             _pokedexAppLogicMock.Verify(plm => plm.AddPokemon(It.IsAny<PokemonFormViewModel>()), Times.Once);
         }

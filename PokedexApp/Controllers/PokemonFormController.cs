@@ -18,11 +18,11 @@ namespace PokedexApp.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             try
             {
-                PokemonFormViewModel pokemonFormViewModel = _pokedexAppLogic.GetNewPokemonForm();
+                PokemonFormViewModel pokemonFormViewModel = await _pokedexAppLogic.GetNewPokemonForm();
 
                 return View(pokemonFormViewModel);
             }
@@ -47,7 +47,7 @@ namespace PokedexApp.Controllers
                 {
                     _logger.LogInformation(Constants.InvalidRequest);
 
-                    return Index();
+                    return await Index();
                 }
             }
             catch (Exception ex)

@@ -21,13 +21,6 @@ namespace Pokedex.Tests.Repositories
         private Mock<POKEDEXDBContext> _pokedexDBContextMock;
         private Mock<ILoggerAdapter<PokedexRepository>> _loggerMock;
 
-        private Mock<DbSet<tblMyPokedex>> _myPokedexMockSet;
-        private Mock<DbSet<tlkpAbility>> _abilitiesMockSet;
-        private Mock<DbSet<tlkpCategory>> _categoriesMockSet;
-        private Mock<DbSet<tlkpNationalDex>> _nationalDexMockSet;
-        private Mock<DbSet<tlkpPokeball>> _pokeballsMockSet;
-        private Mock<DbSet<tlkpType>> _typesMockSet;
-
         [TestInitialize]
         public void Initialize()
         {
@@ -38,34 +31,36 @@ namespace Pokedex.Tests.Repositories
             IQueryable<tlkpPokeball> pokeballs = DataGenerator.GeneratePokeballs(5).AsQueryable();
             IQueryable<tlkpType> types = DataGenerator.GenerateTypes(6).AsQueryable();
 
-            _myPokedexMockSet = InitializeMockSet(myPokedex);
-            _abilitiesMockSet = InitializeMockSet(abilities);
-            _categoriesMockSet = InitializeMockSet(categories);
-            _nationalDexMockSet = InitializeMockSet(nationalDex);
-            _pokeballsMockSet = InitializeMockSet(pokeballs);
-            _typesMockSet = InitializeMockSet(types);
-
             _pokedexDBContextMock = new Mock<POKEDEXDBContext>();
-            _pokedexDBContextMock.Setup(dbcm => dbcm.tblMyPokedex).Returns(_myPokedexMockSet.Object);
-            _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpAbility).Returns(_abilitiesMockSet.Object);
-            _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpCategory).Returns(_categoriesMockSet.Object);
-            _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpNationalDex).Returns(_nationalDexMockSet.Object);
-            _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpPokeball).Returns(_pokeballsMockSet.Object);
-            _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpType).Returns(_typesMockSet.Object);
-
+            _pokedexDBContextMock.Setup(dbcm => dbcm.tblMyPokedex).Returns(InitializeMockSet(myPokedex).Object);
+            _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpAbility).Returns(InitializeMockSet(abilities).Object);
+            _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpCategory).Returns(InitializeMockSet(categories).Object);
+            _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpNationalDex).Returns(InitializeMockSet(nationalDex).Object);
+            _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpPokeball).Returns(InitializeMockSet(pokeballs).Object);
+            _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpType).Returns(InitializeMockSet(types).Object);
             _pokedexDBContextMock.Setup(dbcm => dbcm.tblMyPokedex.FindAsync(DataGenerator.DefaultGuid)).ReturnsAsync((object[] ids) =>
             {
                 return myPokedex.FirstOrDefault(p => p.Id == (Guid)ids[0]);
             });
-
             _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpAbility.FindAsync(It.IsAny<int>())).ReturnsAsync((object[] ids) =>
             {
                 return abilities.FirstOrDefault(p => p.Id == (int)ids[0]);
             });
-
+            _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpCategory.FindAsync(It.IsAny<int>())).ReturnsAsync((object[] ids) =>
+            {
+                return categories.FirstOrDefault(p => p.Id == (int)ids[0]);
+            });
             _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpNationalDex.FindAsync(It.IsAny<int>())).ReturnsAsync((object[] ids) =>
             {
                 return nationalDex.FirstOrDefault(p => p.Id == (int)ids[0]);
+            });
+            _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpPokeball.FindAsync(It.IsAny<int>())).ReturnsAsync((object[] ids) =>
+            {
+                return pokeballs.FirstOrDefault(p => p.Id == (int)ids[0]);
+            });
+            _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpType.FindAsync(It.IsAny<int>())).ReturnsAsync((object[] ids) =>
+            {
+                return types.FirstOrDefault(p => p.Id == (int)ids[0]);
             });
 
             _loggerMock = new Mock<ILoggerAdapter<PokedexRepository>>();
@@ -74,7 +69,7 @@ namespace Pokedex.Tests.Repositories
         }
 
         /// <summary>
-        /// Generic method to create mock sets from a given T class and a set of queryable data
+        /// Generic method to create mock sets from a given T class and a set of queryable data.
         /// </summary>
         /// <typeparam name="T">the class of the data</typeparam>
         /// <param name="queryableEntities">the data</param>
@@ -87,6 +82,9 @@ namespace Pokedex.Tests.Repositories
             mockEntitySet.As<IQueryable<T>>().Setup(m => m.Expression).Returns(queryableEntities.Expression);
             mockEntitySet.As<IQueryable<T>>().Setup(m => m.ElementType).Returns(queryableEntities.ElementType);
             mockEntitySet.As<IQueryable<T>>().Setup(m => m.GetEnumerator()).Returns(queryableEntities.GetEnumerator());
+
+            mockEntitySet.As<IAsyncEnumerable<T>>().Setup(x => x.GetAsyncEnumerator(It.IsAny<CancellationToken>()))
+                .Returns(new AsyncEnumerator<T>(queryableEntities.GetEnumerator()));
 
             return mockEntitySet;
         }
@@ -145,9 +143,9 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
-        public void GetAllAbilitiesIsSuccessfulAndLogsInformation()
+        public async Task GetAllAbilitiesIsSuccessfulAndLogsInformation()
         {
-            List<tlkpAbility> abilities = _pokedexRepository.GetAllAbilities();
+            List<tlkpAbility> abilities = await _pokedexRepository.GetAllAbilities();
 
             Assert.AreEqual(6, abilities.Count);
             Assert.AreEqual(0, abilities[0].Id);
@@ -159,9 +157,9 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
-        public void GetAllCategoriesIsSuccessfulAndLogsInformation()
+        public async Task GetAllCategoriesIsSuccessfulAndLogsInformation()
         {
-            List<tlkpCategory> categories = _pokedexRepository.GetAllCategories();
+            List<tlkpCategory> categories = await _pokedexRepository.GetAllCategories();
 
             Assert.AreEqual(5, categories.Count);
             Assert.AreEqual(0, categories[0].Id);
@@ -173,9 +171,9 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
-        public void GetAllPokeballsIsSuccessfulAndLogsInformation()
+        public async Task GetAllPokeballsIsSuccessfulAndLogsInformation()
         {
-            List<tlkpPokeball> pokeballs = _pokedexRepository.GetAllPokeballs();
+            List<tlkpPokeball> pokeballs = await _pokedexRepository.GetAllPokeballs();
 
             Assert.AreEqual(5, pokeballs.Count);
             Assert.AreEqual(0, pokeballs[0].Id);
@@ -188,9 +186,9 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
-        public void GetAllTypesIsSuccessfulAndLogsInformation()
+        public async Task GetAllTypesIsSuccessfulAndLogsInformation()
         {
-            List<tlkpType> types = _pokedexRepository.GetAllTypes();
+            List<tlkpType> types = await _pokedexRepository.GetAllTypes();
 
             Assert.AreEqual(6, types.Count);
             Assert.AreEqual(0, types[0].Id);
@@ -202,9 +200,9 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
-        public void GetCategoryByIdIsSuccessfulAndLogsInformation()
+        public async Task GetCategoryByIdIsSuccessfulAndLogsInformation()
         {
-            tlkpCategory category = _pokedexRepository.GetCategoryById(3);
+            tlkpCategory category = await _pokedexRepository.GetCategoryById(3);
 
             Assert.AreEqual(3, category.Id);
             Assert.AreEqual("Name3", category.Name);
@@ -260,9 +258,9 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
-        public void GetNationalDexIsSuccessfulAndLogsInformation()
+        public async Task GetNationalDexIsSuccessfulAndLogsInformation()
         {
-            List<tlkpNationalDex> nationalDex = _pokedexRepository.GetNationalDex();
+            List<tlkpNationalDex> nationalDex = await _pokedexRepository.GetNationalDex();
 
             Assert.AreEqual(5, nationalDex.Count);
             Assert.AreEqual(0, nationalDex[0].AbilityId);
@@ -315,9 +313,9 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
-        public void GetPokeballByIdIsSuccessfulAndLogsInformation()
+        public async Task GetPokeballByIdIsSuccessfulAndLogsInformation()
         {
-            tlkpPokeball pokeball = _pokedexRepository.GetPokeballById(1);
+            tlkpPokeball pokeball = await _pokedexRepository.GetPokeballById(1);
             
             Assert.AreEqual(1, pokeball.Id);
             Assert.AreEqual("http://1.com", pokeball.ImageURL);
@@ -329,9 +327,9 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
-        public void GetTypeByIdIsSuccessfulAndLogsInformation()
+        public async Task GetTypeByIdIsSuccessfulAndLogsInformation()
         {
-            tlkpType type = _pokedexRepository.GetTypeById(1);
+            tlkpType type = await _pokedexRepository.GetTypeById(1);
 
             Assert.AreEqual(1, type.Id);
             Assert.AreEqual("Name1", type.Name);
@@ -342,9 +340,9 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
-        public void SearchNationalDexIsSuccessfulAndLogsInformation()
+        public async Task SearchNationalDexIsSuccessfulAndLogsInformation()
         {
-            List<tlkpNationalDex> searchResults = _pokedexRepository.Search("Name3", 3, 3, 3);
+            List<tlkpNationalDex> searchResults = await _pokedexRepository.Search("Name3", 3, 3, 3);
 
             Assert.AreEqual(1, searchResults.Count);
             Assert.AreEqual(3, searchResults[0].AbilityId);
