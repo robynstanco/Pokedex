@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Pokedex.Repository.Repositories
+namespace Pokedex.Repository
 {
     public class PokedexRepository : IPokedexRepository
     {

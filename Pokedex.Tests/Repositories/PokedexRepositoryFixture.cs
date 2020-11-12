@@ -4,7 +4,7 @@ using Moq;
 using Pokedex.Data;
 using Pokedex.Data.Models;
 using Pokedex.Logging.Interfaces;
-using Pokedex.Repository.Repositories;
+using Pokedex.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -20,6 +20,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pokedex.Logging", "Pokedex.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pokedex.Common", "Pokedex.Helpers\Pokedex.Common.csproj", "{E00B2F35-3699-4C00-9B6B-B8EB87BEC3E6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokedexAPI", "PokedexAPI\PokedexAPI.csproj", "{E313C306-5F17-4C47-972E-DC0711424613}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +58,10 @@ Global
 		{E00B2F35-3699-4C00-9B6B-B8EB87BEC3E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E00B2F35-3699-4C00-9B6B-B8EB87BEC3E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E00B2F35-3699-4C00-9B6B-B8EB87BEC3E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E313C306-5F17-4C47-972E-DC0711424613}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E313C306-5F17-4C47-972E-DC0711424613}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E313C306-5F17-4C47-972E-DC0711424613}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E313C306-5F17-4C47-972E-DC0711424613}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
