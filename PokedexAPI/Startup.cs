@@ -9,6 +9,8 @@ using Pokedex.Repository.Interfaces;
 using Pokedex.Repository;
 using Pokedex.Logging.Interfaces;
 using Pokedex.Logging.Adapters;
+using PokedexAPI.Interfaces;
+using PokedexAPI.Logic;
 
 namespace PokedexAPI
 {
@@ -37,6 +39,7 @@ namespace PokedexAPI
 
             services.AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
             services.AddScoped<IPokedexRepository, PokedexRepository>();
+            services.AddScoped<IPokedexAPILogic, PokedexAPILogic>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

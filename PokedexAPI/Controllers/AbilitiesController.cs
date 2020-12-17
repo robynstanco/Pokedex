@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Pokedex.Data.Models;
 using Pokedex.Logging.Interfaces;
-using Pokedex.Repository.Interfaces;
+using PokedexAPI.Interfaces;
+using PokedexAPI.Models.Output;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,30 +11,30 @@ namespace PokedexAPI.Controllers
     [ApiController]
     public class AbilitiesController : ControllerBase
     {
-        private IPokedexRepository _pokedexRepository;
+        private IPokedexAPILogic _pokedexAPILogic;
         private ILoggerAdapter<AbilitiesController> _logger;
-        public AbilitiesController(IPokedexRepository pokedexRepo, ILoggerAdapter<AbilitiesController> logger)
+        public AbilitiesController(IPokedexAPILogic pokedexAPILogic, ILoggerAdapter<AbilitiesController> logger)
         {
-            _pokedexRepository = pokedexRepo;
+            _pokedexAPILogic = pokedexAPILogic;
             _logger = logger;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<tlkpAbility>>> GetAbilities()
+        public async Task<ActionResult<List<GenericLookupResult>>> GetAbilities()
         {
-            return await _pokedexRepository.GetAllAbilities();
+            return await _pokedexAPILogic.GetAllAbilities();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<tlkpAbility>> GetAbilityById(int id)
+        public async Task<ActionResult<GenericLookupResult>> GetAbilityById(int id)
         {
-            tlkpAbility ability = await _pokedexRepository.GetAbilityById(id);
+            GenericLookupResult ability = await _pokedexAPILogic.GetAbilityById(id);
 
             if (ability == null)
             {
                 _logger.LogInformation("No ability with id: " + id);
 
-                return NotFound();
+                return NotFound();//todo throw new exception and add global error handling to this project (& the MVC one)
             }
 
             return ability;
