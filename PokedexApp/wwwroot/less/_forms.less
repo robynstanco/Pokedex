@@ -1,19 +1,19 @@
-﻿@import "_variables.less";
-@import "_mixins.less";
+﻿@import "_mixins.less";
+@import "_variables.less";
 
 .form__container {
-    flex-basis: 100%;
-    display: flex;
-    flex-wrap: wrap;
     background-color: @standardExtraLightPalette;
+    display: flex;
+    flex-basis: 100%;
+    flex-wrap: wrap;
     padding: @standardSpace;
 }
 
 .validation-summary-errors ul {
-    text-align: right;
+    color: red;
     list-style-type: none;
     padding-left: 0;
-    color: red;
+    text-align: right;
 }
 
 form {
@@ -25,8 +25,8 @@ article {
 }
 
 .input__container {
-    display: flex;
     align-items: center;
+    display: flex;
 }
 
 .input__field, .input__label {
@@ -42,23 +42,24 @@ article {
 }
 
 input, select, textarea {
-    font-family: 'Kanit', sans-serif;
-    font-weight: 300;
-    font-size: @standardSpace;
-    color: @standardFontColor;
-    width: 100%;
-    height: 28px;
     background-color: @standardLightPalette;
     border: none;
+    color: @standardFontColor;
+    font-family: 'Kanit', sans-serif;
+    font-size: @standardSpace;
+    font-weight: 300;
+    height: 28px;
     padding: @quarterStandardSpace;
+    width: 100%;
 }
 
 input[type=submit] {
-    width: auto;
     color: @standardFontColor;
-    padding: @halfStandardSpace;
-    height: 40px;
     float: right;
+    height: 40px;
+    padding: @halfStandardSpace;
+    text-transform: uppercase;
+    width: auto;
     .hover-shadow();
 
     &:hover {
@@ -68,8 +69,8 @@ input[type=submit] {
 }
 
 textarea {
-    resize: none;
     height: 100px;
+    resize: none;
 }
 
 select {
@@ -78,15 +79,15 @@ select {
 
 .pokemon__container {
     .input__label {
-        text-align: left;
         padding-left: 0;
+        text-align: left;
     }
 
     .input__label, .input__field {
         flex-basis: auto;
     }
 
-    input[type=submit]{
+    input[type=submit] {
         float: none;
     }
 }
@@ -98,8 +99,8 @@ select {
     }
 
     .input__label, .input__field, .validation-summary-errors ul {
-        text-align: left;
         padding-left: 0;
+        text-align: left;
     }
 
     .input__label {

@@ -53,7 +53,7 @@ namespace PokedexApp.Controllers
                 PokemonDetailViewModel pokemonDetailViewModel = await _pokedexAppLogic.GetMyPokemonById(id);
                 pokemonDetailViewModel.IsEditMode = true;
 
-                return View("Detail", pokemonDetailViewModel);
+                return View(Constants.Detail, pokemonDetailViewModel);
             }
             catch(Exception ex)
             {

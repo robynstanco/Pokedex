@@ -3,15 +3,15 @@
 @model List<PokemonListingViewModel>
 
 @{
-    ViewData["Title"] = "My " + Constants.Pokedex;
+    ViewData[Constants.Title] = "My " + Constants.Pokedex;
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1>@ViewData[Constants.Title]</h1>
 
 <div class="pokemon__container">
     @foreach (var pokemon in Model)
     {
-        <a class="pokemon__item pokemon__item--hover" asp-controller="Pokedex" asp-action="@Constants.Detail" asp-route-id="@pokemon.MyPokemonId">
+        <a class="pokemon__item pokemon__item--hover" asp-controller="@Constants.PokedexNoAccent" asp-action="@Constants.Detail" asp-route-id="@pokemon.MyPokemonId">
             <div class="pokemon__title-container">
                 <h3>@pokemon.Name</h3>
 

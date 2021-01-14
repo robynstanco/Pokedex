@@ -2,26 +2,26 @@
 @import "_mixins.less";
 
 .pokemon__container {
-    flex-basis: 100%;
-    display: flex;
     align-content: center;
-    justify-content: space-around;
     align-items: stretch;
+    display: flex;
+    flex-basis: 100%;
     flex-wrap: wrap;
+    justify-content: space-around;
 
-    h1{
+    h1 {
         margin-top: @halfStandardSpace;
     }
 }
 
 .pokemon__item {
-    flex-basis: 18%;
-    padding: @standardSpace;
-    margin: @standardSpace;
+    align-items: center;
     background-color: @standardExtraLightPalette;
     display: flex;
-    align-items: center;
+    flex-basis: 18%;
     justify-content: space-between;
+    margin: @standardSpace;
+    padding: @standardSpace;
 }
 
 .pokemon__item--hover {
@@ -33,19 +33,20 @@
 }
 
 .pokemon__item-img {
-    width: 40px;
     opacity: .8;
+    width: 40px;
 }
 
 .pokemon__navigation {
-    flex-basis: 100%;
-    margin-top: @standardSpace;
     display: flex;
+    flex-basis: 100%;
     justify-content: space-between;
+    margin-top: @standardSpace;
 
     a {
         background-color: @standardExtraLightPalette;
         padding: @halfStandardSpace;
+        text-transform: uppercase;
         .hover-shadow();
 
         &:hover {
@@ -55,14 +56,14 @@
 }
 
 .pokemon__item--large {
-    flex-basis: 100%;
     display: block;
+    flex-basis: 100%;
     margin: 0;
 
     .pokemon__item-img {
-        width: 400px;
         float: right;
         margin-left: @halfStandardSpace;
+        width: 400px;
     }
 
     .pokemon__item-img--small, .pokeball__item-img--small {
@@ -74,8 +75,8 @@
     margin-bottom: @standardSpace;
 
     img {
-        width: 25px;
         margin-right: @halfStandardSpace;
+        width: 25px;
     }
 
     span {
@@ -106,10 +107,10 @@
 
     .pokemon__item--large {
         .pokemon__item-img {
-            width: 250px;
-            float: none;
             display: block;
+            float: none;
             margin: auto;
+            width: 250px;
         }
     }
 }

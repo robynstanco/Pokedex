@@ -152,14 +152,14 @@ namespace PokedexApp.Logic
 
             finalSearchViewModel.FilteredPokemon = new List<PokemonListingViewModel>();
 
-            List<tlkpNationalDex> nationalDex = await _pokedexRepository.Search(searchViewModel.SearchString, selectedAbilityId, selectedCategoryId, selectedTypeId);
-            List<PokemonListingViewModel> pokemonListingViewModels = MapNationalDexLookupsToListingViewModels(nationalDex);
+            List<tblMyPokedex> pokedex = await _pokedexRepository.Search(searchViewModel.SearchString, selectedAbilityId, selectedCategoryId, selectedTypeId, selectedPokeballId);
+            List<PokemonListingViewModel> pokemonListingViewModels = MapPokedexToListingViewModels(pokedex);
             finalSearchViewModel.FilteredPokemon.AddRange(pokemonListingViewModels);
 
-            List<tblMyPokedex> pokedex = await _pokedexRepository.Search(searchViewModel.SearchString, selectedAbilityId, selectedCategoryId, selectedTypeId, selectedPokeballId);
-            pokemonListingViewModels = MapPokedexToListingViewModels(pokedex);
+            List<tlkpNationalDex> nationalDex = await _pokedexRepository.Search(searchViewModel.SearchString, selectedAbilityId, selectedCategoryId, selectedTypeId);
+            pokemonListingViewModels = MapNationalDexLookupsToListingViewModels(nationalDex);
             finalSearchViewModel.FilteredPokemon.AddRange(pokemonListingViewModels);
-            
+
             return finalSearchViewModel;
         }
 
@@ -176,7 +176,7 @@ namespace PokedexApp.Logic
 
         private static SelectListItem GetBlankSelectListItem()
         {
-            return new SelectListItem() { Text = None, Value = "" };
+            return new SelectListItem() { Text = None, Value = string.Empty };
         }
 
         private async Task<List<SelectListItem>> GetCategorySelectListItems(SelectListItem prependOption)

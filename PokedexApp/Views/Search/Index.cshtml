@@ -3,19 +3,19 @@
 @model SearchViewModel
 
 @{
-    ViewData["Title"] = "Search for " + Constants.Pokemon + " in your " + Constants.Pokedex + " and the National " + Constants.Pokedex + "!";
+    ViewData[Constants.Title] = Constants.Search + " for " + Constants.Pokemon + " in your " + Constants.Pokedex + " and the National " + Constants.Pokedex + "!";
 }
 
-<h1 class="form__header">@ViewData["Title"]</h1>
+<h1 class="form__header">@ViewData[Constants.Title]</h1>
 
 <div class="form__container">
-    @using (Html.BeginForm("Index", "Search"))
+    @using (Html.BeginForm("Index", Constants.Search))
     {
         <div asp-validation-summary="All"></div>
         <article>
             <div class="input__container">
                 <div class="input__label">
-                    Search:
+                    @Constants.Search:
                 </div>
                 <div class="input__field">
                     @Html.TextBoxFor(m => m.SearchString, new { placeholder = "Enter a Name, Japanese Name, Nickname, or Description..." })
@@ -57,7 +57,7 @@
             </div>
         </article>
 
-        <input type="submit" value="SEARCH" />
+        <input type="submit" value="@Constants.Search" />
     }
 </div>
 
@@ -66,7 +66,7 @@
     <div class="pokemon__container">
         @if (Model.FilteredPokemon.ToList().Count == 0)
         {
-            <h1>There were no results matching your search query.</h1>
+            <h1>There were no results matching your @Constants.Search.ToLower() query.</h1>
         }
         else
         {
@@ -74,7 +74,7 @@
             {
                 @if (pokemon.MyPokemonId.HasValue)
                 {
-                    <a class="pokemon__item pokemon__item--hover" asp-controller="Pokedex" asp-action="@Constants.Detail" asp-route-id="@pokemon.MyPokemonId">
+                    <a class="pokemon__item pokemon__item--hover" asp-controller="@Constants.PokedexNoAccent" asp-action="@Constants.Detail" asp-route-id="@pokemon.MyPokemonId">
                         <div class="pokemon__title-container">
                             <h2>
                                 @pokemon.NationalDexPokemonId. @pokemon.Name

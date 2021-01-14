@@ -1,33 +1,33 @@
-﻿@import "_variables.less";
-@import "_mixins.less";
+﻿@import "_mixins.less";
+@import "_variables.less";
 
 .navigation__container {
-    z-index: 1;
+    background-color: @standardDarkPalette;
+    height: 62px;
     position: fixed;
     top: 0;
     width: 100%;
-    height: 62px;
-    background-color: @standardDarkPalette;
+    z-index: 1;
 }
 
 .navigation__list {
-    padding: 0;
-    margin: 0;
-    list-style-type: none;
-    display: flex;
     align-items: stretch;
+    display: flex;
     justify-content: space-between;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 }
 
 .navigation__item {
-    padding: @standardSpace;
-    flex-basis: 23%;
     display: flex;
+    flex-basis: 23%;
     justify-content: center;
+    padding: @standardSpace;
 
     &:hover {
-        cursor: pointer;
         background-color: @standardExtraDarkPaletteTransparent;
+        cursor: pointer;
     }
 }
 

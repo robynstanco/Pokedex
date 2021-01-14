@@ -3,7 +3,7 @@
 @model PokemonDetailViewModel
 
 @{
-    ViewData["Title"] = "My " + Constants.Pokemon + " - " + Model.Name;
+    ViewData[Constants.Title] = "My " + Constants.Pokemon + " - " + Model.Name;
 }
 
 <div class="pokemon__container">
@@ -42,7 +42,7 @@
         }
         else
         {
-            @using (Html.BeginForm("Edit", "Pokedex"))
+            @using (Html.BeginForm(Constants.Edit, Constants.PokedexNoAccent))
             {
                 @Html.HiddenFor(m => m.Date);
                 @Html.HiddenFor(m => m.Location);
@@ -69,20 +69,20 @@
                     </div>
                 </article>
 
-                <input type="submit" value="UPDATE MY @Constants.Pokemon.ToUpper()" />
+                <input type="submit" value="Update My @Constants.Pokemon" />
             }
         }
     </div>
 
     <div class="pokemon__navigation">
-        <a asp-controller="Pokedex" asp-action="Edit" asp-route-id="@Model.MyPokemonId">
-            EDIT
+        <a asp-controller="@Constants.PokedexNoAccent" asp-action="@Constants.Edit" asp-route-id="@Model.MyPokemonId">
+            @Constants.Edit
         </a>
-        <a asp-controller="Pokedex" asp-action="Delete" asp-route-id="@Model.MyPokemonId">
-            RELEASE
+        <a asp-controller="@Constants.PokedexNoAccent" asp-action="Delete" asp-route-id="@Model.MyPokemonId">
+            Release
         </a>
         <a asp-controller="@Constants.NationalDex" asp-action="@Constants.Detail" asp-route-id="@Model.NationalDexPokemonId">
-            NATIONAL DEX DETAILS
+            @Constants.NationalDex @Constants.Detail
         </a>
     </div>
 </div>

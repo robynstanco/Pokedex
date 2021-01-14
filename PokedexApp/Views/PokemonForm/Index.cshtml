@@ -3,10 +3,10 @@
 @model PokemonFormViewModel
 
 @{
-    ViewData["Title"] = "Add a " + Constants.Pokemon + " to your " + Constants.Pokedex + "!";
+    ViewData[Constants.Title] = "Add a " + Constants.Pokemon + " to your " + Constants.Pokedex + "!";
 }
 
-<h1 class="form__header">@ViewData["Title"]</h1>
+<h1 class="form__header">@ViewData[Constants.Title]</h1>
 
 <div class="form__container">
     @using (Html.BeginForm("Index", "PokemonForm"))
@@ -71,6 +71,6 @@
             </div>
         </article>
 
-        <input type="submit" value="ADD TO @Constants.Pokedex.ToUpper()" />
+        <input type="submit" value="Add to @Constants.Pokedex" />
     }
 </div>

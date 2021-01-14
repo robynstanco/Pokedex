@@ -32,7 +32,7 @@ namespace PokedexAPI.Controllers
 
             if (ability == null)
             {
-                _logger.LogInformation("No ability with id: " + id);
+                _logger.LogInformation("No ability with id: " + id);//todo fix message
 
                 return NotFound();//todo throw new exception and add global error handling to this project (& the MVC one)
             }

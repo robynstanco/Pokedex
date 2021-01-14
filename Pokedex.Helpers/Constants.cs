@@ -13,6 +13,7 @@
         public const string DBContext = nameof(DBContext);
         public const string Deleted = nameof(Deleted);
         public const string Detail = nameof(Detail);
+        public const string Edit = nameof(Edit);
         public const string Error = nameof(Error);
         public const string Female = nameof(Female);
         public const string From = "from";
@@ -28,10 +29,13 @@
         public const string Pokeball = "Pokéball";
         public const string Pokeballs = "Pokéballs";
         public const string Pokedex = "Pokédex";
+        public const string PokedexNoAccent = "Pokedex";
         public const string Pokemon = "Pokémon";
         public const string Retrieved = nameof(Retrieved);
+        public const string Search = nameof(Search);
         public const string Sex = nameof(Sex);
         public const string Success = nameof(Success);
+        public const string Title = nameof(Title);
         public const string To = "to";
         public const string Type = nameof(Type);
         public const string Types = nameof(Types);

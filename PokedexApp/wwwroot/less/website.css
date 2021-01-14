@@ -1,13 +1,13 @@
 ﻿body {
+  background-color: #D4D4D4;
+  color: #4C4F54;
   display: flex;
   flex-basis: 100%;
+  font-family: 'Kanit', sans-serif;
+  font-weight: 300;
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: #D4D4D4;
-  color: #4C4F54;
-  font-family: 'Kanit', sans-serif;
-  font-weight: 300;
 }
 h1,
 h2,
@@ -15,9 +15,9 @@ h3,
 h4,
 h5,
 h6 {
+  font-weight: 300;
   margin: 0;
   margin-bottom: 0.5rem;
-  font-weight: 300;
 }
 a {
   color: inherit;
@@ -25,8 +25,8 @@ a {
 }
 .content__container {
   display: flex;
-  flex-wrap: wrap;
   flex-basis: 100%;
+  flex-wrap: wrap;
   margin-top: 62px;
   margin-bottom: 32px;
   padding: 1rem;
@@ -36,17 +36,17 @@ a {
   width: 100%;
 }
 .form__container {
-  flex-basis: 100%;
-  display: flex;
-  flex-wrap: wrap;
   background-color: #E4E4E4;
+  display: flex;
+  flex-basis: 100%;
+  flex-wrap: wrap;
   padding: 1rem;
 }
 .validation-summary-errors ul {
-  text-align: right;
+  color: red;
   list-style-type: none;
   padding-left: 0;
-  color: red;
+  text-align: right;
 }
 form {
   flex-basis: 100%;
@@ -55,8 +55,8 @@ article {
   margin-bottom: 0.5rem;
 }
 .input__container {
-  display: flex;
   align-items: center;
+  display: flex;
 }
 .input__field,
 .input__label {
@@ -72,22 +72,23 @@ article {
 input,
 select,
 textarea {
-  font-family: 'Kanit', sans-serif;
-  font-weight: 300;
-  font-size: 1rem;
-  color: #4C4F54;
-  width: 100%;
-  height: 28px;
   background-color: #D4D4D4;
   border: none;
+  color: #4C4F54;
+  font-family: 'Kanit', sans-serif;
+  font-size: 1rem;
+  font-weight: 300;
+  height: 28px;
   padding: 0.25rem;
+  width: 100%;
 }
 input[type=submit] {
-  width: auto;
   color: #4C4F54;
-  padding: 0.5rem;
-  height: 40px;
   float: right;
+  height: 40px;
+  padding: 0.5rem;
+  text-transform: uppercase;
+  width: auto;
   -webkit-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
@@ -103,15 +104,15 @@ input[type=submit]:hover {
   box-shadow: 0px 0px 8px 0px #989EA6;
 }
 textarea {
-  resize: none;
   height: 100px;
+  resize: none;
 }
 select {
   height: 36px;
 }
 .pokemon__container .input__label {
-  text-align: left;
   padding-left: 0;
+  text-align: left;
 }
 .pokemon__container .input__label,
 .pokemon__container .input__field {
@@ -128,61 +129,61 @@ select {
   .input__label,
   .input__field,
   .validation-summary-errors ul {
-    text-align: left;
     padding-left: 0;
+    text-align: left;
   }
   .input__label {
     padding-bottom: 0;
   }
 }
 .navigation__container {
-  z-index: 1;
+  background-color: #989EA6;
+  height: 62px;
   position: fixed;
   top: 0;
   width: 100%;
-  height: 62px;
-  background-color: #989EA6;
+  z-index: 1;
 }
 .navigation__list {
-  padding: 0;
-  margin: 0;
-  list-style-type: none;
-  display: flex;
   align-items: stretch;
+  display: flex;
   justify-content: space-between;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
 .navigation__item {
-  padding: 1rem;
-  flex-basis: 23%;
   display: flex;
+  flex-basis: 23%;
   justify-content: center;
+  padding: 1rem;
 }
 .navigation__item:hover {
-  cursor: pointer;
   background-color: rgba(92, 106, 128, 0.5);
+  cursor: pointer;
 }
 .navigation__item img {
   height: 30px;
 }
 .pokemon__container {
-  flex-basis: 100%;
-  display: flex;
   align-content: center;
-  justify-content: space-around;
   align-items: stretch;
+  display: flex;
+  flex-basis: 100%;
   flex-wrap: wrap;
+  justify-content: space-around;
 }
 .pokemon__container h1 {
   margin-top: 0.5rem;
 }
 .pokemon__item {
-  flex-basis: 18%;
-  padding: 1rem;
-  margin: 1rem;
+  align-items: center;
   background-color: #E4E4E4;
   display: flex;
-  align-items: center;
+  flex-basis: 18%;
   justify-content: space-between;
+  margin: 1rem;
+  padding: 1rem;
 }
 .pokemon__item--hover {
   -webkit-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -199,18 +200,19 @@ select {
   box-shadow: 0px 0px 8px 0px #989EA6;
 }
 .pokemon__item-img {
-  width: 40px;
   opacity: 0.8;
+  width: 40px;
 }
 .pokemon__navigation {
-  flex-basis: 100%;
-  margin-top: 1rem;
   display: flex;
+  flex-basis: 100%;
   justify-content: space-between;
+  margin-top: 1rem;
 }
 .pokemon__navigation a {
   background-color: #E4E4E4;
   padding: 0.5rem;
+  text-transform: uppercase;
   -webkit-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
@@ -225,14 +227,14 @@ select {
   box-shadow: 0px 0px 8px 0px #989EA6;
 }
 .pokemon__item--large {
-  flex-basis: 100%;
   display: block;
+  flex-basis: 100%;
   margin: 0;
 }
 .pokemon__item--large .pokemon__item-img {
-  width: 400px;
   float: right;
   margin-left: 0.5rem;
+  width: 400px;
 }
 .pokemon__item--large .pokemon__item-img--small,
 .pokemon__item--large .pokeball__item-img--small {
@@ -242,8 +244,8 @@ select {
   margin-bottom: 1rem;
 }
 .pokemon__item-stat img {
-  width: 25px;
   margin-right: 0.5rem;
+  width: 25px;
 }
 .pokemon__item-stat span {
   margin-right: 1rem;
@@ -266,21 +268,21 @@ select {
     margin-right: 0;
   }
   .pokemon__item--large .pokemon__item-img {
-    width: 250px;
-    float: none;
     display: block;
+    float: none;
     margin: auto;
+    width: 250px;
   }
 }
 .pill__item {
-  display: inline-block;
-  text-transform: uppercase;
-  color: #fff;
-  font-size: 0.75rem;
   background-color: #D4D4D4;
-  padding: 0.25rem 1rem;
   border-radius: 0.75rem;
+  color: #fff;
+  display: inline-block;
+  font-size: 0.75rem;
   margin-bottom: 0.5rem;
+  padding: 0.25rem 1rem;
+  text-transform: uppercase;
   box-shadow: 0px 0px 4px 0px #989EA6;
 }
 .pill__item--hover {
@@ -337,13 +339,13 @@ select {
   background-color: #C03028;
 }
 footer {
-  font-size: 0.5rem;
-  width: 100%;
-  height: 32px;
-  position: fixed;
-  bottom: 0;
-  background-color: #989EA6;
-  display: flex;
   align-items: center;
+  background-color: #989EA6;
+  bottom: 0;
+  display: flex;
+  font-size: 0.5rem;
+  height: 32px;
   justify-content: center;
+  position: fixed;
+  width: 100%;
 }

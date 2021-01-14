@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Pokedex.Common;
 using Pokedex.Data.Models;
+using Pokedex.Logging.Interfaces;
 using Pokedex.Repository.Interfaces;
 using PokedexAPI.Interfaces;
 using PokedexAPI.Models.Output;
@@ -12,9 +14,11 @@ namespace PokedexAPI.Logic
     public class PokedexAPILogic : IPokedexAPILogic
     {
         IPokedexRepository _pokedexRepository;
-        public PokedexAPILogic(IPokedexRepository pokedexRepository)
+        ILoggerAdapter<PokedexAPILogic> _logger;
+        public PokedexAPILogic(IPokedexRepository pokedexRepository, ILoggerAdapter<PokedexAPILogic> logger)
         {
             _pokedexRepository = pokedexRepository;
+            _logger = logger;
         }
 
         public async Task<GenericLookupResult> GetAbilityById(int id)
