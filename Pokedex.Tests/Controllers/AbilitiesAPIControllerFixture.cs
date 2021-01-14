@@ -1,6 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Pokedex.Data.Models;
 using Pokedex.Logging.Interfaces;
 using PokedexAPI.Controllers;
 using PokedexAPI.Interfaces;
@@ -22,8 +21,8 @@ namespace Pokedex.Tests.Controllers
         public void Intitialize()
         {
             _pokedexAPILogicMock = new Mock<IPokedexAPILogic>();
-            _pokedexAPILogicMock.Setup(prm => prm.GetAllAbilities()).ReturnsAsync(It.IsAny<List<GenericLookupResult>>());
-            _pokedexAPILogicMock.Setup(prm => prm.GetAbilityById(1)).ReturnsAsync(new GenericLookupResult { Id = 1 });
+            _pokedexAPILogicMock.Setup(plm => plm.GetAllAbilities()).ReturnsAsync(It.IsAny<List<GenericLookupResult>>());
+            _pokedexAPILogicMock.Setup(plm => plm.GetAbilityById(1)).ReturnsAsync(new GenericLookupResult { Id = 1 });
 
             _loggerMock = new Mock<ILoggerAdapter<AbilitiesController>>();
 
@@ -35,7 +34,7 @@ namespace Pokedex.Tests.Controllers
         {
             await _abilitiesController.GetAbilities();
 
-            _pokedexAPILogicMock.Verify(prm => prm.GetAllAbilities(), Times.Once);
+            _pokedexAPILogicMock.Verify(plm => plm.GetAllAbilities(), Times.Once);
         }
 
         [TestMethod]
@@ -43,7 +42,7 @@ namespace Pokedex.Tests.Controllers
         {
             await _abilitiesController.GetAbilityById(1);
 
-            _pokedexAPILogicMock.Verify(prm => prm.GetAbilityById(1), Times.Once);
+            _pokedexAPILogicMock.Verify(plm => plm.GetAbilityById(1), Times.Once);
 
             _loggerMock.VerifyNoOtherCalls();
         }
@@ -56,7 +55,7 @@ namespace Pokedex.Tests.Controllers
 
             _pokedexAPILogicMock.Verify(prm => prm.GetAbilityById(2), Times.Once);
 
-            _loggerMock.Verify(lm => lm.LogInformation("No ability with id: 2"), Times.Once);
+            _loggerMock.Verify(lm => lm.LogInformation("Invalid Request for Ability with Id: 2"), Times.Once);
         }
     }
 }

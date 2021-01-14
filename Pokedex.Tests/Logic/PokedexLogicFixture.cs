@@ -13,8 +13,9 @@ using System.Threading.Tasks;
 
 namespace Pokedex.Tests.Logic
 {
+    //todo finish api logic tests
     [TestClass]
-    public class PokedexAppLogicFixture
+    public class PokedexLogicFixture
     {
         private PokedexAppLogic _pokedexAppLogic;
 

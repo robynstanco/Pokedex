@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Pokedex.Common;
 using Pokedex.Logging.Interfaces;
 using PokedexAPI.Interfaces;
 using PokedexAPI.Models.Output;
@@ -32,9 +33,9 @@ namespace PokedexAPI.Controllers
 
             if (ability == null)
             {
-                _logger.LogInformation("No ability with id: " + id);//todo fix message
+                _logger.LogInformation(Constants.InvalidRequest + " for " + Constants.Ability + " with Id: " + id);
 
-                return NotFound();//todo throw new exception and add global error handling to this project (& the MVC one)
+                return NotFound();
             }
 
             return ability;

@@ -14,7 +14,6 @@ namespace PokedexApp.Logic
 {
     public class PokedexAppLogic : IPokedexAppLogic
     {
-        private const string InformationalMessageMappingWithCount = Constants.Mapping + " {0} {1} {2}.";
         private const string ViewModels = "View Models";
         private const string SelectListItems = " Select List Items.";
         private const string None = "--None--";
@@ -271,7 +270,7 @@ namespace PokedexApp.Logic
 
         private List<PokemonListingViewModel> MapPokedexToListingViewModels(List<tblMyPokedex> pokedex)
         {
-            _logger.LogInformation(string.Format(InformationalMessageMappingWithCount, pokedex.Count, Constants.Pokemon, ViewModels));
+            _logger.LogInformation(string.Format(Constants.InformationalMessageMappingWithCount, pokedex.Count, Constants.Pokemon, ViewModels));
 
             return pokedex.Select(p => new PokemonListingViewModel
             {
@@ -285,7 +284,7 @@ namespace PokedexApp.Logic
 
         private PokemonDetailViewModel MapMyPokemonToDetailViewModel(tblMyPokedex myPokemon)
         {
-            _logger.LogInformation(string.Format(InformationalMessageMappingWithCount, 1, Constants.Pokemon, ViewModels));
+            _logger.LogInformation(string.Format(Constants.InformationalMessageMappingWithCount, 1, Constants.Pokemon, ViewModels));
             
             return new PokemonDetailViewModel
             {
@@ -313,7 +312,7 @@ namespace PokedexApp.Logic
 
         private List<PokemonListingViewModel> MapNationalDexLookupsToListingViewModels(List<tlkpNationalDex> nationalDex)
         {
-            _logger.LogInformation(string.Format(InformationalMessageMappingWithCount, nationalDex.Count, Constants.Pokemon, ViewModels));
+            _logger.LogInformation(string.Format(Constants.InformationalMessageMappingWithCount, nationalDex.Count, Constants.Pokemon, ViewModels));
 
             return nationalDex.Select(p => new PokemonListingViewModel
             {
@@ -325,7 +324,7 @@ namespace PokedexApp.Logic
 
         private PokemonDetailViewModel MapNationalDexLookupToDetailViewModel(tlkpNationalDex pokemon)
         {
-            _logger.LogInformation(string.Format(InformationalMessageMappingWithCount, 1, Constants.Pokemon, ViewModels));
+            _logger.LogInformation(string.Format(Constants.InformationalMessageMappingWithCount, 1, Constants.Pokemon, ViewModels));
 
             return new PokemonDetailViewModel
             {

@@ -18,6 +18,7 @@
         public const string Female = nameof(Female);
         public const string From = "from";
         public const string In = "in";
+        public const string InformationalMessageMappingWithCount = Mapping + " {0} {1} {2}.";
         public const string InvalidRequest = "Invalid Request";
         public const string Level = nameof(Level);
         public const string LocationCaught = "Location Caught";

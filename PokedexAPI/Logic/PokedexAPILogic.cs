@@ -11,8 +11,11 @@ using System.Threading.Tasks;
 
 namespace PokedexAPI.Logic
 {
+    //todo finish for api
     public class PokedexAPILogic : IPokedexAPILogic
     {
+        private const string Results = nameof(Results);
+
         IPokedexRepository _pokedexRepository;
         ILoggerAdapter<PokedexAPILogic> _logger;
         public PokedexAPILogic(IPokedexRepository pokedexRepository, ILoggerAdapter<PokedexAPILogic> logger)
@@ -25,6 +28,8 @@ namespace PokedexAPI.Logic
         {
             tlkpAbility ability = await _pokedexRepository.GetAbilityById(id);
 
+            _logger.LogInformation(Constants.Mapping + " " + Constants.Ability + " " + Results);
+
             return ability == null ? null : new GenericLookupResult()
             {
                 Id = ability.Id,
@@ -35,6 +40,8 @@ namespace PokedexAPI.Logic
         public async Task<ActionResult<List<GenericLookupResult>>> GetAllAbilities()
         {
             List<tlkpAbility> abilities = await _pokedexRepository.GetAllAbilities();
+
+            _logger.LogInformation(string.Format(Constants.InformationalMessageMappingWithCount, abilities.Count, Constants.Ability, Results));
 
             return abilities.Select(a => new GenericLookupResult
             {
