@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "Pokedex",
-		"_postman_id": "eae3bffd-3e80-c0e8-f9bd-ef190e6ab136",
+		"_postman_id": "93cf7434-703e-a526-6e41-17b6dcb3c2aa",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -10,7 +10,7 @@
 		{
 			"name": "Get Abilities",
 			"request": {
-				"url": "https://localhost:44371/api/Abilities",
+				"url": "https://localhost:5001/api/Abilities",
 				"method": "GET",
 				"header": [],
 				"body": {},
@@ -21,7 +21,7 @@
 		{
 			"name": "Get Ability",
 			"request": {
-				"url": "https://localhost:44371/api/Abilities/161",
+				"url": "https://localhost:5001/api/Abilities/161",
 				"method": "GET",
 				"header": [],
 				"body": {},

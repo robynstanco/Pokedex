@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Pokedex.Common;
+﻿using Pokedex.Common;
 using Pokedex.Data.Models;
 using Pokedex.Logging.Interfaces;
 using Pokedex.Repository.Interfaces;
@@ -28,7 +27,7 @@ namespace PokedexAPI.Logic
         {
             tlkpAbility ability = await _pokedexRepository.GetAbilityById(id);
 
-            _logger.LogInformation(Constants.Mapping + " " + Constants.Ability + " " + Results);
+            _logger.LogInformation(Constants.Mapping + " " + Constants.Ability + " " + Results + ".");
 
             return ability == null ? null : new GenericLookupResult()
             {
@@ -37,7 +36,7 @@ namespace PokedexAPI.Logic
             };
         }
 
-        public async Task<ActionResult<List<GenericLookupResult>>> GetAllAbilities()
+        public async Task<List<GenericLookupResult>> GetAllAbilities()
         {
             List<tlkpAbility> abilities = await _pokedexRepository.GetAllAbilities();
 

@@ -59,6 +59,7 @@ namespace PokedexApp
                 app.UseExceptionHandler("/" + Constants.Error);
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

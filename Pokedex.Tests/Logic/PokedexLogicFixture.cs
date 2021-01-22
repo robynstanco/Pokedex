@@ -4,6 +4,8 @@ using Moq;
 using Pokedex.Data.Models;
 using Pokedex.Logging.Interfaces;
 using Pokedex.Repository.Interfaces;
+using PokedexAPI.Logic;
+using PokedexAPI.Models.Output;
 using PokedexApp.Logic;
 using PokedexApp.Models;
 using System;
@@ -18,9 +20,11 @@ namespace Pokedex.Tests.Logic
     public class PokedexLogicFixture
     {
         private PokedexAppLogic _pokedexAppLogic;
+        private PokedexAPILogic _pokedexAPILogic;
 
         private Mock<IPokedexRepository> _pokedexRepositoryMock;
-        private Mock<ILoggerAdapter<PokedexAppLogic>> _loggerMock;
+        private Mock<ILoggerAdapter<PokedexAppLogic>> _loggerAppMock;
+        private Mock<ILoggerAdapter<PokedexAPILogic>> _loggerAPIMock;
 
         [TestInitialize]
         public void Initialize()
@@ -51,9 +55,11 @@ namespace Pokedex.Tests.Logic
             _pokedexRepositoryMock.Setup(prm => prm.Search(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(nationalDex);
             _pokedexRepositoryMock.Setup(prm => prm.Search(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(pokedex);
 
-            _loggerMock = new Mock<ILoggerAdapter<PokedexAppLogic>>();
+            _loggerAppMock = new Mock<ILoggerAdapter<PokedexAppLogic>>();
+            _loggerAPIMock = new Mock<ILoggerAdapter<PokedexAPILogic>>();
 
-            _pokedexAppLogic = new PokedexAppLogic(_pokedexRepositoryMock.Object, _loggerMock.Object);
+            _pokedexAppLogic = new PokedexAppLogic(_pokedexRepositoryMock.Object, _loggerAppMock.Object);
+            _pokedexAPILogic = new PokedexAPILogic(_pokedexRepositoryMock.Object, _loggerAPIMock.Object);
         }
 
         [TestMethod]
@@ -63,7 +69,7 @@ namespace Pokedex.Tests.Logic
 
             _pokedexRepositoryMock.Verify(prm => prm.AddPokemon(It.IsAny<tblMyPokedex>()), Times.Once);
 
-            _loggerMock.Verify(lm => lm.LogInformation("Mapping Pokémon View Models"), Times.Once);
+            _loggerAppMock.Verify(lm => lm.LogInformation("Mapping Pokémon View Models"), Times.Once);
         }
 
         [TestMethod]
@@ -72,7 +78,7 @@ namespace Pokedex.Tests.Logic
             await _pokedexAppLogic.DeletePokemonById(DataGenerator.DefaultGuid);
 
             _pokedexRepositoryMock.Verify(prm => prm.DeletePokemonById(DataGenerator.DefaultGuid), Times.Once);
-            _loggerMock.Verify(lm => lm.LogInformation("Deleted Pokémon: " + DataGenerator.DefaultGuid), Times.Once);
+            _loggerAppMock.Verify(lm => lm.LogInformation("Deleted Pokémon: " + DataGenerator.DefaultGuid), Times.Once);
         }
 
         [TestMethod]
@@ -86,7 +92,7 @@ namespace Pokedex.Tests.Logic
 
             _pokedexRepositoryMock.Verify(prm => prm.EditPokemon(It.Is<tblMyPokedex>(p => p.Id == DataGenerator.DefaultGuid && p.PokemonId == 0)), Times.Once);
             
-            _loggerMock.Verify(lm => lm.LogInformation("Updated Pokémon: " + DataGenerator.DefaultGuid), Times.Once);
+            _loggerAppMock.Verify(lm => lm.LogInformation("Updated Pokémon: " + DataGenerator.DefaultGuid), Times.Once);
         }
 
         [TestMethod]
@@ -103,7 +109,7 @@ namespace Pokedex.Tests.Logic
             
             _pokedexRepositoryMock.Verify(prm => prm.GetMyPokedex(), Times.Once);
 
-            _loggerMock.Verify(lm => lm.LogInformation("Mapping 1 Pokémon View Models."), Times.Once);
+            _loggerAppMock.Verify(lm => lm.LogInformation("Mapping 1 Pokémon View Models."), Times.Once);
         }
 
         [TestMethod]
@@ -133,7 +139,7 @@ namespace Pokedex.Tests.Logic
 
             _pokedexRepositoryMock.Verify(prm => prm.GetMyPokemonById(DataGenerator.DefaultGuid), Times.Once);
 
-            _loggerMock.Verify(lm => lm.LogInformation("Mapping 1 Pokémon View Models."), Times.Once);
+            _loggerAppMock.Verify(lm => lm.LogInformation("Mapping 1 Pokémon View Models."), Times.Once);
         }
 
         [TestMethod]
@@ -150,7 +156,7 @@ namespace Pokedex.Tests.Logic
             Assert.IsNull(pokemonListingViewModels[0].Nickname);
 
             _pokedexRepositoryMock.Verify(prm => prm.GetNationalDex(), Times.Once);
-            _loggerMock.Verify(lm => lm.LogInformation("Mapping 5 Pokémon View Models."),Times.Once);
+            _loggerAppMock.Verify(lm => lm.LogInformation("Mapping 5 Pokémon View Models."),Times.Once);
         }
 
         [TestMethod]
@@ -180,7 +186,7 @@ namespace Pokedex.Tests.Logic
             Assert.IsNull(pokemonDetailViewModel.Sex);
 
             _pokedexRepositoryMock.Verify(prm => prm.GetNationalDexPokemonById(0), Times.Once);
-            _loggerMock.Verify(lm => lm.LogInformation("Mapping 1 Pokémon View Models."), Times.Once);
+            _loggerAppMock.Verify(lm => lm.LogInformation("Mapping 1 Pokémon View Models."), Times.Once);
         }
 
         [TestMethod]
@@ -204,7 +210,7 @@ namespace Pokedex.Tests.Logic
 
             _pokedexRepositoryMock.Verify(prm => prm.GetAllPokeballs(), Times.Once);
             _pokedexRepositoryMock.Verify(prm => prm.GetNationalDex(), Times.Once);
-            _loggerMock.Verify(lm => lm.LogInformation("Mapping Select List Items."), Times.Once);
+            _loggerAppMock.Verify(lm => lm.LogInformation("Mapping Select List Items."), Times.Once);
         }
 
         [TestMethod]
@@ -231,7 +237,7 @@ namespace Pokedex.Tests.Logic
             _pokedexRepositoryMock.Verify(prm => prm.GetAllCategories(), Times.Once);
             _pokedexRepositoryMock.Verify(prm => prm.GetAllPokeballs(), Times.Once);
             _pokedexRepositoryMock.Verify(prm => prm.GetAllTypes(), Times.Once);
-            _loggerMock.Verify(lm => lm.LogInformation("Mapping Select List Items."), Times.Once);
+            _loggerAppMock.Verify(lm => lm.LogInformation("Mapping Select List Items."), Times.Once);
         }
 
         [TestMethod]
@@ -248,6 +254,33 @@ namespace Pokedex.Tests.Logic
 
             _pokedexRepositoryMock.Verify(prm => prm.Search("Name0", 0, 0, 0), Times.Once);
             _pokedexRepositoryMock.Verify(prm => prm.Search("Name0", 0, 0, 0, 0), Times.Once);
+        }
+
+        [TestMethod]
+        public async Task GetAbilityByIdIsSuccessfulAndLogsInformation()
+        {
+            GenericLookupResult ability = await _pokedexAPILogic.GetAbilityById(0);
+
+            Assert.AreEqual(0, ability.Id);
+            Assert.AreEqual("Name0", ability.Name);
+
+            _pokedexRepositoryMock.Verify(prm => prm.GetAbilityById(0), Times.Once);
+
+            _loggerAPIMock.Verify(lm => lm.LogInformation("Mapping Ability Results."), Times.Once);
+        }
+
+        [TestMethod]
+        public async Task GetAllAbilitiesIsSuccessfulAndLogsInformation()
+        {
+            List<GenericLookupResult> abilities = await _pokedexAPILogic.GetAllAbilities();
+
+            Assert.AreEqual(5, abilities.Count);
+            Assert.AreEqual(0, abilities[0].Id);
+            Assert.AreEqual("Name0", abilities[0].Name);
+
+            _pokedexRepositoryMock.Verify(prm => prm.GetAllAbilities(), Times.Once);
+
+            _loggerAPIMock.Verify(lm => lm.LogInformation("Mapping 5 Ability Results."), Times.Once);
         }
     }
 }

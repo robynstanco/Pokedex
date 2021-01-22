@@ -24,6 +24,7 @@ namespace PokedexApp.Controllers
             try
             {
                 List<PokemonListingViewModel> myPokemon = await _pokedexAppLogic.GetMyPokedex();
+                
                 return View(myPokemon);
             }
             catch(Exception ex)
