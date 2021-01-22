@@ -23,6 +23,32 @@ namespace PokedexAPI.Logic
             _logger = logger;
         }
 
+        public async Task<List<GenericLookupResult>> GetAllAbilities()
+        {
+            List<tlkpAbility> abilities = await _pokedexRepository.GetAllAbilities();
+
+            _logger.LogInformation(string.Format(Constants.InformationalMessageMappingWithCount, abilities.Count, Constants.Ability, Results));
+
+            return abilities.Select(a => new GenericLookupResult
+            {
+                Id = a.Id,
+                Name = a.Name
+            }).ToList();
+        }
+
+        public async Task<List<GenericLookupResult>> GetAllCategories()
+        {
+            List<tlkpCategory> categories = await _pokedexRepository.GetAllCategories();
+
+            _logger.LogInformation(string.Format(Constants.InformationalMessageMappingWithCount, categories.Count, Constants.Category, Results));
+
+            return categories.Select(a => new GenericLookupResult
+            {
+                Id = a.Id,
+                Name = a.Name
+            }).ToList();
+        }
+
         public async Task<GenericLookupResult> GetAbilityById(int id)
         {
             tlkpAbility ability = await _pokedexRepository.GetAbilityById(id);
@@ -36,17 +62,17 @@ namespace PokedexAPI.Logic
             };
         }
 
-        public async Task<List<GenericLookupResult>> GetAllAbilities()
+        public async Task<GenericLookupResult> GetCategoryById(int id)
         {
-            List<tlkpAbility> abilities = await _pokedexRepository.GetAllAbilities();
+            tlkpCategory category = await _pokedexRepository.GetCategoryById(id);
 
-            _logger.LogInformation(string.Format(Constants.InformationalMessageMappingWithCount, abilities.Count, Constants.Ability, Results));
+            _logger.LogInformation(Constants.Mapping + " " + Constants.Category + " " + Results + ".");
 
-            return abilities.Select(a => new GenericLookupResult
+            return category == null ? null : new GenericLookupResult()
             {
-                Id = a.Id,
-                Name = a.Name
-            }).ToList();
+                Id = category.Id,
+                Name = category.Name
+            };
         }
     }
 }
