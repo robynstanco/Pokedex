@@ -28,6 +28,50 @@
 				"description": ""
 			},
 			"response": []
+		},
+		{
+			"name": "Get Categories",
+			"request": {
+				"url": "https://localhost:5001/api/Categories",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Category",
+			"request": {
+				"url": "https://localhost:5001/api/Categories/1",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Pokeballs",
+			"request": {
+				"url": "https://localhost:5001/api/Pokeballs",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Pokeball",
+			"request": {
+				"url": "https://localhost:5001/api/Pokeballs/27",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
 		}
 	]
 }

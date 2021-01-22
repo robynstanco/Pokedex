@@ -309,5 +309,32 @@ namespace Pokedex.Tests.Logic
 
             _loggerAPIMock.Verify(lm => lm.LogInformation("Mapping 5 Category Results."), Times.Once);
         }
+
+        [TestMethod]
+        public async Task GetPokeballByIdIsSuccessfulAndLogsInformation()
+        {
+            GenericLookupResult pokeball = await _pokedexAPILogic.GetPokeballById(0);
+
+            Assert.AreEqual(0, pokeball.Id);
+            Assert.AreEqual("Name0", pokeball.Name);
+
+            _pokedexRepositoryMock.Verify(prm => prm.GetPokeballById(0), Times.Once);
+
+            _loggerAPIMock.Verify(lm => lm.LogInformation("Mapping Pokéball Results."), Times.Once);
+        }
+
+        [TestMethod]
+        public async Task GetAllPokeballsIsSuccessfulAndLogsInformation()
+        {
+            List<GenericLookupResult> pokeballs = await _pokedexAPILogic.GetAllPokeballs();
+
+            Assert.AreEqual(5, pokeballs.Count);
+            Assert.AreEqual(0, pokeballs[0].Id);
+            Assert.AreEqual("Name0", pokeballs[0].Name);
+
+            _pokedexRepositoryMock.Verify(prm => prm.GetAllPokeballs(), Times.Once);
+
+            _loggerAPIMock.Verify(lm => lm.LogInformation("Mapping 5 Pokéball Results."), Times.Once);
+        }
     }
 }

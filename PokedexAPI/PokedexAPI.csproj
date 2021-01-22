@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Pokedex.Data\Pokedex.Data.csproj" />
     <ProjectReference Include="..\Pokedex.Logging\Pokedex.Logging.csproj" />
     <ProjectReference Include="..\Pokedex.Repository\Pokedex.Repository.csproj" />
