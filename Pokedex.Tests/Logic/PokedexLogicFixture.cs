@@ -282,5 +282,32 @@ namespace Pokedex.Tests.Logic
 
             _loggerAPIMock.Verify(lm => lm.LogInformation("Mapping 5 Ability Results."), Times.Once);
         }
+
+        [TestMethod]
+        public async Task GetCategoryByIdIsSuccessfulAndLogsInformation()
+        {
+            GenericLookupResult category = await _pokedexAPILogic.GetCategoryById(0);
+
+            Assert.AreEqual(0, category.Id);
+            Assert.AreEqual("Name0", category.Name);
+
+            _pokedexRepositoryMock.Verify(prm => prm.GetCategoryById(0), Times.Once);
+
+            _loggerAPIMock.Verify(lm => lm.LogInformation("Mapping Category Results."), Times.Once);
+        }
+
+        [TestMethod]
+        public async Task GetAllCategoriesIsSuccessfulAndLogsInformation()
+        {
+            List<GenericLookupResult> categories = await _pokedexAPILogic.GetAllCategories();
+
+            Assert.AreEqual(5, categories.Count);
+            Assert.AreEqual(0, categories[0].Id);
+            Assert.AreEqual("Name0", categories[0].Name);
+
+            _pokedexRepositoryMock.Verify(prm => prm.GetAllCategories(), Times.Once);
+
+            _loggerAPIMock.Verify(lm => lm.LogInformation("Mapping 5 Category Results."), Times.Once);
+        }
     }
 }
