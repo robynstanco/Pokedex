@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Pokedex.Common;
 using Pokedex.Logging.Interfaces;
 using PokedexAPI.Interfaces;
 using PokedexAPI.Models.Output;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace PokedexAPI.Controllers
@@ -24,9 +21,11 @@ namespace PokedexAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<GenericLookupResult>>> GetPokeballs()
+        public async Task<IActionResult> GetPokeballs()
         {
-            return await _pokedexAPILogic.GetAllPokeballs();
+            List<GenericLookupResult> pokeballs = await _pokedexAPILogic.GetAllPokeballs();
+
+            return Ok(pokeballs);
         }
 
         [HttpGet("{id}")]
@@ -38,10 +37,10 @@ namespace PokedexAPI.Controllers
             {
                 _logger.LogInformation(Constants.InvalidRequest + " for " + Constants.Pokeball + " with Id: " + id);
 
-                return NotFound();
+                return BadRequest();
             }
 
-            return pokeball;
+            return Ok(pokeball);
         }
     }
 }

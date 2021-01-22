@@ -21,13 +21,15 @@ namespace PokedexAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<GenericLookupResult>>> GetAbilities()
+        public async Task<IActionResult> GetAbilities()
         {
-            return await _pokedexAPILogic.GetAllAbilities();
+            List<GenericLookupResult> abilities = await _pokedexAPILogic.GetAllAbilities();
+
+            return Ok(abilities);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<GenericLookupResult>> GetAbilityById(int id)
+        public async Task<IActionResult> GetAbilityById(int id)
         {
             GenericLookupResult ability = await _pokedexAPILogic.GetAbilityById(id);
 
@@ -35,10 +37,10 @@ namespace PokedexAPI.Controllers
             {
                 _logger.LogInformation(Constants.InvalidRequest + " for " + Constants.Ability + " with Id: " + id);
 
-                return NotFound();
+                return BadRequest();
             }
 
-            return ability;
+            return Ok(ability);
         }
     }
 }

@@ -21,13 +21,15 @@ namespace PokedexAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<GenericLookupResult>>> GetCategories()
+        public async Task<IActionResult> GetCategories()
         {
-            return await _pokedexAPILogic.GetAllCategories();
+            List<GenericLookupResult> categories = await _pokedexAPILogic.GetAllCategories();
+
+            return Ok(categories);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<GenericLookupResult>> GetCategoryById(int id)
+        public async Task<IActionResult> GetCategoryById(int id)
         {
             GenericLookupResult category = await _pokedexAPILogic.GetCategoryById(id);
 
@@ -35,10 +37,10 @@ namespace PokedexAPI.Controllers
             {
                 _logger.LogInformation(Constants.InvalidRequest + " for " + Constants.Category + " with Id: " + id);
 
-                return NotFound();
+                return BadRequest();
             }
 
-            return category;
+            return Ok(category);
         }
     }
 }
