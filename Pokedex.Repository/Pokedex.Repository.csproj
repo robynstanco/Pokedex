@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Pokedex.Data\Pokedex.Data.csproj" />
-    <ProjectReference Include="..\Pokedex.Helpers\Pokedex.Common.csproj" />
+    <ProjectReference Include="..\Pokedex.Common\Pokedex.Common.csproj" />
     <ProjectReference Include="..\Pokedex.Logging\Pokedex.Logging.csproj" />
   </ItemGroup>
 
