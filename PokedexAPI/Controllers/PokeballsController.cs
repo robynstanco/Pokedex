@@ -29,7 +29,7 @@ namespace PokedexAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<GenericLookupResult>> GetPokeballById(int id)
+        public async Task<IActionResult> GetPokeballById(int id)
         {
             GenericLookupResult pokeball = await _pokedexAPILogic.GetPokeballById(id);
 

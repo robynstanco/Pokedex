@@ -14,7 +14,7 @@ namespace Pokedex.Repository
     public class PokedexRepository : IPokedexRepository
     {
         private const string InformationalMessageWithCount = Constants.Retrieved + " {0} {1} " + Constants.From + " " + Constants.DBContext + ".";
-        private const string InformationalMessageWithId = "{0} {1} {2} " + Constants.DBContext + " with Id: {3}";
+        private const string InformationalMessageWithId = "{0} {1} {2} " + Constants.DBContext + Constants.WithId + "{3}";
         private const string InformationalMessageWithSearchCriteria = Constants.Retrieved + " {0} " + Constants.Pokemon + " " 
             + Constants.From + " " + Constants.DBContext + " matching search string: {1}";
         

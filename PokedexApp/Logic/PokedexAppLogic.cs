@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using cloudscribe.Pagination.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Pokedex.Common;
 using Pokedex.Data.Models;
 using Pokedex.Logging.Interfaces;
@@ -109,6 +110,25 @@ namespace PokedexApp.Logic
                 NationalDexOptions = nationalDexOptions,
                 PokeballOptions = pokeballOptions,
                 SexOptions = sexOptions
+            };
+        }
+
+        public PagedResult<T> GetPagedResults<T>(IEnumerable<T> viewModel, int pageNumber, int pageSize) where T : class
+        {
+            int totalCount = viewModel.ToList().Count;
+
+            int excludeRecords = (pageNumber * pageSize) - pageSize;
+
+            viewModel = viewModel.Skip(excludeRecords).Take(pageSize);
+
+            _logger.LogInformation(Constants.Mapping + " " + nameof(PagedResult<T>) + "<" + typeof(T) + ">.");
+
+            return new PagedResult<T>
+            {
+                Data = viewModel.ToList(),
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalItems = totalCount
             };
         }
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using cloudscribe.Pagination.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Pokedex.Data.Models;
@@ -211,6 +212,22 @@ namespace Pokedex.Tests.Logic
             _pokedexRepositoryMock.Verify(prm => prm.GetAllPokeballs(), Times.Once);
             _pokedexRepositoryMock.Verify(prm => prm.GetNationalDex(), Times.Once);
             _loggerAppMock.Verify(lm => lm.LogInformation("Mapping Select List Items."), Times.Once);
+        }
+
+        [TestMethod]
+        public void GetPagedResultIsSuccessfulAndLogsInformation()
+        {
+            IEnumerable<PokemonListingViewModel> pokemonListingViewModels = 
+                new List<PokemonListingViewModel>() { new PokemonListingViewModel() };
+
+            PagedResult<PokemonListingViewModel> pagedResult = _pokedexAppLogic.GetPagedResults(pokemonListingViewModels, 1, 1);
+
+            Assert.AreEqual(1, (int)pagedResult.PageNumber);
+            Assert.AreEqual(1, pagedResult.PageSize);
+            Assert.AreEqual(1, pagedResult.Data.Count);
+            Assert.AreEqual(1, (int)pagedResult.TotalItems);
+
+            _loggerAppMock.Verify(lm => lm.LogInformation("Mapping PagedResult<PokedexApp.Models.PokemonListingViewModel>."), Times.Once);
         }
 
         [TestMethod]

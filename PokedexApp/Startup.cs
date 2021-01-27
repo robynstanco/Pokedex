@@ -37,7 +37,8 @@ namespace PokedexApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            Logger.LogInformation(Constants.Added + " MVC.");
+            services.AddCloudscribePagination();
+            Logger.LogInformation(Constants.Added + " MVC & Pagination.");
 
             services.AddDbContext<POKEDEXDBContext>(op => op.UseSqlServer(POKEDEXDBConnectionString));
             Logger.LogInformation(Constants.Added + " " + Constants.Pokemon + Constants.DBContext + ".");
@@ -71,7 +72,7 @@ namespace PokedexApp
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Pokedex}/{action=Index}");
+                    pattern: "{controller=" + Constants.PokedexNoAccent + "}/{action=Index}");
             });
         }
     }

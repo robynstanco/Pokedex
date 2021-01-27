@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using cloudscribe.Pagination.Models;
+using Microsoft.AspNetCore.Mvc;
 using Pokedex.Common;
 using Pokedex.Logging.Interfaces;
 using PokedexApp.Interfaces;
@@ -19,13 +20,16 @@ namespace PokedexApp.Controllers
             _logger = logger;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 12)
         {
             try
             {
-                List<PokemonListingViewModel> myPokemon = await _pokedexAppLogic.GetMyPokedex();
-                
-                return View(myPokemon);
+                IEnumerable<PokemonListingViewModel> myPokemon = await _pokedexAppLogic.GetMyPokedex();
+
+                PagedResult<PokemonListingViewModel> pagedNationalDex =
+                    _pokedexAppLogic.GetPagedResults(myPokemon, pageNumber, pageSize);
+
+                return View(pagedNationalDex);
             }
             catch(Exception ex)
             {

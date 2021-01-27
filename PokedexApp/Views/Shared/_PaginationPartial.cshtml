@@ -1,0 +1,10 @@
+﻿@using Pokedex.Common;
+@addTagHelper *, cloudscribe.Web.Pagination
+
+<cs-pager cs-paging-pagenumber="(int)Model.PageNumber"
+          cs-paging-totalitems="(int)Model.TotalItems"
+          cs-paging-pagesize="Model.PageSize"
+          cs-pagenumber-param="pageNumber"
+          asp-controller="@ViewData[Constants.Controller]"
+          asp-action="Index">
+</cs-pager>

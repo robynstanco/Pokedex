@@ -1,4 +1,5 @@
-﻿using PokedexApp.Models;
+﻿using cloudscribe.Pagination.Models;
+using PokedexApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace PokedexApp.Interfaces
         Task<PokemonDetailViewModel> GetNationalDexPokemonById(int id);
         Task<PokemonFormViewModel> GetNewPokemonForm();
         Task<SearchViewModel> GetSearchForm();
+        PagedResult<T> GetPagedResults<T>(IEnumerable<T> viewModel, int pageNumber, int pageSize) where T : class;
         Task<SearchViewModel> Search(SearchViewModel searchViewModel);
     }
 }

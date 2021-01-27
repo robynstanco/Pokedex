@@ -18,4 +18,3 @@
 	CONSTRAINT [FK_tlkpNationalDex_tlkpAbility1] FOREIGN KEY ([AbilityId]) REFERENCES [tlkpAbility]([Id]),
 	CONSTRAINT [FK_tlkpNationalDex_tlkpAbility2] FOREIGN KEY ([HiddenAbilityId]) REFERENCES [tlkpAbility]([Id])
 )
-

@@ -9,6 +9,7 @@
         public const string CaptureDate = "Capture Date";
         public const string Categories = nameof(Categories);
         public const string Category = nameof(Category);
+        public const string Controller = nameof(Controller);
         public const string DateFormat = "{0:MM/dd/yyyy}";
         public const string DBContext = nameof(DBContext);
         public const string Deleted = nameof(Deleted);
@@ -41,5 +42,6 @@
         public const string Type = nameof(Type);
         public const string Types = nameof(Types);
         public const string Updated = nameof(Updated);
+        public const string WithId = " with Id: ";
     }
 }
