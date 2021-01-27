@@ -15,26 +15,18 @@
         </h1>
 
         <div class="pill__container">
-            <div class="pill__item pill__item--hover @Model.TypeOne">
-                @Model.TypeOne
-            </div>
+            <partial name="_TypePillPartial" model="Model.TypeOne"/>
 
             @if (!string.IsNullOrWhiteSpace(Model.TypeTwo) && !Model.TypeTwo.Equals(Constants.NotApplicable))
             {
-                <div class="pill__item pill__item--hover @Model.TypeTwo">
-                    @Model.TypeTwo
-                </div>
+                <partial name="_TypePillPartial" model="Model.TypeTwo" />
             }
 
-            <div class="pill__item pill__item--dark pill__item--hover">
-                @Model.Ability
-            </div>
+            <partial name="_AbilityPillPartial" model="Model.Ability"/>
 
             @if (!string.IsNullOrWhiteSpace(Model.HiddenAbility) && !Model.HiddenAbility.Equals(Constants.NotApplicable))
             {
-                <div class="pill__item pill__item--dark pill__item--hover">
-                    @Model.HiddenAbility
-                </div>
+                <partial name="_AbilityPillPartial" model="Model.HiddenAbility" />
             }
         </div>
 

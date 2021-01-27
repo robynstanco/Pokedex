@@ -13,17 +13,7 @@
 <div class="pokemon__container">
     @foreach (var pokemon in Model.Data)
     {
-        <a class="pokemon__item pokemon__item--hover" asp-controller="@Constants.PokedexNoAccent" asp-action="@Constants.Detail" asp-route-id="@pokemon.MyPokemonId">
-            <div class="pokemon__title-container">
-                <h3>@pokemon.Name</h3>
-
-                @if (!string.IsNullOrWhiteSpace(pokemon.Nickname))
-                {
-                    <h4>@Constants.Nickname: @pokemon.Nickname</h4>
-                }
-            </div>
-            <img class="pokemon__item-img" src="@pokemon.ImageURL" />
-        </a>
+        <partial name="_MyPokemonPartial" model="pokemon" />
     }
 
     @if (Model.Data.Count == 0)

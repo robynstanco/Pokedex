@@ -74,26 +74,11 @@
             {
                 @if (pokemon.MyPokemonId.HasValue)
                 {
-                    <a class="pokemon__item pokemon__item--hover" asp-controller="@Constants.PokedexNoAccent" asp-action="@Constants.Detail" asp-route-id="@pokemon.MyPokemonId">
-                        <div class="pokemon__title-container">
-                            <h2>
-                                @pokemon.NationalDexPokemonId. @pokemon.Name
-                            </h2>
-
-                            @if (!string.IsNullOrWhiteSpace(pokemon.Nickname))
-                            {
-                                <h3>@Constants.Nickname: @pokemon.Nickname</h3>
-                            }
-                        </div>
-                        <img class="pokemon__item-img" src="@pokemon.ImageURL"/>
-                    </a>
+                    <partial name="_MyPokemonPartial" model="pokemon"/>
                 }
                 else
                 {
-                    <a class="pokemon__item pokemon__item--hover" asp-controller="@Constants.NationalDex" asp-action="@Constants.Detail" asp-route-id="@pokemon.NationalDexPokemonId">
-                        <h2 class="pokemon__item-title">@pokemon.NationalDexPokemonId. @pokemon.Name</h2>
-                        <img class="pokemon__item-img" src="@pokemon.ImageURL"/>
-                    </a>
+                    <partial name="_NationalDexPartial" model="pokemon"/>
                 }
             }
         }

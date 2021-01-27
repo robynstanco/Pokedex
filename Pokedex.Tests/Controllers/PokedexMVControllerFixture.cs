@@ -33,9 +33,12 @@ namespace Pokedex.Tests.Controllers
         [TestMethod]
         public async Task IndexActionIsSuccessfulAndCallsLogic()
         {
-            await _pokedexController.Index();
+            await _pokedexController.Index(3, 33);
 
             _pokedexAppLogicMock.Verify(plm => plm.GetMyPokedex(), Times.Once);
+
+            _pokedexAppLogicMock.Verify(plm => plm.GetPagedResults<PokemonListingViewModel>(null, 3, 33),
+                Times.Once);
         }
 
         [TestMethod]

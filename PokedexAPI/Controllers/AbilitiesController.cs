@@ -35,7 +35,7 @@ namespace PokedexAPI.Controllers
 
             if (ability == null)
             {
-                _logger.LogInformation(Constants.InvalidRequest + " for " + Constants.Ability + " with Id: " + id);
+                _logger.LogInformation(Constants.InvalidRequest + " for " + Constants.Ability + Constants.WithId + id);
 
                 return BadRequest();
             }

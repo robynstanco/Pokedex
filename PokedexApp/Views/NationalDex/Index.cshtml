@@ -13,10 +13,7 @@
 <div class="pokemon__container">
     @foreach (var pokemon in Model.Data)
     {
-        <a class="pokemon__item pokemon__item--hover" asp-controller="@Constants.NationalDex" asp-action="@Constants.Detail" asp-route-id="@pokemon.NationalDexPokemonId">
-            <h3 class="pokemon__item-title">@pokemon.NationalDexPokemonId. @pokemon.Name</h3>
-            <img class="pokemon__item-img" src="@pokemon.ImageURL" />
-        </a>
+        <partial name="_NationalDexPartial" model="pokemon"/>
     }
 </div>
 

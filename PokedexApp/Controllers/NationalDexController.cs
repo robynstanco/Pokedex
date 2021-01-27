@@ -20,7 +20,7 @@ namespace PokedexApp.Controllers
             _logger = logger;
         }
 
-        public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 12)
+        public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = Constants.PageSize)
         {
             try
             {

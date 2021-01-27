@@ -35,7 +35,7 @@ namespace PokedexAPI.Controllers
 
             if (pokeball == null)
             {
-                _logger.LogInformation(Constants.InvalidRequest + " for " + Constants.Pokeball + " with Id: " + id);
+                _logger.LogInformation(Constants.InvalidRequest + " for " + Constants.Pokeball + Constants.WithId + id);
 
                 return BadRequest();
             }

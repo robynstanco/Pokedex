@@ -28,6 +28,7 @@
         public const string NationalDex = nameof(NationalDex);
         public const string Nickname = nameof(Nickname);
         public const string NotApplicable = "N/A";
+        public const int    PageSize = 12;
         public const string Pokeball = "Pokéball";
         public const string Pokeballs = "Pokéballs";
         public const string Pokedex = "Pokédex";

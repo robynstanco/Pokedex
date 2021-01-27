@@ -1,0 +1,13 @@
+﻿@using Pokedex.Common;
+
+<a class="pokemon__item pokemon__item--hover" asp-controller="@Constants.PokedexNoAccent" asp-action="@Constants.Detail" asp-route-id="@Model.MyPokemonId">
+    <div class="pokemon__title-container">
+        <h3>@Model.Name</h3>
+
+        @if (!string.IsNullOrWhiteSpace(Model.Nickname))
+        {
+            <h4>@Constants.Nickname: @Model.Nickname</h4>
+        }
+    </div>
+    <img class="pokemon__item-img" src="@Model.ImageURL" />
+</a>
