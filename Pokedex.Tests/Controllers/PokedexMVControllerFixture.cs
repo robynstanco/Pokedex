@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Pokedex.Common.Interfaces;
 using Pokedex.Logging.Interfaces;
 using PokedexApp.Controllers;
 using PokedexApp.Interfaces;
@@ -17,6 +18,7 @@ namespace Pokedex.Tests.Controllers
 
         private Mock<IPokedexAppLogic> _pokedexAppLogicMock;
         private Mock<ILoggerAdapter<PokedexController>> _loggerMock;
+        private Mock<IPaginationHelper> _paginationHelperMock;
 
         [TestInitialize]
         public void Initialize()
@@ -27,7 +29,10 @@ namespace Pokedex.Tests.Controllers
 
             _loggerMock = new Mock<ILoggerAdapter<PokedexController>>();
 
-            _pokedexController = new PokedexController(_pokedexAppLogicMock.Object, _loggerMock.Object);
+            _paginationHelperMock = new Mock<IPaginationHelper>();
+
+            _pokedexController = new PokedexController(_pokedexAppLogicMock.Object, 
+                _paginationHelperMock.Object, _loggerMock.Object);
         }
 
         [TestMethod]
@@ -37,7 +42,7 @@ namespace Pokedex.Tests.Controllers
 
             _pokedexAppLogicMock.Verify(plm => plm.GetMyPokedex(), Times.Once);
 
-            _pokedexAppLogicMock.Verify(plm => plm.GetPagedResults<PokemonListingViewModel>(null, 3, 33),
+            _paginationHelperMock.Verify(plm => plm.GetPagedResults<PokemonListingViewModel>(null, 3, 33),
                 Times.Once);
         }
 

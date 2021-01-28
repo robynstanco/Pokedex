@@ -25,7 +25,7 @@ namespace Pokedex.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=LAPTOP-ON4EJ7H8;initial catalog=POKEDEXDB;integrated security=True;");
+            optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;initial catalog=POKEDEXDB;integrated security=True;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -13,6 +13,8 @@ using Pokedex.Repository.Interfaces;
 using Pokedex.Repository;
 using PokedexApp.Interfaces;
 using PokedexApp.Logic;
+using Pokedex.Common.Interfaces;
+using Pokedex.Common.Helpers;
 
 namespace PokedexApp
 {
@@ -44,9 +46,10 @@ namespace PokedexApp
             Logger.LogInformation(Constants.Added + " " + Constants.Pokemon + Constants.DBContext + ".");
 
             services.AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
+            services.AddScoped<IPaginationHelper, PaginationHelper>();
             services.AddScoped<IPokedexAppLogic, PokedexAppLogic>();
             services.AddScoped<IPokedexRepository, PokedexRepository>();
-            Logger.LogInformation(Constants.Added + " Dependency Injection for custom logging, logic, and repository.");
+            Logger.LogInformation(Constants.Added + " Dependency Injection for custom logging, logic, helpers, and repository.");
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
