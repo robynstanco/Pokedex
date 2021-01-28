@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using cloudscribe.Pagination.Models;
+using Microsoft.AspNetCore.Mvc;
 using Pokedex.Common;
+using Pokedex.Common.Interfaces;
 using Pokedex.Logging.Interfaces;
 using PokedexAPI.Interfaces;
 using PokedexAPI.Models.Output;
@@ -13,19 +15,26 @@ namespace PokedexAPI.Controllers
     public class AbilitiesController : ControllerBase
     {
         private IPokedexAPILogic _pokedexAPILogic;
+        private IPaginationHelper _paginationHelper;
         private ILoggerAdapter<AbilitiesController> _logger;
-        public AbilitiesController(IPokedexAPILogic pokedexAPILogic, ILoggerAdapter<AbilitiesController> logger)
+        public AbilitiesController(IPokedexAPILogic pokedexAPILogic, IPaginationHelper paginationHelper,
+            ILoggerAdapter<AbilitiesController> logger)
         {
             _pokedexAPILogic = pokedexAPILogic;
+            _paginationHelper = paginationHelper;
             _logger = logger;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAbilities()
+        public async Task<IActionResult> GetAbilities([FromQuery] int pageNumber = 1, 
+            [FromQuery] int pageSize = Constants.PageSize)
         {
             List<GenericLookupResult> abilities = await _pokedexAPILogic.GetAllAbilities();
 
-            return Ok(abilities);
+            PagedResult<GenericLookupResult> pagedAbilities = 
+                _paginationHelper.GetPagedResults(abilities, pageNumber, pageSize);
+
+            return Ok(pagedAbilities.Data);
         }
 
         [HttpGet("{id}")]

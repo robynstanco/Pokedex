@@ -1,5 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using cloudscribe.Pagination.Models;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Pokedex.Common.Interfaces;
 using Pokedex.Logging.Interfaces;
 using PokedexAPI.Controllers;
 using PokedexAPI.Interfaces;
@@ -13,6 +15,7 @@ namespace Pokedex.Tests.Controllers
     public class PokeballsAPIControllerFixture
     {
         private Mock<IPokedexAPILogic> _pokedexAPILogicMock;
+        private Mock<IPaginationHelper> _paginationHelperMock;
         private Mock<ILoggerAdapter<PokeballsController>> _loggerMock;
 
         private PokeballsController _pokeballsController;
@@ -26,15 +29,23 @@ namespace Pokedex.Tests.Controllers
 
             _loggerMock = new Mock<ILoggerAdapter<PokeballsController>>();
 
-            _pokeballsController = new PokeballsController(_pokedexAPILogicMock.Object, _loggerMock.Object);
+            _paginationHelperMock = new Mock<IPaginationHelper>();
+            _paginationHelperMock.Setup(phm => phm.GetPagedResults(It.IsAny<IEnumerable<GenericLookupResult>>(),
+                It.IsAny<int>(), It.IsAny<int>())).Returns(new PagedResult<GenericLookupResult>());
+
+            _pokeballsController = new PokeballsController(_pokedexAPILogicMock.Object,
+                _paginationHelperMock.Object, _loggerMock.Object);
         }
 
         [TestMethod]
         public async Task GetPokeballsIsSuccessfulAndCallsRepository()
         {
-            await _pokeballsController.GetPokeballs();
+            await _pokeballsController.GetPokeballs(3, 33);
 
             _pokedexAPILogicMock.Verify(plm => plm.GetAllPokeballs(), Times.Once);
+
+            _paginationHelperMock.Verify(plm => plm.GetPagedResults<GenericLookupResult>(null, 3, 33),
+                Times.Once);
         }
 
         [TestMethod]

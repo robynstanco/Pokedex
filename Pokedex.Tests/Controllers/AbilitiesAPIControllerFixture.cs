@@ -1,5 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using cloudscribe.Pagination.Models;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Pokedex.Common.Interfaces;
 using Pokedex.Logging.Interfaces;
 using PokedexAPI.Controllers;
 using PokedexAPI.Interfaces;
@@ -13,6 +15,8 @@ namespace Pokedex.Tests.Controllers
     public class AbilitiesAPIControllerFixture
     {
         private Mock<IPokedexAPILogic> _pokedexAPILogicMock;
+
+        private Mock<IPaginationHelper> _paginationHelperMock;
         private Mock<ILoggerAdapter<AbilitiesController>> _loggerMock;
 
         private AbilitiesController _abilitiesController;
@@ -26,15 +30,24 @@ namespace Pokedex.Tests.Controllers
 
             _loggerMock = new Mock<ILoggerAdapter<AbilitiesController>>();
 
-            _abilitiesController = new AbilitiesController(_pokedexAPILogicMock.Object, _loggerMock.Object);
+            _paginationHelperMock = new Mock<IPaginationHelper>();
+
+            _paginationHelperMock.Setup(phm => phm.GetPagedResults(It.IsAny<IEnumerable<GenericLookupResult>>(),
+                It.IsAny<int>(), It.IsAny<int>())).Returns(new PagedResult<GenericLookupResult>());
+
+            _abilitiesController = new AbilitiesController(_pokedexAPILogicMock.Object,
+                _paginationHelperMock.Object, _loggerMock.Object);
         }
 
         [TestMethod]
         public async Task GetAbilitiesIsSuccessfulAndCallsRepository()
         {
-            await _abilitiesController.GetAbilities();
+            await _abilitiesController.GetAbilities(3, 33);
 
             _pokedexAPILogicMock.Verify(plm => plm.GetAllAbilities(), Times.Once);
+
+            _paginationHelperMock.Verify(plm => plm.GetPagedResults<GenericLookupResult>(null, 3, 33),
+                Times.Once);
         }
 
         [TestMethod]

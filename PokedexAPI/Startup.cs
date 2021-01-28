@@ -11,6 +11,8 @@ using Pokedex.Logging.Interfaces;
 using Pokedex.Logging.Adapters;
 using PokedexAPI.Interfaces;
 using PokedexAPI.Logic;
+using Pokedex.Common.Interfaces;
+using Pokedex.Common.Helpers;
 
 namespace PokedexAPI
 {
@@ -34,10 +36,12 @@ namespace PokedexAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-
+            services.AddCloudscribePagination();
+            
             services.AddDbContext<POKEDEXDBContext>(op => op.UseSqlServer(POKEDEXDBConnectionString));
 
             services.AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
+            services.AddScoped<IPaginationHelper, PaginationHelper>();
             services.AddScoped<IPokedexRepository, PokedexRepository>();
             services.AddScoped<IPokedexAPILogic, PokedexAPILogic>();
 

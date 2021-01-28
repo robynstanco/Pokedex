@@ -10,9 +10,42 @@
 		{
 			"name": "Get Abilities",
 			"request": {
-				"url": "https://localhost:5001/api/Abilities",
+				"url": {
+					"raw": "https://localhost:5001/api/Abilities?pageNumber=1&pageSize=15",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"Abilities"
+					],
+					"query": [
+						{
+							"key": "pageNumber",
+							"value": "1",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "pageSize",
+							"value": "15",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"description": "",
+						"disabled": true
+					}
+				],
 				"body": {},
 				"description": ""
 			},
@@ -32,7 +65,33 @@
 		{
 			"name": "Get Categories",
 			"request": {
-				"url": "https://localhost:5001/api/Categories",
+				"url": {
+					"raw": "https://localhost:5001/api/Categories?pageNumber=2&pageSize=10",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"Categories"
+					],
+					"query": [
+						{
+							"key": "pageNumber",
+							"value": "2",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "pageSize",
+							"value": "10",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
 				"method": "GET",
 				"header": [],
 				"body": {},
@@ -54,7 +113,33 @@
 		{
 			"name": "Get Pokeballs",
 			"request": {
-				"url": "https://localhost:5001/api/Pokeballs",
+				"url": {
+					"raw": "https://localhost:5001/api/Pokeballs?pageNumber=1&pageSize=15",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"Pokeballs"
+					],
+					"query": [
+						{
+							"key": "pageNumber",
+							"value": "1",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "pageSize",
+							"value": "15",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
 				"method": "GET",
 				"header": [],
 				"body": {},
@@ -66,6 +151,48 @@
 			"name": "Get Pokeball",
 			"request": {
 				"url": "https://localhost:5001/api/Pokeballs/27",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Types",
+			"request": {
+				"url": {
+					"raw": "https://localhost:5001/api/Types?pageNumber=1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"Types"
+					],
+					"query": [
+						{
+							"key": "pageNumber",
+							"value": "1",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Type",
+			"request": {
+				"url": "https://localhost:5001/api/Types/1",
 				"method": "GET",
 				"header": [],
 				"body": {},

@@ -62,6 +62,19 @@ namespace PokedexAPI.Logic
             }).ToList();
         }
 
+        public async Task<List<GenericLookupResult>> GetAllTypes()
+        {
+            List<tlkpType> types = await _pokedexRepository.GetAllTypes();
+
+            _logger.LogInformation(string.Format(Constants.InformationalMessageMappingWithCount, types.Count, Constants.Types, Results));
+
+            return types.Select(a => new GenericLookupResult
+            {
+                Id = a.Id,
+                Name = a.Name
+            }).ToList();
+        }
+
         public async Task<GenericLookupResult> GetAbilityById(int id)
         {
             tlkpAbility ability = await _pokedexRepository.GetAbilityById(id);
@@ -98,6 +111,19 @@ namespace PokedexAPI.Logic
             {
                 Id = pokeball.Id,
                 Name = pokeball.Name
+            };
+        }
+
+        public async Task<GenericLookupResult> GetTypeById(int id)
+        {
+            tlkpType type = await _pokedexRepository.GetTypeById(id);
+
+            _logger.LogInformation(Constants.Mapping + " " + Constants.Type + " " + Results + ".");
+
+            return type == null ? null : new GenericLookupResult()
+            {
+                Id = type.Id,
+                Name = type.Name
             };
         }
     }

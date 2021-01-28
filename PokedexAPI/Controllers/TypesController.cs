@@ -12,13 +12,13 @@ namespace PokedexAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PokeballsController : ControllerBase
+    public class TypesController : ControllerBase
     {
         private IPokedexAPILogic _pokedexAPILogic;
         private IPaginationHelper _paginationHelper;
-        private ILoggerAdapter<PokeballsController> _logger;
-        public PokeballsController(IPokedexAPILogic pokedexAPILogic, IPaginationHelper paginationHelper,
-            ILoggerAdapter<PokeballsController> logger)
+        private ILoggerAdapter<TypesController> _logger;
+        public TypesController(IPokedexAPILogic pokedexAPILogic, IPaginationHelper paginationHelper,
+            ILoggerAdapter<TypesController> logger)
         {
             _pokedexAPILogic = pokedexAPILogic;
             _paginationHelper = paginationHelper;
@@ -26,25 +26,25 @@ namespace PokedexAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetPokeballs([FromQuery] int pageNumber = 1,
+        public async Task<IActionResult> GetTypes([FromQuery] int pageNumber = 1,
             [FromQuery] int pageSize = Constants.PageSize)
         {
-            List<GenericLookupResult> pokeballs = await _pokedexAPILogic.GetAllPokeballs();
+            List<GenericLookupResult> types = await _pokedexAPILogic.GetAllTypes();
 
-            PagedResult<GenericLookupResult> pagedPokeballs =
-                _paginationHelper.GetPagedResults(pokeballs, pageNumber, pageSize);
+            PagedResult<GenericLookupResult> pagedTypes =
+                _paginationHelper.GetPagedResults(types, pageNumber, pageSize);
 
-            return Ok(pagedPokeballs.Data);
+            return Ok(pagedTypes.Data);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetPokeballById(int id)
+        public async Task<IActionResult> GetTypeById(int id)
         {
-            GenericLookupResult pokeball = await _pokedexAPILogic.GetPokeballById(id);
+            GenericLookupResult pokeball = await _pokedexAPILogic.GetTypeById(id);
 
             if (pokeball == null)
             {
-                _logger.LogInformation(Constants.InvalidRequest + " for " + Constants.Pokeball + Constants.WithId + id);
+                _logger.LogInformation(Constants.InvalidRequest + " for " + Constants.Type + Constants.WithId + id);
 
                 return BadRequest();
             }

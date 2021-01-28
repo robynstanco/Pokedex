@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using cloudscribe.Pagination.Models;
+using Microsoft.AspNetCore.Mvc;
 using Pokedex.Common;
+using Pokedex.Common.Interfaces;
 using Pokedex.Logging.Interfaces;
 using PokedexAPI.Interfaces;
 using PokedexAPI.Models.Output;
@@ -13,19 +15,26 @@ namespace PokedexAPI.Controllers
     public class CategoriesController : ControllerBase
     {
         private IPokedexAPILogic _pokedexAPILogic;
+        private IPaginationHelper _paginationHelper;
         private ILoggerAdapter<CategoriesController> _logger;
-        public CategoriesController(IPokedexAPILogic pokedexAPILogic, ILoggerAdapter<CategoriesController> logger)
+        public CategoriesController(IPokedexAPILogic pokedexAPILogic, IPaginationHelper paginationHelper,
+            ILoggerAdapter<CategoriesController> logger)
         {
             _pokedexAPILogic = pokedexAPILogic;
+            _paginationHelper = paginationHelper;
             _logger = logger;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetCategories()
+        public async Task<IActionResult> GetCategories([FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = Constants.PageSize)
         {
             List<GenericLookupResult> categories = await _pokedexAPILogic.GetAllCategories();
 
-            return Ok(categories);
+            PagedResult<GenericLookupResult> pagedCategories = 
+                _paginationHelper.GetPagedResults(categories, pageNumber, pageSize);
+
+            return Ok(pagedCategories.Data);
         }
 
         [HttpGet("{id}")]
