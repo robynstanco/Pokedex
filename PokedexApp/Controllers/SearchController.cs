@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace PokedexApp.Controllers
 {
-    //todo add pagination (try)
     public class SearchController : Controller
     {
         private IPokedexAppLogic _pokedexAppLogic;
