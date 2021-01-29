@@ -15,7 +15,8 @@ using System.Threading.Tasks;
 
 namespace Pokedex.Tests.Logic
 {
-    //todo finish api logic tests
+    //todo finish api logic tests for NationalDex, MyPokemon, Search
+    //also the controllers for those.
     [TestClass]
     public class PokedexLogicFixture
     {
@@ -335,6 +336,33 @@ namespace Pokedex.Tests.Logic
             _pokedexRepositoryMock.Verify(prm => prm.GetAllPokeballs(), Times.Once);
 
             _loggerAPIMock.Verify(lm => lm.LogInformation("Mapping 5 Pokéball Results."), Times.Once);
+        }
+
+        [TestMethod]
+        public async Task GetTypeByIdIsSuccessfulAndLogsInformation()
+        {
+            GenericLookupResult type = await _pokedexAPILogic.GetTypeById(0);
+
+            Assert.AreEqual(0, type.Id);
+            Assert.AreEqual("Name0", type.Name);
+
+            _pokedexRepositoryMock.Verify(prm => prm.GetTypeById(0), Times.Once);
+
+            _loggerAPIMock.Verify(lm => lm.LogInformation("Mapping Type Results."), Times.Once);
+        }
+
+        [TestMethod]
+        public async Task GetAllTypesIsSuccessfulAndLogsInformation()
+        {
+            List<GenericLookupResult> types = await _pokedexAPILogic.GetAllTypes();
+
+            Assert.AreEqual(5, types.Count);
+            Assert.AreEqual(0, types[0].Id);
+            Assert.AreEqual("Name0", types[0].Name);
+
+            _pokedexRepositoryMock.Verify(prm => prm.GetAllTypes(), Times.Once);
+
+            _loggerAPIMock.Verify(lm => lm.LogInformation("Mapping 5 Types Results."), Times.Once);
         }
     }
 }

@@ -75,6 +75,29 @@ namespace PokedexAPI.Logic
             }).ToList();
         }
 
+        public async Task<List<GenericPokemonResult>> GetNationalDex()
+        {
+            List<tlkpNationalDex> nationalDex = await _pokedexRepository.GetNationalDex();
+
+            _logger.LogInformation(string.Format(Constants.InformationalMessageMappingWithCount, nationalDex.Count, Constants.NationalDex, Results));
+
+            return nationalDex.Select(a => new GenericPokemonResult 
+            { 
+                Ability = a.Ability.Name,
+                Category = a.Category.Name,
+                Description = a.Description,
+                HeightInInches = a.HeightInInches,
+                HiddenAbility = a.HiddenAbilityId.HasValue ? a.HiddenAbility.Name : Constants.NotApplicable,
+                ImageURL = a.ImageURL,
+                JapaneseName = a.JapaneseName,
+                Name = a.Name,
+                NationalDexPokemonId = a.Id,
+                TypeOne = a.TypeOne.Name,
+                TypeTwo = a.TypeTwoId.HasValue ? a.TypeTwo.Name : Constants.NotApplicable,
+                WeightInPounds = a.WeightInPounds
+            }).ToList();
+        }
+
         public async Task<GenericLookupResult> GetAbilityById(int id)
         {
             tlkpAbility ability = await _pokedexRepository.GetAbilityById(id);
@@ -124,6 +147,29 @@ namespace PokedexAPI.Logic
             {
                 Id = type.Id,
                 Name = type.Name
+            };
+        }
+
+        public async Task<GenericPokemonResult> GetNationalDexPokemonById(int id)
+        {
+            tlkpNationalDex nationalDex = await _pokedexRepository.GetNationalDexPokemonById(id);
+
+            _logger.LogInformation(Constants.Mapping + " " + Constants.NationalDex + " " + Results + ".");
+
+            return nationalDex == null ? null : new GenericPokemonResult
+            {
+                Ability = nationalDex.Ability.Name,
+                Category = nationalDex.Category.Name,
+                Description = nationalDex.Description,
+                HeightInInches = nationalDex.HeightInInches,
+                HiddenAbility = nationalDex.HiddenAbilityId.HasValue ? nationalDex.HiddenAbility.Name : Constants.NotApplicable,
+                ImageURL = nationalDex.ImageURL,
+                JapaneseName = nationalDex.JapaneseName,
+                Name = nationalDex.Name,
+                NationalDexPokemonId = nationalDex.Id,
+                TypeOne = nationalDex.TypeOne.Name,
+                TypeTwo = nationalDex.TypeTwoId.HasValue ? nationalDex.TypeTwo.Name : Constants.NotApplicable,
+                WeightInPounds = nationalDex.WeightInPounds
             };
         }
     }

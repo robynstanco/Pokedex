@@ -10,10 +10,12 @@ namespace PokedexAPI.Interfaces
         Task<List<GenericLookupResult>> GetAllCategories();
         Task<List<GenericLookupResult>> GetAllPokeballs();
         Task<List<GenericLookupResult>> GetAllTypes();
+        Task<List<GenericPokemonResult>> GetNationalDex();
 
         Task<GenericLookupResult> GetAbilityById(int id);
         Task<GenericLookupResult> GetCategoryById(int id);
         Task<GenericLookupResult> GetPokeballById(int id);
         Task<GenericLookupResult> GetTypeById(int id);
+        Task<GenericPokemonResult> GetNationalDexPokemonById(int id);
     }
 }

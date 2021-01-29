@@ -151,18 +151,34 @@ namespace Pokedex.Repository
 
         public async Task<List<tlkpNationalDex>> GetNationalDex()
         {
-            List<tlkpNationalDex> nationalDex = await _context.tlkpNationalDex.ToListAsync(); 
-            nationalDex.OrderBy(p => p.Id);
+            List<tlkpNationalDex> nationalDex = await _context.tlkpNationalDex.ToListAsync();
+            List<tlkpNationalDex> nestedNationalDex = new List<tlkpNationalDex>();
+            foreach (tlkpNationalDex pokemon in nationalDex)
+            {
+                tlkpNationalDex nested = await GetNestedNationalDexInfo(pokemon);
+                nestedNationalDex.Add(nested);
+            }
 
-            _logger.LogInformation(string.Format(InformationalMessageWithCount, nationalDex.Count, Constants.Pokemon));
+            nestedNationalDex.OrderBy(p => p.Id);
 
-            return nationalDex;
+            _logger.LogInformation(string.Format(InformationalMessageWithCount, nestedNationalDex.Count, Constants.Pokemon));
+
+            return nestedNationalDex;
         }
 
         public async Task<tlkpNationalDex> GetNationalDexPokemonById(int pokemonId)
         {
             tlkpNationalDex nationalDexPokemon = await _context.tlkpNationalDex.FindAsync(pokemonId);
 
+            nationalDexPokemon = await GetNestedNationalDexInfo(nationalDexPokemon);
+
+            _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Retrieved, Constants.Pokemon, Constants.From, pokemonId));
+
+            return nationalDexPokemon;
+        }
+
+        private async Task<tlkpNationalDex> GetNestedNationalDexInfo(tlkpNationalDex nationalDexPokemon)
+        {
             nationalDexPokemon.Ability = await GetAbilityById(nationalDexPokemon.AbilityId.Value);
             nationalDexPokemon.Category = await GetCategoryById(nationalDexPokemon.CategoryId.Value);
 
@@ -177,8 +193,6 @@ namespace Pokedex.Repository
             {
                 nationalDexPokemon.TypeTwo = await GetTypeById(nationalDexPokemon.TypeTwoId.Value);
             }
-
-            _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Retrieved, Constants.Pokemon, Constants.From, pokemonId));
 
             return nationalDexPokemon;
         }
