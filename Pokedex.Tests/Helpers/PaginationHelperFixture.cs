@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Pokedex.Common.Helpers;
 using Pokedex.Logging.Interfaces;
+using PokedexApp.Models;
 using System.Collections.Generic;
 
 namespace Pokedex.Tests.Helpers
@@ -18,23 +19,44 @@ namespace Pokedex.Tests.Helpers
         public void Initialize()
         {
             _loggerMock = new Mock<ILoggerAdapter<PaginationHelper>>();
+
             _paginationHelper = new PaginationHelper(_loggerMock.Object);
         }
 
 
         [TestMethod]
-        public void GetPagedResultIsSuccessfulAndLogsInformation()
+        public void GetPagedStringResultIsSuccessfulAndLogsInformation()
         {
             IEnumerable<string> stringCollection = new List<string>() { "test" };
 
             PagedResult<string> pagedResult = _paginationHelper.GetPagedResults(stringCollection, 1, 1);
 
+            AssertOnePagedResult(pagedResult);
+
+            _loggerMock.Verify(lm => lm.LogInformation("Mapping PagedResult<System.String>."), Times.Once);
+        }
+
+        [TestMethod]
+        public void GetPagedViewModelResultIsSuccessfulAndLogsInformation()
+        {
+            IEnumerable<PokemonListingViewModel> pokemonListingViewModels = 
+                new List<PokemonListingViewModel>() { new PokemonListingViewModel() };
+
+            PagedResult<PokemonListingViewModel> pagedResult = 
+                _paginationHelper.GetPagedResults(pokemonListingViewModels, 1, 1);
+
+            AssertOnePagedResult(pagedResult);
+
+            _loggerMock.Verify(lm => lm.LogInformation(
+                "Mapping PagedResult<PokedexApp.Models.PokemonListingViewModel>."), Times.Once);
+        }
+
+        private static void AssertOnePagedResult<T>(PagedResult<T> pagedResult) where T : class
+        {
             Assert.AreEqual(1, (int)pagedResult.PageNumber);
             Assert.AreEqual(1, pagedResult.PageSize);
             Assert.AreEqual(1, pagedResult.Data.Count);
             Assert.AreEqual(1, (int)pagedResult.TotalItems);
-
-            _loggerMock.Verify(lm => lm.LogInformation("Mapping PagedResult<System.String>."), Times.Once);
         }
     }
 }

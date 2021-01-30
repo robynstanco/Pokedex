@@ -38,30 +38,36 @@ namespace Pokedex.Tests.Repositories
             _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpNationalDex).Returns(InitializeMockSet(nationalDex).Object);
             _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpPokeball).Returns(InitializeMockSet(pokeballs).Object);
             _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpType).Returns(InitializeMockSet(types).Object);
-            _pokedexDBContextMock.Setup(dbcm => dbcm.tblMyPokedex.FindAsync(DataGenerator.DefaultGuid)).ReturnsAsync((object[] ids) =>
-            {
-                return myPokedex.FirstOrDefault(p => p.Id == (Guid)ids[0]);
-            });
-            _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpAbility.FindAsync(It.IsAny<int>())).ReturnsAsync((object[] ids) =>
-            {
-                return abilities.FirstOrDefault(p => p.Id == (int)ids[0]);
-            });
-            _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpCategory.FindAsync(It.IsAny<int>())).ReturnsAsync((object[] ids) =>
-            {
-                return categories.FirstOrDefault(p => p.Id == (int)ids[0]);
-            });
-            _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpNationalDex.FindAsync(It.IsAny<int>())).ReturnsAsync((object[] ids) =>
-            {
-                return nationalDex.FirstOrDefault(p => p.Id == (int)ids[0]);
-            });
-            _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpPokeball.FindAsync(It.IsAny<int>())).ReturnsAsync((object[] ids) =>
-            {
-                return pokeballs.FirstOrDefault(p => p.Id == (int)ids[0]);
-            });
-            _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpType.FindAsync(It.IsAny<int>())).ReturnsAsync((object[] ids) =>
-            {
-                return types.FirstOrDefault(p => p.Id == (int)ids[0]);
-            });
+            _pokedexDBContextMock.Setup(dbcm => dbcm.tblMyPokedex.FindAsync(DataGenerator.DefaultGuid))
+                .ReturnsAsync((object[] ids) =>
+                {
+                    return myPokedex.FirstOrDefault(p => p.Id == (Guid)ids[0]);
+                });
+            _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpAbility.FindAsync(It.IsAny<int>()))
+                .ReturnsAsync((object[] ids) =>
+                {
+                    return abilities.FirstOrDefault(p => p.Id == (int)ids[0]);
+                });
+            _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpCategory.FindAsync(It.IsAny<int>()))
+                .ReturnsAsync((object[] ids) =>
+                {
+                    return categories.FirstOrDefault(p => p.Id == (int)ids[0]);
+                });
+            _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpNationalDex.FindAsync(It.IsAny<int>()))
+                .ReturnsAsync((object[] ids) =>
+                {
+                    return nationalDex.FirstOrDefault(p => p.Id == (int)ids[0]);
+                });
+            _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpPokeball.FindAsync(It.IsAny<int>()))
+                .ReturnsAsync((object[] ids) =>
+                {
+                    return pokeballs.FirstOrDefault(p => p.Id == (int)ids[0]);
+                });
+            _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpType.FindAsync(It.IsAny<int>()))
+                .ReturnsAsync((object[] ids) =>
+                {
+                    return types.FirstOrDefault(p => p.Id == (int)ids[0]);
+                });
 
             _loggerMock = new Mock<ILoggerAdapter<PokedexRepository>>();
 
@@ -72,7 +78,7 @@ namespace Pokedex.Tests.Repositories
         /// Generic method to create mock sets from a given T class and a set of queryable data.
         /// </summary>
         /// <typeparam name="T">the class of the data</typeparam>
-        /// <param name="queryableEntities">the data</param>
+        /// <param name="queryableEntities">the queryable dataset</param>
         /// <returns>mock db set of class T</returns>
         private Mock<DbSet<T>> InitializeMockSet<T>(IQueryable<T> queryableEntities) where T : class
         {
@@ -99,14 +105,15 @@ namespace Pokedex.Tests.Repositories
             _pokedexDBContextMock.Verify(m => m.AddAsync(generatedPokemon, It.IsAny<CancellationToken>()), Times.Once);
             _pokedexDBContextMock.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
 
-            _loggerMock.Verify(lm => lm.LogInformation("Added Pokémon to DBContext with Id: " + DataGenerator.DefaultGuid), Times.Once);
+            _loggerMock.Verify(lm => lm.LogInformation("Added Pokémon to DBContext with Id: " 
+                + DataGenerator.DefaultGuid), Times.Once);
         }
 
         [TestMethod]
         public async Task DeletePokemonByIdIsSuccessfulAndLogsInformation()
         {
             await _pokedexRepository.DeletePokemonById(DataGenerator.DefaultGuid);
-        
+
             _pokedexDBContextMock.Verify(m => m.tblMyPokedex.FindAsync(new object[] { DataGenerator.DefaultGuid }), Times.Once);
             _pokedexDBContextMock.Verify(m => m.Remove(It.IsAny<tblMyPokedex>()), Times.Once);
             _pokedexDBContextMock.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
@@ -392,7 +399,7 @@ namespace Pokedex.Tests.Repositories
         public async Task GetPokeballByIdIsSuccessfulAndLogsInformation()
         {
             tlkpPokeball pokeball = await _pokedexRepository.GetPokeballById(1);
-            
+
             Assert.AreEqual(1, pokeball.Id);
             Assert.AreEqual("http://1.com", pokeball.ImageURL);
             Assert.AreEqual("Name1", pokeball.Name);
