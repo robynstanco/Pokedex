@@ -116,7 +116,36 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
+        public async Task DeleteNonExistentPokemonByIdDoesNotLogOrDelete()
+        {
+            tblMyPokedex tblMyPokedex = await _pokedexRepository.DeletePokemonById(Guid.NewGuid());
+
+            Assert.IsNull(tblMyPokedex);
+
+            _pokedexDBContextMock.Verify(m => m.tblMyPokedex.FindAsync(new object[] { It.IsAny<Guid>() }), Times.Once);
+
+            _pokedexDBContextMock.Verify(m => m.Remove(It.IsAny<tblMyPokedex>()), Times.Never);
+            _pokedexDBContextMock.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
+
+            _loggerMock.VerifyNoOtherCalls();
+        }
+
+        [TestMethod]
         public async Task EditPokemonIsSuccessfulAndLogsInformation()
+        {
+            tblMyPokedex generatedPokemon = DataGenerator.GenerateMyPokemon(1)[0];
+
+            await _pokedexRepository.EditPokemon(generatedPokemon);
+
+            _pokedexDBContextMock.Verify(m => m.Remove(It.IsAny<tblMyPokedex>()), Times.Once);
+            _pokedexDBContextMock.Verify(m => m.AddAsync(generatedPokemon, It.IsAny<CancellationToken>()), Times.Once);
+            _pokedexDBContextMock.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Exactly(2));
+
+            _loggerMock.Verify(lm => lm.LogInformation("Updated Pokémon in DBContext with Id: " + DataGenerator.DefaultGuid), Times.Once);
+        }
+
+        [TestMethod]
+        public async Task EditNonExistentPokemonDoesNotUpdateOrLog()
         {
             tblMyPokedex generatedPokemon = DataGenerator.GenerateMyPokemon(1)[0];
 
@@ -140,6 +169,17 @@ namespace Pokedex.Tests.Repositories
             _pokedexDBContextMock.Verify(m => m.tlkpAbility, Times.Once);
 
             _loggerMock.Verify(lm => lm.LogInformation("Retrieved Ability from DBContext with Id: 0"), Times.Once);
+        }
+
+        [TestMethod]
+        public async Task GetNonExistentAbilityByIdDoesNotLog()
+        {
+            tlkpAbility ability = await _pokedexRepository.GetAbilityById(-33);
+
+            Assert.IsNull(ability);
+            _pokedexDBContextMock.Verify(m => m.tlkpAbility, Times.Once);
+
+            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -213,6 +253,18 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
+        public async Task GetNonExistentCategoryByIdIsDoesNotLog()
+        {
+            tlkpCategory category = await _pokedexRepository.GetCategoryById(-33);
+
+            Assert.IsNull(category);
+
+            _pokedexDBContextMock.Verify(m => m.tlkpCategory, Times.Once);
+
+            _loggerMock.VerifyNoOtherCalls();
+        }
+
+        [TestMethod]
         public async Task GetMyPokedexIsSuccessfulAndLogsInformation()
         {
             List<tblMyPokedex> pokedex = await _pokedexRepository.GetMyPokedex();
@@ -255,6 +307,18 @@ namespace Pokedex.Tests.Repositories
 
             _loggerMock.Verify(lm => lm.LogInformation("Retrieved Pokémon from DBContext with Id: " + DataGenerator.DefaultGuid), Times.Once); //my pokemon
             _loggerMock.Verify(lm => lm.LogInformation("Retrieved Pokémon from DBContext with Id: 0"), Times.Once);// national dex lookup
+        }
+
+        [TestMethod]
+        public async Task GetMyNonExistentPokemonByIdDoesNotLog()
+        {
+            tblMyPokedex pokemon = await _pokedexRepository.GetMyPokemonById(Guid.NewGuid());
+
+            Assert.IsNull(pokemon);
+
+            _pokedexDBContextMock.Verify(m => m.tblMyPokedex, Times.Once);
+
+            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -313,6 +377,18 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
+        public async Task GetNonExistentNationalDexPokemonByIdDoesNotLog()
+        {
+            tlkpNationalDex pokemon = await _pokedexRepository.GetNationalDexPokemonById(-333);
+
+            Assert.IsNull(pokemon);
+
+            _pokedexDBContextMock.Verify(m => m.tlkpNationalDex, Times.Once);
+
+            _loggerMock.VerifyNoOtherCalls();
+        }
+
+        [TestMethod]
         public async Task GetPokeballByIdIsSuccessfulAndLogsInformation()
         {
             tlkpPokeball pokeball = await _pokedexRepository.GetPokeballById(1);
@@ -327,6 +403,18 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
+        public async Task GetNonExistentPokeballByIdDoesNotLog()
+        {
+            tlkpPokeball pokeball = await _pokedexRepository.GetPokeballById(-333);
+
+            Assert.IsNull(pokeball);
+
+            _pokedexDBContextMock.Verify(m => m.tlkpPokeball, Times.Once);
+
+            _loggerMock.VerifyNoOtherCalls();
+        }
+
+        [TestMethod]
         public async Task GetTypeByIdIsSuccessfulAndLogsInformation()
         {
             tlkpType type = await _pokedexRepository.GetTypeById(1);
@@ -337,6 +425,18 @@ namespace Pokedex.Tests.Repositories
             _pokedexDBContextMock.Verify(m => m.tlkpType, Times.Once);
 
             _loggerMock.Verify(lm => lm.LogInformation("Retrieved Type from DBContext with Id: 1"), Times.Once);
+        }
+
+        [TestMethod]
+        public async Task GetNonExistentTypeByIdDoesNotLog()
+        {
+            tlkpType type = await _pokedexRepository.GetTypeById(-333);
+
+            Assert.IsNull(type);
+
+            _pokedexDBContextMock.Verify(m => m.tlkpType, Times.Once);
+
+            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]

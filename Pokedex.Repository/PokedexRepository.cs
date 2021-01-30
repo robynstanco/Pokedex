@@ -13,10 +13,14 @@ namespace Pokedex.Repository
 {
     public class PokedexRepository : IPokedexRepository
     {
-        private const string InformationalMessageWithCount = Constants.Retrieved + " {0} {1} " + Constants.From + " " + Constants.DBContext + ".";
-        private const string InformationalMessageWithId = "{0} {1} {2} " + Constants.DBContext + Constants.WithId + "{3}";
-        private const string InformationalMessageWithSearchCriteria = Constants.Retrieved + " {0} " + Constants.Pokemon + " " 
-            + Constants.From + " " + Constants.DBContext + " matching search string: {1}";
+        private const string InformationalMessageWithCount = Constants.Retrieved + " {0} {1} " + 
+            Constants.From + " " + Constants.DBContext + ".";
+
+        private const string InformationalMessageWithId = "{0} {1} {2} " + Constants.DBContext + 
+            Constants.WithId + "{3}";
+
+        private const string InformationalMessageWithSearchCriteria = Constants.Retrieved + " {0} " 
+            + Constants.Pokemon + " " + Constants.From + " " + Constants.DBContext + " matching search string: {1}";
         
         private POKEDEXDBContext _context;
         private ILoggerAdapter<PokedexRepository> _logger;
@@ -32,7 +36,8 @@ namespace Pokedex.Repository
 
             await _context.SaveChangesAsync();
             
-            _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Added, Constants.Pokemon, Constants.To, pokemon.Id));
+            _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Added, 
+                Constants.Pokemon, Constants.To, pokemon.Id));
 
             return pokemon;
         }
@@ -41,22 +46,30 @@ namespace Pokedex.Repository
         {
             tblMyPokedex myPokemon = await GetMyPokemonById(myPokemonId);
 
-            _context.Remove(myPokemon);
+            if (myPokemon != null)
+            {
+                _context.Remove(myPokemon);
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
 
-            _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Deleted, Constants.Pokemon, Constants.From, myPokemonId));
+                _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Deleted, 
+                    Constants.Pokemon, Constants.From, myPokemonId));
+            }
 
             return myPokemon;
         }
 
         public async Task<tblMyPokedex> EditPokemon(tblMyPokedex pokemon)
         {
-            await DeletePokemonById(pokemon.Id);
+            tblMyPokedex myPokemon = await DeletePokemonById(pokemon.Id);
             
-            await AddPokemon(pokemon);
+            if(myPokemon != null)
+            {
+                await AddPokemon(pokemon);
 
-            _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Updated, Constants.Pokemon, Constants.In, pokemon.Id));
+                _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Updated, 
+                    Constants.Pokemon, Constants.In, pokemon.Id));
+            }
 
             return pokemon;
         }
@@ -65,7 +78,11 @@ namespace Pokedex.Repository
         {
             tlkpAbility ability = await _context.tlkpAbility.FindAsync(abilityId);
 
-            _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Retrieved, Constants.Ability, Constants.From, abilityId));
+            if(ability != null)
+            {
+                _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Retrieved,
+                    Constants.Ability, Constants.From, abilityId));
+            }
 
             return ability;
         }
@@ -114,7 +131,11 @@ namespace Pokedex.Repository
         {
             tlkpCategory category = await _context.tlkpCategory.FindAsync(categoryId);
 
-            _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Retrieved, Constants.Category, Constants.From, categoryId));
+            if(category != null)
+            {
+                _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Retrieved, 
+                    Constants.Category, Constants.From, categoryId));
+            }
 
             return category;
         }
@@ -140,11 +161,14 @@ namespace Pokedex.Repository
         {
             tblMyPokedex myPokemon = await _context.tblMyPokedex.FindAsync(myPokemonId);
 
-            myPokemon.Pokemon = await GetNationalDexPokemonById(myPokemon.PokemonId);
+            if(myPokemon != null)
+            {
+                myPokemon.Pokemon = await GetNationalDexPokemonById(myPokemon.PokemonId);
 
-            myPokemon.Pokeball = await GetPokeballById(myPokemon.PokeballId.Value);
+                myPokemon.Pokeball = await GetPokeballById(myPokemon.PokeballId.Value);
 
-            _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Retrieved, Constants.Pokemon, Constants.From, myPokemonId));
+                _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Retrieved, Constants.Pokemon, Constants.From, myPokemonId));
+            }
 
             return myPokemon;
         }
@@ -170,9 +194,13 @@ namespace Pokedex.Repository
         {
             tlkpNationalDex nationalDexPokemon = await _context.tlkpNationalDex.FindAsync(pokemonId);
 
-            nationalDexPokemon = await GetNestedNationalDexInfo(nationalDexPokemon);
+            if(nationalDexPokemon != null)
+            {
+                nationalDexPokemon = await GetNestedNationalDexInfo(nationalDexPokemon);
 
-            _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Retrieved, Constants.Pokemon, Constants.From, pokemonId));
+                _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Retrieved, Constants.Pokemon, 
+                    Constants.From, pokemonId));
+            }
 
             return nationalDexPokemon;
         }
@@ -201,7 +229,11 @@ namespace Pokedex.Repository
         {
             tlkpPokeball pokeball = await _context.tlkpPokeball.FindAsync(pokeballId);
 
-            _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Retrieved, Constants.Pokeball, Constants.From, pokeballId));
+            if(pokeball != null)
+            {
+                _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Retrieved,
+                    Constants.Pokeball, Constants.From, pokeballId));
+            }
 
             return pokeball;
         }
@@ -210,12 +242,17 @@ namespace Pokedex.Repository
         {
             tlkpType type = await _context.tlkpType.FindAsync(typeId);
 
-            _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Retrieved, Constants.Type, Constants.From, typeId));
+            if(type != null)
+            {
+                _logger.LogInformation(string.Format(InformationalMessageWithId, Constants.Retrieved,
+                    Constants.Type, Constants.From, typeId));
+            }
 
             return type;
         }
 
-        public async Task<List<tlkpNationalDex>> Search(string searchString, int? selectedAbilityId, int? selectedCategoryId, int? selectedTypeId)
+        public async Task<List<tlkpNationalDex>> Search(string searchString, int? selectedAbilityId, 
+            int? selectedCategoryId, int? selectedTypeId)
         {
             List<tlkpNationalDex> nationalDexSearchResults = await GetNationalDex();
 
@@ -248,12 +285,14 @@ namespace Pokedex.Repository
                     .ToList();
             }
 
-            _logger.LogInformation(string.Format(InformationalMessageWithSearchCriteria, nationalDexSearchResults.ToList().Count, searchString));
+            _logger.LogInformation(string.Format(InformationalMessageWithSearchCriteria, 
+                nationalDexSearchResults.ToList().Count, searchString));
 
             return nationalDexSearchResults.OrderBy(p => p.Id).ToList();
         }
 
-        public async Task<List<tblMyPokedex>> Search(string searchString, int? selectedAbilityId, int? selectedCategoryId, int? selectedTypeId, int? selectedPokeballId)
+        public async Task<List<tblMyPokedex>> Search(string searchString, int? selectedAbilityId, 
+            int? selectedCategoryId, int? selectedTypeId, int? selectedPokeballId)
         {
             List<tblMyPokedex> myPokedexSearchResults = await GetMyPokedex();
 
