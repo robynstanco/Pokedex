@@ -22,7 +22,7 @@ jobs:
         dotnet-version: '3.1.301'
     
     - name: Clean
-      run: dotnet clean ./Pokedex/Pokedex.sln --configuration Release && dotnet nuget locals all --clear
+      run: dotnet clean ./Pokedex.sln --configuration Release && dotnet nuget locals all --clear
       
     - name: Build with dotnet
       run: dotnet build --configuration Release
