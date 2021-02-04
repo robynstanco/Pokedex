@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Pokedex.Logging.Interfaces;
 using PokedexApp.Controllers;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 namespace Pokedex.Tests.Controllers
 {
     [TestClass]
-    public class PokemonFormMVControllerFixture
+    public class PokemonFormMVControllerFixture//todo fortify like you did other controller fixtures
     {
         private PokemonFormController _pokemonFormController;
 
@@ -21,7 +22,9 @@ namespace Pokedex.Tests.Controllers
         public void Initialize()
         {
             _pokedexAppLogicMock = new Mock<IPokedexAppLogic>();
-            _pokedexAppLogicMock.Setup(plm => plm.GetNewPokemonForm()).ReturnsAsync(It.IsAny<PokemonFormViewModel>());
+
+            _pokedexAppLogicMock.Setup(plm => plm.GetNewPokemonForm())
+                .ReturnsAsync(It.IsAny<PokemonFormViewModel>());
 
             _loggerMock = new Mock<ILoggerAdapter<PokemonFormController>>();
 
@@ -49,9 +52,20 @@ namespace Pokedex.Tests.Controllers
         {
             Exception error = new Exception("some error");
 
-            _pokemonFormController.Error(error);
+            IActionResult result = _pokemonFormController.Error(error);
 
-            _loggerMock.Verify(lm => lm.LogError(error, "some error"), Times.Once);
+            ErrorViewModel errorViewModel = DataGenerator.GetViewModel<ErrorViewModel>(result);
+
+            Assert.AreEqual("some error", errorViewModel.Message);
+
+            VerifyLoggerMockLoggedError("some error");
+
+            _loggerMock.VerifyNoOtherCalls();
+        }
+
+        private void VerifyLoggerMockLoggedError(string error)
+        {
+            _loggerMock.Verify(lm => lm.LogError(It.IsAny<Exception>(), error), Times.Once);
         }
     }
 }

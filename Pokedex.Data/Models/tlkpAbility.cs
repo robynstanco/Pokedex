@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace Pokedex.Data.Models
 {
@@ -16,7 +15,6 @@ namespace Pokedex.Data.Models
         public string Name { get; set; }
 
         public virtual ICollection<tlkpNationalDex> tlkpNationalDexAbility { get; set; }
-
         public virtual ICollection<tlkpNationalDex> tlkpNationalDexHiddenAbility { get; set; }
     }
 }

@@ -50,6 +50,8 @@ namespace PokedexApp
             services.AddScoped<IPokedexAppLogic, PokedexAppLogic>();
             services.AddScoped<IPokedexRepository, PokedexRepository>();
             Logger.LogInformation(Constants.Added + " Dependency Injection for custom logging, logic, helpers, and repository.");
+
+            services.AddApplicationInsightsTelemetry(Configuration["APPINSIGHTS_CONNECTIONSTRING"]);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

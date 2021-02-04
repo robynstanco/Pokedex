@@ -12,7 +12,8 @@ namespace PokedexApp.Controllers
     {
         private IPokedexAppLogic _pokedexAppLogic;
         private ILoggerAdapter<PokemonFormController> _logger;
-        public PokemonFormController(IPokedexAppLogic pokedexAppLogic, ILoggerAdapter<PokemonFormController> logger)
+        public PokemonFormController(IPokedexAppLogic pokedexAppLogic, 
+            ILoggerAdapter<PokemonFormController> logger)
         {
             _pokedexAppLogic = pokedexAppLogic;
             _logger = logger;
