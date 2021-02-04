@@ -20,10 +20,10 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '3.1.301'
-
-    - name: restore with dotnet
-      run: dotnet restore
-
+    
+    - name: Clean
+      run: dotnet clean ./Pokedex.sln --configuration Release && dotnet nuget locals all --clear
+      
     - name: Build with dotnet
       run: dotnet build --configuration Release
 
@@ -35,5 +35,5 @@ jobs:
       with:
         app-name: 'mypokedex'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_ba50af6c232f4185b993b3614011578c }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_b4da5005ddf8483e8486ea42ac91482e }}
         package: ${{env.DOTNET_ROOT}}/myapp 
