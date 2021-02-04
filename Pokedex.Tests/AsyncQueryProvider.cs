@@ -9,7 +9,6 @@ namespace Pokedex.Tests
     public class AsyncQueryProvider<TEntity> : IAsyncQueryProvider
     {
         private readonly IQueryProvider _inner;
-
         internal AsyncQueryProvider(IQueryProvider inner)
         {
             _inner = inner;

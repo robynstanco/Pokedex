@@ -25,7 +25,10 @@ namespace Pokedex.Repository.Interfaces
         Task<tlkpPokeball> GetPokeballById(int pokeballId);
         Task<tlkpType> GetTypeById(int typeId);
 
-        Task<List<tlkpNationalDex>> Search(string searchString, int? selectedAbilityId, int? selectedCategoryId, int? selectedTypeId);
-        Task<List<tblMyPokedex>> Search(string searchString, int? selectedAbilityId, int? selectedCategoryId, int? selectedTypeId, int? selectedPokeballId);
+        Task<List<tlkpNationalDex>> Search(string searchString, int? selectedAbilityId, 
+            int? selectedCategoryId, int? selectedTypeId);
+
+        Task<List<tblMyPokedex>> Search(string searchString, int? selectedAbilityId, 
+            int? selectedCategoryId, int? selectedTypeId, int? selectedPokeballId);
     }
 }

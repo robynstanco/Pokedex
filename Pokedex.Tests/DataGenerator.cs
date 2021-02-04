@@ -1,4 +1,5 @@
-﻿using Pokedex.Data.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using Pokedex.Data.Models;
 using System;
 using System.Collections.Generic;
 
@@ -9,6 +10,11 @@ namespace Pokedex.Tests
         public static Guid DefaultGuid = Guid.Empty;
 
         private const string URL = "http://{0}.com";
+
+        public static T GetViewModel<T>(IActionResult result) where T : class
+        {
+            return (result as ViewResult)?.ViewData.Model as T;
+        }
 
         public static List<tblMyPokedex> GenerateMyPokemon(int num)
         {

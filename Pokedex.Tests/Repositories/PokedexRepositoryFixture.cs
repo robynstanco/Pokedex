@@ -32,37 +32,49 @@ namespace Pokedex.Tests.Repositories
             IQueryable<tlkpType> types = DataGenerator.GenerateTypes(6).AsQueryable();
 
             _pokedexDBContextMock = new Mock<POKEDEXDBContext>();
+
             _pokedexDBContextMock.Setup(dbcm => dbcm.tblMyPokedex).Returns(InitializeMockSet(myPokedex).Object);
+
             _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpAbility).Returns(InitializeMockSet(abilities).Object);
+
             _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpCategory).Returns(InitializeMockSet(categories).Object);
+
             _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpNationalDex).Returns(InitializeMockSet(nationalDex).Object);
+
             _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpPokeball).Returns(InitializeMockSet(pokeballs).Object);
+
             _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpType).Returns(InitializeMockSet(types).Object);
+
             _pokedexDBContextMock.Setup(dbcm => dbcm.tblMyPokedex.FindAsync(DataGenerator.DefaultGuid))
                 .ReturnsAsync((object[] ids) =>
                 {
                     return myPokedex.FirstOrDefault(p => p.Id == (Guid)ids[0]);
                 });
+
             _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpAbility.FindAsync(It.IsAny<int>()))
                 .ReturnsAsync((object[] ids) =>
                 {
                     return abilities.FirstOrDefault(p => p.Id == (int)ids[0]);
                 });
+
             _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpCategory.FindAsync(It.IsAny<int>()))
                 .ReturnsAsync((object[] ids) =>
                 {
                     return categories.FirstOrDefault(p => p.Id == (int)ids[0]);
                 });
+
             _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpNationalDex.FindAsync(It.IsAny<int>()))
                 .ReturnsAsync((object[] ids) =>
                 {
                     return nationalDex.FirstOrDefault(p => p.Id == (int)ids[0]);
                 });
+
             _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpPokeball.FindAsync(It.IsAny<int>()))
                 .ReturnsAsync((object[] ids) =>
                 {
                     return pokeballs.FirstOrDefault(p => p.Id == (int)ids[0]);
                 });
+
             _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpType.FindAsync(It.IsAny<int>()))
                 .ReturnsAsync((object[] ids) =>
                 {
@@ -85,11 +97,15 @@ namespace Pokedex.Tests.Repositories
             Mock<DbSet<T>> mockEntitySet = new Mock<DbSet<T>>();
 
             mockEntitySet.As<IQueryable<T>>().Setup(m => m.Provider).Returns(queryableEntities.Provider);
+
             mockEntitySet.As<IQueryable<T>>().Setup(m => m.Expression).Returns(queryableEntities.Expression);
+
             mockEntitySet.As<IQueryable<T>>().Setup(m => m.ElementType).Returns(queryableEntities.ElementType);
+
             mockEntitySet.As<IQueryable<T>>().Setup(m => m.GetEnumerator()).Returns(queryableEntities.GetEnumerator());
 
-            mockEntitySet.As<IAsyncEnumerable<T>>().Setup(x => x.GetAsyncEnumerator(It.IsAny<CancellationToken>()))
+            mockEntitySet.As<IAsyncEnumerable<T>>()
+                .Setup(x => x.GetAsyncEnumerator(It.IsAny<CancellationToken>()))
                 .Returns(new AsyncEnumerator<T>(queryableEntities.GetEnumerator()));
 
             return mockEntitySet;
@@ -102,11 +118,13 @@ namespace Pokedex.Tests.Repositories
 
             await _pokedexRepository.AddPokemon(generatedPokemon);
 
-            _pokedexDBContextMock.Verify(m => m.AddAsync(generatedPokemon, It.IsAny<CancellationToken>()), Times.Once);
-            _pokedexDBContextMock.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+            VerifyDBContextMockAddsAsync(generatedPokemon);
 
-            _loggerMock.Verify(lm => lm.LogInformation("Added Pokémon to DBContext with Id: " 
-                + DataGenerator.DefaultGuid), Times.Once);
+            VerifyDBContextMockSavesChanges(1);
+
+            VerifyLoggerMockLogsInformation("Added Pokémon to DBContext with Id: " + DataGenerator.DefaultGuid);
+
+            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -114,12 +132,22 @@ namespace Pokedex.Tests.Repositories
         {
             await _pokedexRepository.DeletePokemonById(DataGenerator.DefaultGuid);
 
-            _pokedexDBContextMock.Verify(m => m.tblMyPokedex.FindAsync(new object[] { DataGenerator.DefaultGuid }), Times.Once);
-            _pokedexDBContextMock.Verify(m => m.Remove(It.IsAny<tblMyPokedex>()), Times.Once);
-            _pokedexDBContextMock.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+            _pokedexDBContextMock.Verify(m => m.tblMyPokedex.FindAsync(new object[] { DataGenerator.DefaultGuid }), 
+                Times.Once);
 
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved Pokémon from DBContext with Id: " + DataGenerator.DefaultGuid), Times.Once);
-            _loggerMock.Verify(lm => lm.LogInformation("Deleted Pokémon from DBContext with Id: " + DataGenerator.DefaultGuid), Times.Once);
+            VerifyLoggerMockLogsLookupInformationWithId(0);
+
+            VerifyLoggerMockLogsPokeballAndNationalDexWithId(0);
+
+            VerifyLoggerMockLogsDefaultPokemonRetrieval();
+
+            VerifyDBContextMockRemovesPokemon(1);
+
+            VerifyDBContextMockSavesChanges(1);
+
+            VerifyLoggerMockLogsInformation("Deleted Pokémon from DBContext with Id: " + DataGenerator.DefaultGuid);
+
+            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -129,10 +157,12 @@ namespace Pokedex.Tests.Repositories
 
             Assert.IsNull(tblMyPokedex);
 
-            _pokedexDBContextMock.Verify(m => m.tblMyPokedex.FindAsync(new object[] { It.IsAny<Guid>() }), Times.Once);
+            _pokedexDBContextMock.Verify(m => m.tblMyPokedex.FindAsync(new object[] { It.IsAny<Guid>() }), 
+                Times.Once);
 
-            _pokedexDBContextMock.Verify(m => m.Remove(It.IsAny<tblMyPokedex>()), Times.Never);
-            _pokedexDBContextMock.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
+            VerifyDBContextMockRemovesPokemon(0);
+
+            VerifyDBContextMockSavesChanges(0);
 
             _loggerMock.VerifyNoOtherCalls();
         }
@@ -144,25 +174,43 @@ namespace Pokedex.Tests.Repositories
 
             await _pokedexRepository.EditPokemon(generatedPokemon);
 
-            _pokedexDBContextMock.Verify(m => m.Remove(It.IsAny<tblMyPokedex>()), Times.Once);
-            _pokedexDBContextMock.Verify(m => m.AddAsync(generatedPokemon, It.IsAny<CancellationToken>()), Times.Once);
-            _pokedexDBContextMock.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Exactly(2));
+            _pokedexDBContextMock.Verify(m => m.tblMyPokedex.FindAsync(new object[] { DataGenerator.DefaultGuid }),
+                Times.Once);
 
-            _loggerMock.Verify(lm => lm.LogInformation("Updated Pokémon in DBContext with Id: " + DataGenerator.DefaultGuid), Times.Once);
+            VerifyDBContextMockRemovesPokemon(1);
+
+            VerifyDBContextMockAddsAsync(generatedPokemon);
+
+            VerifyDBContextMockSavesChanges(2);
+
+            VerifyLoggerMockLogsLookupInformationWithId(0);
+
+            VerifyLoggerMockLogsPokeballAndNationalDexWithId(0);
+
+            VerifyLoggerMockLogsDefaultPokemonRetrieval();
+
+            VerifyLoggerMockLogsInformation("Deleted Pokémon from DBContext with Id: " + DataGenerator.DefaultGuid);
+
+            VerifyLoggerMockLogsInformation("Added Pokémon to DBContext with Id: " + DataGenerator.DefaultGuid);
+
+            VerifyLoggerMockLogsInformation("Updated Pokémon in DBContext with Id: " + DataGenerator.DefaultGuid);
+
+            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
         public async Task EditNonExistentPokemonDoesNotUpdateOrLog()
         {
-            tblMyPokedex generatedPokemon = DataGenerator.GenerateMyPokemon(1)[0];
+            await _pokedexRepository.EditPokemon(new tblMyPokedex() { Id = Guid.NewGuid() });
 
-            await _pokedexRepository.EditPokemon(generatedPokemon);
+            _pokedexDBContextMock.Verify(m => m.tblMyPokedex.FindAsync(new object[] { It.IsAny<Guid>() }),
+                Times.Once);
 
-            _pokedexDBContextMock.Verify(m => m.Remove(It.IsAny<tblMyPokedex>()), Times.Once);
-            _pokedexDBContextMock.Verify(m => m.AddAsync(generatedPokemon, It.IsAny<CancellationToken>()), Times.Once);
-            _pokedexDBContextMock.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Exactly(2));
+            VerifyDBContextMockRemovesPokemon(0);
 
-            _loggerMock.Verify(lm => lm.LogInformation("Updated Pokémon in DBContext with Id: " + DataGenerator.DefaultGuid), Times.Once);
+            VerifyDBContextMockSavesChanges(0);
+
+            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -175,7 +223,9 @@ namespace Pokedex.Tests.Repositories
 
             _pokedexDBContextMock.Verify(m => m.tlkpAbility, Times.Once);
 
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved Ability from DBContext with Id: 0"), Times.Once);
+            VerifyLoggerMockLogsInformation("Retrieved Ability from DBContext with Id: 0");
+
+            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -184,6 +234,7 @@ namespace Pokedex.Tests.Repositories
             tlkpAbility ability = await _pokedexRepository.GetAbilityById(-33);
 
             Assert.IsNull(ability);
+
             _pokedexDBContextMock.Verify(m => m.tlkpAbility, Times.Once);
 
             _loggerMock.VerifyNoOtherCalls();
@@ -200,7 +251,9 @@ namespace Pokedex.Tests.Repositories
 
             _pokedexDBContextMock.Verify(m => m.tlkpAbility, Times.Once);
 
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved 6 Abilities from DBContext."), Times.Once);
+            VerifyLoggerMockLogsInformation("Retrieved 6 Abilities from DBContext.");
+
+            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -214,7 +267,9 @@ namespace Pokedex.Tests.Repositories
 
             _pokedexDBContextMock.Verify(m => m.tlkpCategory, Times.Once);
 
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved 5 Categories from DBContext."), Times.Once);
+            VerifyLoggerMockLogsInformation("Retrieved 5 Categories from DBContext.");
+
+            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -229,7 +284,9 @@ namespace Pokedex.Tests.Repositories
 
             _pokedexDBContextMock.Verify(m => m.tlkpPokeball, Times.Once);
 
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved 5 Pokéballs from DBContext."), Times.Once);
+            VerifyLoggerMockLogsInformation("Retrieved 5 Pokéballs from DBContext.");
+
+            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -243,7 +300,9 @@ namespace Pokedex.Tests.Repositories
 
             _pokedexDBContextMock.Verify(m => m.tlkpType, Times.Once);
 
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved 6 Types from DBContext."), Times.Once);
+            VerifyLoggerMockLogsInformation("Retrieved 6 Types from DBContext.");
+
+            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -256,7 +315,9 @@ namespace Pokedex.Tests.Repositories
 
             _pokedexDBContextMock.Verify(m => m.tlkpCategory, Times.Once);
 
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved Category from DBContext with Id: 3"), Times.Once);
+            VerifyLoggerMockLogsInformation("Retrieved Category from DBContext with Id: 3");
+
+            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -288,13 +349,11 @@ namespace Pokedex.Tests.Repositories
 
             _pokedexDBContextMock.Verify(m => m.tblMyPokedex, Times.Once);
 
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved 5 Pokémon from DBContext."), Times.Once);
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved Pokéball from DBContext with Id: 0"), Times.Once);
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved Pokémon from DBContext with Id: 0"), Times.Once);
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved Pokémon from DBContext with Id: 1"), Times.Once);
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved Pokémon from DBContext with Id: 2"), Times.Once);
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved Pokémon from DBContext with Id: 3"), Times.Once);
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved Pokémon from DBContext with Id: 4"), Times.Once);
+            VerifyLoggerMockLogsInformation("Retrieved 5 Pokémon from DBContext.");
+
+            VerifyLoggerMockLogsLookupAndPokemonInformationIdsZeroToFour();
+
+            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -312,8 +371,12 @@ namespace Pokedex.Tests.Repositories
 
             _pokedexDBContextMock.Verify(m => m.tblMyPokedex, Times.Once);
 
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved Pokémon from DBContext with Id: " + DataGenerator.DefaultGuid), Times.Once); //my pokemon
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved Pokémon from DBContext with Id: 0"), Times.Once);// national dex lookup
+            VerifyLoggerMockLogsDefaultPokemonRetrieval();
+
+            VerifyLoggerMockLogsLookupInformationWithId(0);
+            VerifyLoggerMockLogsPokeballAndNationalDexWithId(0);
+
+            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -349,7 +412,9 @@ namespace Pokedex.Tests.Repositories
 
             _pokedexDBContextMock.Verify(m => m.tlkpNationalDex, Times.Once);
 
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved 5 Pokémon from DBContext."), Times.Once);
+            VerifyLoggerMockLogsLookupInformationWithIdOneToFour();
+
+            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -375,12 +440,11 @@ namespace Pokedex.Tests.Repositories
 
             _pokedexDBContextMock.Verify(m => m.tlkpNationalDex, Times.Once);
 
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved Ability from DBContext with Id: 0"), Times.Once);
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved Ability from DBContext with Id: 1"), Times.Once); //Hidden Ability
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved Category from DBContext with Id: 0"), Times.Once);
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved Pokémon from DBContext with Id: 0"), Times.Once);
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved Type from DBContext with Id: 0"), Times.Once);
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved Type from DBContext with Id: 1"), Times.Once); //Type 2
+            VerifyLoggerMockLogsInformation("Retrieved Pokémon from DBContext with Id: 0");
+
+            VerifyLoggerMockLogsLookupInformationWithId(0);
+
+            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -406,7 +470,9 @@ namespace Pokedex.Tests.Repositories
 
             _pokedexDBContextMock.Verify(m => m.tlkpPokeball, Times.Once);
 
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved Pokéball from DBContext with Id: 1"), Times.Once);
+            VerifyLoggerMockLogsInformation("Retrieved Pokéball from DBContext with Id: 1");
+
+            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -431,7 +497,9 @@ namespace Pokedex.Tests.Repositories
 
             _pokedexDBContextMock.Verify(m => m.tlkpType, Times.Once);
 
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved Type from DBContext with Id: 1"), Times.Once);
+            VerifyLoggerMockLogsInformation("Retrieved Type from DBContext with Id: 1");
+
+            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -466,9 +534,12 @@ namespace Pokedex.Tests.Repositories
             Assert.AreEqual(4, searchResults[0].WeightInPounds);
 
             _pokedexDBContextMock.Verify(m => m.tlkpNationalDex, Times.Once);
+            
+            VerifyLoggerMockLogsLookupInformationWithIdOneToFour();
 
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved 5 Pokémon from DBContext."), Times.Once);
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved 1 Pokémon from DBContext matching search string: Name3"), Times.Once);
+            VerifyLoggerMockLogsInformation("Retrieved 1 Pokémon from DBContext matching search string: Name3");
+
+            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -484,8 +555,86 @@ namespace Pokedex.Tests.Repositories
             Assert.AreEqual(DataGenerator.DefaultGuid, searchResults[0].Id);
             Assert.IsFalse(searchResults[0].Sex.Value); //ie, Sex == bit 0 in SQL.
 
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved 5 Pokémon from DBContext."), Times.Once);
-            _loggerMock.Verify(lm => lm.LogInformation("Retrieved 1 Pokémon from DBContext matching search string: Nickname3"), Times.Once);
+            VerifyLoggerMockLogsInformation("Retrieved 5 Pokémon from DBContext.");
+
+            VerifyLoggerMockLogsInformation("Retrieved 1 Pokémon from DBContext matching search string: Nickname3");
+
+            VerifyLoggerMockLogsLookupAndPokemonInformationIdsZeroToFour();
+
+            _loggerMock.VerifyNoOtherCalls();
+        }
+
+        private void VerifyLoggerMockLogsLookupAndPokemonInformationIdsZeroToFour()
+        {
+            VerifyLoggerMockLogsLookupInformationWithId(0);
+            VerifyLoggerMockLogsPokeballAndNationalDexWithId(0);
+
+            VerifyLoggerMockLogsLookupInformationWithId(1);
+            VerifyLoggerMockLogsPokeballAndNationalDexWithId(1);
+
+            VerifyLoggerMockLogsLookupInformationWithId(2);
+            VerifyLoggerMockLogsPokeballAndNationalDexWithId(2);
+
+            VerifyLoggerMockLogsLookupInformationWithId(3);
+            VerifyLoggerMockLogsPokeballAndNationalDexWithId(3);
+
+            VerifyLoggerMockLogsLookupInformationWithId(4);
+            VerifyLoggerMockLogsPokeballAndNationalDexWithId(4);
+        }
+
+        private void VerifyLoggerMockLogsLookupInformationWithIdOneToFour()
+        {
+            VerifyLoggerMockLogsInformation("Retrieved 5 Pokémon from DBContext.");
+
+            VerifyLoggerMockLogsLookupInformationWithId(0);
+
+            VerifyLoggerMockLogsLookupInformationWithId(1);
+
+            VerifyLoggerMockLogsLookupInformationWithId(2);
+
+            VerifyLoggerMockLogsLookupInformationWithId(3);
+
+            VerifyLoggerMockLogsLookupInformationWithId(4);
+        }
+
+        private void VerifyDBContextMockAddsAsync(tblMyPokedex pokemon)
+        {
+            _pokedexDBContextMock.Verify(m => m.AddAsync(pokemon, It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        private void VerifyDBContextMockSavesChanges(int t)
+        {
+            _pokedexDBContextMock.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Exactly(t));
+        }
+
+        private void VerifyDBContextMockRemovesPokemon(int t)
+        {
+            _pokedexDBContextMock.Verify(m => m.Remove(It.IsAny<tblMyPokedex>()), Times.Exactly(t));
+        }
+
+        private void VerifyLoggerMockLogsInformation(string info)
+        {
+            _loggerMock.Verify(lm => lm.LogInformation(info), Times.AtLeastOnce);
+        }
+
+        private void VerifyLoggerMockLogsDefaultPokemonRetrieval()
+        {
+            VerifyLoggerMockLogsInformation("Retrieved Pokémon from DBContext with Id: " + DataGenerator.DefaultGuid);
+        }
+
+        private void VerifyLoggerMockLogsLookupInformationWithId(int id)
+        {
+            VerifyLoggerMockLogsInformation("Retrieved Ability from DBContext with Id: " + id);
+            VerifyLoggerMockLogsInformation("Retrieved Category from DBContext with Id: " + id);
+            VerifyLoggerMockLogsInformation("Retrieved Ability from DBContext with Id: " + (id + 1));
+            VerifyLoggerMockLogsInformation("Retrieved Type from DBContext with Id: " + id);
+            VerifyLoggerMockLogsInformation("Retrieved Type from DBContext with Id: " + (id + 1));
+        }
+
+        private void VerifyLoggerMockLogsPokeballAndNationalDexWithId(int id)
+        {
+            VerifyLoggerMockLogsInformation("Retrieved Pokémon from DBContext with Id: " + id);
+            VerifyLoggerMockLogsInformation("Retrieved Pokéball from DBContext with Id: " + id);
         }
     }
 }

@@ -7,13 +7,15 @@ namespace Pokedex.Tests
 {
     public class AsyncEnumerable<T> : EnumerableQuery<T>, IAsyncEnumerable<T>, IQueryable<T>
     {
-        public AsyncEnumerable(IEnumerable<T> enumerable)
-            : base(enumerable)
-        { }
+        public AsyncEnumerable(IEnumerable<T> enumerable) : base(enumerable)
+        { 
+        
+        }
 
-        public AsyncEnumerable(Expression expression)
-            : base(expression)
-        { }
+        public AsyncEnumerable(Expression expression) : base(expression)
+        { 
+        
+        }
 
         public IAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken cancellationToken)
         {
@@ -22,7 +24,10 @@ namespace Pokedex.Tests
 
         IQueryProvider IQueryable.Provider
         {
-            get { return new AsyncQueryProvider<T>(this); }
+            get 
+            { 
+                return new AsyncQueryProvider<T>(this); 
+            }
         }
 
         public IAsyncEnumerator<T> GetEnumerator()

@@ -7,14 +7,17 @@ namespace Pokedex.Tests
     public class AsyncEnumerator<T> : IAsyncEnumerator<T>
     {
         private readonly IEnumerator<T> _inner;
-
         public AsyncEnumerator(IEnumerator<T> inner)
         {
             _inner = inner;
         }
+
         public T Current
         {
-            get { return _inner.Current; }
+            get 
+            { 
+                return _inner.Current; 
+            }
         }
 
         ValueTask<bool> IAsyncEnumerator<T>.MoveNextAsync()
