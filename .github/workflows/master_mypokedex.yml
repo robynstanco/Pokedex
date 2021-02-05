@@ -21,13 +21,16 @@ jobs:
       with:
         dotnet-version: '3.1.301'
     
-    - name: Clean
+    - name: Clean with dotnet
       run: dotnet clean ./Pokedex.sln --configuration Release && dotnet nuget locals all --clear
       
     - name: Build with dotnet
       run: dotnet build --configuration Release
+    
+    - name: Unit Test with dotnet
+      run: dotnet test --configuration Release
 
-    - name: dotnet publish
+    - name: Publish with dotnet
       run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
     - name: Deploy to Azure Web App
