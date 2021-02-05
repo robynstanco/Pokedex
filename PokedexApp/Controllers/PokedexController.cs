@@ -30,8 +30,7 @@ namespace PokedexApp.Controllers
             {
                 IEnumerable<PokemonListingViewModel> myPokemon = await _pokedexAppLogic.GetMyPokedex();
 
-                PagedResult<PokemonListingViewModel> pagedNationalDex = 
-                    _paginationHelper.GetPagedResults(myPokemon, pageNumber, pageSize);
+                PagedResult<PokemonListingViewModel> pagedNationalDex = _paginationHelper.GetPagedResults(myPokemon, pageNumber, pageSize);
 
                 return View(pagedNationalDex);
             }

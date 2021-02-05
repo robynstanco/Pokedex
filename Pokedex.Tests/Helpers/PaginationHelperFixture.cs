@@ -11,7 +11,7 @@ namespace Pokedex.Tests.Helpers
     [TestClass]
     public class PaginationHelperFixture
     {
-        public PaginationHelper _paginationHelper;
+        private PaginationHelper _paginationHelper;
 
         private Mock<ILoggerAdapter<PaginationHelper>> _loggerMock;
 

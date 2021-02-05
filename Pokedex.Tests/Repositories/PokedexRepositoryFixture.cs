@@ -104,8 +104,7 @@ namespace Pokedex.Tests.Repositories
 
             mockEntitySet.As<IQueryable<T>>().Setup(m => m.GetEnumerator()).Returns(queryableEntities.GetEnumerator());
 
-            mockEntitySet.As<IAsyncEnumerable<T>>()
-                .Setup(x => x.GetAsyncEnumerator(It.IsAny<CancellationToken>()))
+            mockEntitySet.As<IAsyncEnumerable<T>>().Setup(x => x.GetAsyncEnumerator(It.IsAny<CancellationToken>()))
                 .Returns(new AsyncEnumerator<T>(queryableEntities.GetEnumerator()));
 
             return mockEntitySet;
@@ -132,8 +131,7 @@ namespace Pokedex.Tests.Repositories
         {
             await _pokedexRepository.DeletePokemonById(DataGenerator.DefaultGuid);
 
-            _pokedexDBContextMock.Verify(m => m.tblMyPokedex.FindAsync(new object[] { DataGenerator.DefaultGuid }), 
-                Times.Once);
+            _pokedexDBContextMock.Verify(m => m.tblMyPokedex.FindAsync(new object[] { DataGenerator.DefaultGuid }), Times.Once);
 
             VerifyLoggerMockLogsLookupInformationWithId(0);
 
@@ -157,8 +155,7 @@ namespace Pokedex.Tests.Repositories
 
             Assert.IsNull(tblMyPokedex);
 
-            _pokedexDBContextMock.Verify(m => m.tblMyPokedex.FindAsync(new object[] { It.IsAny<Guid>() }), 
-                Times.Once);
+            _pokedexDBContextMock.Verify(m => m.tblMyPokedex.FindAsync(new object[] { It.IsAny<Guid>() }), Times.Once);
 
             VerifyDBContextMockRemovesPokemon(0);
 
@@ -174,8 +171,7 @@ namespace Pokedex.Tests.Repositories
 
             await _pokedexRepository.EditPokemon(generatedPokemon);
 
-            _pokedexDBContextMock.Verify(m => m.tblMyPokedex.FindAsync(new object[] { DataGenerator.DefaultGuid }),
-                Times.Once);
+            _pokedexDBContextMock.Verify(m => m.tblMyPokedex.FindAsync(new object[] { DataGenerator.DefaultGuid }), Times.Once);
 
             VerifyDBContextMockRemovesPokemon(1);
 
@@ -203,8 +199,7 @@ namespace Pokedex.Tests.Repositories
         {
             await _pokedexRepository.EditPokemon(new tblMyPokedex() { Id = Guid.NewGuid() });
 
-            _pokedexDBContextMock.Verify(m => m.tblMyPokedex.FindAsync(new object[] { It.IsAny<Guid>() }),
-                Times.Once);
+            _pokedexDBContextMock.Verify(m => m.tblMyPokedex.FindAsync(new object[] { It.IsAny<Guid>() }), Times.Once);
 
             VerifyDBContextMockRemovesPokemon(0);
 

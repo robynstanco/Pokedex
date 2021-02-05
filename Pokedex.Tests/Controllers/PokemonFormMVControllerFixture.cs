@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Pokedex.Tests.Controllers
 {
     [TestClass]
-    public class PokemonFormMVControllerFixture//todo fortify like you did other controller fixtures
+    public class PokemonFormMVControllerFixture
     {
         private PokemonFormController _pokemonFormController;
 
@@ -23,8 +23,7 @@ namespace Pokedex.Tests.Controllers
         {
             _pokedexAppLogicMock = new Mock<IPokedexAppLogic>();
 
-            _pokedexAppLogicMock.Setup(plm => plm.GetNewPokemonForm())
-                .ReturnsAsync(It.IsAny<PokemonFormViewModel>());
+            _pokedexAppLogicMock.Setup(plm => plm.GetNewPokemonForm()).ReturnsAsync(It.IsAny<PokemonFormViewModel>());
 
             _loggerMock = new Mock<ILoggerAdapter<PokemonFormController>>();
 
@@ -37,14 +36,51 @@ namespace Pokedex.Tests.Controllers
             await _pokemonFormController.Index();
 
             _pokedexAppLogicMock.Verify(plm => plm.GetNewPokemonForm(), Times.Once);
+
+            _loggerMock.VerifyNoOtherCalls();
+        }
+
+        [TestMethod]
+        public async Task IndexActionWithLogicExceptionLogsError()
+        {
+            _pokedexAppLogicMock.Setup(plm => plm.GetNewPokemonForm()).ThrowsAsync(new Exception("logic exception"));
+
+            await _pokemonFormController.Index();
+
+            _pokedexAppLogicMock.Verify(plm => plm.GetNewPokemonForm(), Times.Once);
+
+            VerifyLoggerMockLoggedError("logic exception");
+
+            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
         public async Task IndexWithVMActionIsSuccessfulAndCallsLogic()
         {
-            await _pokemonFormController.Index(new PokemonFormViewModel());
+            SuccessViewModel successViewModel = DataGenerator.GetViewModel<SuccessViewModel>
+                (await _pokemonFormController.Index(new PokemonFormViewModel()));
+
+            Assert.AreEqual("addition", successViewModel.ActionName);
 
             _pokedexAppLogicMock.Verify(plm => plm.AddPokemon(It.IsAny<PokemonFormViewModel>()), Times.Once);
+
+            _loggerMock.VerifyNoOtherCalls();
+        }
+
+        [TestMethod]
+        public async Task IndexWithVMActionWithLogicExceptionLogsError()
+        {
+            _pokedexAppLogicMock.Setup(plm => plm.AddPokemon(It.IsAny< PokemonFormViewModel>()))
+                .ThrowsAsync(new Exception("logic exception"));
+
+            ErrorViewModel errorViewModel = DataGenerator.GetViewModel<ErrorViewModel>
+                (await _pokemonFormController.Index(new PokemonFormViewModel()));
+
+            _pokedexAppLogicMock.Verify(plm => plm.AddPokemon(It.IsAny<PokemonFormViewModel>()), Times.Once);
+
+            VerifyLoggerMockLoggedError("logic exception");
+
+            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]

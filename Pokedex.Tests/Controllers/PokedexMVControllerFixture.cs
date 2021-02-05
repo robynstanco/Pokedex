@@ -29,8 +29,7 @@ namespace Pokedex.Tests.Controllers
 
             _loggerMock = new Mock<ILoggerAdapter<PokedexController>>();
 
-            _pokedexController = new PokedexController(_pokedexAppLogicMock.Object, 
-                _paginationHelperMock.Object, _loggerMock.Object);
+            _pokedexController = new PokedexController(_pokedexAppLogicMock.Object, _paginationHelperMock.Object, _loggerMock.Object);
         }
 
         [TestMethod]
@@ -40,8 +39,7 @@ namespace Pokedex.Tests.Controllers
 
             _pokedexAppLogicMock.Verify(plm => plm.GetMyPokedex(), Times.Once);
 
-            _paginationHelperMock.Verify(plm => plm.GetPagedResults<PokemonListingViewModel>(null, 1, 11),
-                Times.Once);
+            _paginationHelperMock.Verify(plm => plm.GetPagedResults<PokemonListingViewModel>(null, 1, 11), Times.Once);
 
             _loggerMock.VerifyNoOtherCalls();
         }
@@ -49,15 +47,13 @@ namespace Pokedex.Tests.Controllers
         [TestMethod]
         public async Task IndexActionWithLogicExceptionLogsError()
         {
-            _pokedexAppLogicMock.Setup(plm => plm.GetMyPokedex())
-                .ThrowsAsync(new Exception("some get exception"));
+            _pokedexAppLogicMock.Setup(plm => plm.GetMyPokedex()).ThrowsAsync(new Exception("some get exception"));
 
             await _pokedexController.Index(2, 22);
 
             _pokedexAppLogicMock.Verify(plm => plm.GetMyPokedex(), Times.Once);
 
-            _paginationHelperMock.Verify(plm => plm.GetPagedResults<PokemonListingViewModel>(null, 2, 22),
-                Times.Never);
+            _paginationHelperMock.Verify(plm => plm.GetPagedResults<PokemonListingViewModel>(null, 2, 22), Times.Never);
 
             VerifyLoggerMockLoggedError("some get exception");
 
@@ -74,8 +70,7 @@ namespace Pokedex.Tests.Controllers
 
             _pokedexAppLogicMock.Verify(plm => plm.GetMyPokedex(), Times.Once);
 
-            _paginationHelperMock.Verify(plm => plm.GetPagedResults<PokemonListingViewModel>(null, 3, 33),
-                Times.Once);
+            _paginationHelperMock.Verify(plm => plm.GetPagedResults<PokemonListingViewModel>(null, 3, 33), Times.Once);
 
             VerifyLoggerMockLoggedError("some pagination exception");
 
@@ -95,8 +90,7 @@ namespace Pokedex.Tests.Controllers
         [TestMethod]
         public async Task DetailActionWithLogicExceptionLogsError()
         {
-            _pokedexAppLogicMock.Setup(plm => plm.GetMyPokemonById(It.IsAny<Guid>()))
-                .ThrowsAsync(new Exception("some detail exception"));
+            _pokedexAppLogicMock.Setup(plm => plm.GetMyPokemonById(It.IsAny<Guid>())).ThrowsAsync(new Exception("some detail exception"));
 
             await _pokedexController.Detail(DataGenerator.DefaultGuid);
 
@@ -124,8 +118,7 @@ namespace Pokedex.Tests.Controllers
         [TestMethod]
         public async Task DeleteActionWithLogicExceptionLogsError()
         {
-            _pokedexAppLogicMock.Setup(plm => plm.DeletePokemonById(It.IsAny<Guid>()))
-                .ThrowsAsync(new Exception("some delete exception"));
+            _pokedexAppLogicMock.Setup(plm => plm.DeletePokemonById(It.IsAny<Guid>())).ThrowsAsync(new Exception("some delete exception"));
 
             await _pokedexController.Delete(DataGenerator.DefaultGuid);
 
@@ -185,8 +178,7 @@ namespace Pokedex.Tests.Controllers
         [TestMethod]
         public async Task EditWithInvalidGuidThrowsLogicExceptionAndLogsError()
         {
-            _pokedexAppLogicMock.Setup(plm => plm.GetMyPokemonById(It.IsAny<Guid>()))
-                .ThrowsAsync(new Exception("some get exception"));
+            _pokedexAppLogicMock.Setup(plm => plm.GetMyPokemonById(It.IsAny<Guid>())).ThrowsAsync(new Exception("some get exception"));
 
             await _pokedexController.Edit(Guid.NewGuid());
 

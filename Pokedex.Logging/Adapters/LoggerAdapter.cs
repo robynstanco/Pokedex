@@ -4,7 +4,6 @@ using System;
 
 namespace Pokedex.Logging.Adapters
 {
-    //todo, unit test logging adapter
     public class LoggerAdapter<T> : ILoggerAdapter<T>
     {
         private readonly ILogger<T> _logger;

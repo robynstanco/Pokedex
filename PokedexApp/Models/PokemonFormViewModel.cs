@@ -22,6 +22,7 @@ namespace PokedexApp.Models
         }
 
         [Required]
+        [Range(1,100)]
         public int Level { get; set; }
 
         public string Location { get; set; }
