@@ -1,6 +1,6 @@
 # Pokédex
 <div>
-  <h2>ASP.NET Core 3.1 MVC/Web API Application.</h2>
+  <h2>ASP.NET Core 3.1 MVC/Web API Application</h2>
   <h3><a href="https://mypokedex.azurewebsites.net/" target="_blank">MyPokedex [Hosted on Azure App Services]</a></h3>
   <p>Search National Dex Pokémon based on a variety of criterion. Create, modify, and view a personal Pokédex.</p>
 </div>
