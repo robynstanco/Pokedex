@@ -25,6 +25,10 @@
     <li>LINQ</li>
     <li>Moq & MSTest Frameworks</li>
     <li>JavaScript, jQuery, HTML5, LESS, CSS3, WebCompiler, BEM Notation</li>
+    <li>Swagger & Postman</li>
+    <li>Azure App Services</li>
+    <li>Azure SQL Database</li>
+    <li>Azure Application Insights</li>
   </ul>
   <h3>Local Setup</h3>
   <ol>
