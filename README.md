@@ -25,16 +25,19 @@
     <li>Moq & MSTest Frameworks</li>
     <li>todo</li>
   </ul>
-  <h3>Prerequisites</h3>
-  <ul>
-    <li>Visual Studio</li>
-    <li>SQLServer Instance</li>
-    <li>SSMS & SSDT</li>
-    <li>Web Compiler [used for LESS compilation, only needed if you make changes]</li>
-    <li>Postman</li>
-  </ul>
+  
   <h3>Local Setup</h3>
   <ol>
+    <li>
+      <span>Prerequisites</span>
+      <ul>
+        <li>Visual Studio</li>
+        <li>SQLServer Instance</li>
+        <li>SSMS & SSDT</li>
+        <li>Web Compiler [used for LESS compilation, only needed if you make changes]</li>
+        <li>Postman</li>
+      </ul>
+    </li>
     <li>Publish POKEDEXDB to localdb.</li>
     <li>Update the PokedexApp/PokedexAPI appsettings.Development.json connection string to point to the newly create database.</li>
     <li>Ensure nuget packages are restored and ready to use.</li>
