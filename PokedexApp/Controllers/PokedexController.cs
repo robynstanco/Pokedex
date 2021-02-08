@@ -74,9 +74,18 @@ namespace PokedexApp.Controllers
         {
             try
             {
-                await _pokedexAppLogic.EditPokemon(pokemonDetailViewModel);
+                if (ModelState.IsValid)
+                {
+                    await _pokedexAppLogic.EditPokemon(pokemonDetailViewModel);
 
-                return View(Constants.Success, new SuccessViewModel() { ActionName = "edit" });
+                    return View(Constants.Success, new SuccessViewModel() { ActionName = "edit" });
+                }
+                else
+                {
+                    _logger.LogInformation(Constants.InvalidRequest);
+
+                    return await Edit(pokemonDetailViewModel.MyPokemonId.Value);
+                }
             }
             catch (Exception ex)
             {

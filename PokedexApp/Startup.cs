@@ -20,20 +20,28 @@ namespace PokedexApp
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; set; }
-        public ILogger Logger { get; set; }
-        public Startup(IConfiguration configuration, ILogger<Startup> logger)
-        {
-            Configuration = configuration;
-            Logger = logger;
-        }
-
         private string POKEDEXDBConnectionString
         {
             get
             {
                 return Configuration.GetConnectionString("POKEDEXDB_CONNECTION_STRING");
             }
+        }
+
+        private string ApplicationInsightsConnectionString
+        {
+            get
+            {
+                return Configuration["APPINSIGHTS_CONNECTIONSTRING"];
+            }
+        }
+
+        public IConfiguration Configuration { get; set; }
+        public ILogger Logger { get; set; }
+        public Startup(IConfiguration configuration, ILogger<Startup> logger)
+        {
+            Configuration = configuration;
+            Logger = logger;
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -51,7 +59,8 @@ namespace PokedexApp
             services.AddScoped<IPokedexRepository, PokedexRepository>();
             Logger.LogInformation(Constants.Added + " Dependency Injection for custom logging, logic, helpers, and repository.");
 
-            services.AddApplicationInsightsTelemetry(Configuration["APPINSIGHTS_CONNECTIONSTRING"]);
+            services.AddApplicationInsightsTelemetry(ApplicationInsightsConnectionString);
+            Logger.LogInformation(Constants.Added + " Application Insights.");
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -79,6 +88,8 @@ namespace PokedexApp
                     name: "default",
                     pattern: "{controller=" + Constants.PokedexNoAccent + "}/{action=Index}");
             });
+
+            Logger.LogInformation("Configured Application.");
         }
     }
 }
