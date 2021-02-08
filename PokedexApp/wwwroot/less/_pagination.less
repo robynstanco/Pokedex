@@ -2,25 +2,20 @@
 @import "_mixins.less";
 
 .pagination {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
     align-content: center;
     align-items: stretch;
     display: flex;
     flex-basis: 100%;
-    flex-wrap:wrap;
+    flex-wrap: wrap;
     justify-content: space-around;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 
     li {
         background-color: @standardDarkPalette;
         margin: 0;
         padding: @standardSpace;
-
-        &:hover:not(.active):not(.disabled) {
-            .box-shadow();
-            .hover-shadow();
-        }
 
         &.active {
             background-color: @standardExtraLightPalette;
@@ -28,6 +23,11 @@
 
         &.disabled {
             background-color: @standardLightPalette;
+        }
+
+        &:hover:not(.active):not(.disabled) {
+            .box-shadow();
+            .hover-shadow();
         }
     }
 }

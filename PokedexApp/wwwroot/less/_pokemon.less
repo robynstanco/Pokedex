@@ -24,34 +24,29 @@
     padding: @standardSpace;
 }
 
-.pokemon__item--hover {
-    .hover-shadow();
-
-    &:hover {
-        .box-shadow();
-    }
-}
-
 .pokemon__item-img {
     opacity: .8;
     width: 40px;
 }
 
-.pokemon__navigation {
-    display: flex;
-    flex-basis: 100%;
-    justify-content: space-between;
-    margin-top: @standardSpace;
+.pokemon__item-stat {
+    margin-bottom: @standardSpace;
 
-    a {
-        background-color: @standardExtraLightPalette;
-        padding: @halfStandardSpace;
-        text-transform: uppercase;
-        .hover-shadow();
+    img {
+        margin-right: @halfStandardSpace;
+        width: 25px;
+    }
 
-        &:hover {
-            .box-shadow();
-        }
+    span {
+        margin-right: @standardSpace;
+    }
+}
+
+.pokemon__item--hover {
+    .hover-shadow();
+
+    &:hover {
+        .box-shadow();
     }
 }
 
@@ -71,16 +66,21 @@
     }
 }
 
-.pokemon__item-stat {
-    margin-bottom: @standardSpace;
+.pokemon__navigation {
+    display: flex;
+    flex-basis: 100%;
+    justify-content: space-between;
+    margin-top: @standardSpace;
 
-    img {
-        margin-right: @halfStandardSpace;
-        width: 25px;
-    }
+    a {
+        background-color: @standardExtraLightPalette;
+        padding: @halfStandardSpace;
+        text-transform: uppercase;
+        .hover-shadow();
 
-    span {
-        margin-right: @standardSpace;
+        &:hover {
+            .box-shadow();
+        }
     }
 }
 

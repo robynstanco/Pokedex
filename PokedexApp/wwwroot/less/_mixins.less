@@ -1,11 +1,5 @@
 @import "_variables.less";
 
-.hover() {
-    cursor: pointer;
-    background-color: @standardDarkPalette;
-    color: @lightFontColor;
-}
-
 .box-shadow() {
     box-shadow: 0px 0px 8px 0px @standardDarkPalette;
 }
@@ -14,12 +8,10 @@
     box-shadow: 0px 0px 4px 0px @standardDarkPalette;
 }
 
-.fade-in() {
-    -webkit-animation: fadein 3s; /* Safari, Chrome and Opera > 12.1 */
-    -moz-animation: fadein 3s; /* Firefox < 16 */
-    -ms-animation: fadein 3s; /* Internet Explorer */
-    -o-animation: fadein 3s; /* Opera < 12.1 */
-    animation: fadein 3s;
+.hover() {
+    background-color: @standardDarkPalette;
+    color: @lightFontColor;
+    cursor: pointer;
 }
 
 .hover-shadow() {

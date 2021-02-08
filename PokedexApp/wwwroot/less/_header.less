@@ -3,20 +3,11 @@
 
 .navigation__container {
     background-color: @standardDarkPalette;
-    height: 62px;
+    height: @headerHeight;
     position: fixed;
     top: 0;
     width: 100%;
     z-index: 1;
-}
-
-.navigation__list {
-    align-items: stretch;
-    display: flex;
-    justify-content: space-between;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
 }
 
 .navigation__item {
@@ -29,8 +20,17 @@
         background-color: @standardExtraDarkPaletteTransparent;
         cursor: pointer;
     }
+
+    img {
+        height: 30px;
+    }
 }
 
-.navigation__item img {
-    height: 30px;
+.navigation__list {
+    align-items: stretch;
+    display: flex;
+    justify-content: space-between;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 }
