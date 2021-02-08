@@ -35,6 +35,17 @@ a {
   display: block;
   width: 100%;
 }
+footer {
+  align-items: center;
+  background-color: #989EA6;
+  bottom: 0;
+  display: flex;
+  font-size: 0.5rem;
+  height: 32px;
+  justify-content: center;
+  position: fixed;
+  width: 100%;
+}
 .form__container {
   background-color: #E4E4E4;
   display: flex;
@@ -47,6 +58,9 @@ a {
   list-style-type: none;
   padding-left: 0;
   text-align: right;
+}
+.edit__form.validation-summary-errors ul {
+  text-align: left;
 }
 form {
   flex-basis: 100%;
@@ -204,6 +218,70 @@ select {
     padding: 0.5rem;
   }
 }
+.pill__item {
+  background-color: #D4D4D4;
+  border-radius: 0.75rem;
+  color: #fff;
+  display: inline-block;
+  font-size: 0.75rem;
+  margin-bottom: 0.5rem;
+  padding: 0.25rem 1rem;
+  text-transform: uppercase;
+  box-shadow: 0px 0px 4px 0px #989EA6;
+}
+.pill__item--hover {
+  -webkit-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.pill__item--hover:hover {
+  cursor: pointer;
+  -webkit-transform: translate(0, -5px);
+  transform: translate(0, -5px);
+  -webkit-transition-delay: 0s !important;
+  transition-delay: 0s !important;
+}
+.pill__item--hover:hover {
+  cursor: default;
+}
+.pill__item--dark {
+  background-color: #989EA6;
+}
+.Grass {
+  background-color: #7BB082;
+}
+.Poison {
+  background-color: #C183C1;
+}
+.Fire {
+  background-color: #EE785F;
+}
+.Flying {
+  background-color: #C6B7F5;
+}
+.Water {
+  background-color: #96CBD8;
+}
+.Bug {
+  background-color: #E1D197;
+}
+.Electric {
+  background-color: #F4DE96;
+}
+.Fairy {
+  background-color: #F6D9DC;
+}
+.Ground {
+  background-color: #BFAB7F;
+}
+.Rock {
+  background-color: #9B8F8B;
+}
+.Psychic {
+  background-color: #F85888;
+}
+.Fighting {
+  background-color: #C03028;
+}
 .pokemon__container {
   align-content: center;
   align-items: stretch;
@@ -312,79 +390,4 @@ select {
     margin: auto;
     width: 250px;
   }
-}
-.pill__item {
-  background-color: #D4D4D4;
-  border-radius: 0.75rem;
-  color: #fff;
-  display: inline-block;
-  font-size: 0.75rem;
-  margin-bottom: 0.5rem;
-  padding: 0.25rem 1rem;
-  text-transform: uppercase;
-  box-shadow: 0px 0px 4px 0px #989EA6;
-}
-.pill__item--hover {
-  -webkit-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-.pill__item--hover:hover {
-  cursor: pointer;
-  -webkit-transform: translate(0, -5px);
-  transform: translate(0, -5px);
-  -webkit-transition-delay: 0s !important;
-  transition-delay: 0s !important;
-}
-.pill__item--hover:hover {
-  cursor: default;
-}
-.pill__item--dark {
-  background-color: #989EA6;
-}
-.Grass {
-  background-color: #7BB082;
-}
-.Poison {
-  background-color: #C183C1;
-}
-.Fire {
-  background-color: #EE785F;
-}
-.Flying {
-  background-color: #C6B7F5;
-}
-.Water {
-  background-color: #96CBD8;
-}
-.Bug {
-  background-color: #E1D197;
-}
-.Electric {
-  background-color: #F4DE96;
-}
-.Fairy {
-  background-color: #F6D9DC;
-}
-.Ground {
-  background-color: #BFAB7F;
-}
-.Rock {
-  background-color: #9B8F8B;
-}
-.Psychic {
-  background-color: #F85888;
-}
-.Fighting {
-  background-color: #C03028;
-}
-footer {
-  align-items: center;
-  background-color: #989EA6;
-  bottom: 0;
-  display: flex;
-  font-size: 0.5rem;
-  height: 32px;
-  justify-content: center;
-  position: fixed;
-  width: 100%;
 }
