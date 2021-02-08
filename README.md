@@ -18,15 +18,16 @@
 <div>
   <h3>Technologies & Methodologies</h3>
   <ul>
-    <li>ASP.NET Core MVC & Web API</li>
+    <li>C#, .NET Core 3.1, ASP.NET Core 3.1 MVC & Web API</li>
     <li>SQL Server, SSMS, T-SQL</li>
     <li>Cloudscribe Models/Pagination</li>
     <li>Repository Pattern</li>
     <li>EntityFrameworkCore</li>
     <li>LINQ</li>
-    <li>Moq & MSTest Frameworks</li>
-    <li>JavaScript, jQuery, HTML5, LESS, CSS3, WebCompiler, BEM Notation, Minification</li>
+    <li>Unit Testing with Moq & MSTest Frameworks</li>
+    <li>JavaScript, jQuery, JSON, HTML5, LESS, CSS3, WebCompiler, BEM Notation, Minification</li>
     <li>Swagger & Postman</li>
+    <li>Logging & Configuration</li>
     <li>Azure App Services</li>
     <li>Azure SQL Database</li>
     <li>Azure Application Insights</li>
