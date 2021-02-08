@@ -25,7 +25,7 @@
     <li>EntityFrameworkCore</li>
     <li>LINQ</li>
     <li>Unit Testing with Moq & MSTest Frameworks</li>
-    <li>JavaScript, jQuery, JSON, HTML5, LESS, CSS3, WebCompiler, BEM Notation, Minification</li>
+    <li>JavaScript, jQuery, JSON, HTML5, LESS, CSS3, Responsive Design, WebCompiler, BEM Notation, Minification</li>
     <li>Swagger & Postman</li>
     <li>Logging & Configuration</li>
     <li>Azure App Services</li>
