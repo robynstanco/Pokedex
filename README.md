@@ -16,6 +16,11 @@
   <img src="https://img.shields.io/github/languages/top/robynstanco/Pokedex?logo=github"/>
 </div>
 <div>
+  <h3>Technologies & Methodologies</h3>
+  <ul>
+    <li>ASP.NET Core MVC & Web API</li>
+    <li>TODO</li>
+  <ul>
   <h3>Prerequisites</h3>
   <ul>
     <li>Visual Studio</li>
@@ -28,9 +33,6 @@
   <ol>
     <li>Publish POKEDEXDB to localdb.</li>
     <li>Update the PokedexApp/PokedexAPI appsettings.Development.json connection string to point to the newly create database.</li>
-    <li>Build, Run Tests, Run Application locally.</li>
+    <li>Build, Run Tests, Run Application locally. Note: if calling API, utilize Postman Collection.</li>
   </ol>
-  <h3>Technologies & Methodologies</h3>
-  <ul>
-    <li>ASP.NET Core MVC & Web API</li>
 </div>
