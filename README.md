@@ -20,7 +20,7 @@
   <ul>
     <li>ASP.NET Core MVC & Web API</li>
     <li>TODO</li>
-  <ul>
+  </ul>
   <h3>Prerequisites</h3>
   <ul>
     <li>Visual Studio</li>
