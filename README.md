@@ -12,4 +12,5 @@
   <img src="https://img.shields.io/github/issues-closed/robynstanco/Pokedex?logo=github"/>
   <img src="https://img.shields.io/github/issues-pr-closed/robynstanco/pokedex?logo=github"/>
   <img src="https://img.shields.io/github/stars/robynstanco/Pokedex?logo=github"/>
+  <img src="https://img.shields.io/github/languages/top/robynstanco/Pokedex?logo=github"/>
 </div>
