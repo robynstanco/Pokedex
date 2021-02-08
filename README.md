@@ -37,6 +37,7 @@
   <ol>
     <li>Publish POKEDEXDB to localdb.</li>
     <li>Update the PokedexApp/PokedexAPI appsettings.Development.json connection string to point to the newly create database.</li>
+    <li>Ensure nuget packages are restored and ready to use.</li>
     <li>Build, Run Tests, Run Application locally. Note: if calling API, utilize Postman Collection.</li>
   </ol>
   <p>Note: see repository Wiki for detailed Architecture, Design, and Implementation</p> 
