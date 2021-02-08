@@ -21,12 +21,16 @@
     <li>Visual Studio</li>
     <li>SQLServer Instance</li>
     <li>SSMS & SSDT</li>
-    <li>Web Compiler [used for LESS compilcation, only needed if you make changes]</li>
+    <li>Web Compiler [used for LESS compilation, only needed if you make changes]</li>
+    <li>Postman</li>
   </ul>
   <h3>Local Setup</h3>
   <ol>
     <li>Publish POKEDEXDB to localdb.</li>
-    <li>Update the PokedexApp appsettings.Development.json connection string to point to the newly create database.</li>
+    <li>Update the PokedexApp/PokedexAPI appsettings.Development.json connection string to point to the newly create database.</li>
     <li>Build, Run Tests, Run Application locally.</li>
   </ol>
+  <h3>Technologies & Methodologies</h3>
+  <ul>
+    <li>ASP.NET Core MVC & Web API</li>
 </div>
