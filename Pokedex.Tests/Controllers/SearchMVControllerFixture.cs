@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Pokedex.Logging.Interfaces;
 using PokedexApp.Controllers;
@@ -34,6 +35,22 @@ namespace Pokedex.Tests.Controllers
             await _searchController.Index();
 
             _pokedexAppLogicMock.Verify(plm => plm.GetSearchForm(), Times.Once);
+
+            _loggerMock.VerifyNoOtherCalls();
+        }
+
+        [TestMethod]
+        public async Task IndexActionWithLogicExceptionLogsError()
+        {
+            _pokedexAppLogicMock.Setup(plm => plm.GetSearchForm()).ThrowsAsync(new Exception("logic error"));
+
+            await _searchController.Index();
+
+            _pokedexAppLogicMock.Verify(plm => plm.GetSearchForm(), Times.Once);
+
+            VerifyLoggerMockLoggedError("logic error");
+
+            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -42,6 +59,22 @@ namespace Pokedex.Tests.Controllers
             await _searchController.Index(new SearchViewModel());
 
             _pokedexAppLogicMock.Verify(plm => plm.Search(It.IsAny<SearchViewModel>()), Times.Once);
+
+            _loggerMock.VerifyNoOtherCalls();
+        }
+
+        [TestMethod]
+        public async Task IndexActionWithViewModelAndLogicExceptionLogsError()
+        {
+            _pokedexAppLogicMock.Setup(plm => plm.Search(It.IsAny<SearchViewModel>())).ThrowsAsync(new Exception("search error"));
+
+            await _searchController.Index(new SearchViewModel());
+
+            _pokedexAppLogicMock.Verify(plm => plm.Search(It.IsAny<SearchViewModel>()), Times.Once);
+
+            VerifyLoggerMockLoggedError("search error");
+
+            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -49,9 +82,20 @@ namespace Pokedex.Tests.Controllers
         {
             Exception error = new Exception("some error");
 
-            _searchController.Error(error);
+            IActionResult result = _searchController.Error(error);
 
-            _loggerMock.Verify(lm => lm.LogError(error, "some error"), Times.Once);
+            ErrorViewModel errorViewModel = DataGenerator.GetViewModel<ErrorViewModel>(result);
+
+            Assert.AreEqual("some error", errorViewModel.Message);
+
+            VerifyLoggerMockLoggedError("some error");
+
+            _loggerMock.VerifyNoOtherCalls();
+        }
+
+        private void VerifyLoggerMockLoggedError(string error)
+        {
+            _loggerMock.Verify(lm => lm.LogError(It.IsAny<Exception>(), error), Times.Once);
         }
     }
 }
