@@ -19,7 +19,11 @@
   <h3>Technologies & Methodologies</h3>
   <ul>
     <li>ASP.NET Core MVC & Web API</li>
-    <li>TODO</li>
+    <li>Cloudscribe Models/Pagination</li>
+    <li>EntityFrameworkCore</li>
+    <li>LINQ</li>
+    <li>Moq & MSTest Frameworks</li>
+    <li>todo</li>
   </ul>
   <h3>Prerequisites</h3>
   <ul>
