@@ -4,7 +4,7 @@
   <p>Search National Dex Pokémon based on a variety of criterion. Create, modify, and view a personal Pokédex.</p>
 </div>
 
-<div style="display: flex; justify-content: space-between;">
+<div style="display: flex;">
   <img src="https://img.shields.io/github/languages/code-size/robynstanco/Pokedex?logo=github"/>
   <img src="https://img.shields.io/github/issues/robynstanco/Pokedex?logo=github"/>
   <img src="https://img.shields.io/github/issues-closed/robynstanco/Pokedex?logo=github"/>
