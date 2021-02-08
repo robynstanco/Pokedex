@@ -19,16 +19,18 @@
   <h3>Technologies & Methodologies</h3>
   <ul>
     <li>ASP.NET Core MVC & Web API</li>
-    <li>SQL Server, T-SQL</li>
+    <li>SQL Server, SSMS, T-SQL</li>
     <li>Cloudscribe Models/Pagination</li>
+    <li>Repository Pattern</li>
     <li>EntityFrameworkCore</li>
     <li>LINQ</li>
     <li>Moq & MSTest Frameworks</li>
-    <li>JavaScript, jQuery, HTML5, LESS, CSS3, WebCompiler, BEM Notation</li>
+    <li>JavaScript, jQuery, HTML5, LESS, CSS3, WebCompiler, BEM Notation, Minification</li>
     <li>Swagger & Postman</li>
     <li>Azure App Services</li>
     <li>Azure SQL Database</li>
     <li>Azure Application Insights</li>
+    <li>Visual Studio</li>
   </ul>
   <h3>Local Setup</h3>
   <ol>
