@@ -39,4 +39,5 @@
     <li>Update the PokedexApp/PokedexAPI appsettings.Development.json connection string to point to the newly create database.</li>
     <li>Build, Run Tests, Run Application locally. Note: if calling API, utilize Postman Collection.</li>
   </ol>
+  <p>Note: see repository Wiki for detailed Architecture, Design, and Implementation</p> 
 </div>
