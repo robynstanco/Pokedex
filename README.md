@@ -5,6 +5,7 @@
 </div>
 
 <div style="display: flex;">
+  <img src="https://github.com/robynstanco/Pokedex/workflows/Build%20test,%20and%20deploy%20ASP.Net%20Core%20app%20to%20Azure%20Web%20App%20-%20mypokedex/badge.svg"/>
   <img src="https://img.shields.io/github/languages/code-size/robynstanco/Pokedex?logo=github"/>
   <img src="https://img.shields.io/github/issues/robynstanco/Pokedex?logo=github"/>
   <img src="https://img.shields.io/github/issues-closed/robynstanco/Pokedex?logo=github"/>
