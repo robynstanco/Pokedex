@@ -30,13 +30,11 @@ namespace Pokedex.Tests.Controllers
 
             _pokedexAppLogicMock.Setup(plm => plm.GetNationalDex()).ReturnsAsync(It.IsAny<List<PokemonListingViewModel>>());
 
-            _pokedexAppLogicMock.Setup(plm => plm.GetNationalDexPokemonById(It.IsAny<int>()))
-                .ReturnsAsync(It.IsAny<PokemonDetailViewModel>());
+            _pokedexAppLogicMock.Setup(plm => plm.GetNationalDexPokemonById(It.IsAny<int>())).ReturnsAsync(It.IsAny<PokemonDetailViewModel>());
 
             _loggerMock = new Mock<ILoggerAdapter<NationalDexController>>();
 
-            _nationalDexController = new NationalDexController(_pokedexAppLogicMock.Object, 
-                _paginationHelperMock.Object, _loggerMock.Object);
+            _nationalDexController = new NationalDexController(_pokedexAppLogicMock.Object, _paginationHelperMock.Object, _loggerMock.Object);
         }
 
         [TestMethod]
@@ -49,6 +47,10 @@ namespace Pokedex.Tests.Controllers
             _paginationHelperMock.Verify(plm => plm.GetPagedResults<PokemonListingViewModel>(null, 3, 33), Times.Once);
 
             _loggerMock.VerifyNoOtherCalls();
+
+            _pokedexAppLogicMock.VerifyNoOtherCalls();
+
+            _paginationHelperMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -65,6 +67,10 @@ namespace Pokedex.Tests.Controllers
             VerifyLoggerMockLoggedError("some exception");
 
             _loggerMock.VerifyNoOtherCalls();
+
+            _pokedexAppLogicMock.VerifyNoOtherCalls();
+
+            _paginationHelperMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -82,6 +88,10 @@ namespace Pokedex.Tests.Controllers
             VerifyLoggerMockLoggedError("some exception");
 
             _loggerMock.VerifyNoOtherCalls();
+
+            _pokedexAppLogicMock.VerifyNoOtherCalls();
+
+            _paginationHelperMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -92,6 +102,8 @@ namespace Pokedex.Tests.Controllers
             _pokedexAppLogicMock.Verify(plm => plm.GetNationalDexPokemonById(0), Times.Once);
 
             _loggerMock.VerifyNoOtherCalls();
+
+            _pokedexAppLogicMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -106,6 +118,8 @@ namespace Pokedex.Tests.Controllers
             VerifyLoggerMockLoggedError("some exception");
 
             _loggerMock.VerifyNoOtherCalls();
+
+            _pokedexAppLogicMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -122,6 +136,8 @@ namespace Pokedex.Tests.Controllers
             VerifyLoggerMockLoggedError("some error");
 
             _loggerMock.VerifyNoOtherCalls();
+
+            _pokedexAppLogicMock.VerifyNoOtherCalls();
         }
 
         private void VerifyLoggerMockLoggedError(string error)

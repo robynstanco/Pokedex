@@ -38,6 +38,8 @@ namespace Pokedex.Tests.Controllers
             _pokedexAppLogicMock.Verify(plm => plm.GetNewPokemonForm(), Times.Once);
 
             _loggerMock.VerifyNoOtherCalls();
+
+            _pokedexAppLogicMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -52,6 +54,8 @@ namespace Pokedex.Tests.Controllers
             VerifyLoggerMockLoggedError("logic exception");
 
             _loggerMock.VerifyNoOtherCalls();
+
+            _pokedexAppLogicMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -65,6 +69,8 @@ namespace Pokedex.Tests.Controllers
             _pokedexAppLogicMock.Verify(plm => plm.AddPokemon(It.IsAny<PokemonFormViewModel>()), Times.Once);
 
             _loggerMock.VerifyNoOtherCalls();
+
+            _pokedexAppLogicMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -81,6 +87,8 @@ namespace Pokedex.Tests.Controllers
             VerifyLoggerMockLoggedError("logic exception");
 
             _loggerMock.VerifyNoOtherCalls();
+
+            _pokedexAppLogicMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -97,6 +105,8 @@ namespace Pokedex.Tests.Controllers
             VerifyLoggerMockLoggedError("some error");
 
             _loggerMock.VerifyNoOtherCalls();
+
+            _pokedexAppLogicMock.VerifyNoOtherCalls();
         }
 
         private void VerifyLoggerMockLoggedError(string error)

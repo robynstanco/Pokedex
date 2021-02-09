@@ -151,12 +151,18 @@ namespace PokedexApp.Logic
 
             finalSearchViewModel.FilteredPokemon = new List<PokemonListingViewModel>();
 
-            List<tblMyPokedex> pokedex = await _pokedexRepository.Search(searchViewModel.SearchString, selectedAbilityId, selectedCategoryId, selectedTypeId, selectedPokeballId);
+            List<tblMyPokedex> pokedex = await _pokedexRepository
+                .Search(searchViewModel.SearchString, selectedAbilityId, selectedCategoryId, selectedTypeId, selectedPokeballId);
+
             List<PokemonListingViewModel> pokemonListingViewModels = MapPokedexToListingViewModels(pokedex);
+
             finalSearchViewModel.FilteredPokemon.AddRange(pokemonListingViewModels);
 
-            List<tlkpNationalDex> nationalDex = await _pokedexRepository.Search(searchViewModel.SearchString, selectedAbilityId, selectedCategoryId, selectedTypeId);
+            List<tlkpNationalDex> nationalDex = await _pokedexRepository
+                .Search(searchViewModel.SearchString, selectedAbilityId, selectedCategoryId, selectedTypeId);
+
             pokemonListingViewModels = MapNationalDexLookupsToListingViewModels(nationalDex);
+
             finalSearchViewModel.FilteredPokemon.AddRange(pokemonListingViewModels);
 
             return finalSearchViewModel;

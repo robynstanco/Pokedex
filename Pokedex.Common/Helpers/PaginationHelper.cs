@@ -21,7 +21,7 @@ namespace Pokedex.Common.Helpers
         /// <param name="collection">the enumerable collection</param>
         /// <param name="pageNumber">the current page number to take</param>
         /// <param name="pageSize">the page size to take</param>
-        /// <returns>mock db set of class T</returns>
+        /// <returns>PagedResult of class T</returns>
         public PagedResult<T> GetPagedResults<T>(IEnumerable<T> collection, int pageNumber, int pageSize) where T : class
         {
             int totalCount = collection.ToList().Count;

@@ -23,7 +23,6 @@ namespace Pokedex.Tests.Helpers
             _paginationHelper = new PaginationHelper(_loggerMock.Object);
         }
 
-
         [TestMethod]
         public void GetPagedStringResultIsSuccessfulAndLogsInformation()
         {
@@ -33,25 +32,31 @@ namespace Pokedex.Tests.Helpers
 
             AssertOnePagedResult(pagedResult);
 
-            _loggerMock.Verify(lm => lm.LogInformation("Mapping PagedResult<System.String>."), Times.Once);
+            VerifyLoggerMockLogsInformation("Mapping PagedResult<System.String>.");
+
+            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
         public void GetPagedViewModelResultIsSuccessfulAndLogsInformation()
         {
-            IEnumerable<PokemonListingViewModel> pokemonListingViewModels = 
-                new List<PokemonListingViewModel>() { new PokemonListingViewModel() };
+            IEnumerable<PokemonListingViewModel> pokemonListingViewModels = new List<PokemonListingViewModel>() { new PokemonListingViewModel() };
 
-            PagedResult<PokemonListingViewModel> pagedResult = 
-                _paginationHelper.GetPagedResults(pokemonListingViewModels, 1, 1);
+            PagedResult<PokemonListingViewModel> pagedResult = _paginationHelper.GetPagedResults(pokemonListingViewModels, 1, 1);
 
             AssertOnePagedResult(pagedResult);
 
-            _loggerMock.Verify(lm => lm.LogInformation(
-                "Mapping PagedResult<PokedexApp.Models.PokemonListingViewModel>."), Times.Once);
+            VerifyLoggerMockLogsInformation("Mapping PagedResult<PokedexApp.Models.PokemonListingViewModel>.");
+
+            _loggerMock.VerifyNoOtherCalls();
         }
 
-        private static void AssertOnePagedResult<T>(PagedResult<T> pagedResult) where T : class
+        private void VerifyLoggerMockLogsInformation(string info)
+        {
+            _loggerMock.Verify(lm => lm.LogInformation(info), Times.Once);
+        }
+
+        private void AssertOnePagedResult<T>(PagedResult<T> pagedResult) where T : class
         {
             Assert.AreEqual(1, (int)pagedResult.PageNumber);
             Assert.AreEqual(1, pagedResult.PageSize);
