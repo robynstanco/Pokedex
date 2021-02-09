@@ -19,18 +19,17 @@
   <h3>Technologies & Methodologies</h3>
   <ul>
     <li>C#, .NET Core 3.1, ASP.NET Core 3.1 MVC & Web API</li>
-    <li>SQL Server, SSMS, T-SQL</li>
+    <li>Logging, Configuration, & Dependency Injection</li>
+    <li>SQL Server, SSMS, T-SQL, Azure SQL Database</li>
+    <li>Azure App Services</li>
+    <li>Azure Application Insights</li>
     <li>Cloudscribe Models/Pagination</li>
     <li>Repository Pattern</li>
     <li>EntityFrameworkCore</li>
     <li>LINQ</li>
-    <li>Unit Testing with Moq & MSTest Frameworks</li>
+    <li>Unit Testing with Moq & MSTest Frameworks, Arrange/Act/Assert Pattern</li>
     <li>JavaScript, jQuery, JSON, HTML5, LESS, CSS3, Responsive Design, WebCompiler, BEM Notation, Minification</li>
     <li>Swagger & Postman</li>
-    <li>Logging & Configuration</li>
-    <li>Azure App Services</li>
-    <li>Azure SQL Database</li>
-    <li>Azure Application Insights</li>
     <li>Visual Studio</li>
   </ul>
   <h3>Local Setup</h3>
