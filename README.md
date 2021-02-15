@@ -1,7 +1,10 @@
 # Pokédex
 <div>
   <h2>ASP.NET Core 3.1 MVC/Web API Application</h2>
-  <h3><a href="https://mypokedex.azurewebsites.net/" target="_blank">MyPokedex [Hosted on Azure App Services]</a></h3>
+  <h3>
+    <a href="https://mypokedex.azurewebsites.net/" target="_blank">MyPokedex [Hosted on Azure App Services]</a>
+    <img src="https://img.shields.io/website?logo=microsoft&url=https%3A%2F%2Fmypokedex.azurewebsites.net"/>
+  </h3>
   <p>Search National Dex Pokémon based on a variety of criterion. Create, modify, and view a personal Pokédex.</p>
 </div>
 <div style="display: flex;">
@@ -14,6 +17,8 @@
   <img src="https://img.shields.io/github/issues-pr-closed/robynstanco/pokedex?logo=github"/>
   <img src="https://img.shields.io/github/stars/robynstanco/Pokedex?logo=github"/>
   <img src="https://img.shields.io/github/languages/top/robynstanco/Pokedex?logo=github"/>
+  <img src="https://img.shields.io/github/languages/count/robynstanco/pokedex?logo=github"/>
+  <img src="https://img.shields.io/github/license/robynstanco/pokedex?logo=github"/>
 </div>
 <div>
   <h3>Technologies & Methodologies</h3>
