@@ -15,10 +15,10 @@ namespace Pokedex.Common.Helpers
         }
 
         /// <summary>
-        /// Generic method to create paged result from a given T class and page parameters.
+        /// Generic method to create paged result from a given T class collection and page parameters.
         /// </summary>
         /// <typeparam name="T">the class of the data</typeparam>
-        /// <param name="collection">the enumerable collection</param>
+        /// <param name="collection">the enumerable collection of type T</param>
         /// <param name="pageNumber">the current page number to take</param>
         /// <param name="pageSize">the page size to take</param>
         /// <returns>PagedResult of class T</returns>

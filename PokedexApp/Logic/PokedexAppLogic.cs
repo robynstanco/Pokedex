@@ -151,19 +151,20 @@ namespace PokedexApp.Logic
 
             finalSearchViewModel.FilteredPokemon = new List<PokemonListingViewModel>();
 
-            List<tblMyPokedex> pokedex = await _pokedexRepository
-                .Search(searchViewModel.SearchString, selectedAbilityId, selectedCategoryId, selectedTypeId, selectedPokeballId);
+            List<tblMyPokedex> pokedex = await _pokedexRepository.Search(searchViewModel.SearchString, selectedAbilityId, selectedCategoryId, selectedTypeId, selectedPokeballId);
 
             List<PokemonListingViewModel> pokemonListingViewModels = MapPokedexToListingViewModels(pokedex);
 
             finalSearchViewModel.FilteredPokemon.AddRange(pokemonListingViewModels);
 
-            List<tlkpNationalDex> nationalDex = await _pokedexRepository
-                .Search(searchViewModel.SearchString, selectedAbilityId, selectedCategoryId, selectedTypeId);
+            if (!selectedPokeballId.HasValue)
+            {
+                List<tlkpNationalDex> nationalDex = await _pokedexRepository.Search(searchViewModel.SearchString, selectedAbilityId, selectedCategoryId, selectedTypeId);
 
-            pokemonListingViewModels = MapNationalDexLookupsToListingViewModels(nationalDex);
+                pokemonListingViewModels = MapNationalDexLookupsToListingViewModels(nationalDex);
 
-            finalSearchViewModel.FilteredPokemon.AddRange(pokemonListingViewModels);
+                finalSearchViewModel.FilteredPokemon.AddRange(pokemonListingViewModels);
+            }
 
             return finalSearchViewModel;
         }
@@ -219,8 +220,7 @@ namespace PokedexApp.Logic
 
         private List<SelectListItem> GetPokemonSexSelectListItems()
         {
-            return new List<SelectListItem>() { new SelectListItem() { Text = Constants.Female, Value = "0" },
-                new SelectListItem() { Text = Constants.Male, Value = "1" } };
+            return new List<SelectListItem>() { new SelectListItem() { Text = "Female", Value = "0" }, new SelectListItem() { Text = "Male", Value = "1" } };
         }
 
         private async Task<List<SelectListItem>> GetTypeSelectListItems(SelectListItem prependOption)

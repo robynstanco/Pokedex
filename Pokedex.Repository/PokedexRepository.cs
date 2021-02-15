@@ -14,12 +14,8 @@ namespace Pokedex.Repository
     public class PokedexRepository : IPokedexRepository
     {
         private const string InformationalMessageWithCount = Constants.Retrieved + " {0} {1} " + Constants.From + " " + Constants.DBContext + ".";
-
         private const string InforMessageWithId = "{0} {1} {2} " + Constants.DBContext + Constants.WithId + "{3}";
-
-        private const string InfoMessageWithSearchCriteria = Constants.Retrieved + " {0} " 
-            + Constants.Pokemon + " " + Constants.From + " " + Constants.DBContext + " matching search string: {1}";
-
+        private const string InfoMessageWithSearchCriteria = Constants.Retrieved + " {0} " + Constants.Pokemon + " " + Constants.From + " " + Constants.DBContext + " matching search string: {1}";
         private const StringComparison ignoreCase = StringComparison.CurrentCultureIgnoreCase;
 
         private POKEDEXDBContext _context;
@@ -200,27 +196,6 @@ namespace Pokedex.Repository
             return nationalDexPokemon;
         }
 
-        private async Task<tlkpNationalDex> GetNestedNationalDexInfo(tlkpNationalDex nationalDexPokemon)
-        {
-            nationalDexPokemon.Ability = await GetAbilityById(nationalDexPokemon.AbilityId.Value);
-
-            nationalDexPokemon.Category = await GetCategoryById(nationalDexPokemon.CategoryId.Value);
-
-            if (nationalDexPokemon.HiddenAbilityId.HasValue)
-            {
-                nationalDexPokemon.HiddenAbility = await GetAbilityById(nationalDexPokemon.HiddenAbilityId.Value);
-            }
-
-            nationalDexPokemon.TypeOne = await GetTypeById(nationalDexPokemon.TypeOneId.Value);
-
-            if (nationalDexPokemon.TypeTwoId.HasValue)
-            {
-                nationalDexPokemon.TypeTwo = await GetTypeById(nationalDexPokemon.TypeTwoId.Value);
-            }
-
-            return nationalDexPokemon;
-        }
-
         public async Task<tlkpPokeball> GetPokeballById(int pokeballId)
         {
             tlkpPokeball pokeball = await _context.tlkpPokeball.FindAsync(pokeballId);
@@ -258,8 +233,7 @@ namespace Pokedex.Repository
 
             if (abilityId.HasValue)
             {
-                nationalDexSearchResults = nationalDexSearchResults.Where(p => p.AbilityId == abilityId.Value || p.HiddenAbilityId == abilityId)
-                    .ToList();
+                nationalDexSearchResults = nationalDexSearchResults.Where(p => p.AbilityId == abilityId.Value || p.HiddenAbilityId == abilityId).ToList();
             }
 
             if (categoryId.HasValue)
@@ -291,22 +265,17 @@ namespace Pokedex.Repository
 
             if (abilityId.HasValue)
             {
-                myPokedexSearchResults = myPokedexSearchResults
-                    .Where(p => p.Pokemon.AbilityId == abilityId.Value || p.Pokemon.HiddenAbilityId == abilityId)
-                    .ToList();
+                myPokedexSearchResults = myPokedexSearchResults.Where(p => p.Pokemon.AbilityId == abilityId.Value || p.Pokemon.HiddenAbilityId == abilityId).ToList();
             }
 
             if (categoryId.HasValue)
             {
-                myPokedexSearchResults = myPokedexSearchResults.Where(p => p.Pokemon.CategoryId == categoryId.Value)
-                    .ToList();
+                myPokedexSearchResults = myPokedexSearchResults.Where(p => p.Pokemon.CategoryId == categoryId.Value).ToList();
             }
 
             if (typeId.HasValue)
             {
-                myPokedexSearchResults = myPokedexSearchResults
-                    .Where(p => p.Pokemon.TypeOneId == typeId.Value || p.Pokemon.TypeTwoId == typeId.Value)
-                    .ToList();
+                myPokedexSearchResults = myPokedexSearchResults.Where(p => p.Pokemon.TypeOneId == typeId.Value || p.Pokemon.TypeTwoId == typeId.Value).ToList();
             }
 
             if (pokeballId.HasValue)
@@ -317,6 +286,27 @@ namespace Pokedex.Repository
             _logger.LogInformation(string.Format(InfoMessageWithSearchCriteria, myPokedexSearchResults.ToList().Count, searchString));
 
             return myPokedexSearchResults.OrderBy(p => p.PokemonId).ToList();
+        }
+
+        private async Task<tlkpNationalDex> GetNestedNationalDexInfo(tlkpNationalDex nationalDexPokemon)
+        {
+            nationalDexPokemon.Ability = await GetAbilityById(nationalDexPokemon.AbilityId.Value);
+
+            nationalDexPokemon.Category = await GetCategoryById(nationalDexPokemon.CategoryId.Value);
+
+            if (nationalDexPokemon.HiddenAbilityId.HasValue)
+            {
+                nationalDexPokemon.HiddenAbility = await GetAbilityById(nationalDexPokemon.HiddenAbilityId.Value);
+            }
+
+            nationalDexPokemon.TypeOne = await GetTypeById(nationalDexPokemon.TypeOneId.Value);
+
+            if (nationalDexPokemon.TypeTwoId.HasValue)
+            {
+                nationalDexPokemon.TypeTwo = await GetTypeById(nationalDexPokemon.TypeTwoId.Value);
+            }
+
+            return nationalDexPokemon;
         }
     }
 }

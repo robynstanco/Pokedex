@@ -53,10 +53,10 @@ namespace Pokedex.Tests.Logic
             _pokedexRepositoryMock.Setup(prm => prm.GetTypeById(0)).ReturnsAsync(types[0]);
             _pokedexRepositoryMock.Setup(prm => prm.GetTypeById(1)).ReturnsAsync(types[1]); //Type Two
 
-            _pokedexRepositoryMock.Setup(prm => prm.Search(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()))
+            _pokedexRepositoryMock.Setup(prm => prm.Search(It.IsAny<string>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>()))
                 .ReturnsAsync(nationalDex);
 
-            _pokedexRepositoryMock.Setup(prm => prm.Search(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()))
+            _pokedexRepositoryMock.Setup(prm => prm.Search(It.IsAny<string>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>()))
                 .ReturnsAsync(pokedex);
 
             _loggerAppMock = new Mock<ILoggerAdapter<PokedexAppLogic>>();
@@ -296,7 +296,7 @@ namespace Pokedex.Tests.Logic
         }
 
         [TestMethod]
-        public async Task SearchCallsRepositoryAndLogsInformation()
+        public async Task SearchWithPokeballCallsRepositoryAndLogsInformation()
         {
             SearchViewModel searchResultsViewModel = await _pokedexAppLogic.Search(new SearchViewModel
             {
@@ -309,9 +309,34 @@ namespace Pokedex.Tests.Logic
 
             VerifyRepositoryMockGetsLookups();
 
-            _pokedexRepositoryMock.Verify(prm => prm.Search("Name0", 0, 0, 0), Times.Once);
+            _pokedexRepositoryMock.Verify(prm => prm.Search("Name0", 0, 0, 0), Times.Never); // national dex search not called, pokeball is set
 
             _pokedexRepositoryMock.Verify(prm => prm.Search("Name0", 0, 0, 0, 0), Times.Once);
+
+            VerifyLoggerAppMockLogsInformation("Mapping Select List Items.");
+            VerifyLoggerAppMockLogsInformation("Mapping 1 Pokémon View Models.");
+
+            _loggerAppMock.VerifyNoOtherCalls();
+
+            _pokedexRepositoryMock.VerifyNoOtherCalls();
+        }
+
+        [TestMethod]
+        public async Task SearchWithoutPokeballCallsRepositoryAndLogsInformation()
+        {
+            SearchViewModel searchResultsViewModel = await _pokedexAppLogic.Search(new SearchViewModel
+            {
+                SearchString = "Name0",
+                SelectedAbilityId = 0,
+                SelectedCategoryId = 0,
+                SelectedTypeId = 0
+            });
+
+            VerifyRepositoryMockGetsLookups();
+
+            _pokedexRepositoryMock.Verify(prm => prm.Search("Name0", 0, 0, 0), Times.Once);
+
+            _pokedexRepositoryMock.Verify(prm => prm.Search("Name0", 0, 0, 0, null), Times.Once);
 
             VerifyLoggerAppMockLogsInformation("Mapping Select List Items.");
             VerifyLoggerAppMockLogsInformation("Mapping 1 Pokémon View Models.");

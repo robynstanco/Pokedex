@@ -16,14 +16,12 @@
         public const string Detail = nameof(Detail);
         public const string Edit = nameof(Edit);
         public const string Error = nameof(Error);
-        public const string Female = nameof(Female);
         public const string From = "from";
         public const string In = "in";
         public const string InformationalMessageMappingWithCount = Mapping + " {0} {1} {2}.";
         public const string InvalidRequest = "Invalid Request";
         public const string Level = nameof(Level);
         public const string LocationCaught = "Location Caught";
-        public const string Male = nameof(Male);
         public const string Mapping = nameof(Mapping);
         public const string NationalDex = nameof(NationalDex);
         public const string Nickname = nameof(Nickname);
