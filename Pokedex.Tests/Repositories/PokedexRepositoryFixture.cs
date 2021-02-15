@@ -33,17 +33,23 @@ namespace Pokedex.Tests.Repositories
 
             _pokedexDBContextMock = new Mock<POKEDEXDBContext>();
 
-            _pokedexDBContextMock.Setup(dbcm => dbcm.tblMyPokedex).Returns(InitializeMockSet(myPokedex).Object);
+            _pokedexDBContextMock.Setup(dbcm => dbcm.tblMyPokedex)
+                .Returns(InitializeMockSet(myPokedex).Object);
 
-            _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpAbility).Returns(InitializeMockSet(abilities).Object);
+            _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpAbility)
+                .Returns(InitializeMockSet(abilities).Object);
 
-            _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpCategory).Returns(InitializeMockSet(categories).Object);
+            _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpCategory)
+                .Returns(InitializeMockSet(categories).Object);
 
-            _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpNationalDex).Returns(InitializeMockSet(nationalDex).Object);
+            _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpNationalDex)
+                .Returns(InitializeMockSet(nationalDex).Object);
 
-            _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpPokeball).Returns(InitializeMockSet(pokeballs).Object);
+            _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpPokeball)
+                .Returns(InitializeMockSet(pokeballs).Object);
 
-            _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpType).Returns(InitializeMockSet(types).Object);
+            _pokedexDBContextMock.Setup(dbcm => dbcm.tlkpType)
+                .Returns(InitializeMockSet(types).Object);
 
             _pokedexDBContextMock.Setup(dbcm => dbcm.tblMyPokedex.FindAsync(DataGenerator.DefaultGuid))
                 .ReturnsAsync((object[] ids) =>

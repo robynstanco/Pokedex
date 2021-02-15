@@ -51,7 +51,8 @@ namespace Pokedex.Tests.Controllers
         [TestMethod]
         public async Task IndexActionWithLogicExceptionLogsError()
         {
-            _pokedexAppLogicMock.Setup(plm => plm.GetMyPokedex()).ThrowsAsync(new Exception("some get exception"));
+            _pokedexAppLogicMock.Setup(plm => plm.GetMyPokedex())
+                .ThrowsAsync(new Exception("some get exception"));
 
             await _pokedexController.Index(2, 22);
 
@@ -104,7 +105,8 @@ namespace Pokedex.Tests.Controllers
         [TestMethod]
         public async Task DetailActionWithLogicExceptionLogsError()
         {
-            _pokedexAppLogicMock.Setup(plm => plm.GetMyPokemonById(It.IsAny<Guid>())).ThrowsAsync(new Exception("some detail exception"));
+            _pokedexAppLogicMock.Setup(plm => plm.GetMyPokemonById(It.IsAny<Guid>()))
+                .ThrowsAsync(new Exception("some detail exception"));
 
             await _pokedexController.Detail(DataGenerator.DefaultGuid);
 
@@ -136,7 +138,8 @@ namespace Pokedex.Tests.Controllers
         [TestMethod]
         public async Task DeleteActionWithLogicExceptionLogsError()
         {
-            _pokedexAppLogicMock.Setup(plm => plm.DeletePokemonById(It.IsAny<Guid>())).ThrowsAsync(new Exception("some delete exception"));
+            _pokedexAppLogicMock.Setup(plm => plm.DeletePokemonById(It.IsAny<Guid>()))
+                .ThrowsAsync(new Exception("some delete exception"));
 
             await _pokedexController.Delete(DataGenerator.DefaultGuid);
 
@@ -204,7 +207,8 @@ namespace Pokedex.Tests.Controllers
         [TestMethod]
         public async Task EditWithInvalidGuidThrowsLogicExceptionAndLogsError()
         {
-            _pokedexAppLogicMock.Setup(plm => plm.GetMyPokemonById(It.IsAny<Guid>())).ThrowsAsync(new Exception("some get exception"));
+            _pokedexAppLogicMock.Setup(plm => plm.GetMyPokemonById(It.IsAny<Guid>()))
+                .ThrowsAsync(new Exception("some get exception"));
 
             await _pokedexController.Edit(Guid.NewGuid());
 

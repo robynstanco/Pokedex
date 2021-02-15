@@ -24,7 +24,9 @@ namespace Pokedex.Tests.Controllers
             _pokedexAppLogicMock = new Mock<IPokedexAppLogic>();
 
             _loggerMock = new Mock<ILoggerAdapter<SearchController>>();
-            _pokedexAppLogicMock.Setup(plm => plm.GetSearchForm()).ReturnsAsync(It.IsAny<SearchViewModel>());
+
+            _pokedexAppLogicMock.Setup(plm => plm.GetSearchForm())
+                .ReturnsAsync(It.IsAny<SearchViewModel>());
 
             _searchController = new SearchController(_pokedexAppLogicMock.Object, _loggerMock.Object);
         }
@@ -44,7 +46,8 @@ namespace Pokedex.Tests.Controllers
         [TestMethod]
         public async Task IndexActionWithLogicExceptionLogsError()
         {
-            _pokedexAppLogicMock.Setup(plm => plm.GetSearchForm()).ThrowsAsync(new Exception("logic error"));
+            _pokedexAppLogicMock.Setup(plm => plm.GetSearchForm())
+                .ThrowsAsync(new Exception("logic error"));
 
             await _searchController.Index();
 
@@ -72,7 +75,8 @@ namespace Pokedex.Tests.Controllers
         [TestMethod]
         public async Task IndexActionWithViewModelAndLogicExceptionLogsError()
         {
-            _pokedexAppLogicMock.Setup(plm => plm.Search(It.IsAny<SearchViewModel>())).ThrowsAsync(new Exception("search error"));
+            _pokedexAppLogicMock.Setup(plm => plm.Search(It.IsAny<SearchViewModel>()))
+                .ThrowsAsync(new Exception("search error"));
 
             await _searchController.Index(new SearchViewModel());
 

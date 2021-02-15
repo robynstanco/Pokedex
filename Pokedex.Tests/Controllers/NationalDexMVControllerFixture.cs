@@ -28,9 +28,11 @@ namespace Pokedex.Tests.Controllers
 
             _pokedexAppLogicMock = new Mock<IPokedexAppLogic>();
 
-            _pokedexAppLogicMock.Setup(plm => plm.GetNationalDex()).ReturnsAsync(It.IsAny<List<PokemonListingViewModel>>());
+            _pokedexAppLogicMock.Setup(plm => plm.GetNationalDex())
+                .ReturnsAsync(It.IsAny<List<PokemonListingViewModel>>());
 
-            _pokedexAppLogicMock.Setup(plm => plm.GetNationalDexPokemonById(It.IsAny<int>())).ReturnsAsync(It.IsAny<PokemonDetailViewModel>());
+            _pokedexAppLogicMock.Setup(plm => plm.GetNationalDexPokemonById(It.IsAny<int>()))
+                .ReturnsAsync(It.IsAny<PokemonDetailViewModel>());
 
             _loggerMock = new Mock<ILoggerAdapter<NationalDexController>>();
 
@@ -56,7 +58,8 @@ namespace Pokedex.Tests.Controllers
         [TestMethod]
         public async Task IndexActionWithLogicExceptionLogsError()
         {
-            _pokedexAppLogicMock.Setup(plm => plm.GetNationalDex()).ThrowsAsync(new Exception("some exception"));
+            _pokedexAppLogicMock.Setup(plm => plm.GetNationalDex())
+                .ThrowsAsync(new Exception("some exception"));
 
             await _nationalDexController.Index(2, 22);
             
@@ -109,7 +112,8 @@ namespace Pokedex.Tests.Controllers
         [TestMethod]
         public async Task DetailActionWithLogicExceptionLogsError()
         {
-            _pokedexAppLogicMock.Setup(plm => plm.GetNationalDexPokemonById(0)).ThrowsAsync(new Exception("some exception"));
+            _pokedexAppLogicMock.Setup(plm => plm.GetNationalDexPokemonById(0))
+                .ThrowsAsync(new Exception("some exception"));
 
             await _nationalDexController.Detail(0);
 

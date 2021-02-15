@@ -23,7 +23,8 @@ namespace Pokedex.Tests.Controllers
         {
             _pokedexAppLogicMock = new Mock<IPokedexAppLogic>();
 
-            _pokedexAppLogicMock.Setup(plm => plm.GetNewPokemonForm()).ReturnsAsync(It.IsAny<PokemonFormViewModel>());
+            _pokedexAppLogicMock.Setup(plm => plm.GetNewPokemonForm())
+                .ReturnsAsync(It.IsAny<PokemonFormViewModel>());
 
             _loggerMock = new Mock<ILoggerAdapter<PokemonFormController>>();
 
@@ -45,7 +46,8 @@ namespace Pokedex.Tests.Controllers
         [TestMethod]
         public async Task IndexActionWithLogicExceptionLogsError()
         {
-            _pokedexAppLogicMock.Setup(plm => plm.GetNewPokemonForm()).ThrowsAsync(new Exception("logic exception"));
+            _pokedexAppLogicMock.Setup(plm => plm.GetNewPokemonForm())
+                .ThrowsAsync(new Exception("logic exception"));
 
             await _pokemonFormController.Index();
 

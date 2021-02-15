@@ -6,15 +6,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Pokedex.Common;
+using Pokedex.Common.Helpers;
+using Pokedex.Common.Interfaces;
 using Pokedex.Data;
 using Pokedex.Logging.Adapters;
 using Pokedex.Logging.Interfaces;
-using Pokedex.Repository.Interfaces;
 using Pokedex.Repository;
+using Pokedex.Repository.Interfaces;
 using PokedexApp.Interfaces;
 using PokedexApp.Logic;
-using Pokedex.Common.Interfaces;
-using Pokedex.Common.Helpers;
 
 namespace PokedexApp
 {
@@ -61,6 +61,9 @@ namespace PokedexApp
 
             services.AddApplicationInsightsTelemetry(ApplicationInsightsConnectionString);
             Logger.LogInformation(Constants.Added + " Application Insights.");
+
+            services.AddHealthChecks().AddCheck<HealthCheck>(nameof(HealthCheck)).AddDbContextCheck<POKEDEXDBContext>();
+            Logger.LogInformation(Constants.Added + " " + nameof(HealthCheck) + ".");
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -87,6 +90,8 @@ namespace PokedexApp
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=" + Constants.PokedexNoAccent + "}/{action=Index}");
+
+                endpoints.MapHealthChecks("/health");
             });
 
             Logger.LogInformation("Configured Application.");
