@@ -62,8 +62,8 @@ namespace PokedexApp
             services.AddApplicationInsightsTelemetry(ApplicationInsightsConnectionString);
             Logger.LogInformation(Constants.Added + " Application Insights.");
 
-            services.AddHealthChecks().AddCheck<HealthCheck>(nameof(HealthCheck)).AddDbContextCheck<POKEDEXDBContext>();
-            Logger.LogInformation(Constants.Added + " " + nameof(HealthCheck) + ".");
+            services.AddHealthChecks().AddDbContextCheck<POKEDEXDBContext>();
+            Logger.LogInformation(Constants.Added + "HealthChecks.");
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
