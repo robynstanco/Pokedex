@@ -37,7 +37,7 @@
     <li>Swagger & Postman</li>
     <li>Visual Studio</li>
   </ul>
-  <h3>Local Setup</h3>
+  <h3>Local Setup (Quickstart)</h3>
   <ol>
     <li>
       <span>Prerequisites</span>
