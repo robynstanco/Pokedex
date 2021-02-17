@@ -2,8 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UserSecretsId>43fe5047-9a61-470a-a945-3080f6fc1b39</UserSecretsId>
-    <ApplicationInsightsResourceId>/subscriptions/b4c17bb5-3292-49e0-816f-2db5c9d4396c/resourcegroups/PokedexApp20210128133622ResourceGroup/providers/Microsoft.Insights/components/PokedexApp</ApplicationInsightsResourceId>
   </PropertyGroup>
 
   <ItemGroup>
