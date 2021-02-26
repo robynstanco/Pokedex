@@ -10,12 +10,12 @@ namespace PokedexApp.Controllers
 {
     public class SearchController : Controller
     {
-        private IPokedexAppLogic _pokedexAppLogic;
         private ILoggerAdapter<SearchController> _logger;
-        public SearchController(IPokedexAppLogic pokedexAppLogic, ILoggerAdapter<SearchController> logger)
+        private IPokedexAppLogic _pokedexAppLogic;
+        public SearchController(ILoggerAdapter<SearchController> logger, IPokedexAppLogic pokedexAppLogic)
         {
-            _pokedexAppLogic = pokedexAppLogic;
             _logger = logger;
+            _pokedexAppLogic = pokedexAppLogic;
         }
 
         public async Task<IActionResult> Index()

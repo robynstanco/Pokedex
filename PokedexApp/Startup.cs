@@ -37,7 +37,9 @@ namespace PokedexApp
         }
 
         public IConfiguration Configuration { get; set; }
+
         public ILogger Logger { get; set; }
+
         public Startup(IConfiguration configuration, ILogger<Startup> logger)
         {
             Configuration = configuration;

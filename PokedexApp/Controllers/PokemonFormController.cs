@@ -10,12 +10,12 @@ namespace PokedexApp.Controllers
 {
     public class PokemonFormController : Controller
     {
-        private IPokedexAppLogic _pokedexAppLogic;
         private ILoggerAdapter<PokemonFormController> _logger;
-        public PokemonFormController(IPokedexAppLogic pokedexAppLogic, ILoggerAdapter<PokemonFormController> logger)
+        private IPokedexAppLogic _pokedexAppLogic;
+        public PokemonFormController(ILoggerAdapter<PokemonFormController> logger, IPokedexAppLogic pokedexAppLogic)
         {
-            _pokedexAppLogic = pokedexAppLogic;
             _logger = logger;
+            _pokedexAppLogic = pokedexAppLogic;
         }
 
         public async Task<IActionResult> Index()

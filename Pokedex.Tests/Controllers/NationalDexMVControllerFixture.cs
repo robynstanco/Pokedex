@@ -17,13 +17,15 @@ namespace Pokedex.Tests.Controllers
     {
         private NationalDexController _nationalDexController;
 
+        private Mock<ILoggerAdapter<NationalDexController>> _loggerMock;
         private Mock<IPaginationHelper> _paginationHelperMock;
         private Mock<IPokedexAppLogic> _pokedexAppLogicMock;
-        private Mock<ILoggerAdapter<NationalDexController>> _loggerMock;
 
         [TestInitialize]
         public void Initialize()
         {
+            _loggerMock = new Mock<ILoggerAdapter<NationalDexController>>();
+
             _paginationHelperMock = new Mock<IPaginationHelper>();
 
             _pokedexAppLogicMock = new Mock<IPokedexAppLogic>();
@@ -34,9 +36,15 @@ namespace Pokedex.Tests.Controllers
             _pokedexAppLogicMock.Setup(plm => plm.GetNationalDexPokemonById(It.IsAny<int>()))
                 .ReturnsAsync(It.IsAny<PokemonDetailViewModel>());
 
-            _loggerMock = new Mock<ILoggerAdapter<NationalDexController>>();
+            _nationalDexController = new NationalDexController(_loggerMock.Object, _paginationHelperMock.Object, _pokedexAppLogicMock.Object);
+        }
 
-            _nationalDexController = new NationalDexController(_pokedexAppLogicMock.Object, _paginationHelperMock.Object, _loggerMock.Object);
+        [TestCleanup]
+        public void Cleanup()
+        {
+            _loggerMock.VerifyNoOtherCalls();
+            _paginationHelperMock.VerifyNoOtherCalls();
+            _pokedexAppLogicMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -47,19 +55,13 @@ namespace Pokedex.Tests.Controllers
             _pokedexAppLogicMock.Verify(plm => plm.GetNationalDex(), Times.Once);
 
             _paginationHelperMock.Verify(plm => plm.GetPagedResults<PokemonListingViewModel>(null, 3, 33), Times.Once);
-
-            _loggerMock.VerifyNoOtherCalls();
-
-            _pokedexAppLogicMock.VerifyNoOtherCalls();
-
-            _paginationHelperMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
         public async Task IndexActionWithLogicExceptionLogsError()
         {
             _pokedexAppLogicMock.Setup(plm => plm.GetNationalDex())
-                .ThrowsAsync(new Exception("some exception"));
+                .ThrowsAsync(new Exception("some logic exception"));
 
             await _nationalDexController.Index(2, 22);
             
@@ -67,20 +69,14 @@ namespace Pokedex.Tests.Controllers
 
             _paginationHelperMock.Verify(plm => plm.GetPagedResults<PokemonListingViewModel>(null, 2, 22), Times.Never);
 
-            VerifyLoggerMockLoggedError("some exception");
-
-            _loggerMock.VerifyNoOtherCalls();
-
-            _pokedexAppLogicMock.VerifyNoOtherCalls();
-
-            _paginationHelperMock.VerifyNoOtherCalls();
+            VerifyLoggerMockLoggedError("some logic exception");
         }
 
         [TestMethod]
         public async Task IndexActionWithPaginationExceptionLogsError()
         {
             _paginationHelperMock.Setup(phm => phm.GetPagedResults(It.IsAny<IEnumerable<PokemonListingViewModel>>(), 1, 11))
-                .Throws(new Exception("some exception"));
+                .Throws(new Exception("some pagination exception"));
 
             await _nationalDexController.Index(1, 11);
 
@@ -88,13 +84,7 @@ namespace Pokedex.Tests.Controllers
 
             _paginationHelperMock.Verify(plm => plm.GetPagedResults<PokemonListingViewModel>(null, 1, 11), Times.Once);
 
-            VerifyLoggerMockLoggedError("some exception");
-
-            _loggerMock.VerifyNoOtherCalls();
-
-            _pokedexAppLogicMock.VerifyNoOtherCalls();
-
-            _paginationHelperMock.VerifyNoOtherCalls();
+            VerifyLoggerMockLoggedError("some pagination exception");
         }
 
         [TestMethod]
@@ -103,27 +93,19 @@ namespace Pokedex.Tests.Controllers
             await _nationalDexController.Detail(0);
 
             _pokedexAppLogicMock.Verify(plm => plm.GetNationalDexPokemonById(0), Times.Once);
-
-            _loggerMock.VerifyNoOtherCalls();
-
-            _pokedexAppLogicMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
         public async Task DetailActionWithLogicExceptionLogsError()
         {
             _pokedexAppLogicMock.Setup(plm => plm.GetNationalDexPokemonById(0))
-                .ThrowsAsync(new Exception("some exception"));
+                .ThrowsAsync(new Exception("some logic exception"));
 
             await _nationalDexController.Detail(0);
 
             _pokedexAppLogicMock.Verify(plm => plm.GetNationalDexPokemonById(0), Times.Once);
 
-            VerifyLoggerMockLoggedError("some exception");
-
-            _loggerMock.VerifyNoOtherCalls();
-
-            _pokedexAppLogicMock.VerifyNoOtherCalls();
+            VerifyLoggerMockLoggedError("some logic exception");
         }
 
         [TestMethod]
@@ -138,10 +120,6 @@ namespace Pokedex.Tests.Controllers
             Assert.AreEqual("some error", errorViewModel.Message);
 
             VerifyLoggerMockLoggedError("some error");
-
-            _loggerMock.VerifyNoOtherCalls();
-
-            _pokedexAppLogicMock.VerifyNoOtherCalls();
         }
 
         private void VerifyLoggerMockLoggedError(string error)

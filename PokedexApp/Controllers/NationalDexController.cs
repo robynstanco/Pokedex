@@ -13,15 +13,14 @@ namespace PokedexApp.Controllers
 {
     public class NationalDexController : Controller
     {
-        private IPokedexAppLogic _pokedexAppLogic;
-        private IPaginationHelper _paginationHelper;
         private ILoggerAdapter<NationalDexController> _logger;
-        public NationalDexController(IPokedexAppLogic pokedexAppLogic, IPaginationHelper paginationHelper,
-            ILoggerAdapter<NationalDexController> logger)
+        private IPaginationHelper _paginationHelper;
+        private IPokedexAppLogic _pokedexAppLogic;
+        public NationalDexController(ILoggerAdapter<NationalDexController> logger, IPaginationHelper paginationHelper, IPokedexAppLogic pokedexAppLogic)
         {
-            _pokedexAppLogic = pokedexAppLogic;
-            _paginationHelper = paginationHelper;
             _logger = logger;
+            _paginationHelper = paginationHelper;
+            _pokedexAppLogic = pokedexAppLogic;
         }
 
         public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = Constants.PageSize)

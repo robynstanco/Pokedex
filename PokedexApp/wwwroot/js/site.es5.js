@@ -1,12 +1,10 @@
 ﻿"use strict";
 
 $(document).ready(function () {
-    //Selectors
     var pokemonDetailImageSelector = ".pokemon__item--large .pokemon__item-img";
 
-    //Event Handlers
+    //Apply shake animation on hover of the large pokemon images
     $(pokemonDetailImageSelector).mouseover(function () {
         $(pokemonDetailImageSelector).effect("shake");
     });
 });
-

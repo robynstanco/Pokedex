@@ -92,6 +92,12 @@ namespace Pokedex.Tests.Repositories
             _pokedexRepository = new PokedexRepository(_pokedexDBContextMock.Object, _loggerMock.Object);
         }
 
+        [TestCleanup]
+        public void Cleanup()
+        {
+            _loggerMock.VerifyNoOtherCalls();
+        }
+
         /// <summary>
         /// Generic method to create mock sets from a given T class and a set of queryable data.
         /// </summary>
@@ -128,8 +134,6 @@ namespace Pokedex.Tests.Repositories
             VerifyDBContextMockSavesChanges(1);
 
             VerifyLoggerMockLogsInformation("Added Pokémon to DBContext with Id: " + DataGenerator.DefaultGuid);
-
-            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -150,8 +154,6 @@ namespace Pokedex.Tests.Repositories
             VerifyDBContextMockSavesChanges(1);
 
             VerifyLoggerMockLogsInformation("Deleted Pokémon from DBContext with Id: " + DataGenerator.DefaultGuid);
-
-            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -166,8 +168,6 @@ namespace Pokedex.Tests.Repositories
             VerifyDBContextMockRemovesPokemon(0);
 
             VerifyDBContextMockSavesChanges(0);
-
-            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -196,8 +196,6 @@ namespace Pokedex.Tests.Repositories
             VerifyLoggerMockLogsInformation("Added Pokémon to DBContext with Id: " + DataGenerator.DefaultGuid);
 
             VerifyLoggerMockLogsInformation("Updated Pokémon in DBContext with Id: " + DataGenerator.DefaultGuid);
-
-            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -210,8 +208,6 @@ namespace Pokedex.Tests.Repositories
             VerifyDBContextMockRemovesPokemon(0);
 
             VerifyDBContextMockSavesChanges(0);
-
-            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -225,8 +221,6 @@ namespace Pokedex.Tests.Repositories
             _pokedexDBContextMock.Verify(m => m.tlkpAbility, Times.Once);
 
             VerifyLoggerMockLogsInformation("Retrieved Ability from DBContext with Id: 0");
-
-            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -237,8 +231,6 @@ namespace Pokedex.Tests.Repositories
             Assert.IsNull(ability);
 
             _pokedexDBContextMock.Verify(m => m.tlkpAbility, Times.Once);
-
-            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -253,8 +245,6 @@ namespace Pokedex.Tests.Repositories
             _pokedexDBContextMock.Verify(m => m.tlkpAbility, Times.Once);
 
             VerifyLoggerMockLogsInformation("Retrieved 6 Abilities from DBContext.");
-
-            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -269,8 +259,6 @@ namespace Pokedex.Tests.Repositories
             _pokedexDBContextMock.Verify(m => m.tlkpCategory, Times.Once);
 
             VerifyLoggerMockLogsInformation("Retrieved 5 Categories from DBContext.");
-
-            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -286,8 +274,6 @@ namespace Pokedex.Tests.Repositories
             _pokedexDBContextMock.Verify(m => m.tlkpPokeball, Times.Once);
 
             VerifyLoggerMockLogsInformation("Retrieved 5 Pokéballs from DBContext.");
-
-            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -302,8 +288,6 @@ namespace Pokedex.Tests.Repositories
             _pokedexDBContextMock.Verify(m => m.tlkpType, Times.Once);
 
             VerifyLoggerMockLogsInformation("Retrieved 6 Types from DBContext.");
-
-            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -317,8 +301,6 @@ namespace Pokedex.Tests.Repositories
             _pokedexDBContextMock.Verify(m => m.tlkpCategory, Times.Once);
 
             VerifyLoggerMockLogsInformation("Retrieved Category from DBContext with Id: 3");
-
-            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -329,8 +311,6 @@ namespace Pokedex.Tests.Repositories
             Assert.IsNull(category);
 
             _pokedexDBContextMock.Verify(m => m.tlkpCategory, Times.Once);
-
-            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -353,8 +333,6 @@ namespace Pokedex.Tests.Repositories
             VerifyLoggerMockLogsInformation("Retrieved 5 Pokémon from DBContext.");
 
             VerifyLoggerMockLogsLookupAndPokemonInformationIdsZeroToFour();
-
-            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -376,8 +354,6 @@ namespace Pokedex.Tests.Repositories
 
             VerifyLoggerMockLogsLookupInformationWithId(0);
             VerifyLoggerMockLogsPokeballAndNationalDexWithId(0);
-
-            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -388,8 +364,6 @@ namespace Pokedex.Tests.Repositories
             Assert.IsNull(pokemon);
 
             _pokedexDBContextMock.Verify(m => m.tblMyPokedex, Times.Once);
-
-            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -414,8 +388,6 @@ namespace Pokedex.Tests.Repositories
             _pokedexDBContextMock.Verify(m => m.tlkpNationalDex, Times.Once);
 
             VerifyLoggerMockLogsLookupInformationWithIdOneToFour();
-
-            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -444,8 +416,6 @@ namespace Pokedex.Tests.Repositories
             VerifyLoggerMockLogsInformation("Retrieved Pokémon from DBContext with Id: 0");
 
             VerifyLoggerMockLogsLookupInformationWithId(0);
-
-            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -456,8 +426,6 @@ namespace Pokedex.Tests.Repositories
             Assert.IsNull(pokemon);
 
             _pokedexDBContextMock.Verify(m => m.tlkpNationalDex, Times.Once);
-
-            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -472,8 +440,6 @@ namespace Pokedex.Tests.Repositories
             _pokedexDBContextMock.Verify(m => m.tlkpPokeball, Times.Once);
 
             VerifyLoggerMockLogsInformation("Retrieved Pokéball from DBContext with Id: 1");
-
-            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -484,8 +450,6 @@ namespace Pokedex.Tests.Repositories
             Assert.IsNull(pokeball);
 
             _pokedexDBContextMock.Verify(m => m.tlkpPokeball, Times.Once);
-
-            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -499,8 +463,6 @@ namespace Pokedex.Tests.Repositories
             _pokedexDBContextMock.Verify(m => m.tlkpType, Times.Once);
 
             VerifyLoggerMockLogsInformation("Retrieved Type from DBContext with Id: 1");
-
-            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -511,8 +473,6 @@ namespace Pokedex.Tests.Repositories
             Assert.IsNull(type);
 
             _pokedexDBContextMock.Verify(m => m.tlkpType, Times.Once);
-
-            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -539,8 +499,6 @@ namespace Pokedex.Tests.Repositories
             VerifyLoggerMockLogsLookupInformationWithIdOneToFour();
 
             VerifyLoggerMockLogsInformation("Retrieved 1 Pokémon from DBContext matching search string: Name3");
-
-            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -561,8 +519,6 @@ namespace Pokedex.Tests.Repositories
             VerifyLoggerMockLogsInformation("Retrieved 1 Pokémon from DBContext matching search string: Nickname3");
 
             VerifyLoggerMockLogsLookupAndPokemonInformationIdsZeroToFour();
-
-            _loggerMock.VerifyNoOtherCalls();
         }
 
         private void VerifyLoggerMockLogsLookupAndPokemonInformationIdsZeroToFour()
@@ -588,13 +544,9 @@ namespace Pokedex.Tests.Repositories
             VerifyLoggerMockLogsInformation("Retrieved 5 Pokémon from DBContext.");
 
             VerifyLoggerMockLogsLookupInformationWithId(0);
-
             VerifyLoggerMockLogsLookupInformationWithId(1);
-
             VerifyLoggerMockLogsLookupInformationWithId(2);
-
             VerifyLoggerMockLogsLookupInformationWithId(3);
-
             VerifyLoggerMockLogsLookupInformationWithId(4);
         }
 

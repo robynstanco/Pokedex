@@ -23,6 +23,12 @@ namespace Pokedex.Tests.Helpers
             _paginationHelper = new PaginationHelper(_loggerMock.Object);
         }
 
+        [TestCleanup]
+        public void Cleanup()
+        {
+            _loggerMock.VerifyNoOtherCalls();
+        }
+
         [TestMethod]
         public void GetPagedStringResultIsSuccessfulAndLogsInformation()
         {
@@ -33,8 +39,6 @@ namespace Pokedex.Tests.Helpers
             AssertOnePagedResult(pagedResult);
 
             VerifyLoggerMockLogsInformation("Mapping PagedResult<System.String>.");
-
-            _loggerMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -47,8 +51,6 @@ namespace Pokedex.Tests.Helpers
             AssertOnePagedResult(pagedResult);
 
             VerifyLoggerMockLogsInformation("Mapping PagedResult<PokedexApp.Models.PokemonListingViewModel>.");
-
-            _loggerMock.VerifyNoOtherCalls();
         }
 
         private void VerifyLoggerMockLogsInformation(string info)

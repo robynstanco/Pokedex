@@ -44,6 +44,7 @@
         {
             @using (Html.BeginForm(Constants.Edit, Constants.PokedexNoAccent))
             {
+                //Set HiddenFors for other non changing data to persist during edit.
                 @Html.HiddenFor(m => m.Date);
                 @Html.HiddenFor(m => m.Location);
                 @Html.HiddenFor(m => m.MyPokemonId);
@@ -64,7 +65,7 @@
                             @Constants.Level:
                         </h2>
                         <div class="input__field">
-                            @Html.EditorFor(m => m.Level)
+                            @Html.EditorFor(m => m.Level, new { htmlAttributes = new { min = Model.Level } })
                         </div>
                     </div>
                 </article>

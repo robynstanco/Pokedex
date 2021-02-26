@@ -62,7 +62,7 @@ namespace Pokedex.Tests.Logic
             _loggerAppMock = new Mock<ILoggerAdapter<PokedexAppLogic>>();
             _loggerAPIMock = new Mock<ILoggerAdapter<PokedexAPILogic>>();
 
-            _pokedexAppLogic = new PokedexAppLogic(_pokedexRepositoryMock.Object, _loggerAppMock.Object);
+            _pokedexAppLogic = new PokedexAppLogic(_loggerAppMock.Object, _pokedexRepositoryMock.Object);
             _pokedexAPILogic = new PokedexAPILogic(_pokedexRepositoryMock.Object, _loggerAPIMock.Object);
         }
 

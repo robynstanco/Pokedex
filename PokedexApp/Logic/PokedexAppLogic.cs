@@ -18,12 +18,12 @@ namespace PokedexApp.Logic
         private const string SelectListItems = " Select List Items.";
         private const string None = "--None--";
 
-        IPokedexRepository _pokedexRepository;
         ILoggerAdapter<PokedexAppLogic> _logger;
-        public PokedexAppLogic(IPokedexRepository pokedexRepository, ILoggerAdapter<PokedexAppLogic> logger)
+        IPokedexRepository _pokedexRepository;
+        public PokedexAppLogic(ILoggerAdapter<PokedexAppLogic> logger, IPokedexRepository pokedexRepository)
         {
-            _pokedexRepository = pokedexRepository;
             _logger = logger;
+            _pokedexRepository = pokedexRepository;
         }
 
         public async Task<PokemonFormViewModel> AddPokemon(PokemonFormViewModel pokemonFormViewModel)
@@ -98,7 +98,6 @@ namespace PokedexApp.Logic
             List<SelectListItem> nationalDexOptions = await GetNationalDexSelectListItems();
 
             SelectListItem blankOption = GetBlankSelectListItem();
-
             List<SelectListItem> pokeballOptions = await GetPokeballSelectListItems(blankOption);
             pokeballOptions = pokeballOptions.Where(p => !string.IsNullOrWhiteSpace(p.Value)).ToList();
 
@@ -118,12 +117,10 @@ namespace PokedexApp.Logic
 
             SelectListItem blankOption = GetBlankSelectListItem();
 
+            //Grab lookup option for form
             List<SelectListItem> abilityOptions = await GetAbilitySelectListItems(blankOption);
-
             List<SelectListItem> categoryOptions = await GetCategorySelectListItems(blankOption);
-
             List<SelectListItem> pokeballOptions = await GetPokeballSelectListItems(blankOption);
-
             List<SelectListItem> typeOptions = await GetTypeSelectListItems(blankOption);
 
             return new SearchViewModel()
@@ -135,6 +132,12 @@ namespace PokedexApp.Logic
             };
         }
 
+        /// <summary>
+        /// Search the personal & national Pokedex given search parameters.
+        /// Only search national dex if Pokeball is not selected.
+        /// </summary>
+        /// <param name="searchViewModel">search parameters to filter on</param>
+        /// <returns>filtered search results</returns>
         public async Task<SearchViewModel> Search(SearchViewModel searchViewModel)
         {
             SearchViewModel finalSearchViewModel = await GetSearchForm();

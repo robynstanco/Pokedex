@@ -16,20 +16,28 @@ namespace Pokedex.Tests.Controllers
     {
         private PokedexController _pokedexController;
 
+        private Mock<ILoggerAdapter<PokedexController>> _loggerMock;
         private Mock<IPaginationHelper> _paginationHelperMock;
         private Mock<IPokedexAppLogic> _pokedexAppLogicMock;
-        private Mock<ILoggerAdapter<PokedexController>> _loggerMock;
 
         [TestInitialize]
         public void Initialize()
         {
+            _loggerMock = new Mock<ILoggerAdapter<PokedexController>>();
+
             _paginationHelperMock = new Mock<IPaginationHelper>();
 
             _pokedexAppLogicMock = new Mock<IPokedexAppLogic>();
 
-            _loggerMock = new Mock<ILoggerAdapter<PokedexController>>();
+            _pokedexController = new PokedexController(_loggerMock.Object, _paginationHelperMock.Object, _pokedexAppLogicMock.Object);
+        }
 
-            _pokedexController = new PokedexController(_pokedexAppLogicMock.Object, _paginationHelperMock.Object, _loggerMock.Object);
+        [TestCleanup]
+        public void Cleanup()
+        {
+            _loggerMock.VerifyNoOtherCalls();
+            _paginationHelperMock.VerifyNoOtherCalls();
+            _pokedexAppLogicMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -40,12 +48,6 @@ namespace Pokedex.Tests.Controllers
             _pokedexAppLogicMock.Verify(plm => plm.GetMyPokedex(), Times.Once);
 
             _paginationHelperMock.Verify(plm => plm.GetPagedResults<PokemonListingViewModel>(null, 1, 11), Times.Once);
-
-            _loggerMock.VerifyNoOtherCalls();
-
-            _pokedexAppLogicMock.VerifyNoOtherCalls();
-
-            _paginationHelperMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -61,12 +63,6 @@ namespace Pokedex.Tests.Controllers
             _paginationHelperMock.Verify(plm => plm.GetPagedResults<PokemonListingViewModel>(null, 2, 22), Times.Never);
 
             VerifyLoggerMockLoggedError("some get exception");
-
-            _loggerMock.VerifyNoOtherCalls();
-
-            _pokedexAppLogicMock.VerifyNoOtherCalls();
-
-            _paginationHelperMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -82,12 +78,6 @@ namespace Pokedex.Tests.Controllers
             _paginationHelperMock.Verify(plm => plm.GetPagedResults<PokemonListingViewModel>(null, 3, 33), Times.Once);
 
             VerifyLoggerMockLoggedError("some pagination exception");
-
-            _loggerMock.VerifyNoOtherCalls();
-
-            _pokedexAppLogicMock.VerifyNoOtherCalls();
-
-            _paginationHelperMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -96,10 +86,6 @@ namespace Pokedex.Tests.Controllers
             await _pokedexController.Detail(DataGenerator.DefaultGuid);
 
             _pokedexAppLogicMock.Verify(plm => plm.GetMyPokemonById(DataGenerator.DefaultGuid), Times.Once);
-
-            _loggerMock.VerifyNoOtherCalls();
-
-            _pokedexAppLogicMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -113,10 +99,6 @@ namespace Pokedex.Tests.Controllers
             _pokedexAppLogicMock.Verify(plm => plm.GetMyPokemonById(DataGenerator.DefaultGuid), Times.Once);
 
             VerifyLoggerMockLoggedError("some detail exception");
-
-            _loggerMock.VerifyNoOtherCalls();
-
-            _pokedexAppLogicMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -129,10 +111,6 @@ namespace Pokedex.Tests.Controllers
             Assert.AreEqual("release", successViewModel.ActionName);
 
             _pokedexAppLogicMock.Verify(plm => plm.DeletePokemonById(DataGenerator.DefaultGuid), Times.Once);
-
-            _loggerMock.VerifyNoOtherCalls();
-
-            _pokedexAppLogicMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -146,10 +124,6 @@ namespace Pokedex.Tests.Controllers
             _pokedexAppLogicMock.Verify(plm => plm.DeletePokemonById(DataGenerator.DefaultGuid), Times.Once);
 
             VerifyLoggerMockLoggedError("some delete exception");
-
-            _loggerMock.VerifyNoOtherCalls();
-
-            _pokedexAppLogicMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -162,10 +136,6 @@ namespace Pokedex.Tests.Controllers
             Assert.AreEqual("edit", successViewModel.ActionName);
 
             _pokedexAppLogicMock.Verify(plm => plm.EditPokemon(It.IsAny<PokemonDetailViewModel>()), Times.Once);
-
-            _loggerMock.VerifyNoOtherCalls();
-
-            _pokedexAppLogicMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -179,10 +149,6 @@ namespace Pokedex.Tests.Controllers
             _pokedexAppLogicMock.Verify(plm => plm.EditPokemon(It.IsAny<PokemonDetailViewModel>()), Times.Once);
 
             VerifyLoggerMockLoggedError("some edit exception");
-
-            _loggerMock.VerifyNoOtherCalls();
-
-            _pokedexAppLogicMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -198,10 +164,6 @@ namespace Pokedex.Tests.Controllers
             Assert.IsTrue(viewModel.IsEditMode); 
 
             _pokedexAppLogicMock.Verify(plm => plm.GetMyPokemonById(DataGenerator.DefaultGuid), Times.Once);
-
-            _loggerMock.VerifyNoOtherCalls();
-
-            _pokedexAppLogicMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -215,10 +177,6 @@ namespace Pokedex.Tests.Controllers
             _pokedexAppLogicMock.Verify(plm => plm.GetMyPokemonById(It.IsAny<Guid>()), Times.Once);
 
             VerifyLoggerMockLoggedError("some get exception");
-
-            _loggerMock.VerifyNoOtherCalls();
-
-            _pokedexAppLogicMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -233,10 +191,6 @@ namespace Pokedex.Tests.Controllers
             Assert.AreEqual("some error", errorViewModel.Message);
 
             VerifyLoggerMockLoggedError("some error");
-
-            _loggerMock.VerifyNoOtherCalls();
-
-            _pokedexAppLogicMock.VerifyNoOtherCalls();
         }
 
         private void VerifyLoggerMockLoggedError(string error)

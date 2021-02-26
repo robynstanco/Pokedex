@@ -15,20 +15,27 @@ namespace Pokedex.Tests.Controllers
     {
         private SearchController _searchController;
 
-        private Mock<IPokedexAppLogic> _pokedexAppLogicMock;
         private Mock<ILoggerAdapter<SearchController>> _loggerMock;
+        private Mock<IPokedexAppLogic> _pokedexAppLogicMock;
 
         [TestInitialize]
         public void Initialize()
         {
-            _pokedexAppLogicMock = new Mock<IPokedexAppLogic>();
-
             _loggerMock = new Mock<ILoggerAdapter<SearchController>>();
+
+            _pokedexAppLogicMock = new Mock<IPokedexAppLogic>();
 
             _pokedexAppLogicMock.Setup(plm => plm.GetSearchForm())
                 .ReturnsAsync(It.IsAny<SearchViewModel>());
 
-            _searchController = new SearchController(_pokedexAppLogicMock.Object, _loggerMock.Object);
+            _searchController = new SearchController(_loggerMock.Object, _pokedexAppLogicMock.Object);
+        }
+
+        [TestCleanup]
+        public void Cleanup()
+        {
+            _loggerMock.VerifyNoOtherCalls();
+            _pokedexAppLogicMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -37,10 +44,6 @@ namespace Pokedex.Tests.Controllers
             await _searchController.Index();
 
             _pokedexAppLogicMock.Verify(plm => plm.GetSearchForm(), Times.Once);
-
-            _loggerMock.VerifyNoOtherCalls();
-
-            _pokedexAppLogicMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -54,10 +57,6 @@ namespace Pokedex.Tests.Controllers
             _pokedexAppLogicMock.Verify(plm => plm.GetSearchForm(), Times.Once);
 
             VerifyLoggerMockLoggedError("logic error");
-
-            _loggerMock.VerifyNoOtherCalls();
-
-            _pokedexAppLogicMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -66,10 +65,6 @@ namespace Pokedex.Tests.Controllers
             await _searchController.Index(new SearchViewModel());
 
             _pokedexAppLogicMock.Verify(plm => plm.Search(It.IsAny<SearchViewModel>()), Times.Once);
-
-            _loggerMock.VerifyNoOtherCalls();
-
-            _pokedexAppLogicMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -83,10 +78,6 @@ namespace Pokedex.Tests.Controllers
             _pokedexAppLogicMock.Verify(plm => plm.Search(It.IsAny<SearchViewModel>()), Times.Once);
 
             VerifyLoggerMockLoggedError("search error");
-
-            _loggerMock.VerifyNoOtherCalls();
-
-            _pokedexAppLogicMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -101,10 +92,6 @@ namespace Pokedex.Tests.Controllers
             Assert.AreEqual("some error", errorViewModel.Message);
 
             VerifyLoggerMockLoggedError("some error");
-
-            _loggerMock.VerifyNoOtherCalls();
-
-            _pokedexAppLogicMock.VerifyNoOtherCalls();
         }
 
         private void VerifyLoggerMockLoggedError(string error)
