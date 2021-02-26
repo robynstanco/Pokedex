@@ -1,4 +1,4 @@
-﻿AsyncEnumerator allows us to better Moq .ToListAsync. 
+AsyncEnumerator allows us to better Moq .ToListAsync(). 
 
 By implementing a few classes with specific interfaces, Moqing works as expected for DbSets.
 
