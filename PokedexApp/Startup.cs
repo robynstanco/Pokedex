@@ -46,6 +46,10 @@ namespace PokedexApp
             Logger = logger;
         }
 
+        /// <summary>
+        /// Configure the service collection with mvc, pagination, db context, service dependencies, application insights, and health check.  
+        /// </summary>
+        /// <param name="services">service collection to configure</param>
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
@@ -68,6 +72,11 @@ namespace PokedexApp
             Logger.LogInformation(Constants.Added + "HealthChecks.");
         }
 
+        /// <summary>
+        /// Condigure the application given the environment. Map MVC routes.
+        /// </summary>
+        /// <param name="app">application to configure</param>
+        /// <param name="env">web host environment</param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

@@ -7,11 +7,20 @@ namespace PokedexApp
 {
     public class Program
     {
+        /// <summary>
+        /// Entry point of the program.
+        /// </summary>
+        /// <param name="args">any given arguements</param>
         public static void Main(string[] args)
         {
             CreateWebHostBuilder(args).Build().Run();
         }
 
+        /// <summary>
+        /// Create web host builder given the arguments. Add logging.
+        /// </summary>
+        /// <param name="args">arguments to create with</param>
+        /// <returns></returns>
         public static IWebHostBuilder CreateWebHostBuilder(string[] args)
         {
             return WebHost.CreateDefaultBuilder(args)

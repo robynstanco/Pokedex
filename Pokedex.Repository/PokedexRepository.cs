@@ -26,6 +26,11 @@ namespace Pokedex.Repository
             _logger = logger;
         }
 
+        /// <summary>
+        /// Add the given pokemon to pokedex context & save changes.
+        /// </summary>
+        /// <param name="pokemon">entity to add</param>
+        /// <returns>the added entity</returns>
         public async Task<tblMyPokedex> AddPokemon(tblMyPokedex pokemon)
         {
             await _context.AddAsync(pokemon);
@@ -37,6 +42,11 @@ namespace Pokedex.Repository
             return pokemon;
         }
 
+        /// <summary>
+        /// Delete the given pokemon from pokedex context & save changes.
+        /// </summary>
+        /// <param name="myPokemonId">guid to find & delete</param>
+        /// <returns>deleted entity</returns>
         public async Task<tblMyPokedex> DeletePokemonById(Guid myPokemonId)
         {
             tblMyPokedex myPokemon = await GetMyPokemonById(myPokemonId);
@@ -53,6 +63,11 @@ namespace Pokedex.Repository
             return myPokemon;
         }
 
+        /// <summary>
+        /// Delete & re-add updated entity to pokedex context.
+        /// </summary>
+        /// <param name="pokemon">entity to update</param>
+        /// <returns>updated entity</returns>
         public async Task<tblMyPokedex> EditPokemon(tblMyPokedex pokemon)
         {
             tblMyPokedex myPokemon = await DeletePokemonById(pokemon.Id);
@@ -67,6 +82,11 @@ namespace Pokedex.Repository
             return pokemon;
         }
 
+        /// <summary>
+        /// Get the ability entity from a given abilityId.
+        /// </summary>
+        /// <param name="abilityId">abilityId to find</param>
+        /// <returns>the found ability entity</returns>
         public async Task<tlkpAbility> GetAbilityById(int abilityId)
         {
             tlkpAbility ability = await _context.tlkpAbility.FindAsync(abilityId);
@@ -79,6 +99,11 @@ namespace Pokedex.Repository
             return ability;
         }
 
+        /// <summary>
+        /// Get all the ability entities.
+        /// Results ordered by Name ascending.
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<tlkpAbility>> GetAllAbilities()
         {
             List<tlkpAbility> abilities = await _context.tlkpAbility.ToListAsync(); 
@@ -89,6 +114,11 @@ namespace Pokedex.Repository
             return abilities;
         }
 
+        /// <summary>
+        /// Get all the category entities.
+        /// Results ordered by Name ascending.
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<tlkpCategory>> GetAllCategories()
         {
             List<tlkpCategory> categories = await _context.tlkpCategory.ToListAsync(); 
@@ -99,6 +129,11 @@ namespace Pokedex.Repository
             return categories;
         }
 
+        /// <summary>
+        /// Get all Pokeball entities from context.
+        /// Results ordered by Name ascending.
+        /// </summary>
+        /// <returns>all pokeball entities</returns>
         public async Task<List<tlkpPokeball>> GetAllPokeballs()
         {
             List<tlkpPokeball> pokeballs = await _context.tlkpPokeball.ToListAsync(); 
@@ -109,6 +144,11 @@ namespace Pokedex.Repository
             return pokeballs;
         }
 
+        /// <summary>
+        /// Get all type entities from context.
+        /// Results ordered by Name asceding.
+        /// </summary>
+        /// <returns>all type entities</returns>
         public async Task<List<tlkpType>> GetAllTypes()
         {
             List<tlkpType> types = await _context.tlkpType.ToListAsync(); 
@@ -119,6 +159,11 @@ namespace Pokedex.Repository
             return types;
         }
 
+        /// <summary>
+        /// Get the category entity from a given categoryId.
+        /// </summary>
+        /// <param name="categoryId">categoryId to find</param>
+        /// <returns>the found category entity</returns>
         public async Task<tlkpCategory> GetCategoryById(int categoryId)
         {
             tlkpCategory category = await _context.tlkpCategory.FindAsync(categoryId);
@@ -131,6 +176,11 @@ namespace Pokedex.Repository
             return category;
         }
 
+        /// <summary>
+        /// Get all the pokedex entities with lookup information.
+        /// Results ordered by PokemonId ascending.
+        /// </summary>
+        /// <returns>all pokedex entities</returns>
         public async Task<List<tblMyPokedex>> GetMyPokedex()
         {
             List<tblMyPokedex> myPokedex = await _context.tblMyPokedex.ToListAsync(); 
@@ -148,6 +198,11 @@ namespace Pokedex.Repository
             return myPokedex;
         }
 
+        /// <summary>
+        /// Get the pokedex entity from a given myPokemonId with lookup information.
+        /// </summary>
+        /// <param name="myPokemonId">the myPokemonId to find</param>
+        /// <returns>the found pokedex entity</returns>
         public async Task<tblMyPokedex> GetMyPokemonById(Guid myPokemonId)
         {
             tblMyPokedex myPokemon = await _context.tblMyPokedex.FindAsync(myPokemonId);
@@ -164,6 +219,11 @@ namespace Pokedex.Repository
             return myPokemon;
         }
 
+        /// <summary>
+        /// Get all national dex entities and subsequent lookup information.
+        /// Results ordered Id ascending.
+        /// </summary>
+        /// <returns>all national dex Pokémon with related lookup information</returns>
         public async Task<List<tlkpNationalDex>> GetNationalDex()
         {
             List<tlkpNationalDex> nationalDex = await _context.tlkpNationalDex.ToListAsync();
@@ -183,6 +243,11 @@ namespace Pokedex.Repository
             return nestedNationalDex;
         }
 
+        /// <summary>
+        /// Get the national dex entity from a given pokemonId.
+        /// </summary>
+        /// <param name="pokemonId">the pokemonId to find</param>
+        /// <returns>the found nationsl dex Pokémon</returns>
         public async Task<tlkpNationalDex> GetNationalDexPokemonById(int pokemonId)
         {
             tlkpNationalDex nationalDexPokemon = await _context.tlkpNationalDex.FindAsync(pokemonId);
@@ -198,6 +263,11 @@ namespace Pokedex.Repository
             return nationalDexPokemon;
         }
 
+        /// <summary>
+        /// Get the pokeball entity from a given pokeballId.
+        /// </summary>
+        /// <param name="pokeballId">the pokeballId to find</param>
+        /// <returns>the found pokeball entity</returns>
         public async Task<tlkpPokeball> GetPokeballById(int pokeballId)
         {
             tlkpPokeball pokeball = await _context.tlkpPokeball.FindAsync(pokeballId);
@@ -210,6 +280,11 @@ namespace Pokedex.Repository
             return pokeball;
         }
 
+        /// <summary>
+        /// Get the type entity from a given typeId.
+        /// </summary>
+        /// <param name="typeId">the typeId to find</param>
+        /// <returns>the found type entity</returns>
         public async Task<tlkpType> GetTypeById(int typeId)
         {
             tlkpType type = await _context.tlkpType.FindAsync(typeId);
@@ -224,7 +299,7 @@ namespace Pokedex.Repository
 
         /// <summary>
         /// Search the National Pokédex based on a searchString and lookup parameters.
-        /// Results filtered by occurence of string in name, japanesename, & description.
+        /// Results filtered by occurence of string in name, Japanese name, & description.
         /// Additional filtering applied based on optional Pokémon characteristics.
         /// Results ordered by Id ascending.
         /// </summary>
@@ -259,16 +334,16 @@ namespace Pokedex.Repository
                 nationalDexSearchResults = nationalDexSearchResults.Where(p => p.TypeOneId == typeId.Value || p.TypeTwoId == typeId.Value).ToList();
             }
 
-            _logger.LogInformation(string.Format(InfoMessageWithSearchCriteria, nationalDexSearchResults.ToList().Count, searchString));
-
             nationalDexSearchResults = nationalDexSearchResults.OrderBy(p => p.Id).ToList();
+
+            _logger.LogInformation(string.Format(InfoMessageWithSearchCriteria, nationalDexSearchResults.Count, searchString));
 
             return nationalDexSearchResults;
         }
 
         /// <summary>
         /// Search the personal Pokédex based on a searchString and lookup parameters.
-        /// Results filtered by occurence of string in name, japanesename, description, & nickname.
+        /// Results filtered by occurence of string in name, Japanese name, description, & nickname.
         /// Additional filtering applied based on optional Pokémon characteristics.
         /// Results ordered by PokemonId ascending.
         /// </summary>
@@ -276,8 +351,8 @@ namespace Pokedex.Repository
         /// <param name="abilityId">optional ability characteristic</param>
         /// <param name="categoryId">otpinal category characteristic</param>
         /// <param name="typeId">optional type characteristic</param>
-        /// <param name="pokeballId">optional pokeball characteristic</param>
-        /// <returns>filtered list of Pokémon from the personal Pokédex</returns>
+        /// <param name="pokeballId">optional Pokéball characteristic</param>
+        /// <returns>a filtered list of Pokémon from the personal Pokédex</returns>
         public async Task<List<tblMyPokedex>> Search(string searchString, int? abilityId, int? categoryId, int? typeId, int? pokeballId)
         {
             List<tblMyPokedex> myPokedexSearchResults = await GetMyPokedex();
@@ -310,9 +385,9 @@ namespace Pokedex.Repository
                 myPokedexSearchResults = myPokedexSearchResults.Where(p => p.PokeballId == pokeballId.Value).ToList();
             }
 
-            _logger.LogInformation(string.Format(InfoMessageWithSearchCriteria, myPokedexSearchResults.ToList().Count, searchString));
-
             myPokedexSearchResults = myPokedexSearchResults.OrderBy(p => p.PokemonId).ToList();
+
+            _logger.LogInformation(string.Format(InfoMessageWithSearchCriteria, myPokedexSearchResults.Count, searchString));
 
             return myPokedexSearchResults;
         }

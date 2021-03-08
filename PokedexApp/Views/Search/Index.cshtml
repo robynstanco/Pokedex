@@ -4,6 +4,8 @@
 
 @{
     ViewData[Constants.Title] = Constants.Search + " for " + Constants.Pokemon + " in your " + Constants.Pokedex + " and the National " + Constants.Pokedex + "!";
+
+    string placeholder = "Enter a Name, Japanese Name, Nickname, or Description...";
 }
 
 <h1 class="form__header">@ViewData[Constants.Title]</h1>
@@ -18,7 +20,7 @@
                     @Constants.Search:
                 </div>
                 <div class="input__field">
-                    @Html.TextBoxFor(m => m.SearchString, new { placeholder = "Enter a Name, Japanese Name, Nickname, or Description..." })
+                    @Html.TextBoxFor(m => m.SearchString, new { placeholder = placeholder })
                 </div>
             </div>
         </article>
@@ -61,6 +63,7 @@
     }
 </div>
 
+<!--Display search results if populated. -->
 @if (Model.FilteredPokemon != null)
 {
     <div class="pokemon__container">
