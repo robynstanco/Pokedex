@@ -15,6 +15,7 @@ using Pokedex.Repository;
 using Pokedex.Repository.Interfaces;
 using PokedexApp.Interfaces;
 using PokedexApp.Logic;
+using System.Reflection;
 
 namespace PokedexApp
 {
@@ -59,11 +60,12 @@ namespace PokedexApp
             services.AddDbContext<POKEDEXDBContext>(op => op.UseSqlServer(POKEDEXDBConnectionString));
             Logger.LogInformation(Constants.Added + " " + Constants.Pokemon + Constants.DBContext + ".");
 
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
             services.AddScoped<IPaginationHelper, PaginationHelper>();
             services.AddScoped<IPokedexAppLogic, PokedexAppLogic>();
             services.AddScoped<IPokedexRepository, PokedexRepository>();
-            Logger.LogInformation(Constants.Added + " Dependency Injection for custom logging, logic, helpers, and repository.");
+            Logger.LogInformation(Constants.Added + " Dependency Injection for automapper, custom logging, logic, helpers, and repository.");
 
             services.AddApplicationInsightsTelemetry(ApplicationInsightsConnectionString);
             Logger.LogInformation(Constants.Added + " Application Insights.");
@@ -90,6 +92,7 @@ namespace PokedexApp
             }
 
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
             app.UseRouting();

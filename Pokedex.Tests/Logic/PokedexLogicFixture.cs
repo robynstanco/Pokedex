@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Pokedex.Data.Models;
@@ -7,6 +8,7 @@ using Pokedex.Repository.Interfaces;
 using PokedexAPI.Logic;
 using PokedexAPI.Models.Output;
 using PokedexApp.Logic;
+using PokedexApp.Mappings;
 using PokedexApp.Models;
 using System;
 using System.Collections.Generic;
@@ -21,6 +23,8 @@ namespace Pokedex.Tests.Logic
     {
         private PokedexAppLogic _pokedexAppLogic;
         private PokedexAPILogic _pokedexAPILogic;
+
+        private IMapper _mapper;
 
         private Mock<IPokedexRepository> _pokedexRepositoryMock;
         private Mock<ILoggerAdapter<PokedexAppLogic>> _loggerAppMock;
@@ -62,8 +66,21 @@ namespace Pokedex.Tests.Logic
             _loggerAppMock = new Mock<ILoggerAdapter<PokedexAppLogic>>();
             _loggerAPIMock = new Mock<ILoggerAdapter<PokedexAPILogic>>();
 
-            _pokedexAppLogic = new PokedexAppLogic(_loggerAppMock.Object, _pokedexRepositoryMock.Object);
+            MapperConfiguration mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+            _mapper = mappingConfig.CreateMapper();
+
+            _pokedexAppLogic = new PokedexAppLogic(_loggerAppMock.Object, _mapper, _pokedexRepositoryMock.Object);
             _pokedexAPILogic = new PokedexAPILogic(_pokedexRepositoryMock.Object, _loggerAPIMock.Object);
+        }
+
+        [TestCleanup]
+        public void Cleanup()
+        {
+            _loggerAppMock.VerifyNoOtherCalls();
+            _pokedexRepositoryMock.VerifyNoOtherCalls();
         }
 
         #region App Logic Tests
@@ -78,10 +95,6 @@ namespace Pokedex.Tests.Logic
             _pokedexRepositoryMock.Verify(prm => prm.AddPokemon(It.Is<tblMyPokedex>(p => p.Level == 333)), Times.Once);
 
             VerifyLoggerAppMockLogsInformation("Mapping Pokémon View Models");
-
-            _loggerAppMock.VerifyNoOtherCalls();
-
-            _pokedexRepositoryMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -94,10 +107,6 @@ namespace Pokedex.Tests.Logic
             _pokedexRepositoryMock.Verify(prm => prm.DeletePokemonById(DataGenerator.DefaultGuid), Times.Once);
 
             VerifyLoggerAppMockLogsInformation("Deleted Pokémon: " + DataGenerator.DefaultGuid);
-
-            _loggerAppMock.VerifyNoOtherCalls();
-
-            _pokedexRepositoryMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -110,7 +119,6 @@ namespace Pokedex.Tests.Logic
             });
 
             _pokedexRepositoryMock.Verify(prm => prm.GetNationalDexPokemonById(0), Times.Once);
-
             _pokedexRepositoryMock.Verify(prm => prm.GetMyPokemonById(DataGenerator.DefaultGuid), Times.Once);
 
             _pokedexRepositoryMock.Verify(prm => prm.EditPokemon(It.Is<tblMyPokedex>(
@@ -118,10 +126,6 @@ namespace Pokedex.Tests.Logic
 
             VerifyLoggerAppMockLogsInformation("Mapping Pokémon View Models");
             VerifyLoggerAppMockLogsInformation("Updated Pokémon: " + DataGenerator.DefaultGuid);
-
-            _loggerAppMock.VerifyNoOtherCalls();
-
-            _pokedexRepositoryMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -139,10 +143,6 @@ namespace Pokedex.Tests.Logic
             _pokedexRepositoryMock.Verify(prm => prm.GetMyPokedex(), Times.Once);
 
             VerifyLoggerAppMockLogsInformation("Mapping 1 Pokémon View Models.");
-
-            _loggerAppMock.VerifyNoOtherCalls();
-
-            _pokedexRepositoryMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -150,14 +150,8 @@ namespace Pokedex.Tests.Logic
         {
             PokemonDetailViewModel pokemonDetailViewModel = await _pokedexAppLogic.GetMyPokemonById(DataGenerator.DefaultGuid);
 
-            Assert.AreEqual("Name0", pokemonDetailViewModel.Ability);
-            Assert.AreEqual("Name0", pokemonDetailViewModel.Category);
             Assert.AreEqual(DateTime.Today, pokemonDetailViewModel.Date);
-            Assert.AreEqual("Desc0", pokemonDetailViewModel.Description);
-            Assert.AreEqual(1, pokemonDetailViewModel.HeightInInches);
-            Assert.AreEqual("Name1", pokemonDetailViewModel.HiddenAbility);
             Assert.AreEqual("http://0.com", pokemonDetailViewModel.ImageURL);
-            Assert.AreEqual("JapaneseName0", pokemonDetailViewModel.JapaneseName);
             Assert.AreEqual(1, pokemonDetailViewModel.Level);
             Assert.AreEqual("0 Main Street", pokemonDetailViewModel.Location);
             Assert.AreEqual(DataGenerator.DefaultGuid, pokemonDetailViewModel.MyPokemonId);
@@ -166,17 +160,10 @@ namespace Pokedex.Tests.Logic
             Assert.AreEqual("Nickname0", pokemonDetailViewModel.Nickname);
             Assert.AreEqual("http://0.com", pokemonDetailViewModel.PokeballImageURL);
             Assert.AreEqual(true, pokemonDetailViewModel.Sex);
-            Assert.AreEqual("Name0", pokemonDetailViewModel.TypeOne);
-            Assert.AreEqual("Name1", pokemonDetailViewModel.TypeTwo);
-            Assert.AreEqual(1, pokemonDetailViewModel.WeightInPounds);
 
             _pokedexRepositoryMock.Verify(prm => prm.GetMyPokemonById(DataGenerator.DefaultGuid), Times.Once);
 
             VerifyLoggerAppMockLogsInformation("Mapping 1 Pokémon View Models.");
-
-            _loggerAppMock.VerifyNoOtherCalls();
-
-            _pokedexRepositoryMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -195,10 +182,6 @@ namespace Pokedex.Tests.Logic
             _pokedexRepositoryMock.Verify(prm => prm.GetNationalDex(), Times.Once);
 
             VerifyLoggerAppMockLogsInformation("Mapping 5 Pokémon View Models.");
-
-            _loggerAppMock.VerifyNoOtherCalls();
-
-            _pokedexRepositoryMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -230,10 +213,6 @@ namespace Pokedex.Tests.Logic
             _pokedexRepositoryMock.Verify(prm => prm.GetNationalDexPokemonById(0), Times.Once);
 
             VerifyLoggerAppMockLogsInformation("Mapping 1 Pokémon View Models.");
-
-            _loggerAppMock.VerifyNoOtherCalls();
-
-            _pokedexRepositoryMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -256,14 +235,9 @@ namespace Pokedex.Tests.Logic
             Assert.AreEqual("0", sexOptions[0].Value);
 
             _pokedexRepositoryMock.Verify(prm => prm.GetAllPokeballs(), Times.Once);
-
             _pokedexRepositoryMock.Verify(prm => prm.GetNationalDex(), Times.Once);
 
             VerifyLoggerAppMockLogsInformation("Mapping Select List Items.");
-
-            _loggerAppMock.VerifyNoOtherCalls();
-
-            _pokedexRepositoryMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -289,10 +263,6 @@ namespace Pokedex.Tests.Logic
             VerifyRepositoryMockGetsLookups();
 
             VerifyLoggerAppMockLogsInformation("Mapping Select List Items.");
-
-            _loggerAppMock.VerifyNoOtherCalls();
-
-            _pokedexRepositoryMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -310,15 +280,10 @@ namespace Pokedex.Tests.Logic
             VerifyRepositoryMockGetsLookups();
 
             _pokedexRepositoryMock.Verify(prm => prm.Search("Name0", 0, 0, 0), Times.Never); // national dex search not called, pokeball is set
-
             _pokedexRepositoryMock.Verify(prm => prm.Search("Name0", 0, 0, 0, 0), Times.Once);
 
             VerifyLoggerAppMockLogsInformation("Mapping Select List Items.");
             VerifyLoggerAppMockLogsInformation("Mapping 1 Pokémon View Models.");
-
-            _loggerAppMock.VerifyNoOtherCalls();
-
-            _pokedexRepositoryMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -335,16 +300,11 @@ namespace Pokedex.Tests.Logic
             VerifyRepositoryMockGetsLookups();
 
             _pokedexRepositoryMock.Verify(prm => prm.Search("Name0", 0, 0, 0), Times.Once);
-
             _pokedexRepositoryMock.Verify(prm => prm.Search("Name0", 0, 0, 0, null), Times.Once);
 
             VerifyLoggerAppMockLogsInformation("Mapping Select List Items.");
             VerifyLoggerAppMockLogsInformation("Mapping 1 Pokémon View Models.");
             VerifyLoggerAppMockLogsInformation("Mapping 5 Pokémon View Models.");
-
-            _loggerAppMock.VerifyNoOtherCalls();
-
-            _pokedexRepositoryMock.VerifyNoOtherCalls();
         }
 
         #endregion

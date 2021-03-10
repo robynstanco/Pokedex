@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Pokedex.Common;
 using Pokedex.Data.Models;
 using Pokedex.Logging.Interfaces;
@@ -19,16 +20,21 @@ namespace PokedexApp.Logic
         private const string None = "--None--";
 
         ILoggerAdapter<PokedexAppLogic> _logger;
+        IMapper _mapper;
         IPokedexRepository _pokedexRepository;
-        public PokedexAppLogic(ILoggerAdapter<PokedexAppLogic> logger, IPokedexRepository pokedexRepository)
+        public PokedexAppLogic(ILoggerAdapter<PokedexAppLogic> logger, IMapper mapper, IPokedexRepository pokedexRepository)
         {
             _logger = logger;
+            _mapper = mapper;
             _pokedexRepository = pokedexRepository;
         }
 
         public async Task<PokemonFormViewModel> AddPokemon(PokemonFormViewModel pokemonFormViewModel)
         {
-            tblMyPokedex pokemon = MapFormViewModelToMyPokemon(pokemonFormViewModel);
+            _logger.LogInformation(Constants.Mapping + " " + Constants.Pokemon + " " + ViewModels);
+
+            tblMyPokedex pokemon = _mapper.Map<tblMyPokedex>(pokemonFormViewModel);
+            pokemon.Id = Guid.NewGuid();
 
             await _pokedexRepository.AddPokemon(pokemon);
 
@@ -59,7 +65,9 @@ namespace PokedexApp.Logic
         {
             List<tblMyPokedex> pokedex = await _pokedexRepository.GetMyPokedex();
 
-            List<PokemonListingViewModel> pokemonViewModels = MapPokedexToListingViewModels(pokedex);
+            _logger.LogInformation(string.Format(Constants.InformationalMessageMappingWithCount, pokedex.Count, Constants.Pokemon, ViewModels));
+
+            List<PokemonListingViewModel> pokemonViewModels = _mapper.Map<List<PokemonListingViewModel>>(pokedex);
 
             return pokemonViewModels;
         }
@@ -68,7 +76,9 @@ namespace PokedexApp.Logic
         {
             tblMyPokedex myPokemon = await _pokedexRepository.GetMyPokemonById(id);
 
-            PokemonDetailViewModel pokemonDetailViewModel = MapMyPokemonToDetailViewModel(myPokemon);
+            _logger.LogInformation(string.Format(Constants.InformationalMessageMappingWithCount, 1, Constants.Pokemon, ViewModels));
+
+            PokemonDetailViewModel pokemonDetailViewModel = _mapper.Map<PokemonDetailViewModel>(myPokemon);
 
             return pokemonDetailViewModel;
         }
@@ -86,7 +96,9 @@ namespace PokedexApp.Logic
         {
             tlkpNationalDex pokemon = await _pokedexRepository.GetNationalDexPokemonById(id);
 
-            PokemonDetailViewModel pokemonDetailViewModel = MapNationalDexLookupToDetailViewModel(pokemon);
+            _logger.LogInformation(string.Format(Constants.InformationalMessageMappingWithCount, 1, Constants.Pokemon, ViewModels));
+
+            PokemonDetailViewModel pokemonDetailViewModel = _mapper.Map<PokemonDetailViewModel>(pokemon);
 
             return pokemonDetailViewModel;
         }
@@ -156,7 +168,9 @@ namespace PokedexApp.Logic
 
             List<tblMyPokedex> pokedex = await _pokedexRepository.Search(searchViewModel.SearchString, selectedAbilityId, selectedCategoryId, selectedTypeId, selectedPokeballId);
 
-            List<PokemonListingViewModel> pokemonListingViewModels = MapPokedexToListingViewModels(pokedex);
+            _logger.LogInformation(string.Format(Constants.InformationalMessageMappingWithCount, pokedex.Count, Constants.Pokemon, ViewModels));
+
+            List<PokemonListingViewModel> pokemonListingViewModels = _mapper.Map<List<PokemonListingViewModel>>(pokedex);
 
             finalSearchViewModel.FilteredPokemon.AddRange(pokemonListingViewModels);
 
@@ -242,81 +256,15 @@ namespace PokedexApp.Logic
             _logger.LogInformation(Constants.Mapping + " " + Constants.Pokemon + " " + ViewModels);
 
             tlkpNationalDex nationalDexLookup = await _pokedexRepository.GetNationalDexPokemonById(pokemonDetailViewModel.NationalDexPokemonId.Value);
-
             tblMyPokedex beforeUpdates = await _pokedexRepository.GetMyPokemonById(pokemonDetailViewModel.MyPokemonId.Value);
 
-            return new tblMyPokedex()
-            {
-                Date = pokemonDetailViewModel.Date,
-                Id = pokemonDetailViewModel.MyPokemonId.Value,
-                Level = pokemonDetailViewModel.Level,
-                Location = pokemonDetailViewModel.Location,
-                Nickname = pokemonDetailViewModel.Nickname,
-                PokeballId = beforeUpdates.PokeballId,
-                Pokeball = beforeUpdates.Pokeball,
-                Pokemon = nationalDexLookup,
-                PokemonId = nationalDexLookup.Id,
-                Sex = pokemonDetailViewModel.Sex
-            };
-        }
+            tblMyPokedex updatedPokemon = _mapper.Map<tblMyPokedex>(pokemonDetailViewModel);
+            updatedPokemon.PokeballId = beforeUpdates.PokeballId;
+            updatedPokemon.Pokeball = beforeUpdates.Pokeball;
+            updatedPokemon.Pokemon = nationalDexLookup;
+            updatedPokemon.PokemonId = nationalDexLookup.Id;
 
-        private tblMyPokedex MapFormViewModelToMyPokemon(PokemonFormViewModel pokemonFormViewModel)
-        {
-            _logger.LogInformation(Constants.Mapping + " " + Constants.Pokemon + " " + ViewModels);
-
-            return new tblMyPokedex()
-            {
-                Date = pokemonFormViewModel.Date,
-                Id = Guid.NewGuid(),
-                Level = pokemonFormViewModel.Level,
-                Location = pokemonFormViewModel.Location,
-                Nickname = pokemonFormViewModel.Nickname,
-                PokeballId = pokemonFormViewModel.SelectedPokeballId,
-                PokemonId = pokemonFormViewModel.SelectedNationalDexPokemonId,
-                Sex = pokemonFormViewModel.SelectedSexId == 0 ? false : true
-            };
-        }
-
-        private List<PokemonListingViewModel> MapPokedexToListingViewModels(List<tblMyPokedex> pokedex)
-        {
-            _logger.LogInformation(string.Format(Constants.InformationalMessageMappingWithCount, pokedex.Count, Constants.Pokemon, ViewModels));
-
-            return pokedex.Select(p => new PokemonListingViewModel
-            {
-                ImageURL = p.Pokemon.ImageURL,
-                MyPokemonId = p.Id,
-                Name = p.Pokemon.Name,
-                Nickname = p.Nickname,
-                NationalDexPokemonId = p.Pokemon.Id,
-            }).ToList();
-        }
-
-        private PokemonDetailViewModel MapMyPokemonToDetailViewModel(tblMyPokedex myPokemon)
-        {
-            _logger.LogInformation(string.Format(Constants.InformationalMessageMappingWithCount, 1, Constants.Pokemon, ViewModels));
-            
-            return new PokemonDetailViewModel
-            {
-                Ability = myPokemon.Pokemon.Ability.Name,
-                Category = myPokemon.Pokemon.Category.Name,
-                Date = myPokemon.Date,
-                Description = myPokemon.Pokemon.Description,
-                HeightInInches = myPokemon.Pokemon.HeightInInches,
-                HiddenAbility = myPokemon.Pokemon.HiddenAbilityId.HasValue ? myPokemon.Pokemon.HiddenAbility.Name : Constants.NotApplicable,
-                ImageURL = myPokemon.Pokemon.ImageURL,
-                JapaneseName = myPokemon.Pokemon.JapaneseName,
-                Level = myPokemon.Level,
-                Location = myPokemon.Location,
-                MyPokemonId = myPokemon.Id,
-                Name = myPokemon.Pokemon.Name,
-                NationalDexPokemonId = myPokemon.Pokemon.Id,
-                Nickname = myPokemon.Nickname,
-                PokeballImageURL = myPokemon.Pokeball.ImageURL,
-                Sex = myPokemon.Sex,
-                TypeOne = myPokemon.Pokemon.TypeOne.Name,
-                TypeTwo = myPokemon.Pokemon.TypeTwoId.HasValue ? myPokemon.Pokemon.TypeTwo.Name : Constants.NotApplicable,
-                WeightInPounds = myPokemon.Pokemon.WeightInPounds
-            };
+            return updatedPokemon;
         }
 
         private List<PokemonListingViewModel> MapNationalDexLookupsToListingViewModels(List<tlkpNationalDex> nationalDex)
@@ -329,27 +277,6 @@ namespace PokedexApp.Logic
                 Name = p.Name,
                 NationalDexPokemonId = p.Id
             }).ToList();
-        }
-
-        private PokemonDetailViewModel MapNationalDexLookupToDetailViewModel(tlkpNationalDex pokemon)
-        {
-            _logger.LogInformation(string.Format(Constants.InformationalMessageMappingWithCount, 1, Constants.Pokemon, ViewModels));
-
-            return new PokemonDetailViewModel
-            {
-                Ability = pokemon.Ability.Name,
-                Category = pokemon.Category.Name,
-                Description = pokemon.Description,
-                HeightInInches = pokemon.HeightInInches,
-                HiddenAbility = pokemon.HiddenAbilityId.HasValue ? pokemon.HiddenAbility.Name : Constants.NotApplicable,
-                NationalDexPokemonId = pokemon.Id,
-                ImageURL = pokemon.ImageURL,
-                JapaneseName = pokemon.JapaneseName,
-                Name = pokemon.Name,
-                TypeOne = pokemon.TypeOne.Name,
-                TypeTwo = pokemon.TypeTwoId.HasValue ? pokemon.TypeTwo.Name : Constants.NotApplicable,
-                WeightInPounds = pokemon.WeightInPounds
-            };
         }
     }
 }
