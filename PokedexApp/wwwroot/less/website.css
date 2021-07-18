@@ -302,6 +302,9 @@ select {
   margin: 1rem;
   padding: 1rem;
 }
+.pokemon__item-title {
+  margin-bottom: 0;
+}
 .pokemon__item-img {
   opacity: 0.8;
   width: 40px;
