@@ -30,8 +30,7 @@
     <li>Azure Application Insights</li>
     <li>Cloudscribe Models/Pagination</li>
     <li>Repository Pattern</li>
-    <li>EntityFrameworkCore</li>
-    <li>LINQ</li>
+    <li>EntityFrameworkCore, LINQ, & AutoMapper</li>
     <li>Unit Testing with Moq & MSTest Frameworks, Arrange/Act/Assert Pattern</li>
     <li>JavaScript, jQuery, JSON, HTML5, LESS, CSS3, Responsive Design, WebCompiler, BEM Notation, Minification</li>
     <li>Swagger & Postman</li>
