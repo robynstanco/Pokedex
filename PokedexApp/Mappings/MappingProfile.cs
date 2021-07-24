@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Pokedex.Common;
 using Pokedex.Data.Models;
 using PokedexApp.Models;
@@ -13,6 +14,8 @@ namespace PokedexApp.Mappings
             CreateTblMyPokedexDetailMappings();
             CreateTblMyPokedexListingMappings();
             CreateTlkpNationalDexDetailMappings();
+            CreateTlkpNationalDexListingMappings();
+            CreateTlkpSelectListItemMappings();
         }
 
         /// <summary>
@@ -64,6 +67,41 @@ namespace PokedexApp.Mappings
                 .ForMember(dest => dest.NationalDexPokemonId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.TypeOne, opt => opt.MapFrom(src => src.TypeOne.Name))
                 .ForMember(dest => dest.TypeTwo, opt => opt.MapFrom(src => src.TypeTwoId.HasValue ? src.TypeTwo.Name : Constants.NotApplicable));
+        }
+
+        /// <summary>
+        /// Create mappings between tlkpNationalDex => PokemonListingViewModel.
+        /// </summary>
+        private void CreateTlkpNationalDexListingMappings()
+        {
+            CreateMap<tlkpNationalDex, PokemonListingViewModel>()
+                .ForMember(dest => dest.NationalDexPokemonId, opt => opt.MapFrom(src => src.Id));
+        }
+
+        /// <summary>
+        /// Create mappings between tlkp* => SelectListItems.
+        /// </summary>
+        private void CreateTlkpSelectListItemMappings()
+        {
+            CreateMap<tlkpAbility, SelectListItem>()
+                .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.Value, opt => opt.MapFrom(src => src.Id));
+
+            CreateMap<tlkpCategory, SelectListItem>()
+                .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.Value, opt => opt.MapFrom(src => src.Id));
+
+            CreateMap<tlkpNationalDex, SelectListItem>()
+                .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.Value, opt => opt.MapFrom(src => src.Id));
+
+            CreateMap<tlkpPokeball, SelectListItem>()
+                .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.Value, opt => opt.MapFrom(src => src.Id));
+
+            CreateMap<tlkpType, SelectListItem>()
+                .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.Value, opt => opt.MapFrom(src => src.Id));
         }
     }
 }

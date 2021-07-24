@@ -190,11 +190,9 @@ namespace PokedexApp.Logic
         {
             List<tlkpAbility> abilities = await _pokedexRepository.GetAllAbilities();
 
-            return abilities.Select(p => new SelectListItem
-            {
-                Text = p.Name,
-                Value = p.Id.ToString()
-            }).Prepend(prependOption).ToList();
+            List<SelectListItem> selectListItems = _mapper.Map<List<SelectListItem>>(abilities);
+
+            return selectListItems.Prepend(prependOption).ToList();
         }
 
         private static SelectListItem GetBlankSelectListItem()
@@ -206,33 +204,27 @@ namespace PokedexApp.Logic
         {
             List<tlkpCategory> categories =  await _pokedexRepository.GetAllCategories();
 
-            return categories.Select(p => new SelectListItem
-            {
-                Text = p.Name,
-                Value = p.Id.ToString()
-            }).Prepend(prependOption).ToList();
+            List<SelectListItem> selectListItems = _mapper.Map<List<SelectListItem>>(categories);
+
+            return selectListItems.Prepend(prependOption).ToList();
         }
 
         private async Task<List<SelectListItem>> GetNationalDexSelectListItems()
         {
             List<tlkpNationalDex> nationalDex = await _pokedexRepository.GetNationalDex();
 
-            return nationalDex.Select(p => new SelectListItem
-            {
-                Text = p.Name,
-                Value = p.Id.ToString()
-            }).ToList();
+            List<SelectListItem> selectListItems = _mapper.Map<List<SelectListItem>>(nationalDex);
+
+            return selectListItems;
         }
 
         private async Task<List<SelectListItem>> GetPokeballSelectListItems(SelectListItem prependOption)
         {
             List<tlkpPokeball> pokeballs = await _pokedexRepository.GetAllPokeballs();
 
-            return pokeballs.Select(p => new SelectListItem
-            {
-                Text = p.Name,
-                Value = p.Id.ToString()
-            }).Prepend(prependOption).ToList();
+            List<SelectListItem> selectListItems = _mapper.Map<List<SelectListItem>>(pokeballs);
+
+            return selectListItems.Prepend(prependOption).ToList();
         }
 
         private List<SelectListItem> GetPokemonSexSelectListItems()
@@ -244,11 +236,9 @@ namespace PokedexApp.Logic
         {
             List<tlkpType> types = await _pokedexRepository.GetAllTypes();
 
-            return types.Select(p => new SelectListItem
-            {
-                Text = p.Name,
-                Value = p.Id.ToString()
-            }).Prepend(prependOption).ToList();
+            List<SelectListItem> selectListItems = _mapper.Map<List<SelectListItem>>(types);
+
+            return selectListItems.Prepend(prependOption).ToList();
         }
 
         private async Task<tblMyPokedex> MapDetailViewModelToMyPokemon(PokemonDetailViewModel pokemonDetailViewModel)
@@ -271,12 +261,9 @@ namespace PokedexApp.Logic
         {
             _logger.LogInformation(string.Format(Constants.InformationalMessageMappingWithCount, nationalDex.Count, Constants.Pokemon, ViewModels));
 
-            return nationalDex.Select(p => new PokemonListingViewModel
-            {
-                ImageURL = p.ImageURL,
-                Name = p.Name,
-                NationalDexPokemonId = p.Id
-            }).ToList();
+            List<PokemonListingViewModel> mappedListing = _mapper.Map<List<PokemonListingViewModel>>(nationalDex);
+
+            return mappedListing;
         }
     }
 }
