@@ -27,7 +27,7 @@ namespace Pokedex.Repository
         }
 
         /// <summary>
-        /// Add the given pokemon to pokedex context & save changes.
+        /// Add the given Pokémon to Pokédex context & save changes.
         /// </summary>
         /// <param name="pokemon">entity to add</param>
         /// <returns>the added entity</returns>
@@ -43,7 +43,7 @@ namespace Pokedex.Repository
         }
 
         /// <summary>
-        /// Delete the given pokemon from pokedex context & save changes.
+        /// Delete the given Pokémon from Pokédex context & save changes.
         /// </summary>
         /// <param name="myPokemonId">guid to find & delete</param>
         /// <returns>deleted entity</returns>
@@ -64,7 +64,7 @@ namespace Pokedex.Repository
         }
 
         /// <summary>
-        /// Delete & re-add updated entity to pokedex context.
+        /// Delete & re-add updated entity to Pokédex context.
         /// </summary>
         /// <param name="pokemon">entity to update</param>
         /// <returns>updated entity</returns>
@@ -100,10 +100,9 @@ namespace Pokedex.Repository
         }
 
         /// <summary>
-        /// Get all the ability entities.
-        /// Results ordered by Name ascending.
+        /// Get all the ability entities from context. Results ordered by Name ascending.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>all ability entities</returns>
         public async Task<List<tlkpAbility>> GetAllAbilities()
         {
             List<tlkpAbility> abilities = await _context.tlkpAbility.ToListAsync(); 
@@ -115,10 +114,9 @@ namespace Pokedex.Repository
         }
 
         /// <summary>
-        /// Get all the category entities.
-        /// Results ordered by Name ascending.
+        /// Get all the category entities from context. Results ordered by Name ascending.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>all category entities</returns>
         public async Task<List<tlkpCategory>> GetAllCategories()
         {
             List<tlkpCategory> categories = await _context.tlkpCategory.ToListAsync(); 
@@ -130,10 +128,9 @@ namespace Pokedex.Repository
         }
 
         /// <summary>
-        /// Get all Pokeball entities from context.
-        /// Results ordered by Name ascending.
+        /// Get all Pokéball entities from context. Results ordered by Name ascending.
         /// </summary>
-        /// <returns>all pokeball entities</returns>
+        /// <returns>all Pokéball entities</returns>
         public async Task<List<tlkpPokeball>> GetAllPokeballs()
         {
             List<tlkpPokeball> pokeballs = await _context.tlkpPokeball.ToListAsync(); 
@@ -145,8 +142,7 @@ namespace Pokedex.Repository
         }
 
         /// <summary>
-        /// Get all type entities from context.
-        /// Results ordered by Name asceding.
+        /// Get all type entities from context. Results ordered by Name ascending.
         /// </summary>
         /// <returns>all type entities</returns>
         public async Task<List<tlkpType>> GetAllTypes()
@@ -177,10 +173,9 @@ namespace Pokedex.Repository
         }
 
         /// <summary>
-        /// Get all the pokedex entities with lookup information.
-        /// Results ordered by PokemonId ascending.
+        /// Get all the Pokédex entities with lookup information from context. Results ordered by PokemonId ascending.
         /// </summary>
-        /// <returns>all pokedex entities</returns>
+        /// <returns>all Pokédex entities</returns>
         public async Task<List<tblMyPokedex>> GetMyPokedex()
         {
             List<tblMyPokedex> myPokedex = await _context.tblMyPokedex.ToListAsync(); 
@@ -199,10 +194,10 @@ namespace Pokedex.Repository
         }
 
         /// <summary>
-        /// Get the pokedex entity from a given myPokemonId with lookup information.
+        /// Get the Pokédex entity from a given myPokemonId with lookup information from context.
         /// </summary>
         /// <param name="myPokemonId">the myPokemonId to find</param>
-        /// <returns>the found pokedex entity</returns>
+        /// <returns>the found Pokédex entity</returns>
         public async Task<tblMyPokedex> GetMyPokemonById(Guid myPokemonId)
         {
             tblMyPokedex myPokemon = await _context.tblMyPokedex.FindAsync(myPokemonId);
@@ -220,8 +215,7 @@ namespace Pokedex.Repository
         }
 
         /// <summary>
-        /// Get all national dex entities and subsequent lookup information.
-        /// Results ordered Id ascending.
+        /// Get all national dex entities and subsequent lookup information from context. Results ordered Id ascending.
         /// </summary>
         /// <returns>all national dex Pokémon with related lookup information</returns>
         public async Task<List<tlkpNationalDex>> GetNationalDex()
@@ -247,7 +241,7 @@ namespace Pokedex.Repository
         /// Get the national dex entity from a given pokemonId.
         /// </summary>
         /// <param name="pokemonId">the pokemonId to find</param>
-        /// <returns>the found nationsl dex Pokémon</returns>
+        /// <returns>the found national dex Pokémon</returns>
         public async Task<tlkpNationalDex> GetNationalDexPokemonById(int pokemonId)
         {
             tlkpNationalDex nationalDexPokemon = await _context.tlkpNationalDex.FindAsync(pokemonId);
@@ -264,10 +258,10 @@ namespace Pokedex.Repository
         }
 
         /// <summary>
-        /// Get the pokeball entity from a given pokeballId.
+        /// Get the Pokéball entity from a given pokeballId.
         /// </summary>
         /// <param name="pokeballId">the pokeballId to find</param>
-        /// <returns>the found pokeball entity</returns>
+        /// <returns>the found Pokéball entity</returns>
         public async Task<tlkpPokeball> GetPokeballById(int pokeballId)
         {
             tlkpPokeball pokeball = await _context.tlkpPokeball.FindAsync(pokeballId);
@@ -300,8 +294,7 @@ namespace Pokedex.Repository
         /// <summary>
         /// Search the National Pokédex based on a searchString and lookup parameters.
         /// Results filtered by occurence of string in name, Japanese name, & description.
-        /// Additional filtering applied based on optional Pokémon characteristics.
-        /// Results ordered by Id ascending.
+        /// Additional filtering applied based on optional Pokémon characteristics. Results ordered by Id ascending.
         /// </summary>
         /// <param name="searchString">the string to filter on</param>
         /// <param name="abilityId">optional ability characteristic</param>
