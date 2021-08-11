@@ -2,7 +2,7 @@
 <div>
   <h2>ASP.NET Core 3.1 MVC/Web API Application</h2>
   <h3>
-    <a href="https://mypokedex.azurewebsites.net/" target="_blank">MyPokedex [Hosted on Azure App Services]</a>
+    <a href="https://mypokedex.azurewebsites.net/" target="_blank">MyPokédex [Hosted on Azure App Services]</a>
     <img src="https://img.shields.io/website?logo=microsoft&url=https%3A%2F%2Fmypokedex.azurewebsites.net"/>
   </h3>
   <p>Search National Dex Pokémon based on a variety of criterion. Create, modify, and view a personal Pokédex.</p>
