@@ -1,4 +1,4 @@
-﻿In Nuget Package Manager Console run the following command in context of the Pokedex.Data project:
+﻿In Nuget Package Manager Console run the following command in context of the Pokedex.Data project to update the provided entities & context:
 	Scaffold-DbContext "Data Source=(localdb)\\MSSQLLocalDB;initial catalog=POKEDEXDB;integrated security=True;" Microsoft.EntityFrameworkCore.SqlServer -UseDatabaseNames -Tables tlkpAbility, tlkpCategory, tlkpNationalDex, tlkpPokeball, tlkpType, tblMyPokedex -OutputDir Models -ContextDir . -Force
 
 Multiple EntityFrameworkCore nuget packages utilized.
