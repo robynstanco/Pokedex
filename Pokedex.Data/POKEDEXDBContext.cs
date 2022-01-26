@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 using Pokedex.Data.Models;
 
 namespace Pokedex.Data
@@ -32,6 +30,10 @@ namespace Pokedex.Data
             }
         }
 
+        /// <summary>
+        /// Build/Configure all models with their desired properties & constraints.
+        /// </summary>
+        /// <param name="modelBuilder">Model builder to configure</param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<tblMyPokedex>(entity =>

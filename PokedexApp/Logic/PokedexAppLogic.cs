@@ -229,7 +229,11 @@ namespace PokedexApp.Logic
 
         private List<SelectListItem> GetPokemonSexSelectListItems()
         {
-            return new List<SelectListItem>() { new SelectListItem() { Text = "Female", Value = "0" }, new SelectListItem() { Text = "Male", Value = "1" } };
+            return new List<SelectListItem>() 
+            { 
+                new SelectListItem() { Text = "Female", Value = "0" }, 
+                new SelectListItem() { Text = "Male", Value = "1" } 
+            };
         }
 
         private async Task<List<SelectListItem>> GetTypeSelectListItems(SelectListItem prependOption)
@@ -257,6 +261,11 @@ namespace PokedexApp.Logic
             return updatedPokemon;
         }
 
+        /// <summary>
+        /// Map the National Dex entities to listing view models.
+        /// </summary>
+        /// <param name="nationalDex">entities to map</param>
+        /// <returns></returns>
         private List<PokemonListingViewModel> MapNationalDexLookupsToListingViewModels(List<tlkpNationalDex> nationalDex)
         {
             _logger.LogInformation(string.Format(Constants.InformationalMessageMappingWithCount, nationalDex.Count, Constants.Pokemon, ViewModels));
