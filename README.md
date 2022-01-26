@@ -5,7 +5,7 @@
     <a href="https://mypokedex.azurewebsites.net/" target="_blank">MyPokédex [Hosted on Azure App Services]</a>
     <img src="https://img.shields.io/website?logo=microsoft&url=https%3A%2F%2Fmypokedex.azurewebsites.net"/>
   </h3>
-  <p>Search National Dex Pokémon based on a variety of criterion. Create, modify, and view a personal Pokédex.</p>
+  <p>Search NationalDex Pokémon based on a variety of criterion. Create, modify, and view a personal Pokédex.</p>
 </div>
 <div style="display: flex;">
   <img src="https://github.com/robynstanco/Pokedex/workflows/Build,%20test,%20and%20Deploy%20ASP.Net%20Core%20app%20to%20Azure%20Web%20App%20-%20mypokedex/badge.svg?branch=master"/>
