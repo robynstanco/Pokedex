@@ -41,6 +41,7 @@ namespace Pokedex.Tests.Controllers
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task IndexActionIsSuccessfulAndCallsLogic()
         {
             await _pokedexController.Index(1, 11);
@@ -51,6 +52,7 @@ namespace Pokedex.Tests.Controllers
         }
 
         [TestMethod]
+        [TestCategory("Error Handling")]
         public async Task IndexActionWithLogicExceptionLogsError()
         {
             _pokedexAppLogicMock.Setup(plm => plm.GetMyPokedex())
@@ -66,6 +68,7 @@ namespace Pokedex.Tests.Controllers
         }
 
         [TestMethod]
+        [TestCategory("Error Handling")]
         public async Task IndexActionWithPaginationExceptionLogsError()
         {
             _paginationHelperMock.Setup(plm => plm.GetPagedResults<PokemonListingViewModel>(null, 3, 33))
@@ -81,6 +84,7 @@ namespace Pokedex.Tests.Controllers
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task DetailActionIsSuccessfulAndCallsLogic()
         {
             await _pokedexController.Detail(DataGenerator.DefaultGuid);
@@ -89,6 +93,7 @@ namespace Pokedex.Tests.Controllers
         }
 
         [TestMethod]
+        [TestCategory("Error Handling")]
         public async Task DetailActionWithLogicExceptionLogsError()
         {
             _pokedexAppLogicMock.Setup(plm => plm.GetMyPokemonById(It.IsAny<Guid>()))
@@ -102,6 +107,7 @@ namespace Pokedex.Tests.Controllers
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task DeleteActionIsSuccessfulAndCallsLogic()
         {
             IActionResult result = await _pokedexController.Delete(DataGenerator.DefaultGuid);
@@ -114,6 +120,7 @@ namespace Pokedex.Tests.Controllers
         }
 
         [TestMethod]
+        [TestCategory("Error Handling")]
         public async Task DeleteActionWithLogicExceptionLogsError()
         {
             _pokedexAppLogicMock.Setup(plm => plm.DeletePokemonById(It.IsAny<Guid>()))
@@ -127,6 +134,7 @@ namespace Pokedex.Tests.Controllers
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task EditIsSuccessfulAndCallsLogic()
         {
             IActionResult result = await _pokedexController.Edit(new PokemonDetailViewModel());
@@ -139,6 +147,7 @@ namespace Pokedex.Tests.Controllers
         }
 
         [TestMethod]
+        [TestCategory("Error Handling")]
         public async Task EditWithLogicExceptionLogsError()
         {
             _pokedexAppLogicMock.Setup(plm => plm.EditPokemon(It.IsAny<PokemonDetailViewModel>()))
@@ -152,6 +161,7 @@ namespace Pokedex.Tests.Controllers
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task EditWithGuidIsSuccessfulandCallsLogic()
         {
             _pokedexAppLogicMock.Setup(plm => plm.GetMyPokemonById(DataGenerator.DefaultGuid))
@@ -167,6 +177,7 @@ namespace Pokedex.Tests.Controllers
         }
 
         [TestMethod]
+        [TestCategory("Error Handling")]
         public async Task EditWithInvalidGuidThrowsLogicExceptionAndLogsError()
         {
             _pokedexAppLogicMock.Setup(plm => plm.GetMyPokemonById(It.IsAny<Guid>()))
@@ -180,6 +191,7 @@ namespace Pokedex.Tests.Controllers
         }
 
         [TestMethod]
+        [TestCategory("Error Handling")]
         public void ErrorActionLogsError()
         {
             Exception error = new Exception("some error");

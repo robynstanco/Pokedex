@@ -30,6 +30,7 @@ namespace Pokedex.Tests.Helpers
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public void GetPagedStringResultIsSuccessfulAndLogsInformation()
         {
             IEnumerable<string> stringCollection = new List<string>() { "test" };
@@ -42,6 +43,7 @@ namespace Pokedex.Tests.Helpers
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public void GetPagedViewModelResultIsSuccessfulAndLogsInformation()
         {
             IEnumerable<PokemonListingViewModel> pokemonListingViewModels = new List<PokemonListingViewModel>() { new PokemonListingViewModel() };

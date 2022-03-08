@@ -123,6 +123,7 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task AddPokemonIsSuccessfulAndLogsInformation()
         {
             tblMyPokedex generatedPokemon = DataGenerator.GenerateMyPokemon(1)[0];
@@ -137,6 +138,7 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task DeletePokemonByIdIsSuccessfulAndLogsInformation()
         {
             await _pokedexRepository.DeletePokemonById(DataGenerator.DefaultGuid);
@@ -157,6 +159,7 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task DeleteNonExistentPokemonByIdDoesNotLogOrDelete()
         {
             tblMyPokedex tblMyPokedex = await _pokedexRepository.DeletePokemonById(Guid.NewGuid());
@@ -171,6 +174,7 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task EditPokemonIsSuccessfulAndLogsInformation()
         {
             tblMyPokedex generatedPokemon = DataGenerator.GenerateMyPokemon(1)[0];
@@ -199,6 +203,7 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task EditNonExistentPokemonDoesNotUpdateOrLog()
         {
             await _pokedexRepository.EditPokemon(new tblMyPokedex() { Id = Guid.NewGuid() });
@@ -211,6 +216,7 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task GetAbilityByIdIsSuccessfulAndLogsInformation()
         {
             tlkpAbility ability = await _pokedexRepository.GetAbilityById(0);
@@ -224,6 +230,7 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task GetNonExistentAbilityByIdDoesNotLog()
         {
             tlkpAbility ability = await _pokedexRepository.GetAbilityById(-33);
@@ -234,6 +241,7 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task GetAllAbilitiesIsSuccessfulAndLogsInformation()
         {
             List<tlkpAbility> abilities = await _pokedexRepository.GetAllAbilities();
@@ -248,6 +256,7 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task GetAllCategoriesIsSuccessfulAndLogsInformation()
         {
             List<tlkpCategory> categories = await _pokedexRepository.GetAllCategories();
@@ -262,6 +271,7 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task GetAllPokeballsIsSuccessfulAndLogsInformation()
         {
             List<tlkpPokeball> pokeballs = await _pokedexRepository.GetAllPokeballs();
@@ -277,6 +287,7 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task GetAllTypesIsSuccessfulAndLogsInformation()
         {
             List<tlkpType> types = await _pokedexRepository.GetAllTypes();
@@ -291,6 +302,7 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task GetCategoryByIdIsSuccessfulAndLogsInformation()
         {
             tlkpCategory category = await _pokedexRepository.GetCategoryById(3);
@@ -304,6 +316,7 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task GetNonExistentCategoryByIdIsDoesNotLog()
         {
             tlkpCategory category = await _pokedexRepository.GetCategoryById(-33);
@@ -314,6 +327,7 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task GetMyPokedexIsSuccessfulAndLogsInformation()
         {
             List<tblMyPokedex> pokedex = await _pokedexRepository.GetMyPokedex();
@@ -336,6 +350,7 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task GetMyPokemonByIdIsSuccessfulAndLogsInformation()
         {
             tblMyPokedex pokemon = await _pokedexRepository.GetMyPokemonById(DataGenerator.DefaultGuid);
@@ -357,6 +372,7 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task GetMyNonExistentPokemonByIdDoesNotLog()
         {
             tblMyPokedex pokemon = await _pokedexRepository.GetMyPokemonById(Guid.NewGuid());
@@ -367,6 +383,7 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task GetNationalDexIsSuccessfulAndLogsInformation()
         {
             List<tlkpNationalDex> nationalDex = await _pokedexRepository.GetNationalDex();
@@ -391,6 +408,7 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task GetNationalDexPokemonByIdIsSuccessfulAndLogsInformation()
         {
             tlkpNationalDex pokemon = await _pokedexRepository.GetNationalDexPokemonById(0);
@@ -419,6 +437,7 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task GetNonExistentNationalDexPokemonByIdDoesNotLog()
         {
             tlkpNationalDex pokemon = await _pokedexRepository.GetNationalDexPokemonById(-333);
@@ -429,6 +448,7 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task GetPokeballByIdIsSuccessfulAndLogsInformation()
         {
             tlkpPokeball pokeball = await _pokedexRepository.GetPokeballById(1);
@@ -443,6 +463,7 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task GetNonExistentPokeballByIdDoesNotLog()
         {
             tlkpPokeball pokeball = await _pokedexRepository.GetPokeballById(-333);
@@ -453,6 +474,7 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task GetTypeByIdIsSuccessfulAndLogsInformation()
         {
             tlkpType type = await _pokedexRepository.GetTypeById(1);
@@ -466,6 +488,7 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task GetNonExistentTypeByIdDoesNotLog()
         {
             tlkpType type = await _pokedexRepository.GetTypeById(-333);
@@ -476,6 +499,7 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task SearchNationalDexIsSuccessfulAndLogsInformation()
         {
             List<tlkpNationalDex> searchResults = await _pokedexRepository.Search("Name3", 3, 3, 3);
@@ -502,6 +526,7 @@ namespace Pokedex.Tests.Repositories
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task SearchPokedexIsSuccessfulAndLogsInformation()
         {
             List<tblMyPokedex> searchResults = await _pokedexRepository.Search("Nickname3", null, null, null, null);

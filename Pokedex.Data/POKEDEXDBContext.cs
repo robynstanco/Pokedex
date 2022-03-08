@@ -31,9 +31,9 @@ namespace Pokedex.Data
         }
 
         /// <summary>
-        /// Build/Configure all models with their desired properties & constraints.
+        /// Build/Configure all models with their desired properties and constraints.
         /// </summary>
-        /// <param name="modelBuilder">Model builder to configure</param>
+        /// <param name="modelBuilder">Model builder to configure.</param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<tblMyPokedex>(entity =>

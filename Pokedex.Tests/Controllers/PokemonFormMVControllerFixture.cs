@@ -39,6 +39,7 @@ namespace Pokedex.Tests.Controllers
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task IndexActionIsSuccessfulAndCallsLogic()
         {
             await _pokemonFormController.Index();
@@ -47,6 +48,7 @@ namespace Pokedex.Tests.Controllers
         }
 
         [TestMethod]
+        [TestCategory("Error Handling")]
         public async Task IndexActionWithLogicExceptionLogsError()
         {
             _pokedexAppLogicMock.Setup(plm => plm.GetNewPokemonForm())
@@ -60,6 +62,7 @@ namespace Pokedex.Tests.Controllers
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task IndexWithVMActionIsSuccessfulAndCallsLogic()
         {
             SuccessViewModel successViewModel = DataGenerator.GetViewModel<SuccessViewModel>
@@ -71,6 +74,7 @@ namespace Pokedex.Tests.Controllers
         }
 
         [TestMethod]
+        [TestCategory("Error Handling")]
         public async Task IndexWithVMActionWithLogicExceptionLogsError()
         {
             _pokedexAppLogicMock.Setup(plm => plm.AddPokemon(It.IsAny< PokemonFormViewModel>()))
@@ -85,6 +89,7 @@ namespace Pokedex.Tests.Controllers
         }
 
         [TestMethod]
+        [TestCategory("Error Handling")]
         public void ErrorActionLogsError()
         {
             Exception error = new Exception("some error");

@@ -48,6 +48,7 @@ namespace Pokedex.Tests.Controllers
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task IndexActionIsSuccessfulAndCallsLogic()
         {
             await _nationalDexController.Index(3, 33);
@@ -58,6 +59,7 @@ namespace Pokedex.Tests.Controllers
         }
 
         [TestMethod]
+        [TestCategory("Error Handling")]
         public async Task IndexActionWithLogicExceptionLogsError()
         {
             _pokedexAppLogicMock.Setup(plm => plm.GetNationalDex())
@@ -73,6 +75,7 @@ namespace Pokedex.Tests.Controllers
         }
 
         [TestMethod]
+        [TestCategory("Error Handling")]
         public async Task IndexActionWithPaginationExceptionLogsError()
         {
             _paginationHelperMock.Setup(phm => phm.GetPagedResults(It.IsAny<IEnumerable<PokemonListingViewModel>>(), 1, 11))
@@ -88,6 +91,7 @@ namespace Pokedex.Tests.Controllers
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task DetailActionIsSuccessfullAndCallsLogic()
         {
             await _nationalDexController.Detail(0);
@@ -96,6 +100,7 @@ namespace Pokedex.Tests.Controllers
         }
 
         [TestMethod]
+        [TestCategory("Error Handling")]
         public async Task DetailActionWithLogicExceptionLogsError()
         {
             _pokedexAppLogicMock.Setup(plm => plm.GetNationalDexPokemonById(0))
@@ -109,6 +114,7 @@ namespace Pokedex.Tests.Controllers
         }
 
         [TestMethod]
+        [TestCategory("Error Handling")]
         public void ErrorActionLogsError()
         {
             Exception error = new Exception("some error");

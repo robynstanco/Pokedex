@@ -86,6 +86,7 @@ namespace Pokedex.Tests.Logic
         #region App Logic Tests
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task AddPokemonIsSuccessfulAndLogsInformation()
         {
             PokemonFormViewModel pokemonFormViewModel = await _pokedexAppLogic.AddPokemon(new PokemonFormViewModel() { Level = 333 });
@@ -98,6 +99,7 @@ namespace Pokedex.Tests.Logic
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task DeletePokemonByIdIsSuccessfulAndLogsInformation()
         {
             Guid deleted = await _pokedexAppLogic.DeletePokemonById(DataGenerator.DefaultGuid);
@@ -110,6 +112,7 @@ namespace Pokedex.Tests.Logic
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task EditPokemonIsSuccessfulAndLogsInformation()
         {
             await _pokedexAppLogic.EditPokemon(new PokemonDetailViewModel()
@@ -129,6 +132,7 @@ namespace Pokedex.Tests.Logic
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task GetMyPokedexIsSuccessfulAndLogsInformation()
         {
             List<PokemonListingViewModel> pokemonListingViewModels = await _pokedexAppLogic.GetMyPokedex();
@@ -146,6 +150,7 @@ namespace Pokedex.Tests.Logic
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task GetMyPokemonByIdIsSuccessfulAndLogsInformation()
         {
             PokemonDetailViewModel pokemonDetailViewModel = await _pokedexAppLogic.GetMyPokemonById(DataGenerator.DefaultGuid);
@@ -167,6 +172,7 @@ namespace Pokedex.Tests.Logic
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task GetNationalDexIsSuccessfulAndLogsInformation()
         {
             List<PokemonListingViewModel> pokemonListingViewModels = await _pokedexAppLogic.GetNationalDex();
@@ -185,6 +191,7 @@ namespace Pokedex.Tests.Logic
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task GetNationalDexPokemonByIdIsSuccessfulAndLogsInformation()
         {
             PokemonDetailViewModel pokemonDetailViewModel = await _pokedexAppLogic.GetNationalDexPokemonById(0);
@@ -216,6 +223,7 @@ namespace Pokedex.Tests.Logic
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task GetNewPokemonFormIsSuccessfulAndLogsInformation()
         {
             PokemonFormViewModel pokemonFormViewModel = await _pokedexAppLogic.GetNewPokemonForm();
@@ -241,6 +249,7 @@ namespace Pokedex.Tests.Logic
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task GetSearchFormIsSuccessfulAndLogsInformation()
         {
             SearchViewModel searchViewModel = await _pokedexAppLogic.GetSearchForm();
@@ -266,6 +275,7 @@ namespace Pokedex.Tests.Logic
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task SearchWithPokeballCallsRepositoryAndLogsInformation()
         {
             SearchViewModel searchResultsViewModel = await _pokedexAppLogic.Search(new SearchViewModel
@@ -287,6 +297,7 @@ namespace Pokedex.Tests.Logic
         }
 
         [TestMethod]
+        [TestCategory("Happy Path")]
         public async Task SearchWithoutPokeballCallsRepositoryAndLogsInformation()
         {
             SearchViewModel searchResultsViewModel = await _pokedexAppLogic.Search(new SearchViewModel

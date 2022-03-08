@@ -24,14 +24,14 @@ namespace PokedexApp.Logic
         IPokedexRepository _pokedexRepository;
         public PokedexAppLogic(ILoggerAdapter<PokedexAppLogic> logger, IMapper mapper, IPokedexRepository pokedexRepository)
         {
-            _logger = logger;
-            _mapper = mapper;
-            _pokedexRepository = pokedexRepository;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _pokedexRepository = pokedexRepository ?? throw new ArgumentNullException(nameof(pokedexRepository));
         }
 
         public async Task<PokemonFormViewModel> AddPokemon(PokemonFormViewModel pokemonFormViewModel)
         {
-            _logger.LogInformation(Constants.Mapping + " " + Constants.Pokemon + " " + ViewModels);
+            _logger.LogInformation($"{Constants.Mapping} {Constants.Pokemon} {ViewModels}");
 
             tblMyPokedex pokemon = _mapper.Map<tblMyPokedex>(pokemonFormViewModel);
             pokemon.Id = Guid.NewGuid();
@@ -45,7 +45,7 @@ namespace PokedexApp.Logic
         {
             await _pokedexRepository.DeletePokemonById(id);
 
-            _logger.LogInformation(Constants.Deleted + " " + Constants.Pokemon + ": " + id);
+            _logger.LogInformation($"{Constants.Deleted} {Constants.Pokemon}: {id}");
 
             return id;
         }
@@ -56,7 +56,7 @@ namespace PokedexApp.Logic
 
             await _pokedexRepository.EditPokemon(pokemon);
 
-            _logger.LogInformation(Constants.Updated + " " + Constants.Pokemon + ": " + pokemonDetailViewModel.MyPokemonId);
+            _logger.LogInformation($"{Constants.Updated} {Constants.Pokemon}: {pokemonDetailViewModel.MyPokemonId}");
 
             return pokemonDetailViewModel;
         }
@@ -247,7 +247,7 @@ namespace PokedexApp.Logic
 
         private async Task<tblMyPokedex> MapDetailViewModelToMyPokemon(PokemonDetailViewModel pokemonDetailViewModel)
         {
-            _logger.LogInformation(Constants.Mapping + " " + Constants.Pokemon + " " + ViewModels);
+            _logger.LogInformation($"{Constants.Mapping} {Constants.Pokemon} {ViewModels}");
 
             tlkpNationalDex nationalDexLookup = await _pokedexRepository.GetNationalDexPokemonById(pokemonDetailViewModel.NationalDexPokemonId.Value);
             tblMyPokedex beforeUpdates = await _pokedexRepository.GetMyPokemonById(pokemonDetailViewModel.MyPokemonId.Value);
