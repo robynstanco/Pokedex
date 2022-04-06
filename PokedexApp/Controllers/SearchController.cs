@@ -18,6 +18,10 @@ namespace PokedexApp.Controllers
             _pokedexAppLogic = pokedexAppLogic;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> Index()
         {
             try
@@ -32,6 +36,11 @@ namespace PokedexApp.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="searchViewModel"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Index(SearchViewModel searchViewModel)
         {
@@ -56,6 +65,11 @@ namespace PokedexApp.Controllers
             }
         }
 
+        /// <summary>
+        /// The generic error page.
+        /// </summary>
+        /// <param name="ex">The exception.</param>
+        /// <returns>The error result.</returns>
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error(Exception ex)
         {

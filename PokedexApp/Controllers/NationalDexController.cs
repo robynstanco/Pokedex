@@ -23,6 +23,12 @@ namespace PokedexApp.Controllers
             _pokedexAppLogic = pokedexAppLogic;
         }
 
+        /// <summary>
+        /// The main NationalDex page with paged results.
+        /// </summary>
+        /// <param name="pageNumber">The page number for pagination.</param>
+        /// <param name="pageSize">The page size for pagination.</param>
+        /// <returns>The paginated NationalDex results.</returns>
         public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = Constants.PageSize)
         {
             try
@@ -39,6 +45,11 @@ namespace PokedexApp.Controllers
             }
         }
 
+        /// <summary>
+        /// The NationalDex detail page.
+        /// </summary>
+        /// <param name="id">The national dex id.</param>
+        /// <returns>The NationalDex result.</returns>
         public async Task<IActionResult> Detail(int id)
         {
             try
@@ -53,6 +64,11 @@ namespace PokedexApp.Controllers
             }
         }
         
+        /// <summary>
+        /// The generic error page.
+        /// </summary>
+        /// <param name="ex">The exception.</param>
+        /// <returns>The error result.</returns>
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error(Exception ex)
         {

@@ -218,6 +218,11 @@ namespace PokedexApp.Logic
             return selectListItems;
         }
 
+        /// <summary>
+        /// Get the 
+        /// </summary>
+        /// <param name="prependOption"></param>
+        /// <returns></returns>
         private async Task<List<SelectListItem>> GetPokeballSelectListItems(SelectListItem prependOption)
         {
             List<tlkpPokeball> pokeballs = await _pokedexRepository.GetAllPokeballs();
@@ -227,6 +232,10 @@ namespace PokedexApp.Logic
             return selectListItems.Prepend(prependOption).ToList();
         }
 
+        /// <summary>
+        /// Get the male and female select list options.
+        /// </summary>
+        /// <returns>The list of options.</returns>
         private List<SelectListItem> GetPokemonSexSelectListItems()
         {
             return new List<SelectListItem>() 
@@ -236,6 +245,11 @@ namespace PokedexApp.Logic
             };
         }
 
+        /// <summary>
+        /// Get the list of select items with a given prepended item.
+        /// </summary>
+        /// <param name="prependOption">The select item (option) to prepend.</param>
+        /// <returns>The list of select items.</returns>
         private async Task<List<SelectListItem>> GetTypeSelectListItems(SelectListItem prependOption)
         {
             List<tlkpType> types = await _pokedexRepository.GetAllTypes();
@@ -245,6 +259,11 @@ namespace PokedexApp.Logic
             return selectListItems.Prepend(prependOption).ToList();
         }
 
+        /// <summary>
+        /// Map the detail view model to Pokedex entities.
+        /// </summary>
+        /// <param name="pokemonDetailViewModel">The view model to map</param>
+        /// <returns>The mapped entity.</returns>
         private async Task<tblMyPokedex> MapDetailViewModelToMyPokemon(PokemonDetailViewModel pokemonDetailViewModel)
         {
             _logger.LogInformation($"{Constants.Mapping} {Constants.Pokemon} {ViewModels}");
@@ -264,8 +283,8 @@ namespace PokedexApp.Logic
         /// <summary>
         /// Map the National Dex entities to listing view models.
         /// </summary>
-        /// <param name="nationalDex">entities to map</param>
-        /// <returns></returns>
+        /// <param name="nationalDex">The entities to map.</param>
+        /// <returns>The mapped listings.</returns>
         private List<PokemonListingViewModel> MapNationalDexLookupsToListingViewModels(List<tlkpNationalDex> nationalDex)
         {
             _logger.LogInformation(string.Format(Constants.InformationalMessageMappingWithCount, nationalDex.Count, Constants.Pokemon, ViewModels));

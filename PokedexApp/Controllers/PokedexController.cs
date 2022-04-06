@@ -23,6 +23,12 @@ namespace PokedexApp.Controllers
             _pokedexAppLogic = pokedexAppLogic;
         }
 
+        /// <summary>
+        /// The main Pokédex page with paginated results.
+        /// </summary>
+        /// <param name="pageNumber">The page number for pagination.</param>
+        /// <param name="pageSize">The page size for pagination.</param>
+        /// <returns>The paginated results.</returns>
         public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = Constants.PageSize)
         {
             try
@@ -39,6 +45,11 @@ namespace PokedexApp.Controllers
             }
         }
 
+        /// <summary>
+        /// The detail page for a given guid.
+        /// </summary>
+        /// <param name="id">The guid.</param>
+        /// <returns>The detail view.</returns>
         public async Task<IActionResult> Detail(Guid id)
         {
             try
@@ -53,6 +64,11 @@ namespace PokedexApp.Controllers
             }
         }
 
+        /// <summary>
+        /// The edit action for given Guid.
+        /// </summary>
+        /// <param name="id">The guid to edit.</param>
+        /// <returns>The edit view.</returns>
         public async Task<IActionResult> Edit(Guid id)
         {
             try
@@ -68,6 +84,11 @@ namespace PokedexApp.Controllers
             }
         }
 
+        /// <summary>
+        /// The edit action for a given Pokémon Detail.
+        /// </summary>
+        /// <param name="pokemonDetailViewModel">The detail to edit.</param>
+        /// <returns>The edited detail.</returns>
         [HttpPost]
         public async Task<IActionResult> Edit(PokemonDetailViewModel pokemonDetailViewModel)
         {
@@ -92,6 +113,11 @@ namespace PokedexApp.Controllers
             }
         }
 
+        /// <summary>
+        /// The delete action for a given Guid.
+        /// </summary>
+        /// <param name="id">The guid to delete.</param>
+        /// <returns>The success result.</returns>
         public async Task<IActionResult> Delete(Guid id)
         {
             try
@@ -106,6 +132,11 @@ namespace PokedexApp.Controllers
             }
         }
 
+        /// <summary>
+        /// The generic error page.
+        /// </summary>
+        /// <param name="ex">The exception.</param>
+        /// <returns>The error result.</returns>
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error(Exception ex)
         {
