@@ -2,6 +2,10 @@
 
 namespace Pokedex.Logging.Interfaces
 {
+    /// <summary>
+    /// The Logger Adapter.
+    /// </summary>
+    /// <typeparam name="T">The generic Type of the adapter.</typeparam>
     public interface ILoggerAdapter<T>
     {
         /// <summary>

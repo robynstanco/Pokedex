@@ -4,6 +4,10 @@ using System;
 
 namespace Pokedex.Logging.Adapters
 {
+    /// <summary>
+    /// The Logger Adapter.
+    /// </summary>
+    /// <typeparam name="T">The generic Type of the adapter.</typeparam>
     public class LoggerAdapter<T> : ILoggerAdapter<T>
     {
         private readonly ILogger<T> _logger;

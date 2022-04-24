@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace Pokedex.Repository
 {
+    /// <summary>
+    /// The Pokédex Repository.
+    /// </summary>
     public class PokedexRepository : IPokedexRepository
     {
         private const string InformationalMessageWithCount = Constants.Retrieved + " {0} {1} " + Constants.From + " " + Constants.DBContext + ".";

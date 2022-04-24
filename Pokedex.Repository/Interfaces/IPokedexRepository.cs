@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace Pokedex.Repository.Interfaces
 {
+    /// <summary>
+    /// The Pokédex Repository.
+    /// </summary>
     public interface IPokedexRepository
     {
         /// <summary>
