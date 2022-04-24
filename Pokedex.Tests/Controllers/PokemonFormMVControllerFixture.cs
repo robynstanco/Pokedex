@@ -73,7 +73,7 @@ namespace Pokedex.Tests.Controllers
         public async Task IndexWithVMActionIsSuccessfulAndCallsLogic()
         {
             //Act
-            SuccessViewModel successViewModel = DataGenerator.GetViewModel<SuccessViewModel>
+            var successViewModel = DataGenerator.GetViewModel<SuccessViewModel>
                 (await _pokemonFormController.Index(new PokemonFormViewModel()));
 
             //Assert
@@ -91,7 +91,7 @@ namespace Pokedex.Tests.Controllers
                 .ThrowsAsync(new Exception("logic exception"));
 
             //Act
-            ErrorViewModel errorViewModel = DataGenerator.GetViewModel<ErrorViewModel>
+            var errorViewModel = DataGenerator.GetViewModel<ErrorViewModel>
                 (await _pokemonFormController.Index(new PokemonFormViewModel()));
 
             //Assert
@@ -105,12 +105,12 @@ namespace Pokedex.Tests.Controllers
         public void ErrorActionLogsError()
         {
             //Arrange
-            Exception error = new Exception("some error");
+            var error = new Exception("some error");
 
             //Act
             IActionResult result = _pokemonFormController.Error(error);
 
-            ErrorViewModel errorViewModel = DataGenerator.GetViewModel<ErrorViewModel>(result);
+            var errorViewModel = DataGenerator.GetViewModel<ErrorViewModel>(result);
 
             //Assert
             Assert.AreEqual("some error", errorViewModel.Message);

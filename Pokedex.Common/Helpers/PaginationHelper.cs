@@ -37,13 +37,15 @@ namespace Pokedex.Common.Helpers
 
             _logger.LogInformation($"{Constants.Mapping} {nameof(PagedResult<T>)}<{typeof(T)}>.");
 
-            return new PagedResult<T>
+            var result = new PagedResult<T>
             {
                 Data = collection.ToList(),
                 PageNumber = pageNumber,
                 PageSize = pageSize,
                 TotalItems = totalCount
             };
+
+            return result;
         }
     }
 }

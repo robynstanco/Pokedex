@@ -36,7 +36,7 @@ namespace Pokedex.Tests.Helpers
         public void GetPagedStringResultIsSuccessfulAndLogsInformation()
         {
             //Arrange
-            IEnumerable<string> stringCollection = new List<string>() { "test" };
+            var stringCollection = new List<string>() { "test" };
 
             //Act
             PagedResult<string> pagedResult = _paginationHelper.GetPagedResults(stringCollection, 1, 1);
@@ -52,7 +52,7 @@ namespace Pokedex.Tests.Helpers
         public void GetPagedViewModelResultIsSuccessfulAndLogsInformation()
         {
             //Arrange
-            IEnumerable<PokemonListingViewModel> pokemonListingViewModels = new List<PokemonListingViewModel>() { new PokemonListingViewModel() };
+            var pokemonListingViewModels = new List<PokemonListingViewModel>() { new PokemonListingViewModel() };
 
             //Act
             PagedResult<PokemonListingViewModel> pagedResult = _paginationHelper.GetPagedResults(pokemonListingViewModels, 1, 1);

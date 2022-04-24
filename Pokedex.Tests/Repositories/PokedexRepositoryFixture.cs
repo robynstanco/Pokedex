@@ -106,7 +106,7 @@ namespace Pokedex.Tests.Repositories
         /// <returns>mock db set of class T</returns>
         private Mock<DbSet<T>> InitializeMockSet<T>(IQueryable<T> queryableEntities) where T : class
         {
-            Mock<DbSet<T>> mockEntitySet = new Mock<DbSet<T>>();
+            var mockEntitySet = new Mock<DbSet<T>>();
 
             mockEntitySet.As<IQueryable<T>>().Setup(m => m.Provider).Returns(queryableEntities.Provider);
 

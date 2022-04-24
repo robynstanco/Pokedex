@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace PokedexApp.Controllers
 {
+    /// <summary>
+    /// The Pokédex Controller.
+    /// </summary>
     public class PokedexController : Controller
     {
         private ILoggerAdapter<PokedexController> _logger;

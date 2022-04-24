@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace PokedexApp.Controllers
 {
+    /// <summary>
+    /// The Pokémon Form Controller.
+    /// </summary>
     public class PokemonFormController : Controller
     {
         private ILoggerAdapter<PokemonFormController> _logger;

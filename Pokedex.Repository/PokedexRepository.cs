@@ -226,7 +226,7 @@ namespace Pokedex.Repository
             List<tlkpNationalDex> nationalDex = await _context.tlkpNationalDex.ToListAsync();
 
             //Grab all nested lookup data
-            List<tlkpNationalDex> nestedNationalDex = new List<tlkpNationalDex>();
+            var nestedNationalDex = new List<tlkpNationalDex>();
             foreach (tlkpNationalDex pokemon in nationalDex)
             {
                 tlkpNationalDex nested = await GetNestedNationalDexInfo(pokemon);

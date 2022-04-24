@@ -41,7 +41,8 @@ namespace PokedexApp.Logic
         {
             _logger.LogInformation($"{Constants.Mapping} {Constants.Pokemon} {ViewModels}");
 
-            tblMyPokedex pokemon = _mapper.Map<tblMyPokedex>(pokemonFormViewModel);
+            var pokemon = _mapper.Map<tblMyPokedex>(pokemonFormViewModel);
+
             pokemon.Id = Guid.NewGuid();
 
             await _pokedexRepository.AddPokemon(pokemon);
@@ -89,7 +90,7 @@ namespace PokedexApp.Logic
 
             _logger.LogInformation(string.Format(Constants.InformationalMessageMappingWithCount, pokedex.Count, Constants.Pokemon, ViewModels));
 
-            List<PokemonListingViewModel> pokemonViewModels = _mapper.Map<List<PokemonListingViewModel>>(pokedex);
+            var pokemonViewModels = _mapper.Map<List<PokemonListingViewModel>>(pokedex);
 
             return pokemonViewModels;
         }
@@ -105,7 +106,7 @@ namespace PokedexApp.Logic
 
             _logger.LogInformation(string.Format(Constants.InformationalMessageMappingWithCount, 1, Constants.Pokemon, ViewModels));
 
-            PokemonDetailViewModel pokemonDetailViewModel = _mapper.Map<PokemonDetailViewModel>(myPokemon);
+            var pokemonDetailViewModel = _mapper.Map<PokemonDetailViewModel>(myPokemon);
 
             return pokemonDetailViewModel;
         }
@@ -134,7 +135,7 @@ namespace PokedexApp.Logic
 
             _logger.LogInformation(string.Format(Constants.InformationalMessageMappingWithCount, 1, Constants.Pokemon, ViewModels));
 
-            PokemonDetailViewModel pokemonDetailViewModel = _mapper.Map<PokemonDetailViewModel>(pokemon);
+            var pokemonDetailViewModel = _mapper.Map<PokemonDetailViewModel>(pokemon);
 
             return pokemonDetailViewModel;
         }
@@ -215,7 +216,7 @@ namespace PokedexApp.Logic
 
             _logger.LogInformation(string.Format(Constants.InformationalMessageMappingWithCount, pokedex.Count, Constants.Pokemon, ViewModels));
 
-            List<PokemonListingViewModel> pokemonListingViewModels = _mapper.Map<List<PokemonListingViewModel>>(pokedex);
+            var pokemonListingViewModels = _mapper.Map<List<PokemonListingViewModel>>(pokedex);
 
             finalSearchViewModel.FilteredPokemon.AddRange(pokemonListingViewModels);
 
@@ -240,7 +241,7 @@ namespace PokedexApp.Logic
         {
             List<tlkpAbility> abilities = await _pokedexRepository.GetAllAbilities();
 
-            List<SelectListItem> selectListItems = _mapper.Map<List<SelectListItem>>(abilities);
+            var selectListItems = _mapper.Map<List<SelectListItem>>(abilities);
 
             return selectListItems.Prepend(prependOption).ToList();
         }
@@ -263,7 +264,7 @@ namespace PokedexApp.Logic
         {
             List<tlkpCategory> categories =  await _pokedexRepository.GetAllCategories();
 
-            List<SelectListItem> selectListItems = _mapper.Map<List<SelectListItem>>(categories);
+            var selectListItems = _mapper.Map<List<SelectListItem>>(categories);
 
             return selectListItems.Prepend(prependOption).ToList();
         }
@@ -276,7 +277,7 @@ namespace PokedexApp.Logic
         {
             List<tlkpNationalDex> nationalDex = await _pokedexRepository.GetNationalDex();
 
-            List<SelectListItem> selectListItems = _mapper.Map<List<SelectListItem>>(nationalDex);
+            var selectListItems = _mapper.Map<List<SelectListItem>>(nationalDex);
 
             return selectListItems;
         }
@@ -290,7 +291,7 @@ namespace PokedexApp.Logic
         {
             List<tlkpPokeball> pokeballs = await _pokedexRepository.GetAllPokeballs();
 
-            List<SelectListItem> selectListItems = _mapper.Map<List<SelectListItem>>(pokeballs);
+            var selectListItems = _mapper.Map<List<SelectListItem>>(pokeballs);
 
             return selectListItems.Prepend(prependOption).ToList();
         }
@@ -317,7 +318,7 @@ namespace PokedexApp.Logic
         {
             List<tlkpType> types = await _pokedexRepository.GetAllTypes();
 
-            List<SelectListItem> selectListItems = _mapper.Map<List<SelectListItem>>(types);
+            var selectListItems = _mapper.Map<List<SelectListItem>>(types);
 
             return selectListItems.Prepend(prependOption).ToList();
         }
@@ -332,9 +333,11 @@ namespace PokedexApp.Logic
             _logger.LogInformation($"{Constants.Mapping} {Constants.Pokemon} {ViewModels}");
 
             tlkpNationalDex nationalDexLookup = await _pokedexRepository.GetNationalDexPokemonById(pokemonDetailViewModel.NationalDexPokemonId.Value);
+            
             tblMyPokedex beforeUpdates = await _pokedexRepository.GetMyPokemonById(pokemonDetailViewModel.MyPokemonId.Value);
 
-            tblMyPokedex updatedPokemon = _mapper.Map<tblMyPokedex>(pokemonDetailViewModel);
+            var updatedPokemon = _mapper.Map<tblMyPokedex>(pokemonDetailViewModel);
+
             updatedPokemon.PokeballId = beforeUpdates.PokeballId;
             updatedPokemon.Pokeball = beforeUpdates.Pokeball;
             updatedPokemon.Pokemon = nationalDexLookup;
@@ -352,7 +355,7 @@ namespace PokedexApp.Logic
         {
             _logger.LogInformation(string.Format(Constants.InformationalMessageMappingWithCount, nationalDex.Count, Constants.Pokemon, ViewModels));
 
-            List<PokemonListingViewModel> mappedListing = _mapper.Map<List<PokemonListingViewModel>>(nationalDex);
+            var mappedListing = _mapper.Map<List<PokemonListingViewModel>>(nationalDex);
 
             return mappedListing;
         }

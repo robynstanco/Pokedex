@@ -96,7 +96,7 @@ namespace Pokedex.Tests.Logic
             _loggerAppMock = new Mock<ILoggerAdapter<PokedexAppLogic>>();
             _loggerAPIMock = new Mock<ILoggerAdapter<PokedexAPILogic>>();
 
-            MapperConfiguration mappingConfig = new MapperConfiguration(mc =>
+            var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new MappingProfile());
             });

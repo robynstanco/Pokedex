@@ -128,7 +128,7 @@ namespace Pokedex.Tests.Controllers
             //Act
             IActionResult result = await _pokedexController.Delete(DataGenerator.DefaultGuid);
 
-            SuccessViewModel successViewModel = DataGenerator.GetViewModel<SuccessViewModel>(result);
+            var successViewModel = DataGenerator.GetViewModel<SuccessViewModel>(result);
 
             //Assert
             Assert.AreEqual("release", successViewModel.ActionName);
@@ -160,7 +160,7 @@ namespace Pokedex.Tests.Controllers
             //Act
             IActionResult result = await _pokedexController.Edit(new PokemonDetailViewModel());
 
-            SuccessViewModel successViewModel = DataGenerator.GetViewModel<SuccessViewModel>(result);
+            var successViewModel = DataGenerator.GetViewModel<SuccessViewModel>(result);
 
             //Assert
             Assert.AreEqual("edit", successViewModel.ActionName);
@@ -196,7 +196,7 @@ namespace Pokedex.Tests.Controllers
             //Act
             IActionResult result = await _pokedexController.Edit(DataGenerator.DefaultGuid);
 
-            PokemonDetailViewModel viewModel = DataGenerator.GetViewModel<PokemonDetailViewModel>(result);
+            var viewModel = DataGenerator.GetViewModel<PokemonDetailViewModel>(result);
 
             //Assert
             Assert.IsTrue(viewModel.IsEditMode); 
@@ -226,12 +226,12 @@ namespace Pokedex.Tests.Controllers
         public void ErrorActionLogsError()
         {
             //Arrange
-            Exception error = new Exception("some error");
+            var error = new Exception("some error");
 
             //Act
             IActionResult result = _pokedexController.Error(error);
 
-            ErrorViewModel errorViewModel = DataGenerator.GetViewModel<ErrorViewModel>(result);
+            var errorViewModel = DataGenerator.GetViewModel<ErrorViewModel>(result);
 
             //Assert
             Assert.AreEqual("some error", errorViewModel.Message);

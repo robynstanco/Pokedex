@@ -101,12 +101,12 @@ namespace Pokedex.Tests.Controllers
         public void ErrorActionLogsError()
         {
             //Arrange
-            Exception error = new Exception("some error");
+            var error = new Exception("some error");
 
             //Act
             IActionResult result = _searchController.Error(error);
 
-            ErrorViewModel errorViewModel = DataGenerator.GetViewModel<ErrorViewModel>(result);
+            var errorViewModel = DataGenerator.GetViewModel<ErrorViewModel>(result);
 
             //Assert
             Assert.AreEqual("some error", errorViewModel.Message);

@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace PokedexApp.Controllers
 {
+    /// <summary>
+    /// The Search Controller.
+    /// </summary>
     public class SearchController : Controller
     {
         private ILoggerAdapter<SearchController> _logger;
