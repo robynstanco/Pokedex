@@ -29,6 +29,11 @@ namespace PokedexApp.Logic
             _pokedexRepository = pokedexRepository ?? throw new ArgumentNullException(nameof(pokedexRepository));
         }
 
+        /// <summary>
+        /// Add a Pokémon to the Pokédex.
+        /// </summary>
+        /// <param name="pokemonFormViewModel">The Pokémon to add.</param>
+        /// <returns>The added Pokémon.</returns>
         public async Task<PokemonFormViewModel> AddPokemon(PokemonFormViewModel pokemonFormViewModel)
         {
             _logger.LogInformation($"{Constants.Mapping} {Constants.Pokemon} {ViewModels}");
@@ -41,6 +46,11 @@ namespace PokedexApp.Logic
             return pokemonFormViewModel;
         }
 
+        /// <summary>
+        /// Delete a Pokémon from the Pokédex by Id.
+        /// </summary>
+        /// <param name="id">The Pokémon Id.</param>
+        /// <returns>The deleted Id.</returns>
         public async Task<Guid> DeletePokemonById(Guid id)
         {
             await _pokedexRepository.DeletePokemonById(id);
@@ -50,6 +60,11 @@ namespace PokedexApp.Logic
             return id;
         }
 
+        /// <summary>
+        /// Edit a given Pokémon.
+        /// </summary>
+        /// <param name="pokemonDetailViewModel">The Pokémon to edit.</param>
+        /// <returns>The updated Pokémon.</returns>
         public async Task<PokemonDetailViewModel> EditPokemon(PokemonDetailViewModel pokemonDetailViewModel)
         {
             tblMyPokedex pokemon = await MapDetailViewModelToMyPokemon(pokemonDetailViewModel);
@@ -61,6 +76,10 @@ namespace PokedexApp.Logic
             return pokemonDetailViewModel;
         }
 
+        /// <summary>
+        /// Get the Pokédex.
+        /// </summary>
+        /// <returns>The Pokédex.</returns>
         public async Task<List<PokemonListingViewModel>> GetMyPokedex()
         {
             List<tblMyPokedex> pokedex = await _pokedexRepository.GetMyPokedex();
@@ -72,6 +91,11 @@ namespace PokedexApp.Logic
             return pokemonViewModels;
         }
 
+        /// <summary>
+        /// Get a Pokédex Pokémon by Id.
+        /// </summary>
+        /// <param name="id">The Pokémon Id.</param>
+        /// <returns></returns>
         public async Task<PokemonDetailViewModel> GetMyPokemonById(Guid id)
         {
             tblMyPokedex myPokemon = await _pokedexRepository.GetMyPokemonById(id);
@@ -83,6 +107,10 @@ namespace PokedexApp.Logic
             return pokemonDetailViewModel;
         }
 
+        /// <summary>
+        /// Get the National Dex.
+        /// </summary>
+        /// <returns>The National Dex.</returns>
         public async Task<List<PokemonListingViewModel>> GetNationalDex()
         {
             List<tlkpNationalDex> nationalDex = await _pokedexRepository.GetNationalDex();
@@ -92,6 +120,11 @@ namespace PokedexApp.Logic
             return pokemonListingViewModel;
         }
 
+        /// <summary>
+        /// Get the National Dex Pokémon by Id.
+        /// </summary>
+        /// <param name="id">The National Dex Id.</param>
+        /// <returns>The Pokémon detail.</returns>
         public async Task<PokemonDetailViewModel> GetNationalDexPokemonById(int id)
         {
             tlkpNationalDex pokemon = await _pokedexRepository.GetNationalDexPokemonById(id);
@@ -103,6 +136,10 @@ namespace PokedexApp.Logic
             return pokemonDetailViewModel;
         }
 
+        /// <summary>
+        /// Get the new Pokémon form with dropdown select list items.
+        /// </summary>
+        /// <returns>The new form.</returns>
         public async Task<PokemonFormViewModel> GetNewPokemonForm()
         {
             _logger.LogInformation(Constants.Mapping + SelectListItems);
@@ -110,6 +147,7 @@ namespace PokedexApp.Logic
             List<SelectListItem> nationalDexOptions = await GetNationalDexSelectListItems();
 
             SelectListItem blankOption = GetBlankSelectListItem();
+
             List<SelectListItem> pokeballOptions = await GetPokeballSelectListItems(blankOption);
             pokeballOptions = pokeballOptions.Where(p => !string.IsNullOrWhiteSpace(p.Value)).ToList();
 
@@ -123,6 +161,10 @@ namespace PokedexApp.Logic
             };
         }
 
+        /// <summary>
+        /// Get the search form with dropdown select list items.
+        /// </summary>
+        /// <returns>The search form.</returns>
         public async Task<SearchViewModel> GetSearchForm()
         {
             _logger.LogInformation(Constants.Mapping + SelectListItems);
@@ -145,11 +187,11 @@ namespace PokedexApp.Logic
         }
 
         /// <summary>
-        /// Search the personal & national Pokedex given search parameters.
-        /// Only search national dex if Pokeball is not selected.
+        /// Search the personal & National Pokédex given search parameters.
+        /// Only search National dex if Pokéball is not selected.
         /// </summary>
-        /// <param name="searchViewModel">search parameters to filter on</param>
-        /// <returns>filtered search results</returns>
+        /// <param name="searchViewModel">The search parameters to filter on.</param>
+        /// <returns>The filtered search results.</returns>
         public async Task<SearchViewModel> Search(SearchViewModel searchViewModel)
         {
             SearchViewModel finalSearchViewModel = await GetSearchForm();
@@ -186,6 +228,11 @@ namespace PokedexApp.Logic
             return finalSearchViewModel;
         }
 
+        /// <summary>
+        /// Get the ability select list items.
+        /// </summary>
+        /// <param name="prependOption">The prepend option.</param>
+        /// <returns>The select list items.</returns>
         private async Task<List<SelectListItem>> GetAbilitySelectListItems(SelectListItem prependOption)
         {
             List<tlkpAbility> abilities = await _pokedexRepository.GetAllAbilities();
@@ -195,11 +242,20 @@ namespace PokedexApp.Logic
             return selectListItems.Prepend(prependOption).ToList();
         }
 
+        /// <summary>
+        /// Get the initial blank select list item.
+        /// </summary>
+        /// <returns>The blank select list item.</returns>
         private static SelectListItem GetBlankSelectListItem()
         {
             return new SelectListItem() { Text = None, Value = string.Empty };
         }
 
+        /// <summary>
+        /// Get the category select list items.
+        /// </summary>
+        /// <param name="prependOption">The prepend option.</param>
+        /// <returns>The select list items.</returns>
         private async Task<List<SelectListItem>> GetCategorySelectListItems(SelectListItem prependOption)
         {
             List<tlkpCategory> categories =  await _pokedexRepository.GetAllCategories();
@@ -209,6 +265,10 @@ namespace PokedexApp.Logic
             return selectListItems.Prepend(prependOption).ToList();
         }
 
+        /// <summary>
+        /// Get the National Dex select list options.
+        /// </summary>
+        /// <returns>The select list items.</returns>
         private async Task<List<SelectListItem>> GetNationalDexSelectListItems()
         {
             List<tlkpNationalDex> nationalDex = await _pokedexRepository.GetNationalDex();
@@ -219,10 +279,10 @@ namespace PokedexApp.Logic
         }
 
         /// <summary>
-        /// Get the 
+        /// Get the Pokéball select list options.
         /// </summary>
-        /// <param name="prependOption"></param>
-        /// <returns></returns>
+        /// <param name="prependOption">The prepend option.</param>
+        /// <returns>The select list items.</returns>
         private async Task<List<SelectListItem>> GetPokeballSelectListItems(SelectListItem prependOption)
         {
             List<tlkpPokeball> pokeballs = await _pokedexRepository.GetAllPokeballs();
@@ -260,9 +320,9 @@ namespace PokedexApp.Logic
         }
 
         /// <summary>
-        /// Map the detail view model to Pokedex entities.
+        /// Map the detail view model to Pokédex entities.
         /// </summary>
-        /// <param name="pokemonDetailViewModel">The view model to map</param>
+        /// <param name="pokemonDetailViewModel">The view model to map.</param>
         /// <returns>The mapped entity.</returns>
         private async Task<tblMyPokedex> MapDetailViewModelToMyPokemon(PokemonDetailViewModel pokemonDetailViewModel)
         {
