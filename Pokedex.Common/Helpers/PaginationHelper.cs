@@ -7,6 +7,9 @@ using System.Linq;
 
 namespace Pokedex.Common.Helpers
 {
+    /// <summary>
+    /// The Pagination Helper.
+    /// </summary>
     public class PaginationHelper : IPaginationHelper
     {
         private ILoggerAdapter<PaginationHelper> _logger;
@@ -32,7 +35,7 @@ namespace Pokedex.Common.Helpers
 
             collection = collection.Skip(excludeRecords).Take(pageSize);
 
-            _logger.LogInformation(Constants.Mapping + " " + nameof(PagedResult<T>) + "<" + typeof(T) + ">.");
+            _logger.LogInformation($"{Constants.Mapping} {nameof(PagedResult<T>)}<{typeof(T)}>.");
 
             return new PagedResult<T>
             {

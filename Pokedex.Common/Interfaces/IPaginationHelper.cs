@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Pokedex.Common.Interfaces
 {
+    /// <summary>
+    /// The Pagination Helper Interface.
+    /// </summary>
     public interface IPaginationHelper
     {
         /// <summary>
