@@ -19,9 +19,9 @@ namespace PokedexApp.Controllers
         }
 
         /// <summary>
-        /// 
+        /// The search form page.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The empty search form.</returns>
         public async Task<IActionResult> Index()
         {
             try
@@ -37,10 +37,10 @@ namespace PokedexApp.Controllers
         }
 
         /// <summary>
-        /// 
+        /// The search submission.
         /// </summary>
-        /// <param name="searchViewModel"></param>
-        /// <returns></returns>
+        /// <param name="searchViewModel">The search criteria.</param>
+        /// <returns>The search results.</returns>
         [HttpPost]
         public async Task<IActionResult> Index(SearchViewModel searchViewModel)
         {
