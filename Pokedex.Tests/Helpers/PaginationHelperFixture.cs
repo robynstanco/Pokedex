@@ -11,13 +11,14 @@ namespace Pokedex.Tests.Helpers
     [TestClass]
     public class PaginationHelperFixture
     {
-        private PaginationHelper _paginationHelper;
-
         private Mock<ILoggerAdapter<PaginationHelper>> _loggerMock;
+
+        private PaginationHelper _paginationHelper;
 
         [TestInitialize]
         public void Initialize()
         {
+            //Arrange
             _loggerMock = new Mock<ILoggerAdapter<PaginationHelper>>();
 
             _paginationHelper = new PaginationHelper(_loggerMock.Object);
@@ -26,6 +27,7 @@ namespace Pokedex.Tests.Helpers
         [TestCleanup]
         public void Cleanup()
         {
+            //Assert
             _loggerMock.VerifyNoOtherCalls();
         }
 
@@ -33,10 +35,13 @@ namespace Pokedex.Tests.Helpers
         [TestCategory("Happy Path")]
         public void GetPagedStringResultIsSuccessfulAndLogsInformation()
         {
+            //Arrange
             IEnumerable<string> stringCollection = new List<string>() { "test" };
 
+            //Act
             PagedResult<string> pagedResult = _paginationHelper.GetPagedResults(stringCollection, 1, 1);
 
+            //Assert
             AssertOnePagedResult(pagedResult);
 
             VerifyLoggerMockLogsInformation("Mapping PagedResult<System.String>.");
@@ -46,10 +51,13 @@ namespace Pokedex.Tests.Helpers
         [TestCategory("Happy Path")]
         public void GetPagedViewModelResultIsSuccessfulAndLogsInformation()
         {
+            //Arrange
             IEnumerable<PokemonListingViewModel> pokemonListingViewModels = new List<PokemonListingViewModel>() { new PokemonListingViewModel() };
 
+            //Act
             PagedResult<PokemonListingViewModel> pagedResult = _paginationHelper.GetPagedResults(pokemonListingViewModels, 1, 1);
 
+            //Assert
             AssertOnePagedResult(pagedResult);
 
             VerifyLoggerMockLogsInformation("Mapping PagedResult<PokedexApp.Models.PokemonListingViewModel>.");
