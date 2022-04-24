@@ -65,23 +65,23 @@ namespace PokedexApp
         {
             services.AddControllersWithViews();
             services.AddCloudscribePagination();
-            Logger.LogInformation(Constants.Added + " MVC & Pagination.");
+            Logger.LogInformation($"{Constants.Added} MVC & Pagination.");
 
             services.AddDbContext<POKEDEXDBContext>(op => op.UseSqlServer(POKEDEXDBConnectionString));
-            Logger.LogInformation(Constants.Added + " " + Constants.Pokemon + Constants.DBContext + ".");
+            Logger.LogInformation($"{Constants.Added} {Constants.Pokemon} {Constants.DBContext}.");
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
             services.AddScoped<IPaginationHelper, PaginationHelper>();
             services.AddScoped<IPokedexAppLogic, PokedexAppLogic>();
             services.AddScoped<IPokedexRepository, PokedexRepository>();
-            Logger.LogInformation(Constants.Added + " Dependency Injection for automapper, custom logging, logic, helpers, and repository.");
+            Logger.LogInformation($"{Constants.Added} Dependency Injection for automapper, custom logging, logic, helpers, and repository.");
 
             services.AddApplicationInsightsTelemetry(ApplicationInsightsConnectionString);
-            Logger.LogInformation(Constants.Added + " Application Insights.");
+            Logger.LogInformation($"{Constants.Added} Application Insights.");
 
             services.AddHealthChecks().AddDbContextCheck<POKEDEXDBContext>();
-            Logger.LogInformation(Constants.Added + "HealthChecks.");
+            Logger.LogInformation($"{Constants.Added} HealthChecks.");
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace PokedexApp
             }
             else
             {
-                app.UseExceptionHandler("/" + Constants.Error);
+                app.UseExceptionHandler($"/{Constants.Error}");
                 app.UseHsts();
             }
 

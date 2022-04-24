@@ -146,9 +146,9 @@ namespace PokedexApp.Logic
         /// <returns>The new form.</returns>
         public async Task<PokemonFormViewModel> GetNewPokemonForm()
         {
-            _logger.LogInformation(Constants.Mapping + SelectListItems);
+            _logger.LogInformation($"{Constants.Mapping}{SelectListItems}");
 
-            List<SelectListItem> nationalDexOptions = await GetNationalDexSelectListItems();
+            List <SelectListItem> nationalDexOptions = await GetNationalDexSelectListItems();
 
             SelectListItem blankOption = GetBlankSelectListItem();
 
@@ -171,7 +171,7 @@ namespace PokedexApp.Logic
         /// <returns>The search form.</returns>
         public async Task<SearchViewModel> GetSearchForm()
         {
-            _logger.LogInformation(Constants.Mapping + SelectListItems);
+            _logger.LogInformation($"{Constants.Mapping}{SelectListItems}");
 
             SelectListItem blankOption = GetBlankSelectListItem();
 

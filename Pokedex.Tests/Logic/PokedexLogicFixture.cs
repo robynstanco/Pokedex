@@ -143,7 +143,7 @@ namespace Pokedex.Tests.Logic
 
             _pokedexRepositoryMock.Verify(prm => prm.DeletePokemonById(DataGenerator.DefaultGuid), Times.Once);
 
-            VerifyLoggerAppMockLogsInformation("Deleted Pokémon: " + DataGenerator.DefaultGuid);
+            VerifyLoggerAppMockLogsInformation($"Deleted Pokémon: {DataGenerator.DefaultGuid}");
         }
 
         [TestMethod]
@@ -168,7 +168,7 @@ namespace Pokedex.Tests.Logic
                 p => p.Id == DataGenerator.DefaultGuid && p.PokemonId == 0)), Times.Once);
 
             VerifyLoggerAppMockLogsInformation("Mapping Pokémon View Models");
-            VerifyLoggerAppMockLogsInformation("Updated Pokémon: " + DataGenerator.DefaultGuid);
+            VerifyLoggerAppMockLogsInformation($"Updated Pokémon: {DataGenerator.DefaultGuid}");
         }
 
         [TestMethod]

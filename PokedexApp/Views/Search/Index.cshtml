@@ -3,7 +3,7 @@
 @model SearchViewModel
 
 @{
-    ViewData[Constants.Title] = Constants.Search + " for " + Constants.Pokemon + " in your " + Constants.Pokedex + " and the National " + Constants.Pokedex + "!";
+    ViewData[Constants.Title] = $"{Constants.Search} for {Constants.Pokemon} in your {Constants.Pokedex} and the National {Constants.Pokedex}!";
 
     string placeholder = "Enter a Name, Japanese Name, Nickname, or Description...";
 }

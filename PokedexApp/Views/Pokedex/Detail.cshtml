@@ -3,7 +3,7 @@
 @model PokemonDetailViewModel
 
 @{
-    ViewData[Constants.Title] = "My " + Constants.Pokemon + " - " + Model.Name;
+    ViewData[Constants.Title] = $"My {Constants.Pokemon} - {Model.Name}";
 }
 
 <div class="pokemon__container">

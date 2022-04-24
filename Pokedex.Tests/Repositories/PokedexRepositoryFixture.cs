@@ -134,7 +134,7 @@ namespace Pokedex.Tests.Repositories
 
             VerifyDBContextMockSavesChanges(1);
 
-            VerifyLoggerMockLogsInformation("Added Pokémon to DBContext with Id: " + DataGenerator.DefaultGuid);
+            VerifyLoggerMockLogsInformation($"Added Pokémon to DBContext with Id: {DataGenerator.DefaultGuid}");
         }
 
         [TestMethod]
@@ -155,7 +155,7 @@ namespace Pokedex.Tests.Repositories
 
             VerifyDBContextMockSavesChanges(1);
 
-            VerifyLoggerMockLogsInformation("Deleted Pokémon from DBContext with Id: " + DataGenerator.DefaultGuid);
+            VerifyLoggerMockLogsInformation($"Deleted Pokémon from DBContext with Id: {DataGenerator.DefaultGuid}");
         }
 
         [TestMethod]
@@ -195,11 +195,11 @@ namespace Pokedex.Tests.Repositories
 
             VerifyLoggerMockLogsDefaultPokemonRetrieval();
 
-            VerifyLoggerMockLogsInformation("Deleted Pokémon from DBContext with Id: " + DataGenerator.DefaultGuid);
+            VerifyLoggerMockLogsInformation($"Deleted Pokémon from DBContext with Id: {DataGenerator.DefaultGuid}");
 
-            VerifyLoggerMockLogsInformation("Added Pokémon to DBContext with Id: " + DataGenerator.DefaultGuid);
+            VerifyLoggerMockLogsInformation($"Added Pokémon to DBContext with Id: {DataGenerator.DefaultGuid}");
 
-            VerifyLoggerMockLogsInformation("Updated Pokémon in DBContext with Id: " + DataGenerator.DefaultGuid);
+            VerifyLoggerMockLogsInformation($"Updated Pokémon in DBContext with Id: {DataGenerator.DefaultGuid}");
         }
 
         [TestMethod]
@@ -597,22 +597,22 @@ namespace Pokedex.Tests.Repositories
 
         private void VerifyLoggerMockLogsDefaultPokemonRetrieval()
         {
-            VerifyLoggerMockLogsInformation("Retrieved Pokémon from DBContext with Id: " + DataGenerator.DefaultGuid);
+            VerifyLoggerMockLogsInformation($"Retrieved Pokémon from DBContext with Id: {DataGenerator.DefaultGuid}");
         }
 
         private void VerifyLoggerMockLogsLookupInformationWithId(int id)
         {
-            VerifyLoggerMockLogsInformation("Retrieved Ability from DBContext with Id: " + id);
-            VerifyLoggerMockLogsInformation("Retrieved Category from DBContext with Id: " + id);
-            VerifyLoggerMockLogsInformation("Retrieved Ability from DBContext with Id: " + (id + 1));
-            VerifyLoggerMockLogsInformation("Retrieved Type from DBContext with Id: " + id);
-            VerifyLoggerMockLogsInformation("Retrieved Type from DBContext with Id: " + (id + 1));
+            VerifyLoggerMockLogsInformation($"Retrieved Ability from DBContext with Id: {id}");
+            VerifyLoggerMockLogsInformation($"Retrieved Category from DBContext with Id: {id}");
+            VerifyLoggerMockLogsInformation($"Retrieved Ability from DBContext with Id: {id + 1}");
+            VerifyLoggerMockLogsInformation($"Retrieved Type from DBContext with Id: {id}");
+            VerifyLoggerMockLogsInformation($"Retrieved Type from DBContext with Id: {id + 1}");
         }
 
         private void VerifyLoggerMockLogsPokeballAndNationalDexWithId(int id)
         {
-            VerifyLoggerMockLogsInformation("Retrieved Pokémon from DBContext with Id: " + id);
-            VerifyLoggerMockLogsInformation("Retrieved Pokéball from DBContext with Id: " + id);
+            VerifyLoggerMockLogsInformation($"Retrieved Pokémon from DBContext with Id: {id}");
+            VerifyLoggerMockLogsInformation($"Retrieved Pokéball from DBContext with Id: {id}");
         }
     }
 }
