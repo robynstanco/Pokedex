@@ -180,7 +180,7 @@ namespace Pokedex.Tests.Logic
 
             //Assert
             Assert.AreEqual(1, pokemonListingViewModels.Count);
-            Assert.AreEqual("http://0.com", pokemonListingViewModels[0].ImageURL);
+            Assert.AreEqual("http://0.com", pokemonListingViewModels[0].ImageUrl);
             Assert.AreEqual(DataGenerator.DefaultGuid, pokemonListingViewModels[0].MyPokemonId);
             Assert.AreEqual("Name0", pokemonListingViewModels[0].Name);
             Assert.AreEqual("Nickname0", pokemonListingViewModels[0].Nickname);
@@ -200,14 +200,14 @@ namespace Pokedex.Tests.Logic
 
             //Assert
             Assert.AreEqual(DateTime.Today, pokemonDetailViewModel.Date);
-            Assert.AreEqual("http://0.com", pokemonDetailViewModel.ImageURL);
+            Assert.AreEqual("http://0.com", pokemonDetailViewModel.ImageUrl);
             Assert.AreEqual(1, pokemonDetailViewModel.Level);
             Assert.AreEqual("0 Main Street", pokemonDetailViewModel.Location);
             Assert.AreEqual(DataGenerator.DefaultGuid, pokemonDetailViewModel.MyPokemonId);
             Assert.AreEqual("Name0", pokemonDetailViewModel.Name);
             Assert.AreEqual(0, pokemonDetailViewModel.NationalDexPokemonId);
             Assert.AreEqual("Nickname0", pokemonDetailViewModel.Nickname);
-            Assert.AreEqual("http://0.com", pokemonDetailViewModel.PokeballImageURL);
+            Assert.AreEqual("http://0.com", pokemonDetailViewModel.PokeballImageUrl);
             Assert.AreEqual(true, pokemonDetailViewModel.Sex);
 
             _pokedexRepositoryMock.Verify(prm => prm.GetMyPokemonById(DataGenerator.DefaultGuid), Times.Once);
@@ -224,7 +224,7 @@ namespace Pokedex.Tests.Logic
 
             //Assert
             Assert.AreEqual(5, pokemonListingViewModels.Count);
-            Assert.AreEqual("http://0.com", pokemonListingViewModels[0].ImageURL);
+            Assert.AreEqual("http://0.com", pokemonListingViewModels[0].ImageUrl);
             Assert.AreEqual("Name0", pokemonListingViewModels[0].Name);
             Assert.AreEqual(0, pokemonListingViewModels[0].NationalDexPokemonId);
 
@@ -249,7 +249,7 @@ namespace Pokedex.Tests.Logic
             Assert.AreEqual("Desc0", pokemonDetailViewModel.Description);
             Assert.AreEqual(1, pokemonDetailViewModel.HeightInInches);
             Assert.AreEqual("Name1", pokemonDetailViewModel.HiddenAbility);
-            Assert.AreEqual("http://0.com", pokemonDetailViewModel.ImageURL);
+            Assert.AreEqual("http://0.com", pokemonDetailViewModel.ImageUrl);
             Assert.AreEqual("JapaneseName0", pokemonDetailViewModel.JapaneseName);
             Assert.AreEqual("Name0", pokemonDetailViewModel.Name);
             Assert.AreEqual(0, pokemonDetailViewModel.NationalDexPokemonId);
@@ -262,7 +262,7 @@ namespace Pokedex.Tests.Logic
             Assert.IsNull(pokemonDetailViewModel.Location);
             Assert.IsNull(pokemonDetailViewModel.MyPokemonId);
             Assert.IsNull(pokemonDetailViewModel.Nickname);
-            Assert.IsNull(pokemonDetailViewModel.PokeballImageURL);
+            Assert.IsNull(pokemonDetailViewModel.PokeballImageUrl);
             Assert.IsNull(pokemonDetailViewModel.Sex);
 
             _pokedexRepositoryMock.Verify(prm => prm.GetNationalDexPokemonById(0), Times.Once);

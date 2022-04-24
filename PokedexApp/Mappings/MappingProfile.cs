@@ -6,8 +6,14 @@ using PokedexApp.Models;
 
 namespace PokedexApp.Mappings
 {
+    /// <summary>
+    /// The AutoMapper Profile.
+    /// </summary>
     public class MappingProfile : Profile
     {
+        /// <summary>
+        /// The Mapping Profile Constructor.
+        /// </summary>
         public MappingProfile()
         {
             CreatePokemonFormTblMyPokedexMappings();
@@ -35,11 +41,11 @@ namespace PokedexApp.Mappings
         private void CreateTblMyPokedexDetailMappings()
         {
             CreateMap<tblMyPokedex, PokemonDetailViewModel>()
-                .ForMember(dest => dest.ImageURL, opt => opt.MapFrom(src => src.Pokemon.ImageURL))
+                .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.Pokemon.ImageURL))
                 .ForMember(dest => dest.MyPokemonId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Pokemon.Name))
                 .ForMember(dest => dest.NationalDexPokemonId, opt => opt.MapFrom(src => src.Pokemon.Id))
-                .ForMember(dest => dest.PokeballImageURL, opt => opt.MapFrom(src => src.Pokeball.ImageURL))
+                .ForMember(dest => dest.PokeballImageUrl, opt => opt.MapFrom(src => src.Pokeball.ImageURL))
                 .ReverseMap();
         }
 
@@ -49,7 +55,7 @@ namespace PokedexApp.Mappings
         private void CreateTblMyPokedexListingMappings()
         {
             CreateMap<tblMyPokedex, PokemonListingViewModel>()
-                .ForMember(dest => dest.ImageURL, opt => opt.MapFrom(src => src.Pokemon.ImageURL))
+                .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.Pokemon.ImageURL))
                 .ForMember(dest => dest.MyPokemonId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Pokemon.Name))
                 .ForMember(dest => dest.NationalDexPokemonId, opt => opt.MapFrom(src => src.Pokemon.Id));

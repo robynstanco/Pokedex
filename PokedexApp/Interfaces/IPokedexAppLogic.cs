@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace PokedexApp.Interfaces
 {
+    /// <summary>
+    /// The App Logic Interface.
+    /// </summary>
     public interface IPokedexAppLogic
     {
         /// <summary>

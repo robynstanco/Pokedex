@@ -13,6 +13,9 @@ using System.Threading.Tasks;
 
 namespace PokedexApp.Logic
 {
+    /// <summary>
+    /// The App Business Logic.
+    /// </summary>
     public class PokedexAppLogic : IPokedexAppLogic
     {
         private const string ViewModels = "View Models";

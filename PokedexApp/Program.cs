@@ -5,6 +5,9 @@ using Microsoft.Extensions.Logging;
 
 namespace PokedexApp
 {
+    /// <summary>
+    /// The Program class.
+    /// </summary>
     public class Program
     {
         /// <summary>

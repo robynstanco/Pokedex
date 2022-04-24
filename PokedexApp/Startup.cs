@@ -20,8 +20,14 @@ using System.Reflection;
 
 namespace PokedexApp
 {
+    /// <summary>
+    /// The Startup class.
+    /// </summary>
     public class Startup
     {
+        /// <summary>
+        /// The POKEDEXDB Connection String.
+        /// </summary>
         private string POKEDEXDBConnectionString
         {
             get
@@ -30,6 +36,9 @@ namespace PokedexApp
             }
         }
 
+        /// <summary>
+        /// The Azure Application Insights Connection String.
+        /// </summary>
         private string ApplicationInsightsConnectionString
         {
             get
