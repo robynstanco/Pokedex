@@ -69,6 +69,27 @@ namespace PokedexApp.Controllers
         }
 
         /// <summary>
+        /// Capture the Pokemon from the given id.
+        /// </summary>
+        /// <param name="id">The NationalDex Id.</param>
+        /// <returns>The prefilled form.</returns>
+        public async Task<IActionResult> Capture(int id)
+        {
+            try
+            {
+                PokemonFormViewModel pokemonFormViewModel = await _pokedexAppLogic.GetNewPokemonForm();
+
+                pokemonFormViewModel.SelectedNationalDexPokemonId = id;
+
+                return View("Index", pokemonFormViewModel);
+            }
+            catch (Exception ex)
+            {
+                return Error(ex);
+            }
+        }
+
+        /// <summary>
         /// The generic error page.
         /// </summary>
         /// <param name="ex">The exception.</param>

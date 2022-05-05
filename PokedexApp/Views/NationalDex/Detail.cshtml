@@ -47,4 +47,9 @@
             <em>@Model.Description</em>
         </h3>
     </div>
+    <div class="pokemon__navigation">
+        <a asp-controller="PokemonForm" asp-action="@Constants.Capture" asp-route-id="@Model.NationalDexPokemonId">
+            @Constants.Capture
+        </a>
+    </div>
 </div>

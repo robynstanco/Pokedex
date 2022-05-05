@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Pokedex.Data.Models;
+using PokedexApp.Models;
 using System;
 using System.Collections.Generic;
 
@@ -127,6 +128,11 @@ namespace Pokedex.Tests
             }
 
             return pokeballs;
+        }
+
+        public static PokemonFormViewModel GeneratePokemonForm()
+        {
+            return new PokemonFormViewModel();
         }
 
         public static List<tlkpType> GenerateTypes(int num)
