@@ -24,14 +24,14 @@ namespace Pokedex.Tests.Controllers
         public void Intitialize()
         {
             _pokedexAPILogicMock = new Mock<IPokedexAPILogic>();
-            _pokedexAPILogicMock.Setup(plm => plm.GetAllCategories()).ReturnsAsync(It.IsAny<List<GenericLookupResult>>());
-            _pokedexAPILogicMock.Setup(plm => plm.GetCategoryById(1)).ReturnsAsync(new GenericLookupResult { Id = 1 });
+            _pokedexAPILogicMock.Setup(plm => plm.GetAllCategories()).ReturnsAsync(It.IsAny<List<LookupResult>>());
+            _pokedexAPILogicMock.Setup(plm => plm.GetCategoryById(1)).ReturnsAsync(new LookupResult { Id = 1 });
 
             _loggerMock = new Mock<ILoggerAdapter<CategoriesController>>();
 
             _paginationHelperMock = new Mock<IPaginationHelper>();
-            _paginationHelperMock.Setup(phm => phm.GetPagedResults(It.IsAny<IEnumerable<GenericLookupResult>>(),
-                It.IsAny<int>(), It.IsAny<int>())).Returns(new PagedResult<GenericLookupResult>());
+            _paginationHelperMock.Setup(phm => phm.GetPagedResults(It.IsAny<IEnumerable<LookupResult>>(),
+                It.IsAny<int>(), It.IsAny<int>())).Returns(new PagedResult<LookupResult>());
 
             _categoriesController = new CategoriesController(_pokedexAPILogicMock.Object,
                 _paginationHelperMock.Object, _loggerMock.Object);
@@ -44,7 +44,7 @@ namespace Pokedex.Tests.Controllers
 
             _pokedexAPILogicMock.Verify(plm => plm.GetAllCategories(), Times.Once);
 
-            _paginationHelperMock.Verify(plm => plm.GetPagedResults<GenericLookupResult>(null, 3, 33),
+            _paginationHelperMock.Verify(plm => plm.GetPagedResults<LookupResult>(null, 3, 33),
                 Times.Once);
         }
 

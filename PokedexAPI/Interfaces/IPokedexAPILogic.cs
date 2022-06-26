@@ -6,16 +6,16 @@ namespace PokedexAPI.Interfaces
 {
     public interface IPokedexAPILogic
     {
-        Task<List<GenericLookupResult>> GetAllAbilities();
-        Task<List<GenericLookupResult>> GetAllCategories();
-        Task<List<GenericLookupResult>> GetAllPokeballs();
-        Task<List<GenericLookupResult>> GetAllTypes();
+        Task<List<LookupResult>> GetAllAbilities(int pageNumber, int pageSize);
+        Task<List<LookupResult>> GetAllCategories();
+        Task<List<LookupResult>> GetAllPokeballs();
+        Task<List<LookupResult>> GetAllTypes();
         Task<List<GenericPokemonResult>> GetNationalDex();
 
-        Task<GenericLookupResult> GetAbilityById(int id);
-        Task<GenericLookupResult> GetCategoryById(int id);
-        Task<GenericLookupResult> GetPokeballById(int id);
-        Task<GenericLookupResult> GetTypeById(int id);
+        Task<LookupResult> GetAbilityById(int id);
+        Task<LookupResult> GetCategoryById(int id);
+        Task<LookupResult> GetPokeballById(int id);
+        Task<LookupResult> GetTypeById(int id);
         Task<GenericPokemonResult> GetNationalDexPokemonById(int id);
     }
 }

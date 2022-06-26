@@ -48,9 +48,12 @@ namespace Pokedex.Tests.Logic
 
             //Hidden Ability
             _pokedexRepositoryMock.Setup(prm => prm.GetAbilityById(1))
-                .ReturnsAsync(abilities[1]); 
+                .ReturnsAsync(abilities[1]);
 
             _pokedexRepositoryMock.Setup(prm => prm.GetAllAbilities())
+                .ReturnsAsync(abilities);
+
+            _pokedexRepositoryMock.Setup(prm => prm.GetAllAbilities(1, 5))
                 .ReturnsAsync(abilities);
 
             _pokedexRepositoryMock.Setup(prm => prm.GetAllCategories())
@@ -387,7 +390,7 @@ namespace Pokedex.Tests.Logic
         [TestMethod]
         public async Task GetAbilityByIdIsSuccessfulAndLogsInformation()
         {
-            GenericLookupResult ability = await _pokedexAPILogic.GetAbilityById(0);
+            LookupResult ability = await _pokedexAPILogic.GetAbilityById(0);
 
             Assert.AreEqual(0, ability.Id);
             Assert.AreEqual("Name0", ability.Name);
@@ -400,13 +403,13 @@ namespace Pokedex.Tests.Logic
         [TestMethod]
         public async Task GetAllAbilitiesIsSuccessfulAndLogsInformation()
         {
-            List<GenericLookupResult> abilities = await _pokedexAPILogic.GetAllAbilities();
+            List<LookupResult> abilities = await _pokedexAPILogic.GetAllAbilities(1, 5);
 
             Assert.AreEqual(5, abilities.Count);
             Assert.AreEqual(0, abilities[0].Id);
             Assert.AreEqual("Name0", abilities[0].Name);
 
-            _pokedexRepositoryMock.Verify(prm => prm.GetAllAbilities(), Times.Once);
+            _pokedexRepositoryMock.Verify(prm => prm.GetAllAbilities(1, 5), Times.Once);
 
             _loggerAPIMock.Verify(lm => lm.LogInformation("Mapping 5 Ability Results."), Times.Once);
         }
@@ -414,7 +417,7 @@ namespace Pokedex.Tests.Logic
         [TestMethod]
         public async Task GetCategoryByIdIsSuccessfulAndLogsInformation()
         {
-            GenericLookupResult category = await _pokedexAPILogic.GetCategoryById(0);
+            LookupResult category = await _pokedexAPILogic.GetCategoryById(0);
 
             Assert.AreEqual(0, category.Id);
             Assert.AreEqual("Name0", category.Name);
@@ -427,7 +430,7 @@ namespace Pokedex.Tests.Logic
         [TestMethod]
         public async Task GetAllCategoriesIsSuccessfulAndLogsInformation()
         {
-            List<GenericLookupResult> categories = await _pokedexAPILogic.GetAllCategories();
+            List<LookupResult> categories = await _pokedexAPILogic.GetAllCategories();
 
             Assert.AreEqual(5, categories.Count);
             Assert.AreEqual(0, categories[0].Id);
@@ -441,7 +444,7 @@ namespace Pokedex.Tests.Logic
         [TestMethod]
         public async Task GetPokeballByIdIsSuccessfulAndLogsInformation()
         {
-            GenericLookupResult pokeball = await _pokedexAPILogic.GetPokeballById(0);
+            LookupResult pokeball = await _pokedexAPILogic.GetPokeballById(0);
 
             Assert.AreEqual(0, pokeball.Id);
             Assert.AreEqual("Name0", pokeball.Name);
@@ -454,7 +457,7 @@ namespace Pokedex.Tests.Logic
         [TestMethod]
         public async Task GetAllPokeballsIsSuccessfulAndLogsInformation()
         {
-            List<GenericLookupResult> pokeballs = await _pokedexAPILogic.GetAllPokeballs();
+            List<LookupResult> pokeballs = await _pokedexAPILogic.GetAllPokeballs();
 
             Assert.AreEqual(5, pokeballs.Count);
             Assert.AreEqual(0, pokeballs[0].Id);
@@ -468,7 +471,7 @@ namespace Pokedex.Tests.Logic
         [TestMethod]
         public async Task GetTypeByIdIsSuccessfulAndLogsInformation()
         {
-            GenericLookupResult type = await _pokedexAPILogic.GetTypeById(0);
+            LookupResult type = await _pokedexAPILogic.GetTypeById(0);
 
             Assert.AreEqual(0, type.Id);
             Assert.AreEqual("Name0", type.Name);
@@ -481,7 +484,7 @@ namespace Pokedex.Tests.Logic
         [TestMethod]
         public async Task GetAllTypesIsSuccessfulAndLogsInformation()
         {
-            List<GenericLookupResult> types = await _pokedexAPILogic.GetAllTypes();
+            List<LookupResult> types = await _pokedexAPILogic.GetAllTypes();
 
             Assert.AreEqual(5, types.Count);
             Assert.AreEqual(0, types[0].Id);

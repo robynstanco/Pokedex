@@ -45,6 +45,7 @@
         public const string To = "to";
         public const string Type = nameof(Type);
         public const string Types = nameof(Types);
+        public const string UnexpectedError = "An unexpected error occured!";
         public const string Updated = nameof(Updated);
         public const string WithId = " with Id: ";
     }

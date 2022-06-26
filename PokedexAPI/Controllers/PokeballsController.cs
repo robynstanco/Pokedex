@@ -29,9 +29,9 @@ namespace PokedexAPI.Controllers
         public async Task<IActionResult> GetPokeballs([FromQuery] int pageNumber = 1,
             [FromQuery] int pageSize = Constants.PageSize)
         {
-            List<GenericLookupResult> pokeballs = await _pokedexAPILogic.GetAllPokeballs();
+            List<LookupResult> pokeballs = await _pokedexAPILogic.GetAllPokeballs();
 
-            PagedResult<GenericLookupResult> pagedPokeballs =
+            PagedResult<LookupResult> pagedPokeballs =
                 _paginationHelper.GetPagedResults(pokeballs, pageNumber, pageSize);
 
             return Ok(pagedPokeballs.Data);
@@ -40,7 +40,7 @@ namespace PokedexAPI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPokeballById(int id)
         {
-            GenericLookupResult pokeball = await _pokedexAPILogic.GetPokeballById(id);
+            LookupResult pokeball = await _pokedexAPILogic.GetPokeballById(id);
 
             if (pokeball == null)
             {

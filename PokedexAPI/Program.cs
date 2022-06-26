@@ -1,27 +1,40 @@
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace PokedexAPI
 {
+    /// <summary>
+    /// The Program class.
+    /// </summary>
     public class Program
     {
+        /// <summary>
+        /// Entry point of the program.
+        /// </summary>
+        /// <param name="args">Any given arguements.</param>
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            CreateWebHostBuilder(args).Build().Run();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureLogging(logging =>
+        /// <summary>
+        /// Create web host builder given the arguments. Add logging.
+        /// </summary>
+        /// <param name="args">Arguments to create with.</param>
+        /// <returns>The web host builder.</returns>
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        {
+            return WebHost.CreateDefaultBuilder(args)
+                .ConfigureLogging((context, logging) =>
                 {
                     logging.ClearProviders();
+                    logging.AddConfiguration(context.Configuration.GetSection("Logging"));
                     logging.AddConsole();
                     logging.AddDebug();
                 })
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+                .UseStartup<Startup>();
+        }
     }
 }

@@ -38,6 +38,14 @@ namespace Pokedex.Repository.Interfaces
         Task<List<tlkpAbility>> GetAllAbilities();
 
         /// <summary>
+        /// Get all the ability entities from context. Results ordered by Name ascending. Pagination applied.
+        /// </summary>
+        /// <param name="pageNumber">The page number.</param>
+        /// <param name="pageSize">The page size.</param>
+        /// <returns>All paginated ability entities.</returns>
+        Task<List<tlkpAbility>> GetAllAbilities(int pageNumber, int pageSize);
+
+        /// <summary>
         /// Get all the category entities from context. Results ordered by Name ascending.
         /// </summary>
         /// <returns>All category entities.</returns>

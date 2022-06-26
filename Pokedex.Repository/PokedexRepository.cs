@@ -117,6 +117,21 @@ namespace Pokedex.Repository
         }
 
         /// <summary>
+        /// Get all the ability entities from context. Pagination applied.
+        /// </summary>
+        /// <returns>All ability entities.</returns>
+        public async Task<List<tlkpAbility>> GetAllAbilities(int pageNumber, int pageSize)
+        {
+            int excludeRecords = (pageNumber * pageSize) - pageSize;
+
+            List<tlkpAbility> abilities = await _context.tlkpAbility.Skip(excludeRecords).Take(pageSize).ToListAsync();
+
+            _logger.LogInformation(string.Format(InformationalMessageWithCount, abilities.Count, Constants.Abilities));
+
+            return abilities;
+        }
+
+        /// <summary>
         /// Get all the category entities from context. Results ordered by Name ascending.
         /// </summary>
         /// <returns>All category entities.</returns>

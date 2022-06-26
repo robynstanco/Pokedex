@@ -29,9 +29,9 @@ namespace PokedexAPI.Controllers
         public async Task<IActionResult> GetCategories([FromQuery] int pageNumber = 1,
             [FromQuery] int pageSize = Constants.PageSize)
         {
-            List<GenericLookupResult> categories = await _pokedexAPILogic.GetAllCategories();
+            List<LookupResult> categories = await _pokedexAPILogic.GetAllCategories();
 
-            PagedResult<GenericLookupResult> pagedCategories = 
+            PagedResult<LookupResult> pagedCategories = 
                 _paginationHelper.GetPagedResults(categories, pageNumber, pageSize);
 
             return Ok(pagedCategories.Data);
@@ -40,7 +40,7 @@ namespace PokedexAPI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCategoryById(int id)
         {
-            GenericLookupResult category = await _pokedexAPILogic.GetCategoryById(id);
+            LookupResult category = await _pokedexAPILogic.GetCategoryById(id);
 
             if (category == null)
             {

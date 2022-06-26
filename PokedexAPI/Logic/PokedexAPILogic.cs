@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace PokedexAPI.Logic
 {
-    //todo finish for api
+    //todo finish for api, automapper, comments
     public class PokedexAPILogic : IPokedexAPILogic
     {
         private const string Results = nameof(Results);
@@ -23,52 +23,52 @@ namespace PokedexAPI.Logic
             _logger = logger;
         }
 
-        public async Task<List<GenericLookupResult>> GetAllAbilities()
+        public async Task<List<LookupResult>> GetAllAbilities(int pageNumber, int pageSize)
         {
-            List<tlkpAbility> abilities = await _pokedexRepository.GetAllAbilities();
+            List<tlkpAbility> abilities = await _pokedexRepository.GetAllAbilities(pageNumber, pageSize);
 
             _logger.LogInformation(string.Format(Constants.InformationalMessageMappingWithCount, abilities.Count, Constants.Ability, Results));
 
-            return abilities.Select(a => new GenericLookupResult
+            return abilities.Select(a => new LookupResult
             {
                 Id = a.Id,
                 Name = a.Name
             }).ToList();
         }
 
-        public async Task<List<GenericLookupResult>> GetAllCategories()
+        public async Task<List<LookupResult>> GetAllCategories()
         {
             List<tlkpCategory> categories = await _pokedexRepository.GetAllCategories();
 
             _logger.LogInformation(string.Format(Constants.InformationalMessageMappingWithCount, categories.Count, Constants.Category, Results));
 
-            return categories.Select(a => new GenericLookupResult
+            return categories.Select(a => new LookupResult
             {
                 Id = a.Id,
                 Name = a.Name
             }).ToList();
         }
 
-        public async Task<List<GenericLookupResult>> GetAllPokeballs()
+        public async Task<List<LookupResult>> GetAllPokeballs()
         {
             List<tlkpPokeball> pokeballs = await _pokedexRepository.GetAllPokeballs();
 
             _logger.LogInformation(string.Format(Constants.InformationalMessageMappingWithCount, pokeballs.Count, Constants.Pokeball, Results));
 
-            return pokeballs.Select(a => new GenericLookupResult
+            return pokeballs.Select(a => new LookupResult
             {
                 Id = a.Id,
                 Name = a.Name
             }).ToList();
         }
 
-        public async Task<List<GenericLookupResult>> GetAllTypes()
+        public async Task<List<LookupResult>> GetAllTypes()
         {
             List<tlkpType> types = await _pokedexRepository.GetAllTypes();
 
             _logger.LogInformation(string.Format(Constants.InformationalMessageMappingWithCount, types.Count, Constants.Types, Results));
 
-            return types.Select(a => new GenericLookupResult
+            return types.Select(a => new LookupResult
             {
                 Id = a.Id,
                 Name = a.Name
@@ -98,52 +98,52 @@ namespace PokedexAPI.Logic
             }).ToList();
         }
 
-        public async Task<GenericLookupResult> GetAbilityById(int id)
+        public async Task<LookupResult> GetAbilityById(int id)
         {
             tlkpAbility ability = await _pokedexRepository.GetAbilityById(id);
 
             _logger.LogInformation(Constants.Mapping + " " + Constants.Ability + " " + Results + ".");
 
-            return ability == null ? null : new GenericLookupResult()
+            return ability == null ? null : new LookupResult()
             {
                 Id = ability.Id,
                 Name = ability.Name
             };
         }
 
-        public async Task<GenericLookupResult> GetCategoryById(int id)
+        public async Task<LookupResult> GetCategoryById(int id)
         {
             tlkpCategory category = await _pokedexRepository.GetCategoryById(id);
 
             _logger.LogInformation(Constants.Mapping + " " + Constants.Category + " " + Results + ".");
 
-            return category == null ? null : new GenericLookupResult()
+            return category == null ? null : new LookupResult()
             {
                 Id = category.Id,
                 Name = category.Name
             };
         }
 
-        public async Task<GenericLookupResult> GetPokeballById(int id)
+        public async Task<LookupResult> GetPokeballById(int id)
         {
             tlkpPokeball pokeball = await _pokedexRepository.GetPokeballById(id);
 
             _logger.LogInformation(Constants.Mapping + " " + Constants.Pokeball + " " + Results + ".");
 
-            return pokeball == null ? null : new GenericLookupResult()
+            return pokeball == null ? null : new LookupResult()
             {
                 Id = pokeball.Id,
                 Name = pokeball.Name
             };
         }
 
-        public async Task<GenericLookupResult> GetTypeById(int id)
+        public async Task<LookupResult> GetTypeById(int id)
         {
             tlkpType type = await _pokedexRepository.GetTypeById(id);
 
             _logger.LogInformation(Constants.Mapping + " " + Constants.Type + " " + Results + ".");
 
-            return type == null ? null : new GenericLookupResult()
+            return type == null ? null : new LookupResult()
             {
                 Id = type.Id,
                 Name = type.Name

@@ -15,8 +15,6 @@ namespace Pokedex.Tests.Controllers
     public class AbilitiesAPIControllerFixture
     {
         private Mock<IPokedexAPILogic> _pokedexAPILogicMock;
-
-        private Mock<IPaginationHelper> _paginationHelperMock;
         private Mock<ILoggerAdapter<AbilitiesController>> _loggerMock;
 
         private AbilitiesController _abilitiesController;
@@ -25,18 +23,12 @@ namespace Pokedex.Tests.Controllers
         public void Intitialize()
         {
             _pokedexAPILogicMock = new Mock<IPokedexAPILogic>();
-            _pokedexAPILogicMock.Setup(plm => plm.GetAllAbilities()).ReturnsAsync(It.IsAny<List<GenericLookupResult>>());
-            _pokedexAPILogicMock.Setup(plm => plm.GetAbilityById(1)).ReturnsAsync(new GenericLookupResult { Id = 1 });
+            _pokedexAPILogicMock.Setup(plm => plm.GetAllAbilities(3, 33)).ReturnsAsync(It.IsAny<List<LookupResult>>());
+            _pokedexAPILogicMock.Setup(plm => plm.GetAbilityById(1)).ReturnsAsync(new LookupResult { Id = 1 });
 
             _loggerMock = new Mock<ILoggerAdapter<AbilitiesController>>();
 
-            _paginationHelperMock = new Mock<IPaginationHelper>();
-
-            _paginationHelperMock.Setup(phm => phm.GetPagedResults(It.IsAny<IEnumerable<GenericLookupResult>>(),
-                It.IsAny<int>(), It.IsAny<int>())).Returns(new PagedResult<GenericLookupResult>());
-
-            _abilitiesController = new AbilitiesController(_pokedexAPILogicMock.Object,
-                _paginationHelperMock.Object, _loggerMock.Object);
+            _abilitiesController = new AbilitiesController(_pokedexAPILogicMock.Object, _loggerMock.Object);
         }
 
         [TestMethod]
@@ -44,10 +36,7 @@ namespace Pokedex.Tests.Controllers
         {
             await _abilitiesController.GetAbilities(3, 33);
 
-            _pokedexAPILogicMock.Verify(plm => plm.GetAllAbilities(), Times.Once);
-
-            _paginationHelperMock.Verify(plm => plm.GetPagedResults<GenericLookupResult>(null, 3, 33),
-                Times.Once);
+            _pokedexAPILogicMock.Verify(plm => plm.GetAllAbilities(3, 33), Times.Once);
         }
 
         [TestMethod]
