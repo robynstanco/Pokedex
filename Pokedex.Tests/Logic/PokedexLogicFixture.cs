@@ -59,6 +59,9 @@ namespace Pokedex.Tests.Logic
             _pokedexRepositoryMock.Setup(prm => prm.GetAllCategories())
                 .ReturnsAsync(categories);
 
+            _pokedexRepositoryMock.Setup(prm => prm.GetAllCategories(1, 5))
+                .ReturnsAsync(categories);
+
             _pokedexRepositoryMock.Setup(prm => prm.GetAllPokeballs())
                 .ReturnsAsync(pokeballs);
 
@@ -430,13 +433,13 @@ namespace Pokedex.Tests.Logic
         [TestMethod]
         public async Task GetAllCategoriesIsSuccessfulAndLogsInformation()
         {
-            List<LookupResult> categories = await _pokedexAPILogic.GetAllCategories();
+            List<LookupResult> categories = await _pokedexAPILogic.GetAllCategories(1, 5);
 
             Assert.AreEqual(5, categories.Count);
             Assert.AreEqual(0, categories[0].Id);
             Assert.AreEqual("Name0", categories[0].Name);
 
-            _pokedexRepositoryMock.Verify(prm => prm.GetAllCategories(), Times.Once);
+            _pokedexRepositoryMock.Verify(prm => prm.GetAllCategories(1, 5), Times.Once);
 
             _loggerAPIMock.Verify(lm => lm.LogInformation("Mapping 5 Category Results."), Times.Once);
         }

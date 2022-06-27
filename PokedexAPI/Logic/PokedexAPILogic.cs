@@ -36,9 +36,9 @@ namespace PokedexAPI.Logic
             }).ToList();
         }
 
-        public async Task<List<LookupResult>> GetAllCategories()
+        public async Task<List<LookupResult>> GetAllCategories(int pageNumber, int pageSize)
         {
-            List<tlkpCategory> categories = await _pokedexRepository.GetAllCategories();
+            List<tlkpCategory> categories = await _pokedexRepository.GetAllCategories(pageNumber, pageSize);
 
             _logger.LogInformation(string.Format(Constants.InformationalMessageMappingWithCount, categories.Count, Constants.Category, Results));
 

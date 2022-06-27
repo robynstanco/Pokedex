@@ -119,7 +119,9 @@ namespace Pokedex.Repository
         /// <summary>
         /// Get all the ability entities from context. Pagination applied.
         /// </summary>
-        /// <returns>All ability entities.</returns>
+        /// <param name="pageNumber">The page number.</param>
+        /// <param name="pageSize">The page size.</param>
+        /// <returns>All paginated ability entities.</returns>
         public async Task<List<tlkpAbility>> GetAllAbilities(int pageNumber, int pageSize)
         {
             int excludeRecords = (pageNumber * pageSize) - pageSize;
@@ -139,6 +141,23 @@ namespace Pokedex.Repository
         {
             List<tlkpCategory> categories = await _context.tlkpCategory.ToListAsync(); 
             categories = categories.OrderBy(c => c.Name).ToList();
+
+            _logger.LogInformation(string.Format(InformationalMessageWithCount, categories.Count, Constants.Categories));
+
+            return categories;
+        }
+
+        /// <summary>
+        /// Get all the category entities from context. Pagination applied.
+        /// </summary>
+        /// <param name="pageNumber">The page number.</param>
+        /// <param name="pageSize">The page size.</param>
+        /// <returns>All paginated category entities.</returns>
+        public async Task<List<tlkpCategory>> GetAllCategories(int pageNumber, int pageSize)
+        {
+            int excludeRecords = (pageNumber * pageSize) - pageSize;
+
+            List<tlkpCategory> categories = await _context.tlkpCategory.Skip(excludeRecords).Take(pageSize).ToListAsync();
 
             _logger.LogInformation(string.Format(InformationalMessageWithCount, categories.Count, Constants.Categories));
 

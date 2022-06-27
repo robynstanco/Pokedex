@@ -7,7 +7,7 @@ namespace PokedexAPI.Interfaces
     public interface IPokedexAPILogic
     {
         Task<List<LookupResult>> GetAllAbilities(int pageNumber, int pageSize);
-        Task<List<LookupResult>> GetAllCategories();
+        Task<List<LookupResult>> GetAllCategories(int pageNumber, int pageSize);
         Task<List<LookupResult>> GetAllPokeballs();
         Task<List<LookupResult>> GetAllTypes();
         Task<List<GenericPokemonResult>> GetNationalDex();

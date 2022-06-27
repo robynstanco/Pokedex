@@ -52,6 +52,14 @@ namespace Pokedex.Repository.Interfaces
         Task<List<tlkpCategory>> GetAllCategories();
 
         /// <summary>
+        /// Get all the category entities from context. Pagination applied.
+        /// </summary>
+        /// <param name="pageNumber">The page number.</param>
+        /// <param name="pageSize">The page size.</param>
+        /// <returns>All paginated category entities.</returns>
+        Task<List<tlkpCategory>> GetAllCategories(int pageNumber, int pageSize);
+
+        /// <summary>
         /// Get all Pokéball entities from context. Results ordered by Name ascending.
         /// </summary>
         /// <returns>All Pokéball entities.</returns>

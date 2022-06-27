@@ -1,7 +1,6 @@
 ﻿using cloudscribe.Pagination.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Pokedex.Common.Interfaces;
 using Pokedex.Logging.Interfaces;
 using PokedexAPI.Controllers;
 using PokedexAPI.Interfaces;
@@ -15,7 +14,6 @@ namespace Pokedex.Tests.Controllers
     public class CategoriesAPIControllerFixture
     {
         private Mock<IPokedexAPILogic> _pokedexAPILogicMock;
-        private Mock<IPaginationHelper> _paginationHelperMock;
         private Mock<ILoggerAdapter<CategoriesController>> _loggerMock;
 
         private CategoriesController _categoriesController;
@@ -24,17 +22,12 @@ namespace Pokedex.Tests.Controllers
         public void Intitialize()
         {
             _pokedexAPILogicMock = new Mock<IPokedexAPILogic>();
-            _pokedexAPILogicMock.Setup(plm => plm.GetAllCategories()).ReturnsAsync(It.IsAny<List<LookupResult>>());
+            _pokedexAPILogicMock.Setup(plm => plm.GetAllCategories(3, 33)).ReturnsAsync(It.IsAny<List<LookupResult>>());
             _pokedexAPILogicMock.Setup(plm => plm.GetCategoryById(1)).ReturnsAsync(new LookupResult { Id = 1 });
 
             _loggerMock = new Mock<ILoggerAdapter<CategoriesController>>();
 
-            _paginationHelperMock = new Mock<IPaginationHelper>();
-            _paginationHelperMock.Setup(phm => phm.GetPagedResults(It.IsAny<IEnumerable<LookupResult>>(),
-                It.IsAny<int>(), It.IsAny<int>())).Returns(new PagedResult<LookupResult>());
-
-            _categoriesController = new CategoriesController(_pokedexAPILogicMock.Object,
-                _paginationHelperMock.Object, _loggerMock.Object);
+            _categoriesController = new CategoriesController(_pokedexAPILogicMock.Object, _loggerMock.Object);
         }
 
         [TestMethod]
@@ -42,10 +35,7 @@ namespace Pokedex.Tests.Controllers
         {
             await _categoriesController.GetCategories(3, 33);
 
-            _pokedexAPILogicMock.Verify(plm => plm.GetAllCategories(), Times.Once);
-
-            _paginationHelperMock.Verify(plm => plm.GetPagedResults<LookupResult>(null, 3, 33),
-                Times.Once);
+            _pokedexAPILogicMock.Verify(plm => plm.GetAllCategories(3, 33), Times.Once);
         }
 
         [TestMethod]
@@ -57,7 +47,6 @@ namespace Pokedex.Tests.Controllers
 
             _loggerMock.VerifyNoOtherCalls();
         }
-
 
         [TestMethod]
         public async Task GetCategoryByInvalidIdCallsRepositoryAndLogsInformation()

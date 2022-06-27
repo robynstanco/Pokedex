@@ -1,5 +1,4 @@
-﻿using cloudscribe.Pagination.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Pokedex.Common;
 using Pokedex.Logging.Interfaces;
 using PokedexAPI.Interfaces;
@@ -42,16 +41,25 @@ namespace PokedexAPI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAbilityById(int id)
         {
-            LookupResult ability = await _pokedexAPILogic.GetAbilityById(id);
+            try 
+            { 
+                LookupResult ability = await _pokedexAPILogic.GetAbilityById(id);
 
-            if (ability == null)
-            {
-                _logger.LogInformation($"{Constants.InvalidRequest} for {Constants.Ability}{Constants.WithId}{id}");
+                if (ability == null)
+                {
+                    _logger.LogInformation($"{Constants.InvalidRequest} for {Constants.Ability}{Constants.WithId}{id}");
 
-                return NotFound();
+                    return NotFound();
+                }
+
+                return Ok(ability);
             }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, Constants.UnexpectedError);
 
-            return Ok(ability);
+                return StatusCode(500);
+            }
         }
     }
 }

@@ -1,10 +1,9 @@
-﻿using cloudscribe.Pagination.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Pokedex.Common;
-using Pokedex.Common.Interfaces;
 using Pokedex.Logging.Interfaces;
 using PokedexAPI.Interfaces;
 using PokedexAPI.Models.Output;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -15,41 +14,52 @@ namespace PokedexAPI.Controllers
     public class CategoriesController : ControllerBase
     {
         private IPokedexAPILogic _pokedexAPILogic;
-        private IPaginationHelper _paginationHelper;
         private ILoggerAdapter<CategoriesController> _logger;
-        public CategoriesController(IPokedexAPILogic pokedexAPILogic, IPaginationHelper paginationHelper,
-            ILoggerAdapter<CategoriesController> logger)
+        public CategoriesController(IPokedexAPILogic pokedexAPILogic, ILoggerAdapter<CategoriesController> logger)
         {
             _pokedexAPILogic = pokedexAPILogic;
-            _paginationHelper = paginationHelper;
             _logger = logger;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetCategories([FromQuery] int pageNumber = 1,
-            [FromQuery] int pageSize = Constants.PageSize)
+        public async Task<IActionResult> GetCategories([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = Constants.PageSize)
         {
-            List<LookupResult> categories = await _pokedexAPILogic.GetAllCategories();
+            try
+            {
+                List<LookupResult> paginatedCategories = await _pokedexAPILogic.GetAllCategories(pageNumber, pageSize);
 
-            PagedResult<LookupResult> pagedCategories = 
-                _paginationHelper.GetPagedResults(categories, pageNumber, pageSize);
+                return Ok(paginatedCategories);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, Constants.UnexpectedError);
 
-            return Ok(pagedCategories.Data);
+                return StatusCode(500);
+            }
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCategoryById(int id)
         {
-            LookupResult category = await _pokedexAPILogic.GetCategoryById(id);
-
-            if (category == null)
+            try
             {
-                _logger.LogInformation(Constants.InvalidRequest + " for " + Constants.Category + Constants.WithId + id);
+                LookupResult category = await _pokedexAPILogic.GetCategoryById(id);
 
-                return BadRequest();
+                if (category == null)
+                {
+                    _logger.LogInformation($"{Constants.InvalidRequest} for {Constants.Category}{Constants.WithId}{id}");
+
+                    return NotFound();
+                }
+
+                return Ok(category);
             }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, Constants.UnexpectedError);
 
-            return Ok(category);
+                return StatusCode(500);
+            }
         }
     }
 }
