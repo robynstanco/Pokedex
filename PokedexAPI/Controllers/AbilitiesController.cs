@@ -22,7 +22,7 @@ namespace PokedexAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAbilities([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = Constants.PageSize)
+        public async Task<IActionResult> GetAbilities([FromQuery]int pageNumber = 1, [FromQuery]int pageSize = Constants.PageSize)
         {
             try
             {

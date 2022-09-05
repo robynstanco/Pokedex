@@ -1,4 +1,5 @@
-﻿using Pokedex.Common;
+﻿using AutoMapper;
+using Pokedex.Common;
 using Pokedex.Data.Models;
 using Pokedex.Logging.Interfaces;
 using Pokedex.Repository.Interfaces;
@@ -17,10 +18,12 @@ namespace PokedexAPI.Logic
 
         IPokedexRepository _pokedexRepository;
         ILoggerAdapter<PokedexAPILogic> _logger;
-        public PokedexAPILogic(IPokedexRepository pokedexRepository, ILoggerAdapter<PokedexAPILogic> logger)
+        IMapper _mapper;
+        public PokedexAPILogic(IPokedexRepository pokedexRepository, ILoggerAdapter<PokedexAPILogic> logger, IMapper mapper)
         {
             _pokedexRepository = pokedexRepository;
             _logger = logger;
+            _mapper = mapper;
         }
 
         public async Task<List<LookupResult>> GetAllAbilities(int pageNumber, int pageSize)
@@ -29,11 +32,9 @@ namespace PokedexAPI.Logic
 
             _logger.LogInformation(string.Format(Constants.InformationalMessageMappingWithCount, abilities.Count, Constants.Ability, Results));
 
-            return abilities.Select(a => new LookupResult
-            {
-                Id = a.Id,
-                Name = a.Name
-            }).ToList();
+            var abilityLookupResults = _mapper.Map<List<LookupResult>>(abilities);
+
+            return abilityLookupResults;
         }
 
         public async Task<List<LookupResult>> GetAllCategories(int pageNumber, int pageSize)
@@ -42,11 +43,9 @@ namespace PokedexAPI.Logic
 
             _logger.LogInformation(string.Format(Constants.InformationalMessageMappingWithCount, categories.Count, Constants.Category, Results));
 
-            return categories.Select(a => new LookupResult
-            {
-                Id = a.Id,
-                Name = a.Name
-            }).ToList();
+            var categoryLookupResults = _mapper.Map<List<LookupResult>>(categories);
+
+            return categoryLookupResults;
         }
 
         public async Task<List<LookupResult>> GetAllPokeballs()
@@ -55,11 +54,9 @@ namespace PokedexAPI.Logic
 
             _logger.LogInformation(string.Format(Constants.InformationalMessageMappingWithCount, pokeballs.Count, Constants.Pokeball, Results));
 
-            return pokeballs.Select(a => new LookupResult
-            {
-                Id = a.Id,
-                Name = a.Name
-            }).ToList();
+            var pokeballLookupResults = _mapper.Map<List<LookupResult>>(pokeballs);
+
+            return pokeballLookupResults;
         }
 
         public async Task<List<LookupResult>> GetAllTypes()
@@ -68,11 +65,9 @@ namespace PokedexAPI.Logic
 
             _logger.LogInformation(string.Format(Constants.InformationalMessageMappingWithCount, types.Count, Constants.Types, Results));
 
-            return types.Select(a => new LookupResult
-            {
-                Id = a.Id,
-                Name = a.Name
-            }).ToList();
+            var typeLookupResults = _mapper.Map<List<LookupResult>>(types);
+
+            return typeLookupResults;
         }
 
         public async Task<List<GenericPokemonResult>> GetNationalDex()
@@ -104,11 +99,9 @@ namespace PokedexAPI.Logic
 
             _logger.LogInformation(Constants.Mapping + " " + Constants.Ability + " " + Results + ".");
 
-            return ability == null ? null : new LookupResult()
-            {
-                Id = ability.Id,
-                Name = ability.Name
-            };
+            var abilityLookupResult = _mapper.Map<LookupResult>(ability);
+
+            return abilityLookupResult;
         }
 
         public async Task<LookupResult> GetCategoryById(int id)
@@ -117,11 +110,9 @@ namespace PokedexAPI.Logic
 
             _logger.LogInformation(Constants.Mapping + " " + Constants.Category + " " + Results + ".");
 
-            return category == null ? null : new LookupResult()
-            {
-                Id = category.Id,
-                Name = category.Name
-            };
+            var categoryLookupResult = _mapper.Map<LookupResult>(category);
+
+            return categoryLookupResult;
         }
 
         public async Task<LookupResult> GetPokeballById(int id)
@@ -130,11 +121,9 @@ namespace PokedexAPI.Logic
 
             _logger.LogInformation(Constants.Mapping + " " + Constants.Pokeball + " " + Results + ".");
 
-            return pokeball == null ? null : new LookupResult()
-            {
-                Id = pokeball.Id,
-                Name = pokeball.Name
-            };
+            var pokeballLookupResult = _mapper.Map<LookupResult>(pokeball);
+
+            return pokeballLookupResult;
         }
 
         public async Task<LookupResult> GetTypeById(int id)
@@ -143,11 +132,9 @@ namespace PokedexAPI.Logic
 
             _logger.LogInformation(Constants.Mapping + " " + Constants.Type + " " + Results + ".");
 
-            return type == null ? null : new LookupResult()
-            {
-                Id = type.Id,
-                Name = type.Name
-            };
+            var typeLookupResult = _mapper.Map<LookupResult>(type);
+
+            return typeLookupResult;
         }
 
         public async Task<GenericPokemonResult> GetNationalDexPokemonById(int id)

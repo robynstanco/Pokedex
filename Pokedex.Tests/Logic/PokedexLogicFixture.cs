@@ -8,7 +8,6 @@ using Pokedex.Repository.Interfaces;
 using PokedexAPI.Logic;
 using PokedexAPI.Models.Output;
 using PokedexApp.Logic;
-using PokedexApp.Mappings;
 using PokedexApp.Models;
 using System;
 using System.Collections.Generic;
@@ -104,12 +103,13 @@ namespace Pokedex.Tests.Logic
 
             var mappingConfig = new MapperConfiguration(mc =>
             {
-                mc.AddProfile(new MappingProfile());
+                mc.AddProfile(new PokedexApp.Mappings.MappingProfile());
+                mc.AddProfile(new PokedexAPI.Mappings.MappingProfile());
             });
             _mapper = mappingConfig.CreateMapper();
 
             _pokedexAppLogic = new PokedexAppLogic(_loggerAppMock.Object, _mapper, _pokedexRepositoryMock.Object);
-            _pokedexAPILogic = new PokedexAPILogic(_pokedexRepositoryMock.Object, _loggerAPIMock.Object);
+            _pokedexAPILogic = new PokedexAPILogic(_pokedexRepositoryMock.Object, _loggerAPIMock.Object, _mapper);
         }
 
         [TestCleanup]

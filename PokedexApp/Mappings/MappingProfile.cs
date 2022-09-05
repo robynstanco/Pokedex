@@ -27,7 +27,7 @@ namespace PokedexApp.Mappings
         /// <summary>
         /// Create mappings between PokemonFormViewModel => tblMyPokedex.
         /// </summary>
-        public void CreatePokemonFormTblMyPokedexMappings()
+        private void CreatePokemonFormTblMyPokedexMappings()
         {
             CreateMap<PokemonFormViewModel, tblMyPokedex>()
                 .ForMember(dest => dest.PokeballId, opt => opt.MapFrom(src => src.SelectedPokeballId))

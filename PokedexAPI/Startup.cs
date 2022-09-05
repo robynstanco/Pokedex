@@ -14,6 +14,7 @@ using Pokedex.Repository.Interfaces;
 using PokedexAPI.Interfaces;
 using PokedexAPI.Logic;
 using System;
+using System.Reflection;
 
 namespace PokedexAPI
 {
@@ -66,6 +67,7 @@ namespace PokedexAPI
             services.AddDbContext<POKEDEXDBContext>(op => op.UseSqlServer(POKEDEXDBConnectionString));
             Logger.LogInformation($"{Constants.Added} {Constants.Pokemon} {Constants.DBContext}.");
 
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
             services.AddScoped<IPokedexRepository, PokedexRepository>();
             services.AddScoped<IPokedexAPILogic, PokedexAPILogic>();
