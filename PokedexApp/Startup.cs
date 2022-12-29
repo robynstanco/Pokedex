@@ -28,24 +28,12 @@ namespace PokedexApp
         /// <summary>
         /// The POKEDEXDB Connection String.
         /// </summary>
-        private string POKEDEXDBConnectionString
-        {
-            get
-            {
-                return Configuration.GetConnectionString("POKEDEXDB_CONNECTION_STRING");
-            }
-        }
+        private string POKEDEXDBConnectionString => Configuration.GetConnectionString("POKEDEXDB_CONNECTION_STRING");
 
         /// <summary>
         /// The Azure Application Insights Connection String.
         /// </summary>
-        private string ApplicationInsightsConnectionString
-        {
-            get
-            {
-                return Configuration["APPINSIGHTS_CONNECTIONSTRING"];
-            }
-        }
+        private string ApplicationInsightsConnectionString => Configuration["APPINSIGHTS_CONNECTIONSTRING"];
 
         public IConfiguration Configuration { get; set; }
 

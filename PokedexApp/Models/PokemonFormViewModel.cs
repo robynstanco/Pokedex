@@ -12,7 +12,7 @@ namespace PokedexApp.Models
     public class PokemonFormViewModel
     {
         /// <summary>
-        /// The reguired date of capture.
+        /// The required date of capture.
         /// </summary>
         [Required]
         [DataType(DataType.DateTime)]
@@ -22,13 +22,7 @@ namespace PokedexApp.Models
         /// <summary>
         /// The date placeholder.
         /// </summary>
-        public string DatePlaceholder
-        {
-            get
-            {
-                return "MM/DD/YYYY";
-            }
-        }
+        public string DatePlaceholder => "MM/DD/YYYY";
 
         /// <summary>
         /// The required level.

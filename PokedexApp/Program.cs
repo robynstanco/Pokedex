@@ -13,7 +13,7 @@ namespace PokedexApp
         /// <summary>
         /// Entry point of the program.
         /// </summary>
-        /// <param name="args">Any given arguements.</param>
+        /// <param name="args">Any given arguments.</param>
         public static void Main(string[] args)
         {
             CreateWebHostBuilder(args).Build().Run();

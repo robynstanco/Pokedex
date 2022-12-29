@@ -13,12 +13,12 @@ namespace PokedexApp.Controllers
     /// </summary>
     public class PokemonFormController : Controller
     {
-        private ILoggerAdapter<PokemonFormController> _logger;
-        private IPokedexAppLogic _pokedexAppLogic;
+        private readonly ILoggerAdapter<PokemonFormController> _logger;
+        private  readonly IPokedexAppLogic _pokedexAppLogic;
         public PokemonFormController(ILoggerAdapter<PokemonFormController> logger, IPokedexAppLogic pokedexAppLogic)
         {
-            _logger = logger;
-            _pokedexAppLogic = pokedexAppLogic;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _pokedexAppLogic = pokedexAppLogic ?? throw new ArgumentNullException(nameof(pokedexAppLogic));
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace PokedexApp.Controllers
         {
             try
             {
-                PokemonFormViewModel pokemonFormViewModel = await _pokedexAppLogic.GetNewPokemonForm();
+                var pokemonFormViewModel = await _pokedexAppLogic.GetNewPokemonForm();
 
                 return View(pokemonFormViewModel);
             }
@@ -53,14 +53,12 @@ namespace PokedexApp.Controllers
                 {
                     await _pokedexAppLogic.AddPokemon(pokemonFormViewModel);
 
-                    return View(Constants.Success, new SuccessViewModel() { ActionName = "addition" });
+                    return View(Constants.Success, new SuccessViewModel { ActionName = "addition" });
                 }
-                else
-                {
-                    _logger.LogInformation(Constants.InvalidRequest);
 
-                    return await Index();
-                }
+                _logger.LogInformation(Constants.InvalidRequest);
+
+                return await Index();
             }
             catch (Exception ex)
             {
@@ -69,15 +67,15 @@ namespace PokedexApp.Controllers
         }
 
         /// <summary>
-        /// Capture the Pokemon from the given id.
+        /// Capture the Pokémon from the given id.
         /// </summary>
         /// <param name="id">The NationalDex Id.</param>
-        /// <returns>The prefilled form.</returns>
+        /// <returns>The pre-filled form.</returns>
         public async Task<IActionResult> Capture(int id)
         {
             try
             {
-                PokemonFormViewModel pokemonFormViewModel = await _pokedexAppLogic.GetNewPokemonForm();
+                var pokemonFormViewModel = await _pokedexAppLogic.GetNewPokemonForm();
 
                 pokemonFormViewModel.SelectedNationalDexPokemonId = id;
 
@@ -99,7 +97,7 @@ namespace PokedexApp.Controllers
         {
             _logger.LogError(ex, ex.Message);
 
-            return View(Constants.Error, new ErrorViewModel() { Message = ex.Message });
+            return View(Constants.Error, new ErrorViewModel { Message = ex.Message });
         }
     }
 }

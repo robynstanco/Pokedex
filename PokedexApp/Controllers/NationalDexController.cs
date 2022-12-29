@@ -1,12 +1,10 @@
-﻿using cloudscribe.Pagination.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Pokedex.Common;
 using Pokedex.Common.Interfaces;
 using Pokedex.Logging.Interfaces;
 using PokedexApp.Interfaces;
 using PokedexApp.Models;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace PokedexApp.Controllers
@@ -16,14 +14,14 @@ namespace PokedexApp.Controllers
     /// </summary>
     public class NationalDexController : Controller
     {
-        private ILoggerAdapter<NationalDexController> _logger;
-        private IPaginationHelper _paginationHelper;
-        private IPokedexAppLogic _pokedexAppLogic;
+        private readonly ILoggerAdapter<NationalDexController> _logger;
+        private readonly IPaginationHelper _paginationHelper;
+        private readonly IPokedexAppLogic _pokedexAppLogic;
         public NationalDexController(ILoggerAdapter<NationalDexController> logger, IPaginationHelper paginationHelper, IPokedexAppLogic pokedexAppLogic)
         {
-            _logger = logger;
-            _paginationHelper = paginationHelper;
-            _pokedexAppLogic = pokedexAppLogic;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _paginationHelper = paginationHelper ?? throw new ArgumentNullException(nameof(paginationHelper));
+            _pokedexAppLogic = pokedexAppLogic ?? throw new ArgumentNullException(nameof(pokedexAppLogic));
         }
 
         /// <summary>
@@ -36,9 +34,9 @@ namespace PokedexApp.Controllers
         {
             try
             {
-                IEnumerable<PokemonListingViewModel> nationalDex = await _pokedexAppLogic.GetNationalDex();
+                var nationalDex = await _pokedexAppLogic.GetNationalDex();
 
-                PagedResult<PokemonListingViewModel> pagedNationalDex = _paginationHelper.GetPagedResults(nationalDex, pageNumber, pageSize);
+                var pagedNationalDex = _paginationHelper.GetPagedResults(nationalDex, pageNumber, pageSize);
 
                 return View(pagedNationalDex);
             }
@@ -57,7 +55,7 @@ namespace PokedexApp.Controllers
         {
             try
             {
-                PokemonDetailViewModel nationalDexPokemon = await _pokedexAppLogic.GetNationalDexPokemonById(id);
+                var nationalDexPokemon = await _pokedexAppLogic.GetNationalDexPokemonById(id);
 
                 return View(nationalDexPokemon);
             }
@@ -77,7 +75,7 @@ namespace PokedexApp.Controllers
         {
             _logger.LogError(ex, ex.Message);
 
-            return View(Constants.Error, new ErrorViewModel() { Message = ex.Message });
+            return View(Constants.Error, new ErrorViewModel { Message = ex.Message });
         }
     }
 }

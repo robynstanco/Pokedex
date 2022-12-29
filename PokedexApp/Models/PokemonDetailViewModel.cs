@@ -32,7 +32,7 @@ namespace PokedexApp.Models
         public string Description { get; set; }
 
         /// <summary>
-        /// The heigh in inches.
+        /// The height in inches.
         /// </summary>
         public int HeightInInches { get; set; }
 
@@ -108,7 +108,7 @@ namespace PokedexApp.Models
         public string TypeTwo { get; set; }
 
         /// <summary>
-        /// The weight in pounds
+        /// The weight in pounds.
         /// </summary>
         public int WeightInPounds { get; set; }
     }

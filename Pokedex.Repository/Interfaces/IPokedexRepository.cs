@@ -20,7 +20,7 @@ namespace Pokedex.Repository.Interfaces
         /// <summary>
         /// Delete the given Pokémon from Pokédex context and save changes.
         /// </summary>
-        /// <param name="myPokemonId">The guid to find and delete.</param>
+        /// <param name="pokemonId">The guid to find and delete.</param>
         /// <returns>The deleted entity.</returns>
         Task<tblMyPokedex> DeletePokemonById(Guid pokemonId);
 
@@ -88,19 +88,19 @@ namespace Pokedex.Repository.Interfaces
         /// </summary>
         /// <param name="abilityId">The abilityId to find.</param>
         /// <returns>The found ability entity.</returns>
-        Task<tlkpAbility> GetAbilityById(int abilityId);
+        Task<tlkpAbility> GetAbilityById(int? abilityId);
 
         /// <summary>
         /// Get the category entity from a given categoryId.
         /// </summary>
         /// <param name="categoryId">The categoryId to find.</param>
         /// <returns>The found category entity.</returns>
-        Task<tlkpCategory> GetCategoryById(int categoryId);
+        Task<tlkpCategory> GetCategoryById(int? categoryId);
 
         /// <summary>
         /// Get the Pokédex entity from a given myPokemonId with lookup information from context.
         /// </summary>
-        /// <param name="myPokemonId">The myPokemonId to find.</param>
+        /// <param name="pokemonId">The myPokemonId to find.</param>
         /// <returns>The found Pokédex entity.</returns>
         Task<tblMyPokedex> GetMyPokemonById(Guid pokemonId);
 
@@ -116,18 +116,18 @@ namespace Pokedex.Repository.Interfaces
         /// </summary>
         /// <param name="pokeballId">The pokeballId to find.</param>
         /// <returns>The found Pokéball entity.</returns>
-        Task<tlkpPokeball> GetPokeballById(int pokeballId);
+        Task<tlkpPokeball> GetPokeballById(int? pokeballId);
 
         /// <summary>
         /// Get the type entity from a given typeId.
         /// </summary>
         /// <param name="typeId">The typeId to find.</param>
         /// <returns>The found type entity.</returns>
-        Task<tlkpType> GetTypeById(int typeId);
+        Task<tlkpType> GetTypeById(int? typeId);
 
         /// <summary>
         /// Search the National Pokédex based on a searchString and lookup parameters.
-        /// Results filtered by occurence of string in name, Japanese name, and description.
+        /// Results filtered by occurrence of string in name, Japanese name, and description.
         /// Additional filtering applied based on optional Pokémon characteristics. Results ordered by Id ascending.
         /// </summary>
         /// <param name="searchString">The string to filter on.</param>
@@ -139,7 +139,7 @@ namespace Pokedex.Repository.Interfaces
 
         /// <summary>
         /// Search the personal Pokédex based on a searchString and lookup parameters.
-        /// Results filtered by occurence of string in name, Japanese name, description, and nickname.
+        /// Results filtered by occurrence of string in name, Japanese name, description, and nickname.
         /// Additional filtering applied based on optional Pokémon characteristics.
         /// Results ordered by PokemonId ascending.
         /// </summary>

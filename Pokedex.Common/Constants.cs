@@ -1,7 +1,7 @@
 ﻿namespace Pokedex.Common
 {
     /// <summary>
-    /// General Constants used in multiple files/projects. Only abstracted here if occurence of string is > 2.
+    /// General Constants used in multiple files/projects. Only abstracted here if occurrence of string is > 2.
     /// Note: not applicable for test layers. 
     /// </summary>
     public class Constants

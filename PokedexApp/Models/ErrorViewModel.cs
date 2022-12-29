@@ -9,15 +9,5 @@ namespace PokedexApp.Models
         /// The error message.
         /// </summary>
         public string Message { get; set; }
-
-        /// <summary>
-        /// The error request Id.
-        /// </summary>
-        public string RequestId { get; set; }
-
-        /// <summary>
-        /// True if the request Id is filled.
-        /// </summary>
-        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
     }
 }

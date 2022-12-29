@@ -12,7 +12,7 @@ namespace Pokedex.Common.Helpers
     /// </summary>
     public class PaginationHelper : IPaginationHelper
     {
-        private ILoggerAdapter<PaginationHelper> _logger;
+        private readonly ILoggerAdapter<PaginationHelper> _logger;
         public PaginationHelper(ILoggerAdapter<PaginationHelper> logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -29,9 +29,11 @@ namespace Pokedex.Common.Helpers
         /// <returns>A PagedResult of class T.</returns>
         public PagedResult<T> GetPagedResults<T>(IEnumerable<T> collection, int pageNumber, int pageSize) where T : class
         {
-            int totalCount = collection.Count();
+            collection = collection.ToList(); 
 
-            int excludeRecords = (pageNumber * pageSize) - pageSize;
+            var totalCount = collection.Count();
+
+            var excludeRecords = (pageNumber * pageSize) - pageSize;
 
             collection = collection.Skip(excludeRecords).Take(pageSize);
 

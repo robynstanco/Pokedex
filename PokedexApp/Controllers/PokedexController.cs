@@ -1,12 +1,10 @@
-﻿using cloudscribe.Pagination.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Pokedex.Common;
 using Pokedex.Common.Interfaces;
 using Pokedex.Logging.Interfaces;
 using PokedexApp.Interfaces;
 using PokedexApp.Models;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace PokedexApp.Controllers
@@ -16,14 +14,14 @@ namespace PokedexApp.Controllers
     /// </summary>
     public class PokedexController : Controller
     {
-        private ILoggerAdapter<PokedexController> _logger;
-        private IPaginationHelper _paginationHelper;
-        private IPokedexAppLogic _pokedexAppLogic;
+        private readonly ILoggerAdapter<PokedexController> _logger;
+        private readonly IPaginationHelper _paginationHelper;
+        private readonly IPokedexAppLogic _pokedexAppLogic;
         public PokedexController(ILoggerAdapter<PokedexController> logger, IPaginationHelper paginationHelper, IPokedexAppLogic pokedexAppLogic)
         {
-            _logger = logger;
-            _paginationHelper = paginationHelper;
-            _pokedexAppLogic = pokedexAppLogic;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _paginationHelper = paginationHelper ?? throw new ArgumentNullException(nameof(paginationHelper));
+            _pokedexAppLogic = pokedexAppLogic ?? throw new ArgumentNullException(nameof(pokedexAppLogic)); ;
         }
 
         /// <summary>
@@ -36,9 +34,9 @@ namespace PokedexApp.Controllers
         {
             try
             {
-                IEnumerable<PokemonListingViewModel> myPokemon = await _pokedexAppLogic.GetMyPokedex();
-
-                PagedResult<PokemonListingViewModel> pagedNationalDex = _paginationHelper.GetPagedResults(myPokemon, pageNumber, pageSize);
+                var myPokemon = await _pokedexAppLogic.GetMyPokedex();
+                
+                var pagedNationalDex = _paginationHelper.GetPagedResults(myPokemon, pageNumber, pageSize);
 
                 return View(pagedNationalDex);
             }
@@ -57,7 +55,7 @@ namespace PokedexApp.Controllers
         {
             try
             {
-                PokemonDetailViewModel myPokemon = await _pokedexAppLogic.GetMyPokemonById(id);
+                var myPokemon = await _pokedexAppLogic.GetMyPokemonById(id);
 
                 return View(myPokemon);
             }
@@ -76,7 +74,7 @@ namespace PokedexApp.Controllers
         {
             try
             {
-                PokemonDetailViewModel pokemonDetailViewModel = await _pokedexAppLogic.GetMyPokemonById(id);
+                var pokemonDetailViewModel = await _pokedexAppLogic.GetMyPokemonById(id);
                 pokemonDetailViewModel.IsEditMode = true;
 
                 return View(Constants.Detail, pokemonDetailViewModel);
@@ -101,14 +99,12 @@ namespace PokedexApp.Controllers
                 {
                     await _pokedexAppLogic.EditPokemon(pokemonDetailViewModel);
 
-                    return View(Constants.Success, new SuccessViewModel() { ActionName = "edit" });
+                    return View(Constants.Success, new SuccessViewModel { ActionName = "edit" });
                 }
-                else
-                {
-                    _logger.LogInformation(Constants.InvalidRequest);
 
-                    return await Edit(pokemonDetailViewModel.MyPokemonId.Value);
-                }
+                _logger.LogInformation(Constants.InvalidRequest);
+
+                return await Edit(pokemonDetailViewModel.MyPokemonId ?? Guid.Empty);
             }
             catch (Exception ex)
             {
@@ -127,7 +123,7 @@ namespace PokedexApp.Controllers
             {
                 await _pokedexAppLogic.DeletePokemonById(id);
 
-                return View(Constants.Success, new SuccessViewModel() { ActionName = "release" });
+                return View(Constants.Success, new SuccessViewModel { ActionName = "release" });
             }
             catch (Exception ex)
             {
@@ -145,7 +141,7 @@ namespace PokedexApp.Controllers
         {
             _logger.LogError(ex, ex.Message);
 
-            return View(Constants.Error, new ErrorViewModel() { Message = ex.Message });
+            return View(Constants.Error, new ErrorViewModel { Message = ex.Message });
         }
     }
 }

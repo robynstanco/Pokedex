@@ -41,7 +41,7 @@ namespace PokedexApp.Interfaces
         /// Get a Pokédex Pokémon by Id.
         /// </summary>
         /// <param name="id">The Pokémon Id.</param>
-        /// <returns></returns>
+        /// <returns>The Pokémon.</returns>
         Task<PokemonDetailViewModel> GetMyPokemonById(Guid id);
 
         /// <summary>

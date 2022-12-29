@@ -13,12 +13,12 @@ namespace PokedexApp.Controllers
     /// </summary>
     public class SearchController : Controller
     {
-        private ILoggerAdapter<SearchController> _logger;
-        private IPokedexAppLogic _pokedexAppLogic;
+        private readonly ILoggerAdapter<SearchController> _logger;
+        private readonly IPokedexAppLogic _pokedexAppLogic;
         public SearchController(ILoggerAdapter<SearchController> logger, IPokedexAppLogic pokedexAppLogic)
         {
-            _logger = logger;
-            _pokedexAppLogic = pokedexAppLogic;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _pokedexAppLogic = pokedexAppLogic ?? throw new ArgumentNullException(nameof(pokedexAppLogic));
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace PokedexApp.Controllers
         {
             try
             {
-                SearchViewModel searchViewModel = await _pokedexAppLogic.GetSearchForm();
+                var searchViewModel = await _pokedexAppLogic.GetSearchForm();
 
                 return View(searchViewModel);
             }
@@ -51,16 +51,14 @@ namespace PokedexApp.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    SearchViewModel results = await _pokedexAppLogic.Search(searchViewModel);
+                    var results = await _pokedexAppLogic.Search(searchViewModel);
 
                     return View(results);
                 }
-                else
-                {
-                    _logger.LogInformation(Constants.InvalidRequest);
 
-                    return await Index();
-                }
+                _logger.LogInformation(Constants.InvalidRequest);
+
+                return await Index();
             }
             catch (Exception ex)
             {
@@ -78,7 +76,7 @@ namespace PokedexApp.Controllers
         {
             _logger.LogError(ex, ex.Message);
 
-            return View(Constants.Error, new ErrorViewModel() { Message = ex.Message });
+            return View(Constants.Error, new ErrorViewModel { Message = ex.Message });
         }
     }
 }

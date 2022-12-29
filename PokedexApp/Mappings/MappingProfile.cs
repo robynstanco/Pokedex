@@ -32,7 +32,7 @@ namespace PokedexApp.Mappings
             CreateMap<PokemonFormViewModel, tblMyPokedex>()
                 .ForMember(dest => dest.PokeballId, opt => opt.MapFrom(src => src.SelectedPokeballId))
                 .ForMember(dest => dest.PokemonId, opt => opt.MapFrom(src => src.SelectedNationalDexPokemonId))
-                .ForMember(dest => dest.Sex, opt => opt.MapFrom(src => src.SelectedSexId == 0 ? false : true));
+                .ForMember(dest => dest.Sex, opt => opt.MapFrom(src => src.SelectedSexId != 0));
         }
 
         /// <summary>
