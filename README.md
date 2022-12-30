@@ -23,7 +23,7 @@
 <div>
   <h3>Technologies & Methodologies</h3>
   <ul>
-    <li>C#, .NET Core 3.1, ASP.NET Core 3.1 MVC & Web API</li>
+    <li>C#, .NET Core 3.1, ASP.NET Core 3.1 MVC & Web Api</li>
     <li>Logging, Configuration, Health Check, & Dependency Injection</li>
     <li>SQL Server, SSMS, T-SQL, Azure SQL Database</li>
     <li>Azure App Services</li>
