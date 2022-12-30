@@ -126,7 +126,7 @@ namespace Pokedex.Repository
         /// <param name="pageNumber">The page number.</param>
         /// <param name="pageSize">The page size.</param>
         /// <returns>All paginated ability entities.</returns>
-        public async Task<List<tlkpAbility>> GetAllAbilities(int pageNumber, int pageSize)
+        public async Task<List<tlkpAbility>> GetAbilities(int pageNumber, int pageSize)
         {
             var excludeRecords = (pageNumber * pageSize) - pageSize;
 
@@ -157,7 +157,7 @@ namespace Pokedex.Repository
         /// <param name="pageNumber">The page number.</param>
         /// <param name="pageSize">The page size.</param>
         /// <returns>All paginated category entities.</returns>
-        public async Task<List<tlkpCategory>> GetAllCategories(int pageNumber, int pageSize)
+        public async Task<List<tlkpCategory>> GetCategories(int pageNumber, int pageSize)
         {
             var excludeRecords = (pageNumber * pageSize) - pageSize;
 
@@ -265,19 +265,22 @@ namespace Pokedex.Repository
         {
             var nationalDex = await _context.tlkpNationalDex.ToListAsync();
 
-            //Grab all nested lookup data
-            var nestedNationalDex = new List<tlkpNationalDex>();
-            foreach (var pokemon in nationalDex)
-            {
-                var nested = await GetNestedNationalDexInfo(pokemon);
-                nestedNationalDex.Add(nested);
-            }
+            return await GetAllNestedNationalDexData(nationalDex);
+        }
 
-            nestedNationalDex = nestedNationalDex.OrderBy(p => p.Id).ToList();
+        /// <summary>
+        /// Get National Dex entities and subsequent lookup information from context. Pagination applied.
+        /// </summary>
+        /// <param name="pageNumber">The page number.</param>
+        /// <param name="pageSize">The page size.</param>
+        /// <returns>Paginated National Dex Pokémon with related lookup information.</returns>
+        public async Task<List<tlkpNationalDex>> GetNationalDex(int pageNumber, int pageSize)
+        {
+            var excludeRecords = (pageNumber * pageSize) - pageSize;
 
-            _logger.LogInformation(string.Format(InformationalMessageWithCount, nestedNationalDex.Count, Constants.Pokemon));
-
-            return nestedNationalDex;
+            var nationalDex = await _context.tlkpNationalDex.Skip(excludeRecords).Take(pageSize).ToListAsync();
+            
+            return await GetAllNestedNationalDexData(nationalDex);
         }
 
         /// <summary>
@@ -454,6 +457,27 @@ namespace Pokedex.Repository
             }
 
             return nationalDexPokemon;
+        }
+
+        /// <summary>
+        /// Get all the nested NationalDex lookup information for all given Pokémon.
+        /// </summary>
+        /// <param name="nationalDex">The National Dex Pokémon to grab lookups for.</param>
+        /// <returns>The National Dex Pokémon with lookups filled.</returns>
+        private async Task<List<tlkpNationalDex>> GetAllNestedNationalDexData(List<tlkpNationalDex> nationalDex)
+        {
+            var nestedNationalDex = new List<tlkpNationalDex>();
+            foreach (var pokemon in nationalDex)
+            {
+                var nested = await GetNestedNationalDexInfo(pokemon);
+                nestedNationalDex.Add(nested);
+            }
+
+            nestedNationalDex = nestedNationalDex.OrderBy(p => p.Id).ToList();
+
+            _logger.LogInformation(string.Format(InformationalMessageWithCount, nestedNationalDex.Count, Constants.Pokemon));
+
+            return nestedNationalDex;
         }
     }
 }

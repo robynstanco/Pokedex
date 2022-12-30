@@ -14,10 +14,10 @@ namespace PokedexAPI.Controllers
     [ApiController]
     public class PokeballsController : ControllerBase
     {
-        private IPokedexAPILogic _pokedexAPILogic;
+        private IPokedexApiLogic _pokedexAPILogic;
         private IPaginationHelper _paginationHelper;
         private ILoggerAdapter<PokeballsController> _logger;
-        public PokeballsController(IPokedexAPILogic pokedexAPILogic, IPaginationHelper paginationHelper,
+        public PokeballsController(IPokedexApiLogic pokedexAPILogic, IPaginationHelper paginationHelper,
             ILoggerAdapter<PokeballsController> logger)
         {
             _pokedexAPILogic = pokedexAPILogic;

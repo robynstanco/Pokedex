@@ -14,6 +14,7 @@ using Pokedex.Repository.Interfaces;
 using PokedexAPI.Interfaces;
 using PokedexAPI.Logic;
 using System;
+using System.IO;
 using System.Reflection;
 
 namespace PokedexAPI
@@ -26,24 +27,12 @@ namespace PokedexAPI
         /// <summary>
         /// The POKEDEXDB Connection String.
         /// </summary>
-        private string POKEDEXDBConnectionString
-        {
-            get
-            {
-                return Configuration.GetConnectionString("POKEDEXDB_CONNECTION_STRING");
-            }
-        }
+        private string POKEDEXDBConnectionString => Configuration.GetConnectionString("POKEDEXDB_CONNECTION_STRING");
 
         /// <summary>
         /// The Azure Application Insights Connection String.
         /// </summary>
-        private string ApplicationInsightsConnectionString
-        {
-            get
-            {
-                return Configuration["APPINSIGHTS_CONNECTIONSTRING"];
-            }
-        }
+        private string ApplicationInsightsConnectionString => Configuration["APPINSIGHTS_CONNECTIONSTRING"];
 
         public IConfiguration Configuration { get; }
 
@@ -70,7 +59,7 @@ namespace PokedexAPI
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
             services.AddScoped<IPokedexRepository, PokedexRepository>();
-            services.AddScoped<IPokedexAPILogic, PokedexAPILogic>();
+            services.AddScoped<IPokedexApiLogic, PokedexApiLogic>();
             Logger.LogInformation($"{Constants.Added} Dependency Injection for automapper, custom logging, logic, helpers, and repository.");
 
             /*services.AddApplicationInsightsTelemetry(ApplicationInsightsConnectionString);
@@ -79,7 +68,11 @@ namespace PokedexAPI
             services.AddHealthChecks().AddDbContextCheck<POKEDEXDBContext>();
             Logger.LogInformation($"{Constants.Added} HealthChecks.");*/ //todo
 
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(options =>
+            {
+                var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

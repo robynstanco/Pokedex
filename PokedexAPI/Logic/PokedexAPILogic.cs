@@ -12,23 +12,29 @@ using System.Threading.Tasks;
 namespace PokedexAPI.Logic
 {
     //todo finish for api, automapper, comments
-    public class PokedexAPILogic : IPokedexAPILogic
+    public class PokedexApiLogic : IPokedexApiLogic
     {
         private const string Results = nameof(Results);
 
-        IPokedexRepository _pokedexRepository;
-        ILoggerAdapter<PokedexAPILogic> _logger;
-        IMapper _mapper;
-        public PokedexAPILogic(IPokedexRepository pokedexRepository, ILoggerAdapter<PokedexAPILogic> logger, IMapper mapper)
+        private readonly IPokedexRepository _pokedexRepository;
+        private readonly ILoggerAdapter<PokedexApiLogic> _logger;
+        private readonly IMapper _mapper;
+        public PokedexApiLogic(IPokedexRepository pokedexRepository, ILoggerAdapter<PokedexApiLogic> logger, IMapper mapper)
         {
             _pokedexRepository = pokedexRepository;
             _logger = logger;
             _mapper = mapper;
         }
 
-        public async Task<List<LookupResult>> GetAllAbilities(int pageNumber, int pageSize)
+        /// <summary>
+        /// Get the abilities from repository and map to lookup result. Pagination applied.
+        /// </summary>
+        /// <param name="pageNumber">The page number.</param>
+        /// <param name="pageSize">The page size</param>
+        /// <returns>The paginated abilities.</returns>
+        public async Task<List<LookupResult>> GetAbilities(int pageNumber, int pageSize)
         {
-            List<tlkpAbility> abilities = await _pokedexRepository.GetAllAbilities(pageNumber, pageSize);
+            var abilities = await _pokedexRepository.GetAbilities(pageNumber, pageSize);
 
             _logger.LogInformation(string.Format(Constants.InformationalMessageMappingWithCount, abilities.Count, Constants.Ability, Results));
 
@@ -37,9 +43,15 @@ namespace PokedexAPI.Logic
             return abilityLookupResults;
         }
 
-        public async Task<List<LookupResult>> GetAllCategories(int pageNumber, int pageSize)
+        /// <summary>
+        /// Get the categories from repository and map to lookup result. Pagination applied.
+        /// </summary>
+        /// <param name="pageNumber">The page number.</param>
+        /// <param name="pageSize">The page size</param>
+        /// <returns>The paginated categories.</returns>
+        public async Task<List<LookupResult>> GetCategories(int pageNumber, int pageSize)
         {
-            List<tlkpCategory> categories = await _pokedexRepository.GetAllCategories(pageNumber, pageSize);
+            var categories = await _pokedexRepository.GetCategories(pageNumber, pageSize);
 
             _logger.LogInformation(string.Format(Constants.InformationalMessageMappingWithCount, categories.Count, Constants.Category, Results));
 
@@ -70,27 +82,21 @@ namespace PokedexAPI.Logic
             return typeLookupResults;
         }
 
-        public async Task<List<GenericPokemonResult>> GetNationalDex()
+        /// <summary>
+        /// Get the National Dex from repository and map to Pokemon results. Pagination applied.
+        /// </summary>
+        /// <param name="pageNumber">The page number.</param>
+        /// <param name="pageSize">The page size.</param>
+        /// <returns>The paginated National Dex.</returns>
+        public async Task<List<GenericPokemonResult>> GetNationalDex(int pageNumber, int pageSize)
         {
-            List<tlkpNationalDex> nationalDex = await _pokedexRepository.GetNationalDex();
+            var nationalDex = await _pokedexRepository.GetNationalDex(pageNumber, pageSize);
 
             _logger.LogInformation(string.Format(Constants.InformationalMessageMappingWithCount, nationalDex.Count, Constants.NationalDex, Results));
 
-            return nationalDex.Select(a => new GenericPokemonResult 
-            { 
-                Ability = a.Ability.Name,
-                Category = a.Category.Name,
-                Description = a.Description,
-                HeightInInches = a.HeightInInches,
-                HiddenAbility = a.HiddenAbilityId.HasValue ? a.HiddenAbility.Name : Constants.NotApplicable,
-                ImageURL = a.ImageURL,
-                JapaneseName = a.JapaneseName,
-                Name = a.Name,
-                NationalDexPokemonId = a.Id,
-                TypeOne = a.TypeOne.Name,
-                TypeTwo = a.TypeTwoId.HasValue ? a.TypeTwo.Name : Constants.NotApplicable,
-                WeightInPounds = a.WeightInPounds
-            }).ToList();
+            var nationalDexResults = _mapper.Map<List<GenericPokemonResult>>(nationalDex);
+
+            return nationalDexResults;
         }
 
         public async Task<LookupResult> GetAbilityById(int id)

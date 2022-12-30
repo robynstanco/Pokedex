@@ -1,11 +1,8 @@
-﻿using cloudscribe.Pagination.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Pokedex.Common;
-using Pokedex.Common.Interfaces;
 using Pokedex.Logging.Interfaces;
 using PokedexAPI.Interfaces;
-using PokedexAPI.Models.Output;
-using System.Collections.Generic;
+using System;
 using System.Threading.Tasks;
 
 namespace PokedexAPI.Controllers
@@ -14,42 +11,53 @@ namespace PokedexAPI.Controllers
     [ApiController]
     public class NationalDexController : ControllerBase
     {
-        private IPokedexAPILogic _pokedexAPILogic;
-        private IPaginationHelper _paginationHelper;
-        private ILoggerAdapter<NationalDexController> _logger;
-        public NationalDexController(IPokedexAPILogic pokedexAPILogic, IPaginationHelper paginationHelper,
-            ILoggerAdapter<NationalDexController> logger)
+        private readonly IPokedexApiLogic _pokedexApiLogic;
+        private readonly ILoggerAdapter<NationalDexController> _logger;
+        public NationalDexController(IPokedexApiLogic pokedexApiLogic, ILoggerAdapter<NationalDexController> logger)
         {
-            _pokedexAPILogic = pokedexAPILogic;
-            _paginationHelper = paginationHelper;
-            _logger = logger;
+            _pokedexApiLogic = pokedexApiLogic ?? throw new ArgumentNullException(nameof(pokedexApiLogic));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetNationalDex([FromQuery] int pageNumber = 1,
-            [FromQuery] int pageSize = Constants.PageSize)
+        public async Task<IActionResult> GetNationalDex([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = Constants.PageSize)
         {
-            List<GenericPokemonResult> nationalDex = await _pokedexAPILogic.GetNationalDex();
+            try
+            {
+                var nationalDex = await _pokedexApiLogic.GetNationalDex(pageNumber, pageSize);
 
-            PagedResult<GenericPokemonResult> pagedNationalDex =
-                _paginationHelper.GetPagedResults(nationalDex, pageNumber, pageSize);
+                return Ok(nationalDex);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, Constants.UnexpectedError);
 
-            return Ok(pagedNationalDex.Data);
+                return StatusCode(500);
+            }
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetNationalDexById(int id)
         {
-            GenericPokemonResult nationalDexPokemon = await _pokedexAPILogic.GetNationalDexPokemonById(id);
-
-            if (nationalDexPokemon == null)
+            try
             {
+                var nationalDexPokemon = await _pokedexApiLogic.GetNationalDexPokemonById(id);
+
+                if (nationalDexPokemon != null)
+                {
+                    return Ok(nationalDexPokemon);
+                }
+
                 _logger.LogInformation(Constants.InvalidRequest + " for " + Constants.Pokemon + Constants.WithId + id);
 
                 return BadRequest();
             }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, Constants.UnexpectedError);
 
-            return Ok(nationalDexPokemon);
+                return StatusCode(500);
+            }
         }
     }
 }

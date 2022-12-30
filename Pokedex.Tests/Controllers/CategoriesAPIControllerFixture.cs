@@ -13,7 +13,7 @@ namespace Pokedex.Tests.Controllers
     [TestClass]
     public class CategoriesAPIControllerFixture
     {
-        private Mock<IPokedexAPILogic> _pokedexAPILogicMock;
+        private Mock<IPokedexApiLogic> _pokedexAPILogicMock;
         private Mock<ILoggerAdapter<CategoriesController>> _loggerMock;
 
         private CategoriesController _categoriesController;
@@ -21,8 +21,8 @@ namespace Pokedex.Tests.Controllers
         [TestInitialize]
         public void Intitialize()
         {
-            _pokedexAPILogicMock = new Mock<IPokedexAPILogic>();
-            _pokedexAPILogicMock.Setup(plm => plm.GetAllCategories(3, 33)).ReturnsAsync(It.IsAny<List<LookupResult>>());
+            _pokedexAPILogicMock = new Mock<IPokedexApiLogic>();
+            _pokedexAPILogicMock.Setup(plm => plm.GetCategories(3, 33)).ReturnsAsync(It.IsAny<List<LookupResult>>());
             _pokedexAPILogicMock.Setup(plm => plm.GetCategoryById(1)).ReturnsAsync(new LookupResult { Id = 1 });
 
             _loggerMock = new Mock<ILoggerAdapter<CategoriesController>>();
@@ -35,7 +35,7 @@ namespace Pokedex.Tests.Controllers
         {
             await _categoriesController.GetCategories(3, 33);
 
-            _pokedexAPILogicMock.Verify(plm => plm.GetAllCategories(3, 33), Times.Once);
+            _pokedexAPILogicMock.Verify(plm => plm.GetCategories(3, 33), Times.Once);
         }
 
         [TestMethod]

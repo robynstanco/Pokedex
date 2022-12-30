@@ -14,7 +14,7 @@ namespace Pokedex.Tests.Controllers
     [TestClass]
     public class AbilitiesAPIControllerFixture
     {
-        private Mock<IPokedexAPILogic> _pokedexAPILogicMock;
+        private Mock<IPokedexApiLogic> _pokedexAPILogicMock;
         private Mock<ILoggerAdapter<AbilitiesController>> _loggerMock;
 
         private AbilitiesController _abilitiesController;
@@ -22,8 +22,8 @@ namespace Pokedex.Tests.Controllers
         [TestInitialize]
         public void Intitialize()
         {
-            _pokedexAPILogicMock = new Mock<IPokedexAPILogic>();
-            _pokedexAPILogicMock.Setup(plm => plm.GetAllAbilities(3, 33)).ReturnsAsync(It.IsAny<List<LookupResult>>());
+            _pokedexAPILogicMock = new Mock<IPokedexApiLogic>();
+            _pokedexAPILogicMock.Setup(plm => plm.GetAbilities(3, 33)).ReturnsAsync(It.IsAny<List<LookupResult>>());
             _pokedexAPILogicMock.Setup(plm => plm.GetAbilityById(1)).ReturnsAsync(new LookupResult { Id = 1 });
 
             _loggerMock = new Mock<ILoggerAdapter<AbilitiesController>>();
@@ -36,7 +36,7 @@ namespace Pokedex.Tests.Controllers
         {
             await _abilitiesController.GetAbilities(3, 33);
 
-            _pokedexAPILogicMock.Verify(plm => plm.GetAllAbilities(3, 33), Times.Once);
+            _pokedexAPILogicMock.Verify(plm => plm.GetAbilities(3, 33), Times.Once);
         }
 
         [TestMethod]

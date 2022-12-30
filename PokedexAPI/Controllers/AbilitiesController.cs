@@ -2,31 +2,38 @@
 using Pokedex.Common;
 using Pokedex.Logging.Interfaces;
 using PokedexAPI.Interfaces;
-using PokedexAPI.Models.Output;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace PokedexAPI.Controllers
 {
+    /// <summary>
+    /// The abilities controller, readonly operations.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class AbilitiesController : ControllerBase
     {
-        private IPokedexAPILogic _pokedexAPILogic;
-        private ILoggerAdapter<AbilitiesController> _logger;
-        public AbilitiesController(IPokedexAPILogic pokedexAPILogic, ILoggerAdapter<AbilitiesController> logger)
+        private readonly IPokedexApiLogic _pokedexApiLogic;
+        private readonly ILoggerAdapter<AbilitiesController> _logger;
+        public AbilitiesController(IPokedexApiLogic pokedexApiLogic, ILoggerAdapter<AbilitiesController> logger)
         {
-            _pokedexAPILogic = pokedexAPILogic;
-            _logger = logger;
+            _pokedexApiLogic = pokedexApiLogic ?? throw new ArgumentNullException(nameof(pokedexApiLogic));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
+        /// <summary>
+        /// Get paginated abilities.
+        /// </summary>
+        /// <param name="pageNumber">The page number.</param>
+        /// <param name="pageSize">The page size.</param>
+        /// <returns>The paginated lookup results.</returns>
         [HttpGet]
         public async Task<IActionResult> GetAbilities([FromQuery]int pageNumber = 1, [FromQuery]int pageSize = Constants.PageSize)
         {
             try
             {
-                List<LookupResult> paginatedAbilities = await _pokedexAPILogic.GetAllAbilities(pageNumber, pageSize);
+                var paginatedAbilities = await _pokedexApiLogic.GetAbilities(pageNumber, pageSize);
 
                 return Ok(paginatedAbilities);
             }
@@ -38,21 +45,27 @@ namespace PokedexAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Get the ability by id.
+        /// </summary>
+        /// <param name="id">The ability id.</param>
+        /// <returns>The lookup result.</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAbilityById(int id)
         {
             try 
             { 
-                LookupResult ability = await _pokedexAPILogic.GetAbilityById(id);
+                var ability = await _pokedexApiLogic.GetAbilityById(id);
 
-                if (ability == null)
+                if (ability != null)
                 {
-                    _logger.LogInformation($"{Constants.InvalidRequest} for {Constants.Ability}{Constants.WithId}{id}");
-
-                    return NotFound();
+                    return Ok(ability);
                 }
 
-                return Ok(ability);
+                _logger.LogInformation($"{Constants.InvalidRequest} for {Constants.Ability}{Constants.WithId}{id}");
+
+                return NotFound();
+
             }
             catch (Exception ex)
             {

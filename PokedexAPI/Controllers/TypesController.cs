@@ -14,10 +14,10 @@ namespace PokedexAPI.Controllers
     [ApiController]
     public class TypesController : ControllerBase
     {
-        private IPokedexAPILogic _pokedexAPILogic;
+        private IPokedexApiLogic _pokedexAPILogic;
         private IPaginationHelper _paginationHelper;
         private ILoggerAdapter<TypesController> _logger;
-        public TypesController(IPokedexAPILogic pokedexAPILogic, IPaginationHelper paginationHelper,
+        public TypesController(IPokedexApiLogic pokedexAPILogic, IPaginationHelper paginationHelper,
             ILoggerAdapter<TypesController> logger)
         {
             _pokedexAPILogic = pokedexAPILogic;

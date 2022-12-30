@@ -14,7 +14,7 @@ namespace Pokedex.Tests.Controllers
     [TestClass]
     public class TypesAPIControllerFixture
     {
-        private Mock<IPokedexAPILogic> _pokedexAPILogicMock;
+        private Mock<IPokedexApiLogic> _pokedexAPILogicMock;
         private Mock<IPaginationHelper> _paginationHelperMock;
         private Mock<ILoggerAdapter<TypesController>> _loggerMock;
 
@@ -23,7 +23,7 @@ namespace Pokedex.Tests.Controllers
         [TestInitialize]
         public void Intitialize()
         {
-            _pokedexAPILogicMock = new Mock<IPokedexAPILogic>();
+            _pokedexAPILogicMock = new Mock<IPokedexApiLogic>();
             _pokedexAPILogicMock.Setup(plm => plm.GetAllTypes()).ReturnsAsync(It.IsAny<List<LookupResult>>());
             _pokedexAPILogicMock.Setup(plm => plm.GetTypeById(1)).ReturnsAsync(new LookupResult { Id = 1 });
 

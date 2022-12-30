@@ -43,7 +43,7 @@ namespace Pokedex.Repository.Interfaces
         /// <param name="pageNumber">The page number.</param>
         /// <param name="pageSize">The page size.</param>
         /// <returns>All paginated ability entities.</returns>
-        Task<List<tlkpAbility>> GetAllAbilities(int pageNumber, int pageSize);
+        Task<List<tlkpAbility>> GetAbilities(int pageNumber, int pageSize);
 
         /// <summary>
         /// Get all the category entities from context. Results ordered by Name ascending.
@@ -57,7 +57,7 @@ namespace Pokedex.Repository.Interfaces
         /// <param name="pageNumber">The page number.</param>
         /// <param name="pageSize">The page size.</param>
         /// <returns>All paginated category entities.</returns>
-        Task<List<tlkpCategory>> GetAllCategories(int pageNumber, int pageSize);
+        Task<List<tlkpCategory>> GetCategories(int pageNumber, int pageSize);
 
         /// <summary>
         /// Get all Pokéball entities from context. Results ordered by Name ascending.
@@ -82,6 +82,14 @@ namespace Pokedex.Repository.Interfaces
         /// </summary>
         /// <returns>All national dex Pokémon with related lookup information.</returns>
         Task<List<tlkpNationalDex>> GetNationalDex();
+
+        /// <summary>
+        /// Get National Dex entities and subsequent lookup information from context. Pagination applied.
+        /// </summary>
+        /// <param name="pageNumber">The page number.</param>
+        /// <param name="pageSize">The page size.</param>
+        /// <returns>Paginated National Dex Pokémon with related lookup information.</returns>
+        Task<List<tlkpNationalDex>> GetNationalDex(int pageNumber, int pageSize);
 
         /// <summary>
         /// Get the ability entity from a given abilityId.

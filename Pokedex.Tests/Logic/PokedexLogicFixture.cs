@@ -24,10 +24,10 @@ namespace Pokedex.Tests.Logic
 
         private Mock<IPokedexRepository> _pokedexRepositoryMock;
         private Mock<ILoggerAdapter<PokedexAppLogic>> _loggerAppMock;
-        private Mock<ILoggerAdapter<PokedexAPILogic>> _loggerAPIMock;
+        private Mock<ILoggerAdapter<PokedexApiLogic>> _loggerAPIMock;
 
         private PokedexAppLogic _pokedexAppLogic;
-        private PokedexAPILogic _pokedexAPILogic;
+        private PokedexApiLogic _pokedexAPILogic;
 
         [TestInitialize]
         public void Initialize()
@@ -52,13 +52,13 @@ namespace Pokedex.Tests.Logic
             _pokedexRepositoryMock.Setup(prm => prm.GetAllAbilities())
                 .ReturnsAsync(abilities);
 
-            _pokedexRepositoryMock.Setup(prm => prm.GetAllAbilities(1, 5))
+            _pokedexRepositoryMock.Setup(prm => prm.GetAbilities(1, 5))
                 .ReturnsAsync(abilities);
 
             _pokedexRepositoryMock.Setup(prm => prm.GetAllCategories())
                 .ReturnsAsync(categories);
 
-            _pokedexRepositoryMock.Setup(prm => prm.GetAllCategories(1, 5))
+            _pokedexRepositoryMock.Setup(prm => prm.GetCategories(1, 5))
                 .ReturnsAsync(categories);
 
             _pokedexRepositoryMock.Setup(prm => prm.GetAllPokeballs())
@@ -99,7 +99,7 @@ namespace Pokedex.Tests.Logic
                 .ReturnsAsync(pokedex);
 
             _loggerAppMock = new Mock<ILoggerAdapter<PokedexAppLogic>>();
-            _loggerAPIMock = new Mock<ILoggerAdapter<PokedexAPILogic>>();
+            _loggerAPIMock = new Mock<ILoggerAdapter<PokedexApiLogic>>();
 
             var mappingConfig = new MapperConfiguration(mc =>
             {
@@ -109,7 +109,7 @@ namespace Pokedex.Tests.Logic
             _mapper = mappingConfig.CreateMapper();
 
             _pokedexAppLogic = new PokedexAppLogic(_loggerAppMock.Object, _mapper, _pokedexRepositoryMock.Object);
-            _pokedexAPILogic = new PokedexAPILogic(_pokedexRepositoryMock.Object, _loggerAPIMock.Object, _mapper);
+            _pokedexAPILogic = new PokedexApiLogic(_pokedexRepositoryMock.Object, _loggerAPIMock.Object, _mapper);
         }
 
         [TestCleanup]
@@ -406,13 +406,13 @@ namespace Pokedex.Tests.Logic
         [TestMethod]
         public async Task GetAllAbilitiesIsSuccessfulAndLogsInformation()
         {
-            List<LookupResult> abilities = await _pokedexAPILogic.GetAllAbilities(1, 5);
+            List<LookupResult> abilities = await _pokedexAPILogic.GetAbilities(1, 5);
 
             Assert.AreEqual(5, abilities.Count);
             Assert.AreEqual(0, abilities[0].Id);
             Assert.AreEqual("Name0", abilities[0].Name);
 
-            _pokedexRepositoryMock.Verify(prm => prm.GetAllAbilities(1, 5), Times.Once);
+            _pokedexRepositoryMock.Verify(prm => prm.GetAbilities(1, 5), Times.Once);
 
             _loggerAPIMock.Verify(lm => lm.LogInformation("Mapping 5 Ability Results."), Times.Once);
         }
@@ -433,13 +433,13 @@ namespace Pokedex.Tests.Logic
         [TestMethod]
         public async Task GetAllCategoriesIsSuccessfulAndLogsInformation()
         {
-            List<LookupResult> categories = await _pokedexAPILogic.GetAllCategories(1, 5);
+            List<LookupResult> categories = await _pokedexAPILogic.GetCategories(1, 5);
 
             Assert.AreEqual(5, categories.Count);
             Assert.AreEqual(0, categories[0].Id);
             Assert.AreEqual("Name0", categories[0].Name);
 
-            _pokedexRepositoryMock.Verify(prm => prm.GetAllCategories(1, 5), Times.Once);
+            _pokedexRepositoryMock.Verify(prm => prm.GetCategories(1, 5), Times.Once);
 
             _loggerAPIMock.Verify(lm => lm.LogInformation("Mapping 5 Category Results."), Times.Once);
         }
