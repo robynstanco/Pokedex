@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  build-and-deploy-app:
     runs-on: windows-latest
 
     steps:
@@ -40,3 +40,13 @@ jobs:
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_b4da5005ddf8483e8486ea42ac91482e }}
         package: ${{env.DOTNET_ROOT}}/myapp 
+
+  build-and-deploy-db:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: azure/sql-action@v2.3
+      with:        
+        connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
+        path: './POKEDEXDB/POKEDEXDB.sqlproj'
+        action: 'publish'
